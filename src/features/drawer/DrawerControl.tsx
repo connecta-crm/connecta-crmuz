@@ -1,4 +1,14 @@
-function DrawerControl({ isFullScreen, onClose, onFullScreen }) {
+export type DrawerControlProps = {
+  isFullScreen: boolean;
+  onClose: () => void;
+  onFullScreen: (val: boolean) => void;
+};
+
+function DrawerControl({
+  isFullScreen,
+  onClose,
+  onFullScreen,
+}: DrawerControlProps) {
   if (isFullScreen) {
     return null;
   }

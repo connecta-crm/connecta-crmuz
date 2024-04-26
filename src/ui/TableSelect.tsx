@@ -1,10 +1,20 @@
 import { useSearchParams } from 'react-router-dom';
 
-function TableSelect({ selectField, options, ...props }) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const value = searchParams.get(selectField) || options.at(0).value;
+type Option = {
+  label: string;
+  value: string;
+};
 
-  function handleChange(e) {
+type TableSelectProps = {
+  selectField: string;
+  options: Option[];
+};
+
+function TableSelect({ selectField, options, ...props }: TableSelectProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const value = searchParams.get(selectField) || options[0].value;
+
+  function handleChange(e: { target: { value: string } }) {
     searchParams.set(selectField, e.target.value);
     setSearchParams(searchParams);
   }

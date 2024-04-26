@@ -4,10 +4,17 @@ import { useState } from 'react';
 import DetailInner from './DrawerDetailInner';
 import { DrawerContentHead, IconArrow } from './DrawerFeatures';
 import DrawerPerson from './DrawerPerson';
+
+type BoxHeaderType = {
+  keyValue: string;
+  label: string;
+  value: string;
+  onChange: (e: string) => void;
+};
 function Detail() {
   const [openPanels, setOpenPanels] = useState<string[]>([]);
 
-  const BoxHeader = ({ keyValue, label, value, onChange }) => {
+  const BoxHeader = ({ keyValue, label, value, onChange }: BoxHeaderType) => {
     const Content = () => {
       let element = null;
 

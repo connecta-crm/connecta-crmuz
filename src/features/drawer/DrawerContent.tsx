@@ -2,10 +2,10 @@ import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import DetailBox from './DrawerDetail';
 import { DrawerContentHead, IconArrow } from './DrawerFeatures';
+import History from './history/History.tsx';
 import Map from './map/Map';
 import Tabs from './tabs/Tabs.tsx';
 import Task from './task/Task.tsx';
-import History from './history/History.tsx';
 
 function DrawerContent() {
   const items: CollapseProps['items'] = [

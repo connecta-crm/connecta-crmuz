@@ -1,13 +1,12 @@
 function Table() {
-
-
-
   return (
     <div className="table__container">
       <table className="table">
         <thead>
           <tr>
-            <th className="table__checkbox"><input type="checkbox"  /></th>
+            <th className="table__checkbox">
+              <input type="checkbox" />
+            </th>
             <th>Id</th>
             <th>Received</th>
             <th className="table__user">User</th>
@@ -46,7 +45,7 @@ function Table() {
                     <span>25</span>
                     <div className="table__node__modal">
                       <div className="table__node__content">
-                          {/* <textarea cols={40} rows={4} className="table__node__textarea"></textarea>
+                        {/* <textarea cols={40} rows={4} className="table__node__textarea"></textarea>
                             <div className="table__node__footer">
                                 <button type="button" className="table__node__info">Cancel</button>
                                 <button type="button" className="table__node__primary">Save</button>

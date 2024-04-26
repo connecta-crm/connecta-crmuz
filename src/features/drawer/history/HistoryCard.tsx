@@ -1,13 +1,9 @@
 import { Radio } from 'antd';
 
-type HistoryCardProps = {
+export type HistoryCardProps = {
   type: string;
-  data: {
-    desc: string;
-    date: string;
-  };
 };
-function HistoryCard({ type, data }: HistoryCardProps) {
+function HistoryCard({ type }: HistoryCardProps) {
   return (
     <div className="card mb-10">
       <div className="card__row">
@@ -21,12 +17,15 @@ function HistoryCard({ type, data }: HistoryCardProps) {
             <div className="card__left">
               <div className="card__texts d-flex align-center mb-5">
                 <div className="card__text">
-                  <Radio>{data.desc}</Radio>
+                  <Radio>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Esse excepturi optio unde cumque veritatis cum.
+                  </Radio>
                 </div>
               </div>
               <div className="card__bottom d-flex align-center">
-                <p>{data.date}</p>
-                <p>{data.users[0].name}</p>
+                <p>12.31.2024 at 3:40</p>
+                <p>Ali Brain</p>
                 <p>Call was scheduled on 12.31.2024 at 3:40 pm</p>
               </div>
             </div>
