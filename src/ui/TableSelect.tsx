@@ -1,13 +1,13 @@
 import { useSearchParams } from 'react-router-dom';
 
+type Option = {
+  label: string;
+  value: string;
+};
+
 type TableSelectProps = {
   selectField: string;
-  options: [
-    {
-      label: string;
-      value: string;
-    },
-  ];
+  options: Option[];
 };
 
 function TableSelect({ selectField, options, ...props }: TableSelectProps) {
