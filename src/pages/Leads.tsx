@@ -2,8 +2,9 @@ import { Table } from 'antd';
 import { useState } from 'react';
 import DrawerApp from '../ui/Drawer';
 import TableHeader from '../ui/TableHeader';
-import { LeadTableColumns, LeadTableData } from '../utils/table';
 import LeadModal from '../ui/modal/LeadModal';
+import { LeadTableColumns, LeadTableData } from '../utils/table';
+
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
     console.log(
@@ -34,11 +35,6 @@ function Leads() {
     setFullScreen(value);
   }
 
-
-
-
-
-
   return (
     <div className="leads">
       <DrawerApp
@@ -65,9 +61,7 @@ function Leads() {
         </div>
       </div>
 
-
-        <LeadModal />
-
+      <LeadModal />
     </div>
   );
 }
