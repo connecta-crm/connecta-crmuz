@@ -1,12 +1,12 @@
 
 import { Link } from "react-router-dom";
 import eye from "../../../public/img/login/eye.svg"
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 function Login() {
   const [type, setType] = useState(false)
   const navigate = useNavigate()
-  const sendData = (e) => {
+  const sendData = (e:FormEvent) => {
     e.preventDefault();
     navigate("/leads")
   }

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 export default function ConfirmCode() {
   const navigate = useNavigate()
-  const sendCode = (e) => {
+  const sendCode = (e:FormEvent) => {
     e.preventDefault()
     alert("send code ")
     navigate("/auth/confirm/password")

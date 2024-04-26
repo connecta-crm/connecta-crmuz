@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 export default function ConfirmEmail() {
 const navigate = useNavigate()
-  const sendEmail = (e) => {
+  const sendEmail = (e:FormEvent) => {
     e.preventDefault()
     alert("send email ")
     navigate("/auth/confirm/code")

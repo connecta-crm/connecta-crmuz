@@ -1,11 +1,11 @@
 import eye from "../../../public/img/login/eye.svg"
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 export default function ConfirmPassword() {
 
     const [type, setType] = useState(false)
     const navigate = useNavigate()
-    const sendData = (e) => {
+    const sendData = (e:FormEvent) => {
         e.preventDefault();
         navigate("/leads")
     }
@@ -44,7 +44,7 @@ export default function ConfirmPassword() {
                                 <img src="/public/img/login/wrong.svg" alt="" />
                                 <span>Wrong password</span>
                             </div>
-
+   
                         </div>
                         <ul className="login__form__message__list">
                             <li className="login__form__success-message">At least 8 characters</li>
@@ -53,7 +53,6 @@ export default function ConfirmPassword() {
                             <li>Contains a digit</li>
                             <li>Contains a symbol</li>
                         </ul>
-
                         <div className="login__form__btn">
                             <button type="submit">Reset</button>
                         </div>
