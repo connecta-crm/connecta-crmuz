@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-export default function Select({ children ,name}: { children: React.ReactNode,name:string }) {
-    return (
-        <select name={name}>
-            {
-                children
-            }
-        </select>
-    )
+export default function Select({
+  children,
+  name,
+}: {
+  children: React.ReactNode;
+  name: string;
+}) {
+  return <select name={name}>{children}</select>;
 }
