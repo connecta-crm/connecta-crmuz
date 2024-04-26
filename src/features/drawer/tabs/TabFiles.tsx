@@ -41,7 +41,7 @@ function TabFiles() {
     fileList: fileList,
     onChange: handleChange,
     beforeUpload: () => false, // Return false to prevent auto uploading
-    onRemove: (file) => {
+    onRemove: (file: UploadFile) => {
       const index = fileList.indexOf(file);
       const newFileList = fileList.slice();
       newFileList.splice(index, 1);

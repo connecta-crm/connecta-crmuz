@@ -3,7 +3,9 @@ import { classNames } from '../../utils/helpers';
 type DetailInnerHeaderDefaultProps = {
   keyValue: string;
   textWithBg?: boolean;
-  data: object;
+  data: {
+    label: string;
+  };
   onChange: (val: string) => void;
 };
 

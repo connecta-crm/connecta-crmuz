@@ -1,12 +1,16 @@
 import { Radio } from 'antd';
 
-type HistoryCardProps = {
-  type: string;
+export type HistoryCardProps = {
   data: {
     desc: string;
     date: string;
+    users: [
+      {
+        name: string;
+      },
+    ];
   };
-};
+} & { type?: string };
 function HistoryCard({ type, data }: HistoryCardProps) {
   return (
     <div className="card mb-10">

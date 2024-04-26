@@ -2,8 +2,13 @@ import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import { classNames } from '../../utils/helpers';
+import { DrawerControlProps } from './DrawerControl';
 
-function DrawerHeader({ isFullScreen, onClose, onFullScreen }) {
+function DrawerHeader({
+  isFullScreen,
+  onClose,
+  onFullScreen,
+}: DrawerControlProps) {
   let controls = (
     <>
       <div onClick={onClose} className="control__item control__item_close">
@@ -24,7 +29,7 @@ function DrawerHeader({ isFullScreen, onClose, onFullScreen }) {
     </>
   );
   if (!isFullScreen) {
-    controls = null;
+    controls = <></>;
     console.log(controls);
   }
 

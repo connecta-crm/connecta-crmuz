@@ -1,11 +1,16 @@
 import { Drawer } from 'antd';
 
-import React from 'react';
-import DrawerControl from '../features/drawer/DrawerControl';
-import DrawerHeader from '../features/drawer/DrawerHeader';
 import DrawerContent from '../features/drawer/DrawerContent';
+import DrawerControl, {
+  DrawerControlProps,
+} from '../features/drawer/DrawerControl';
+import DrawerHeader from '../features/drawer/DrawerHeader';
 
-function DrawerApp({ open, isFullScreen, onFullScreen, onClose }): React.FC {
+type DrawerProps = {
+  open: boolean;
+} & DrawerControlProps;
+
+function DrawerApp({ open, isFullScreen, onFullScreen, onClose }: DrawerProps) {
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';
 
   return (
