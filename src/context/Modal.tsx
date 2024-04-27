@@ -1,21 +1,37 @@
-import React, { createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext, useState } from 'react';
 
-  type ModalContextType = {
+type ModalContextType = {
   show: boolean;
-  hideModal: (a: boolean) => void;
+  hideModal: () => void;
+  showModal: () => void;
+  setShow: (a: boolean) => void;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
 
-const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [show, hideModal] = useState(false);
+const ModalProvider = ({ children }: { children: ReactNode }) => {
+  const [show, setShow] = useState<boolean>(false);
+
+  const hideModal = () => {
+    setShow(false);
+  };
+  const showModal = () => {
+    setShow(true);
+  };
+
   return (
-    <ModalContext.Provider value={{ show, hideModal }}>
+    <ModalContext.Provider value={{ show, hideModal ,showModal}}>
       {children}
     </ModalContext.Provider>
   );
 };
 
-export const useModal= ():ModalContextType | null => useContext(ModalContext);
+export const useModal = (): ModalContextType => {
+  const context = useContext(ModalContext);
+  if (context === null) {
+    throw new Error('useModal must be used within a ModalProvider');
+  }
+  return context;
+};
 
 export default ModalProvider;

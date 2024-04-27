@@ -5,7 +5,7 @@ import plus from "../../public/img/plus_w.svg"
 function TableHeaderLeft({pageName}:{pageName:string}) {
 
   
-  const {hideModal } = useModal()
+  const {showModal } = useModal()
   
   return (
     <div className="dt-header__left">
@@ -15,7 +15,7 @@ function TableHeaderLeft({pageName}:{pageName:string}) {
       <div className="dt-header__calendaricon cursor-pointer">
         <img src={calendar} alt="" />
       </div>
-      <button type="button" className="dt-header__add-btn btn--primary" onClick={()=>hideModal(true)}>
+      <button type="button" className="dt-header__add-btn btn--primary" onClick={showModal}>
         <img src={plus} alt="" />
         <span>New {pageName}</span>
       </button>

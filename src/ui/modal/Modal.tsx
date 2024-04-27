@@ -1,6 +1,12 @@
 import React, { FormEvent } from 'react';
 import { useModal } from '../../context/Modal';
-type onSubmitType = (e:FormEvent) => void;
+type onSubmitType = (e: FormEvent) => void;
+
+// type ModalContextType = {
+//   show: boolean;
+//   hideModal: (a: boolean) => void;
+// };
+
 export default function Modal({
   title,
   children,
@@ -10,12 +16,7 @@ export default function Modal({
   children: React.ReactNode;
   onSubmit: onSubmitType;
 }) {
-
   const { show, hideModal } = useModal();
-
-  const onCancel = () => {
-    hideModal(false);
-  };
 
   return (
     <div className={!show ? 'modal' : 'modal modal__active'}>
@@ -24,7 +25,7 @@ export default function Modal({
           <div className="modal__header">
             <div className="modal__header__title">{title ? title : '...'}</div>
             <div className="modal__header__btns">
-              <button type="reset" className="modal__cancel" onClick={onCancel}>
+              <button type="reset" className="modal__cancel" onClick={hideModal}>
                 Cancel
               </button>
               <button type="submit" className="modal__save">
