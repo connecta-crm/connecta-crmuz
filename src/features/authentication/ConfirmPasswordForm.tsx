@@ -1,31 +1,30 @@
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import eye from '../../../public/img/login/eye.svg';
 
-function LoginForm() {
+function ConfirmPasswordForm() {
   const [type, setType] = useState(false);
   const navigate = useNavigate();
   const sendData = (e: FormEvent) => {
     e.preventDefault();
     navigate('/leads');
   };
-
   return (
     <form className="login__form" onSubmit={sendData}>
       <div className="login__form__body">
         <div className="login__form__group">
-          <label>User name</label>
+          <label>New password</label>
           <div className="login__form__control">
-            <input type="text" placeholder="Enter username" required />
+            <input type="text" placeholder="Enter password" required />
           </div>
         </div>
 
         <div className="login__form__group">
-          <label>Pasword</label>
+          <label>Retype a new password</label>
           <div className="login__form__control ">
             <input
               type={type ? 'text' : 'password'}
-              placeholder="Enter password"
+              placeholder="Retype password"
               required
             />
             <span className="password-icon" onClick={() => setType(!type)}>
@@ -36,21 +35,26 @@ function LoginForm() {
         </div>
 
         <div className="login__form__message">
-          {/* <div className="login__form__error">
-                <img src="/public/img/login/wrong.svg" alt="" />
-                <span>Wrong password</span>
-              </div> */}
-          <Link className="login__form__forget" to="/auth/confirm/email">
-            Forgot your password?
-          </Link>
+          <div className="login__form__error">
+            <img src="/public/img/login/wrong.svg" alt="" />
+            <span>Wrong password</span>
+          </div>
         </div>
-
+        <ul className="login__form__message__list">
+          <li className="login__form__success-message">
+            At least 8 characters
+          </li>
+          <li>Contains an uppercase letter</li>
+          <li>Contains a lowercase letter</li>
+          <li>Contains a digit</li>
+          <li>Contains a symbol</li>
+        </ul>
         <div className="login__form__btn">
-          <button type="submit">Sign in</button>
+          <button type="submit">Reset</button>
         </div>
       </div>
     </form>
   );
 }
 
-export default LoginForm;
+export default ConfirmPasswordForm;

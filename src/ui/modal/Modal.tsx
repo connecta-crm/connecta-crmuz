@@ -1,5 +1,5 @@
 import React from 'react';
-import { useModal } from '../../context/Modal';
+import { useModal } from '../../context/ModalContext';
 type onSubmitType = (e: unknown) => void;
 export default function Modal({
   title,
