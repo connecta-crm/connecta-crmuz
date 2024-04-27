@@ -19,12 +19,14 @@ class Profile {
 
   async login({ email, password }: LoginParams): Promise<LoginResponse> {
     try {
-      const { data } = await this.$api.post<LoginResponse>('/users/token', {
+      const { data } = await this.$api.post<LoginResponse>('/api/users/token', {
         email,
         password,
       });
+      console.log(data, 'dd');
       return { token: data.token };
     } catch (error) {
+      console.log('error', error);
       const axiosError = error as AxiosError<ApiErrorResponse>;
       throw new Error(
         axiosError.response?.data?.message || 'An unknown error occurred',
