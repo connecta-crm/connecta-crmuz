@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { useModal } from '../../context/Modal';
+import { useModal } from '../../context/ModalContext';
 type onSubmitType = (e: FormEvent) => void;
 
 export default function Modal({

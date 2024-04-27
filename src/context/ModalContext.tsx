@@ -2,16 +2,20 @@ import { ReactNode, createContext, useContext, useState } from 'react';
 
 type ModalContextType = {
   show: boolean;
-  hideModal: (show: boolean) => void;
+  hideModal: () => void;
+  showModal: () => void;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
 
 const ModalProvider = ({ children }: { children: ReactNode }) => {
-  const [show, hideModal] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
+
+  const hideModal = () => setShow(false);
+  const showModal = () => setShow(true);
 
   return (
-    <ModalContext.Provider value={{ show, hideModal }}>
+    <ModalContext.Provider value={{ show, hideModal, showModal }}>
       {children}
     </ModalContext.Provider>
   );
