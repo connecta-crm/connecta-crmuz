@@ -3,7 +3,7 @@ import sell from '../../public/img/dt_table/table_sells.svg';
 import plus from '../../public/img/plus_w.svg';
 import { useModal } from '../context/ModalContext';
 function TableHeaderLeft({ pageName }: { pageName: string }) {
-  const { hideModal } = useModal();
+  const { showModal } = useModal();
 
   return (
     <div className="dt-header__left">
@@ -16,7 +16,7 @@ function TableHeaderLeft({ pageName }: { pageName: string }) {
       <button
         type="button"
         className="dt-header__add-btn btn--primary"
-        onClick={() => hideModal(true)}
+        onClick={showModal}
       >
         <img src={plus} alt="" />
         <span>New {pageName}</span>

@@ -8,14 +8,15 @@ import Input from '../Form/Input';
 import InputCol from '../Form/InputCol';
 import Select from '../Form/Select';
 import UseDatePicker from '../DatePicker/DatePicker';
+import { FormEvent } from 'react';
 export default function OrderModal() {
 
-  const onSubmit = (e) => {
+  const onSubmit = (e:FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const formProps = Object.fromEntries(formData);
-    console.log(formProps);
+    // const formData = new FormData(e.target);
+    // const formProps = Object.fromEntries(formData);
+    // console.log(formProps);
   }
 
   return (

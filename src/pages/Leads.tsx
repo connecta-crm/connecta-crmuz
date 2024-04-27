@@ -1,21 +1,30 @@
 import { Table } from 'antd';
-import { useState } from 'react';
+import {  useState } from 'react';
 import DrawerApp from '../ui/Drawer';
 import TableHeader from '../ui/TableHeader';
 import LeadModal from '../ui/modal/LeadModal';
 import { LeadTableColumns, LeadTableData } from '../utils/table';
 
+type DataType = {
+  key: string;
+  id: string;
+  received: string;
+  user: string;
+  customer: string;
+  phone: string;
+  vehicle: string;
+  origin: string;
+  destination: string;
+  ship: string;
+};
+
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      'selectedRows: ',
-      selectedRows,
-    );
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
   },
   getCheckboxProps: (record: DataType) => ({
-    disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    name: record.name,
+    // disabled: record.name === 'Disabled User', // Column configuration not to be checked
+    name: record.id,
   }),
 };
 

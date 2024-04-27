@@ -1,9 +1,10 @@
+import { FormEvent } from 'react';
 import Modal from './Modal'
 export default function QuatesModal() {
 
-  const onSubmit = (e) => {
+  const onSubmit = (e:FormEvent) => {
     e.preventDefault();
-    e.target.reset()
+    // e.target.reset()
   }
 
   return (

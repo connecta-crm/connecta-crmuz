@@ -3,14 +3,26 @@ import TableHeader from '../ui/TableHeader'
 import { Table } from 'antd';
 import { TaskTableColumns, TaskTableData } from '../utils/table'
 import TableSearchButtons from '../ui/TableSearchButtons';
-
+type DataType = {
+    key: string,
+    done:string,
+    task_id: string,
+    id:string,
+    created: string,
+    task: string,
+    title: string,
+    customer: string,
+    phone: string,
+    deadline: string,
+    user: string
+  };
 const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
     getCheckboxProps: (record: DataType) => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
+        // disabled: record.name === 'Disabled User', // Column configuration not to be checked
+        name: record.task_id,
     }),
 };
 
