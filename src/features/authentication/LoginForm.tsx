@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { useLogin } from './useLogin';
 
 function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@admin.admin');
+  const [password, setPassword] = useState('1');
   const [inputType, setInputType] = useState(false);
   const { login, isLoading } = useLogin();
 
@@ -16,8 +16,8 @@ function LoginForm() {
       { email, password },
       {
         onSettled: () => {
-          setEmail('');
-          setPassword('');
+          // setEmail('');
+          // setPassword('');
         },
       },
     );
