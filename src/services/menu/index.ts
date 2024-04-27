@@ -1,4 +1,6 @@
-import { ComponentType, lazy } from 'react';
+import { ComponentType, LazyExoticComponent, lazy } from 'react';
+
+import Leads from '../../pages/Leads';
 
 import firstImg from '../../../public/img/sidebar/01.svg';
 import firstImgActive from '../../../public/img/sidebar/01_active.svg';
@@ -37,7 +39,7 @@ export type MenuData = {
   iconActive: string;
   component:
     | ComponentType<unknown>
-    | (() => Promise<{ default: ComponentType<unknown> }>);
+    | LazyExoticComponent<ComponentType<unknown>>;
 
   roles: string[];
   filterBy?: FilterByType[];
@@ -138,7 +140,7 @@ export const getMenuData: MenuData[] = [
     path: '/leads',
     icon: firstImg,
     iconActive: firstImgActive,
-    component: () => import('../../pages/Leads'),
+    component: Leads,
     roles: ['admin', 'user'],
     filterBy: [
       //!? /leads?filter_by=query -> www.meta.uz/leads?filter_by=quotes
