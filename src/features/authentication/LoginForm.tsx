@@ -1,22 +1,44 @@
+import { PoweroffOutlined } from '@ant-design/icons';
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import eye from '../../../public/img/login/eye.svg';
+import { Link } from 'react-router-dom';
+import { useLogin } from './useLogin';
 
 function LoginForm() {
-  const [type, setType] = useState(false);
-  const navigate = useNavigate();
-  const sendData = (e: FormEvent) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [inputType, setInputType] = useState(false);
+  const { login, isLoading } = useLogin();
+
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    navigate('/leads');
-  };
+    if (!email || !password) return;
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          setEmail('');
+          setPassword('');
+        },
+      },
+    );
+  }
 
   return (
-    <form className="login__form" onSubmit={sendData}>
+    <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__form__body">
         <div className="login__form__group">
           <label>User name</label>
           <div className="login__form__control">
-            <input type="text" placeholder="Enter username" required />
+            <input
+              type="email"
+              id="email"
+              autoComplete="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoading}
+              placeholder="Enter username"
+              required
+            />
           </div>
         </div>
 
@@ -24,29 +46,39 @@ function LoginForm() {
           <label>Pasword</label>
           <div className="login__form__control ">
             <input
-              type={type ? 'text' : 'password'}
+              type={inputType ? 'text' : 'password'}
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoading}
               placeholder="Enter password"
               required
             />
-            <span className="password-icon" onClick={() => setType(!type)}>
-              <img src={eye} alt="" />
-              {!type && <span className="close-icon"></span>}
+            <span
+              className="password-icon"
+              onClick={() => setInputType(!inputType)}
+            >
+              <img src="/img/login/eye.svg" alt="" />
+              {!inputType && <span className="close-icon"></span>}
             </span>
           </div>
         </div>
 
         <div className="login__form__message">
-          {/* <div className="login__form__error">
-                <img src="/public/img/login/wrong.svg" alt="" />
-                <span>Wrong password</span>
-              </div> */}
+          <div className="login__form__error">
+            {/* <img src="/public/img/login/wrong.svg" alt="" /> */}
+            {/* <span>Wrong password</span> */}
+          </div>
           <Link className="login__form__forget" to="/auth/confirm/email">
             Forgot your password?
           </Link>
         </div>
 
         <div className="login__form__btn">
-          <button type="submit">Sign in</button>
+          <button type="submit" disabled={isLoading}>
+            {!isLoading ? 'Log in' : <PoweroffOutlined />}
+          </button>
         </div>
       </div>
     </form>

@@ -19,7 +19,7 @@ class Profile {
 
   async login({ email, password }: LoginParams): Promise<LoginResponse> {
     try {
-      const { data } = await this.$api.post<LoginResponse>('/auth/login', {
+      const { data } = await this.$api.post<LoginResponse>('/users/token', {
         email,
         password,
       });
