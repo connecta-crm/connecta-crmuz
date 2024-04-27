@@ -11,7 +11,6 @@ const items: TabsProps['items'] = [
     key: '1',
     label: 'All',
     children: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 11, 12, 13, 14, 15].map((item) => (
-      // @ts-expect-error: Unreachable code error
       <HistoryCard key={item} type={'notes'} />
     )),
   },
@@ -23,7 +22,6 @@ const items: TabsProps['items'] = [
   {
     key: '3',
     label: 'Tasks (1)',
-    // @ts-expect-error: Unreachable code error
     children: <HistoryCard type={'task'} />,
   },
 ];

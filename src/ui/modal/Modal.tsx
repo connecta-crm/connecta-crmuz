@@ -1,6 +1,7 @@
-import React from 'react';
-import { useModal } from '../../context/Modal';
-type onSubmitType = (e: unknown) => void;
+import { FormEvent } from 'react';
+import { useModal } from '../../context/ModalContext';
+type onSubmitType = (e: FormEvent) => void;
+
 export default function Modal({
   title,
   children,
@@ -12,10 +13,6 @@ export default function Modal({
 }) {
   const { show, hideModal } = useModal();
 
-  const onCancel = () => {
-    hideModal(false);
-  };
-
   return (
     <div className={!show ? 'modal' : 'modal modal__active'}>
       <div className="modal__content">
@@ -23,7 +20,11 @@ export default function Modal({
           <div className="modal__header">
             <div className="modal__header__title">{title ? title : '...'}</div>
             <div className="modal__header__btns">
-              <button type="reset" className="modal__cancel" onClick={onCancel}>
+              <button
+                type="reset"
+                className="modal__cancel"
+                onClick={hideModal}
+              >
                 Cancel
               </button>
               <button type="submit" className="modal__save">
