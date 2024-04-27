@@ -15,9 +15,6 @@ import sixthImgActive from '../../../public/img/sidebar/06_active.svg';
 import ninthImg from '../../../public/img/sidebar/09.svg';
 import ninthImgActive from '../../../public/img/sidebar/09_active.svg';
 
-// const lazyload = (name: string, nested = false) =>
-//   lazy(() => import(`../../pages/${nested ? `settings/${name}` : name}`));
-
 const lazyLoad = (
   importFunc: () => Promise<{ default: ComponentType<unknown> }>,
 ) => {
