@@ -35,7 +35,10 @@ export type MenuData = {
   key: string;
   icon: string;
   iconActive: string;
-  component: React.FC<unknown>;
+  component:
+    | ComponentType<unknown>
+    | (() => Promise<{ default: ComponentType<unknown> }>);
+
   roles: string[];
   filterBy?: FilterByType[];
   elements?: MenuNestedData[];
@@ -135,7 +138,7 @@ export const getMenuData: MenuData[] = [
     path: '/leads',
     icon: firstImg,
     iconActive: firstImgActive,
-    component: lazyload('Leads'),
+    component: () => import('../../pages/Leads'),
     roles: ['admin', 'user'],
     filterBy: [
       //!? /leads?filter_by=query -> www.meta.uz/leads?filter_by=quotes
