@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useModal } from '../../context/Modal';
-type onSubmitType = (e: unknown) => void;
+type onSubmitType = (e:FormEvent) => void;
 export default function Modal({
   title,
   children,
@@ -10,6 +10,7 @@ export default function Modal({
   children: React.ReactNode;
   onSubmit: onSubmitType;
 }) {
+
   const { show, hideModal } = useModal();
 
   const onCancel = () => {

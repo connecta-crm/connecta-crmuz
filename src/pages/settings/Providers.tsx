@@ -1,6 +1,17 @@
 import { Table } from 'antd';
 import { ProvidersTableColumns, ProvidersTableData } from '../../utils/table';
 import TableHeader from '../../ui/TableHeader';
+type DataType = {
+  key: string,
+  name: string,
+  email: string,
+  subject: string,
+  status: string,
+  type: string,
+  created_on: string,
+  created_by: string,
+};
+
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);

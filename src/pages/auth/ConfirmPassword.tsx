@@ -4,6 +4,7 @@ import eye from '../../../public/img/login/eye.svg';
 export default function ConfirmPassword() {
   const [type, setType] = useState(false);
   const navigate = useNavigate();
+
   const sendData = (e: FormEvent) => {
     e.preventDefault();
     navigate('/leads');

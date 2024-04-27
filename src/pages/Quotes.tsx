@@ -1,19 +1,35 @@
 // import Table from "../ui/Table";
-import TableHeader from "../ui/TableHeader";
+import TableHeader from '../ui/TableHeader';
 import { Table } from 'antd';
 import { QuotesTableColumns, QuotesTableData } from '../utils/table';
-import QuatesModal from "../ui/modal/QuatesModal";
+import QuatesModal from '../ui/modal/QuatesModal';
 
-
-
+type DataType = {
+  key:string,
+  id: string,
+  quotes: string,
+  node: number,
+  user: string,
+  customer: string,
+  phone: string,
+  vehicle: string,
+  origin: string,
+  destination: string,
+  price: string,
+  ship: string
+};
 
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      'selectedRows: ',
+      selectedRows,
+    );
   },
   getCheckboxProps: (record: DataType) => ({
-    disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    name: record.name,
+    // disabled: record.name === 'Disabled User', // Column configuration not to be checked
+    name: record.user,
   }),
 };
 
@@ -24,7 +40,7 @@ function Quotes() {
         <TableHeader pageName="quotes" />
       </div>
       <div className="quotes-table">
-        <div className='table__container'>
+        <div className="table__container">
           <Table
             rowSelection={{
               // type: selectionType,
@@ -37,7 +53,6 @@ function Quotes() {
       </div>
       <QuatesModal />
     </div>
-
   );
 }
 

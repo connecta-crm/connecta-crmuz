@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 
-type ModalContextType = {
+  type ModalContextType = {
   show: boolean;
   hideModal: (a: boolean) => void;
 };
@@ -16,6 +16,6 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useModal = () => useContext(ModalContext);
+export const useModal= ():ModalContextType | null => useContext(ModalContext);
 
 export default ModalProvider;

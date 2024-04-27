@@ -3,6 +3,8 @@ import sell from "../../public/img/dt_table/table_sells.svg"
 import calendar from "../../public/img/dt_table/calendar.svg"
 import plus from "../../public/img/plus_w.svg"
 function TableHeaderLeft({pageName}:{pageName:string}) {
+
+  
   const {hideModal } = useModal()
   
   return (
