@@ -4,7 +4,6 @@ type ModalContextType = {
   show: boolean;
   hideModal: () => void;
   showModal: () => void;
-  setShow: (a: boolean) => void;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
