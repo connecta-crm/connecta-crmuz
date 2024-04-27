@@ -6,10 +6,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, createElement } from 'react';
 import { DarkModeProvider } from './context/DarkModeContext';
 import ModalProvider from './context/ModalContext.tsx';
-import ConfirmCode from './pages/ConfirmCode.tsx';
-import ConfirmEmail from './pages/ConfirmEmail.tsx';
-import ConfirmPassword from './pages/ConfirmPassword.tsx';
 import PageNotFound from './pages/PageNotFound.tsx';
+import ConfirmCode from './pages/authentication/ConfirmCode.tsx';
+import ConfirmEmail from './pages/authentication/ConfirmEmail.tsx';
+import ConfirmPassword from './pages/authentication/ConfirmPassword.tsx';
+import Login from './pages/authentication/Login.tsx';
 import { getMenuData } from './services/menu/index.ts';
 import AppLayout from './ui/AppLayout.tsx';
 import AuthLayout from './ui/AuthLayout.tsx';
@@ -63,6 +64,7 @@ function App() {
                     index
                     element={<Navigate replace to="/auth/login" />}
                   />
+                  <Route path="/auth/login" element={<Login />} />
                   <Route
                     path="/auth/confirm/email"
                     element={<ConfirmEmail />}

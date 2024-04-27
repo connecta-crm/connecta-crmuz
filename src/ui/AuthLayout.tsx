@@ -4,7 +4,6 @@ function AuthLayout() {
   return (
     <div className="login">
       <div className="login__content">
-        {/* <div className="login__header">{title}</div> */}
         <Outlet />
       </div>
     </div>
