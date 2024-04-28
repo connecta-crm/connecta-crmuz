@@ -53,8 +53,11 @@ $color-white: #ffffff;
 @import '_page-details';
 @import '_modal';
 @import '_collapse';
+@import '_calendar';
 @import '_table-search-buttons';
 @import '_settings';
+@import '_task';
+
 
 // base layout
 @import 'layout/header';
