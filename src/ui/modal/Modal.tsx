@@ -1,11 +1,6 @@
-import React, { FormEvent } from 'react';
-import { useModal } from '../../context/Modal';
+import { FormEvent } from 'react';
+import { useModal } from '../../context/ModalContext';
 type onSubmitType = (e: FormEvent) => void;
-
-// type ModalContextType = {
-//   show: boolean;
-//   hideModal: (a: boolean) => void;
-// };
 
 export default function Modal({
   title,
@@ -25,7 +20,11 @@ export default function Modal({
           <div className="modal__header">
             <div className="modal__header__title">{title ? title : '...'}</div>
             <div className="modal__header__btns">
-              <button type="reset" className="modal__cancel" onClick={hideModal}>
+              <button
+                type="reset"
+                className="modal__cancel"
+                onClick={hideModal}
+              >
                 Cancel
               </button>
               <button type="submit" className="modal__save">

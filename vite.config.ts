@@ -12,4 +12,13 @@ export default defineConfig({
       // '/api': 'http://localhost:3000',
     },
   },
+  // base: '/',
+  // build: {
+  //   outDir: 'dist',
+  //   assetsDir: 'assets',
+  //   emptyOutDir: true,
+  // },
+  // resolve: {
+  //   extensions: ['.js', '.mjs', '.ts', '.jsx', '.tsx', '.json'],
+  // },
 });

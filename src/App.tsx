@@ -3,19 +3,19 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import { Skeleton } from 'antd';
 import { Suspense, createElement } from 'react';
 import { DarkModeProvider } from './context/DarkModeContext';
-import ModalProvider from './context/Modal.tsx';
-import Login from './pages/auth/Login.tsx';
+import ModalProvider from './context/ModalContext.tsx';
 import PageNotFound from './pages/PageNotFound.tsx';
+import ConfirmCode from './pages/authentication/ConfirmCode.tsx';
+import ConfirmEmail from './pages/authentication/ConfirmEmail.tsx';
+import ConfirmPassword from './pages/authentication/ConfirmPassword.tsx';
+import Login from './pages/authentication/Login.tsx';
 import { getMenuData } from './services/menu/index.ts';
 import AppLayout from './ui/AppLayout.tsx';
+import AuthLayout from './ui/AuthLayout.tsx';
 import ProtectedRoute from './ui/ProtectedRoute.tsx';
-import Spinner from './ui/Spinner.tsx';
-import Auth from './pages/auth/Auth.tsx';
-import ConfirmEmail from './pages/auth/ConfirmEmail.tsx';
-import ConfirmCode from './pages/auth/ConfirmCode.tsx';
-import ConfirmPassword from './pages/auth/ConfirmPassword.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,43 +32,47 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <BrowserRouter>
-            <Suspense fallback={<Spinner />}>
-              <Routes>
-                <Route path="/" element={<AppLayout />}>
-                  <Route index element={<Navigate replace to="leads" />} />
-                  {getMenuData.map((menu) => {
-                    return (
-                      <Route
-                        key={menu.key}
-                        path={menu.path}
-                        element={
+            <Routes>
+              <Route path="/" element={<AppLayout />}>
+                <Route index element={<Navigate replace to="leads" />} />
+                {getMenuData.map((menu) => {
+                  return (
+                    <Route
+                      key={menu.key}
+                      path={menu.path}
+                      element={
+                        <Suspense fallback={<Skeleton active />}>
                           <ProtectedRoute roles={menu.roles}>
                             {createElement(menu.component)}
                           </ProtectedRoute>
-                        }
-                      >
-                        {menu.elements &&
-                          menu.elements.map((item) => (
-                            <Route
-                              key={item.path}
-                              path={item.path}
-                              element={createElement(item.el)}
-                            />
-                          ))}
-                      </Route>
-                    );
-                  })}
-                </Route>
-                <Route path="/auth" element={<Auth />} >
-                  <Route path="/auth/" element={<Navigate replace to="/auth/login" />} />
-                  <Route path="/auth/login" element={<Login />} />
-                  <Route path="/auth/confirm/email" element={<ConfirmEmail />} />
-                  <Route path="/auth/confirm/code" element={<ConfirmCode />} />
-                  <Route path="/auth/confirm/password" element={<ConfirmPassword />} />
-                </Route>
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-            </Suspense>
+                        </Suspense>
+                      }
+                    >
+                      {menu.elements &&
+                        menu.elements.map((item) => (
+                          <Route
+                            key={item.path}
+                            path={item.path}
+                            element={createElement(item.el)}
+                          />
+                        ))}
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route path="/auth" element={<AuthLayout />}>
+                <Route index element={<Navigate replace to="/auth/login" />} />
+                <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/confirm/email" element={<ConfirmEmail />} />
+                <Route path="/auth/confirm/code" element={<ConfirmCode />} />
+                <Route
+                  path="/auth/confirm/password"
+                  element={<ConfirmPassword />}
+                />
+              </Route>
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
           </BrowserRouter>
 
           <Toaster

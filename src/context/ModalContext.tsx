@@ -11,15 +11,11 @@ const ModalContext = createContext<ModalContextType | null>(null);
 const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [show, setShow] = useState<boolean>(false);
 
-  const hideModal = () => {
-    setShow(false);
-  };
-  const showModal = () => {
-    setShow(true);
-  };
+  const hideModal = () => setShow(false);
+  const showModal = () => setShow(true);
 
   return (
-    <ModalContext.Provider value={{ show, hideModal ,showModal}}>
+    <ModalContext.Provider value={{ show, hideModal, showModal }}>
       {children}
     </ModalContext.Provider>
   );

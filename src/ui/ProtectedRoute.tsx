@@ -1,29 +1,28 @@
-import { PropsWithChildren } from 'react';
-import Spinner from './Spinner';
+import { PropsWithChildren, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../features/authentication/useUser';
+import { useAutoRefreshToken } from '../hooks/useAutoRefreshToken';
 
 type ProtectedRouteProps = {
   roles: string[];
 };
 
 function ProtectedRoute({ children }: PropsWithChildren<ProtectedRouteProps>) {
-  // const { isPending, user, error } = useUser();
-  // const navigate = useNavigate();
-  const isPending = false;
-  // console.log(roles);
-  // useEffect(
-  //   () => {
-  //     if ((!user && !isPending) || (error && roles && !roles.some(role => user?.roles.includes(role)))) {
+  const { error: refreshError } = useAutoRefreshToken();
 
-  //       return navigate('/login');
-  //     }
-  //   },
-  //   [user, roles, navigate, isPending, error]
-  // );
+  const { isLoading, userData, error } = useUser();
+  const navigate = useNavigate();
+  useEffect(() => {
+    // if ((!userData && !isLoading) || (error && roles && !roles.some(role => user?.roles.includes(role)))) {
+    if ((!userData && !isLoading && error) || refreshError) {
+      return navigate('/auth/login');
+    }
+  }, [userData, navigate, isLoading, error, refreshError]);
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div className="full-page">
-        <Spinner />
+        <div className="spinner"></div>
       </div>
     );
   }

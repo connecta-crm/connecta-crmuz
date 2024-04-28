@@ -3,7 +3,12 @@ import { LoginParams } from '../../models';
 import apiClient from '../axios';
 
 type LoginResponse = {
-  token: string;
+  access: string;
+  refresh: string;
+};
+
+type RefreshResponse = {
+  access: string;
 };
 
 type ApiErrorResponse = {
@@ -19,11 +24,30 @@ class Profile {
 
   async login({ email, password }: LoginParams): Promise<LoginResponse> {
     try {
-      const { data } = await this.$api.post<LoginResponse>('/auth/login', {
+      const { data } = await this.$api.post<LoginResponse>('/users/token/', {
         email,
         password,
       });
-      return { token: data.token };
+      return data;
+    } catch (error) {
+      console.log('error', error);
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async refreshToken(refresh: string): Promise<RefreshResponse> {
+    try {
+      const { data } = await this.$api.post<RefreshResponse>(
+        '/users/token/refresh/',
+        {
+          refresh,
+        },
+      );
+
+      return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
       throw new Error(
@@ -47,12 +71,10 @@ class Profile {
     });
   }
 
-  async getCurrentUser({ token }: { token: string }) {
+  async getCurrentUser() {
     try {
-      const { data } = await this.$api.post('/user/me', {
-        token,
-      });
-      return { user: data.user };
+      const { data } = await this.$api.get('/users/me/');
+      return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
       throw new Error(

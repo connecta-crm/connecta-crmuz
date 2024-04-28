@@ -10,23 +10,24 @@
     border: 1px solid #d1d1d1;
     background: #fff;
   }
+  &__header {
+    border-radius: 10px 10px 0px 0px;
+    background: #ddf2fd;
+    color: #164863;
+    text-align: center;
+    font-family: $fontfamily;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 15.5px 0;
+  }
   &__form {
     img {
       width: 15px;
       height: 15px;
     }
-    &__header {
-      border-radius: 10px 10px 0px 0px;
-      background: #ddf2fd;
-      color: #164863;
-      text-align: center;
-      font-family: $fontfamily;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
-      padding: 15.5px 0;
-    }
+
     &__body {
       padding: 20px 25px 26px;
       label {
@@ -123,11 +124,8 @@
       button {
         color: #fff;
         text-align: center;
-        font-family: $fontfamily;
         font-size: 16px;
-        font-style: normal;
         font-weight: 400;
-        line-height: normal;
         border-radius: 5px;
         background: #086ed6;
         width: 100%;
@@ -155,8 +153,8 @@
         line-height: normal;
       }
     }
-    &__success-message{
-        color:  #427D9D !important;
+    &__success-message {
+      color: #427d9d !important;
     }
   }
 }
