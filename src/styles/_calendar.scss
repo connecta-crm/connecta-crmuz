@@ -1,0 +1,30 @@
+.fc-toolbar-title{
+    color: #666;
+font-family: $fontfamily;
+font-size: 15px !important;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.fc-toolbar-chunk button{
+    background: none !important;
+    color: #666 !important;
+    border: none !important;
+    padding: 0 !important;
+}
+.fc-toolbar-chunk button:focus{
+    box-shadow: none !important;
+}
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0 !important;
+    padding-bottom: 3px;
+}
+ .fc-scrollgrid-section td{
+    color: #666;
+font-family: $fontfamily;
+font-size: 15px !important;
+font-style: normal;
+font-weight: 400;
+line-height: normal; 
+ }
