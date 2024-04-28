@@ -1,23 +1,29 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../features/authentication/useUser';
-import { useAutoRefreshToken } from '../hooks/useAutoRefreshToken';
+import { useAppSelector } from '../store/hooks';
 
 type ProtectedRouteProps = {
   roles: string[];
 };
 
 function ProtectedRoute({ children }: PropsWithChildren<ProtectedRouteProps>) {
-  const { error: refreshError } = useAutoRefreshToken();
-
-  const { isLoading, userData, error } = useUser();
+  const { isLoading, userData } = useUser();
   const navigate = useNavigate();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
   useEffect(() => {
-    // if ((!userData && !isLoading) || (error && roles && !roles.some(role => user?.roles.includes(role)))) {
-    if ((!userData && !isLoading && error) || refreshError) {
+    if (!isAuthenticated) {
       return navigate('/auth/login');
     }
-  }, [userData, navigate, isLoading, error, refreshError]);
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    // if ((!userData && !isLoading) || (error && roles && !roles.some(role => user?.roles.includes(role)))) {
+    if (!isAuthenticated && !userData && !isLoading) {
+      return navigate('/auth/login');
+    }
+  }, [isAuthenticated, userData, navigate, isLoading]);
 
   if (isLoading) {
     return (

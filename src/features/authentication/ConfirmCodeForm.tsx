@@ -1,15 +1,29 @@
-import { FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { LoadingOutlined } from '@ant-design/icons';
+import { FormEvent, useState } from 'react';
+import { useConfirmOtp } from './useConfirmOtp';
 
 function ConfirmCodeForm() {
-  const navigate = useNavigate();
-  const sendCode = (e: FormEvent) => {
+  const [code, setCode] = useState('');
+  const { confirmOtp, isLoading } = useConfirmOtp();
+
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    alert('send code ');
-    navigate('/auth/confirm/password');
-  };
+    const email = localStorage.getItem('email');
+    console.log(email, code);
+    if (!code.trim() || !email) return;
+
+    confirmOtp(
+      { email, code },
+      {
+        onSettled: () => {
+          // localStorage.removeItem('email')
+          // setCode('');
+        },
+      },
+    );
+  }
   return (
-    <form className="login__form" onSubmit={sendCode}>
+    <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__form__body">
         <div className="login__form__group">
           <label>Confirm a code</label>
@@ -19,12 +33,21 @@ function ConfirmCodeForm() {
             </div>
           </div>
           <div className="login__form__control ">
-            <input type="text" placeholder="Enter a code" required />
+            <input
+              type="text"
+              placeholder="Enter a code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              disabled={isLoading}
+              required
+            />
             <span className="login__form__time">04:59</span>
           </div>
         </div>
         <div className="login__form__btn">
-          <button type="submit">Confirm</button>
+          <button type="submit" disabled={isLoading}>
+            {!isLoading ? 'Confirm' : <LoadingOutlined />}
+          </button>
         </div>
       </div>
     </form>

@@ -1,6 +1,6 @@
 import { Collapse } from 'antd';
 import { NavLink } from 'react-router-dom';
-import { MenuNestedData, elements } from '../services/menu';
+import { MenuNestedData, elements } from '../services/menu/nestedElements';
 
 function SettingsSidebar() {
   const groupedByCategory: { [category: string]: MenuNestedData[] } =

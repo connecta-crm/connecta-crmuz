@@ -1,7 +1,7 @@
-import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
-import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
 export default function UseCalendar() {
   return (
     <div>
@@ -20,7 +20,7 @@ export default function UseCalendar() {
           { title: 'event 3', date: '2024-04-28 16:00' },
         ]}
         height="400px"
-        slotMinTime={"07:00:00"}
+        slotMinTime={'07:00:00'}
       />
     </div>
   );

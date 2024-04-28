@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { LoginParams } from '../../models';
 import apiClient from '../axios';
 
@@ -13,6 +13,8 @@ type RefreshResponse = {
 
 type ApiErrorResponse = {
   message: string;
+  error: string;
+  detail: string;
 };
 
 class Profile {
@@ -56,21 +58,6 @@ class Profile {
     }
   }
 
-  async loginFake({ email, password }: LoginParams) {
-    return await new Promise((res, rej) => {
-      setTimeout(() => {
-        if (email && password) {
-          console.log(email, password);
-          return res({ token: 'jwt-access-token-blabla1235' });
-        } else {
-          console.log('email or password not found');
-          rej('email or password not found');
-          return null;
-        }
-      }, 1500);
-    });
-  }
-
   async getCurrentUser() {
     try {
       const { data } = await this.$api.get('/users/me/');
@@ -82,28 +69,56 @@ class Profile {
       );
     }
   }
-  async getCurrentUserFake({ token }: { token: string }) {
-    return await new Promise((res, rej) => {
-      console.log('req', token);
 
-      setTimeout(() => {
-        if (token) {
-          console.log('getCurrentUserFake token :', token);
-          return res({
-            data: {
-              user: {
-                name: 'Jakhongir',
-                roles: ['user'],
-              },
-            },
-          });
-        } else {
-          rej('Token not found!');
-          console.log('ERROR: Token not found!');
-          return null;
-        }
-      }, 1500);
-    });
+  async getConfirmCode(email: string) {
+    const baseURL = import.meta.env.VITE_APP_BASE_URL;
+    try {
+      const { data } = await axios.post(
+        baseURL + '/users/reset-password-request/',
+        {
+          email,
+        },
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.error ||
+          'An unknown error occurred while getting confirm code',
+      );
+    }
+  }
+
+  async confirmOtp({ email, code }: { email: string | null; code: string }) {
+    const baseURL = import.meta.env.VITE_APP_BASE_URL;
+    try {
+      const { data } = await axios.post(baseURL + '/users/confirm-otp/', {
+        email,
+        code,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.error ||
+          'An unknown error occurred while getting confirm otp',
+      );
+    }
+  }
+
+  async confirmPassword(password: string | null) {
+    try {
+      const { data } = await this.$api.post('/users/change-password/', {
+        password,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.detail ||
+          'An unknown error occurred while getting confirm otp',
+      );
+    }
   }
 
   async logout() {}

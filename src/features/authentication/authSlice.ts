@@ -4,6 +4,7 @@ type AuthState = {
   access_token: string | null;
   refresh_token: string | null;
   user: object | null;
+  isAuthenticated: boolean;
   // status: string;
   // error: null;
 };
@@ -12,6 +13,7 @@ const initialState: AuthState = {
   access_token: null,
   refresh_token: null,
   user: null,
+  isAuthenticated: false,
   // status: 'idle',
   // error: null,
 };
@@ -24,6 +26,7 @@ const authSlice = createSlice({
       const { access_token } = payload;
       state.access_token = access_token;
       localStorage.setItem('access_token', access_token);
+      state.isAuthenticated = true;
     },
     setRefreshToken(state, { payload }) {
       const { refresh_token } = payload;
@@ -39,6 +42,7 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
+      state.isAuthenticated = false;
     },
   },
 });

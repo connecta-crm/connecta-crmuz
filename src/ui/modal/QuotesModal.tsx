@@ -1,5 +1,6 @@
 import Modal from './Modal';
 // import { useModal } from '../../context/Modal';
+import { FormEvent } from 'react';
 import UseDatePicker from '../DatePicker/DatePicker';
 import DownCollapse from '../Form/DownCollapse';
 import FormControl from '../Form/FormControl';
@@ -9,12 +10,11 @@ import InputRow from '../Form/InputRow';
 import Label from '../Form/Label';
 import Select from '../Form/Select';
 import UpCollapse from '../Form/UpCollapse';
-import { FormEvent } from 'react';
 
-export default function QuatesModal() {
+export default function QuotesModal() {
   // const { hideModal } = useModal()
 
-  const getFotmData = (e:FormEvent) => {
+  const getFotmData = (e: FormEvent) => {
     e.preventDefault();
 
     // const formData = new FormData(e.target);

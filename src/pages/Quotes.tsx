@@ -1,22 +1,22 @@
 // import Table from "../ui/Table";
-import TableHeader from '../ui/TableHeader';
 import { Table } from 'antd';
+import TableHeader from '../ui/TableHeader';
+import QuotesModal from '../ui/modal/QuotesModal';
 import { QuotesTableColumns, QuotesTableData } from '../utils/table';
-import QuatesModal from '../ui/modal/QuatesModal';
 
 type DataType = {
-  key:string,
-  id: string,
-  quotes: string,
-  node: number,
-  user: string,
-  customer: string,
-  phone: string,
-  vehicle: string,
-  origin: string,
-  destination: string,
-  price: string,
-  ship: string
+  key: string;
+  id: string;
+  quotes: string;
+  node: number;
+  user: string;
+  customer: string;
+  phone: string;
+  vehicle: string;
+  origin: string;
+  destination: string;
+  price: string;
+  ship: string;
 };
 
 const rowSelection = {
@@ -51,7 +51,7 @@ function Quotes() {
           />
         </div>
       </div>
-      <QuatesModal />
+      <QuotesModal />
     </div>
   );
 }
