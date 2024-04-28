@@ -1,4 +1,4 @@
-import { PoweroffOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLogin } from './useLogin';
@@ -77,7 +77,7 @@ function LoginForm() {
 
         <div className="login__form__btn">
           <button type="submit" disabled={isLoading}>
-            {!isLoading ? 'Log in' : <PoweroffOutlined />}
+            {!isLoading ? 'Log in' : <LoadingOutlined />}
           </button>
         </div>
       </div>

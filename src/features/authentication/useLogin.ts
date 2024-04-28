@@ -4,20 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import { LoginParams } from '../../models';
 import Profile from '../../services/profile';
 import { useAppDispatch } from '../../store/hooks';
-import { setToken } from './authSlice';
+import { setRefreshToken, setToken } from './authSlice';
 
 export function useLogin() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // const queryClient = useQueryClient();
 
-  const { mutate: login, isPending } = useMutation({
+  const { mutate: login, isPending: isLoading } = useMutation({
     mutationFn: ({ email, password }: LoginParams) =>
       Profile.login({ email, password }),
-    onSuccess: (token) => {
-      // queryClient.invalidateQueries('user');
-      console.log('token: ', token);
-      dispatch(setToken({ token }));
+    onSuccess: ({ access, refresh }) => {
+      // queryClient.invalidateQueries(['user']);
+      dispatch(setToken({ access_token: access }));
+      dispatch(setRefreshToken({ refresh_token: refresh }));
       navigate('/leads', { replace: true });
     },
     onError: (err) => {
@@ -28,6 +28,6 @@ export function useLogin() {
 
   return {
     login,
-    isLoading: isPending,
+    isLoading,
   };
 }
