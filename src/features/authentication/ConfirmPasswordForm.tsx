@@ -1,21 +1,50 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import eye from '../../../public/img/login/eye.svg';
+import toast from 'react-hot-toast';
+import eyeIcon from '../../../public/img/login/eye.svg';
+import { useConfirmPassword } from './useConfirmPassword';
 
 function ConfirmPasswordForm() {
-  const [type, setType] = useState(false);
-  const navigate = useNavigate();
-  const sendData = (e: FormEvent) => {
+  const [inputType, setInputType] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { confirmPassword: confirmPasswordFn, isLoading } =
+    useConfirmPassword();
+
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    navigate('/leads');
-  };
+    if (!password.trim()) return;
+
+    if (password !== confirmPassword) {
+      toast.error('The confirm password is wrong!');
+      return;
+    }
+
+    confirmPasswordFn(
+      { password },
+      {
+        onSettled: () => {
+          localStorage.removeItem('email');
+        },
+      },
+    );
+  }
+
   return (
-    <form className="login__form" onSubmit={sendData}>
+    <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__form__body">
         <div className="login__form__group">
           <label>New password</label>
           <div className="login__form__control">
-            <input type="text" placeholder="Enter password" required />
+            <input
+              type="text"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoading}
+              required
+            />
           </div>
         </div>
 
@@ -23,22 +52,28 @@ function ConfirmPasswordForm() {
           <label>Retype a new password</label>
           <div className="login__form__control ">
             <input
-              type={type ? 'text' : 'password'}
+              type={inputType ? 'text' : 'password'}
               placeholder="Retype password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              disabled={isLoading}
               required
             />
-            <span className="password-icon" onClick={() => setType(!type)}>
-              <img src={eye} alt="" />
-              {!type && <span className="close-icon"></span>}
+            <span
+              className="password-icon"
+              onClick={() => setInputType(!inputType)}
+            >
+              <img src={eyeIcon} alt="" />
+              {!inputType && <span className="close-icon"></span>}
             </span>
           </div>
         </div>
 
         <div className="login__form__message">
-          <div className="login__form__error">
+          {/* <div className="login__form__error">
             <img src="/public/img/login/wrong.svg" alt="" />
             <span>Wrong password</span>
-          </div>
+          </div> */}
         </div>
         <ul className="login__form__message__list">
           <li className="login__form__success-message">
@@ -50,7 +85,9 @@ function ConfirmPasswordForm() {
           <li>Contains a symbol</li>
         </ul>
         <div className="login__form__btn">
-          <button type="submit">Reset</button>
+          <button type="submit" disabled={isLoading}>
+            {!isLoading ? 'Reset' : <LoadingOutlined />}
+          </button>
         </div>
       </div>
     </form>

@@ -1,11 +1,11 @@
-import { PoweroffOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLogin } from './useLogin';
 
 function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@admin.admin');
+  const [password, setPassword] = useState('1');
   const [inputType, setInputType] = useState(false);
   const { login, isLoading } = useLogin();
 
@@ -77,7 +77,7 @@ function LoginForm() {
 
         <div className="login__form__btn">
           <button type="submit" disabled={isLoading}>
-            {!isLoading ? 'Log in' : <PoweroffOutlined />}
+            {!isLoading ? 'Log in' : <LoadingOutlined />}
           </button>
         </div>
       </div>

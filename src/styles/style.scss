@@ -53,8 +53,11 @@ $color-white: #ffffff;
 @import '_page-details';
 @import '_modal';
 @import '_collapse';
+@import '_calendar';
 @import '_table-search-buttons';
 @import '_settings';
+@import '_task';
+
 
 // base layout
 @import 'layout/header';
@@ -107,7 +110,7 @@ $color-white: #ffffff;
 
 .full-page {
   height: 100vh;
-  background-color: $color-gray;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,8 +121,8 @@ $color-white: #ffffff;
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(farthest-side, #ffffff 94%, #0000) top/10px 10px no-repeat,
-    conic-gradient(#0000 30%, $color-secondary);
+    radial-gradient(farthest-side, #164863 94%, #0000) top/10px 10px no-repeat,
+    conic-gradient(#0000 30%, #164863);
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 10px), #000 0);
   animation: rotate 1.5s infinite linear;
 }

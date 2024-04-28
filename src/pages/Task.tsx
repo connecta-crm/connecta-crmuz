@@ -3,6 +3,7 @@ import TableHeader from '../ui/TableHeader'
 import { Table } from 'antd';
 import { TaskTableColumns, TaskTableData } from '../utils/table'
 import TableSearchButtons from '../ui/TableSearchButtons';
+import TaskModal from '../ui/modal/TaskModal';
 type DataType = {
     key: string,
     done:string,
@@ -45,6 +46,7 @@ export default function Task() {
                     />
                 </div>
             </div>
+            <TaskModal/>
         </div>
     )
 }

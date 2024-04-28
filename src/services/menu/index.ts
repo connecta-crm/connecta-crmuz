@@ -15,6 +15,8 @@ import sixthImgActive from '../../../public/img/sidebar/06_active.svg';
 import ninthImg from '../../../public/img/sidebar/09.svg';
 import ninthImgActive from '../../../public/img/sidebar/09_active.svg';
 
+import { MenuNestedData, elements } from './nestedElements';
+
 const lazyLoad = (
   importFunc: () => Promise<{ default: ComponentType<unknown> }>,
 ) => {
@@ -27,13 +29,6 @@ type FilterByType = {
   title: string;
 };
 
-export type MenuNestedData = {
-  title: string;
-  path: string;
-  category: string;
-  el: ComponentType<unknown>;
-};
-
 export type MenuData = {
   title: string;
   path: string;
@@ -43,98 +38,10 @@ export type MenuData = {
   component:
     | ComponentType<unknown>
     | LazyExoticComponent<ComponentType<unknown>>;
-
   roles: string[];
   filterBy?: FilterByType[];
   elements?: MenuNestedData[];
 };
-
-export const elements: MenuNestedData[] = [
-  {
-    title: 'Users',
-    path: '/settings/users',
-    category: 'User Management',
-    el: lazyLoad(() => import('../../pages/settings/Users')),
-  },
-  {
-    title: 'Teams',
-    path: '/settings/teams',
-    category: 'User Management',
-    el: lazyLoad(() => import('../../pages/settings/Teams')),
-  },
-  {
-    title: 'Roles',
-    path: '/settings/roles',
-    category: 'User Management',
-    el: lazyLoad(() => import('../../pages/settings/AccessRoles')),
-  },
-  {
-    title: 'Providers',
-    path: '/settings/providers',
-    category: 'Lead Management',
-    el: lazyLoad(() => import('../../pages/settings/Providers')),
-  },
-  {
-    title: 'Distribution',
-    path: '/settings/distribution',
-    category: 'Lead Management',
-    el: lazyLoad(() => import('../../pages/settings/Distribution')),
-  },
-  {
-    title: 'Lead Parsing',
-    path: '/settings/lead-parsing',
-    category: 'Lead Management',
-    el: lazyLoad(() => import('../../pages/settings/LeadParsing')),
-  },
-  {
-    title: 'Ground',
-    path: '/settings/ground',
-    category: 'Contract',
-    el: lazyLoad(() => import('../../pages/settings/Ground')),
-  },
-  {
-    title: 'Regions',
-    path: '/settings/regions',
-    category: 'Contract',
-    el: lazyLoad(() => import('../../pages/settings/HawaiiAndAlaska')),
-  },
-  {
-    title: 'International',
-    path: '/settings/international',
-    category: 'Contract',
-    el: lazyLoad(() => import('../../pages/settings/International')),
-  },
-  {
-    title: 'Name',
-    path: '/settings/name',
-    category: 'Company Management',
-    el: lazyLoad(() => import('../../pages/settings/CompanyName')),
-  },
-  {
-    title: 'Merchant',
-    path: '/settings/merchant',
-    category: 'Company Management',
-    el: lazyLoad(() => import('../../pages/settings/Merchant')),
-  },
-  {
-    title: 'Payment',
-    path: '/settings/payment',
-    category: 'Company Management',
-    el: lazyLoad(() => import('../../pages/settings/PaymentApps')),
-  },
-  {
-    title: 'Voip',
-    path: '/settings/voip',
-    category: 'Company Management',
-    el: lazyLoad(() => import('../../pages/settings/VoIP')),
-  },
-  {
-    title: 'Templates',
-    path: '/settings/templates',
-    category: 'Company Management',
-    el: lazyLoad(() => import('../../pages/settings/Templates')),
-  },
-];
 
 export const getMenuData: MenuData[] = [
   {
