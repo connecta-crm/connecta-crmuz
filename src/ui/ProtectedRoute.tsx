@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../features/authentication/useUser';
 import { useAutoRefreshToken } from '../hooks/useAutoRefreshToken';
 import { useAppSelector } from '../store/hooks';
+import Spinner from './Spinner';
 
 type ProtectedRouteProps = {
   roles: string[];
@@ -30,7 +31,7 @@ function ProtectedRoute({ children }: PropsWithChildren<ProtectedRouteProps>) {
   if (isLoading) {
     return (
       <div className="full-page">
-        <div className="spinner"></div>
+        <Spinner />
       </div>
     );
   }

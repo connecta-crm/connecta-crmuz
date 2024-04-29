@@ -1,13 +1,5 @@
-import TableHeaderActions from './TableHeaderActions';
-import TableHeaderFilters from './TableHeaderFilters';
-
-function TableHeader({ pageName }: { pageName: string }) {
-  return (
-    <div className="dt-header">
-      <TableHeaderActions pageName={pageName} />
-      <TableHeaderFilters />
-    </div>
-  );
+function TableHeader() {
+  return <div></div>;
 }
 
 export default TableHeader;

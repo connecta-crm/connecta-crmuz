@@ -1,6 +1,5 @@
 import { LeadTableDataType } from './LeadTableColumnType';
 
-// =======Lead===========
 export const LeadTableColumns = [
   {
     title: 'Id',
@@ -8,7 +7,7 @@ export const LeadTableColumns = [
     render: (text: string) => <a>{text}</a>,
   },
   {
-    title: 'Received	',
+    title: 'Received',
     dataIndex: 'updatedAt',
   },
   {

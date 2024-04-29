@@ -3,7 +3,17 @@ import TableHeaderDiscount from './TableHeaderDiscount';
 import TableHeaderPagination from './TableHeaderPagination';
 import TableHeaderSearch from './TableHeaderSearch';
 import TableHeaderUsers from './TableHeaderUsers';
-function TableHeaderRight() {
+
+export type TableHeaderFiltersProps = {
+  currentPage: number;
+  totalPages: number;
+  totalData: number;
+};
+function TableHeaderFilters({
+  currentPage,
+  totalPages,
+  totalData,
+}: TableHeaderFiltersProps) {
   const discountOptions = [
     { value: 'all', label: 'All' },
     { value: 'no-discount', label: 'No discount' },
@@ -19,7 +29,11 @@ function TableHeaderRight() {
   return (
     <div className="dt-header__filters">
       <TableHeaderDiscount selectField="discount" options={discountOptions} />
-      <TableHeaderPagination />
+      <TableHeaderPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalData={totalData}
+      />
       <TableHeaderSearch />
       <TableHeaderUsers selectField="users" options={userOptions} />
       <div className="dt-header__hamburg">
@@ -29,4 +43,4 @@ function TableHeaderRight() {
   );
 }
 
-export default TableHeaderRight;
+export default TableHeaderFilters;

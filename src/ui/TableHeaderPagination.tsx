@@ -3,9 +3,17 @@ import { Dropdown, Input, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import openView from '../../public/img/dt_table/full_view.svg';
 import notView from '../../public/img/dt_table/not_full_view.svg';
+import { TableHeaderFiltersProps } from './TableHeaderFilters';
 
-function TableHeaderPagination() {
+type TableHeaderPaginationProps = TableHeaderFiltersProps;
+
+function TableHeaderPagination({
+  currentPage,
+  totalPages,
+  totalData,
+}: TableHeaderPaginationProps) {
   const [open, setOpen] = useState(false);
+  console.log(totalData);
 
   function handleMenuClick(event: boolean) {
     console.log('event', event);
@@ -21,13 +29,13 @@ function TableHeaderPagination() {
           <Input
             size="small"
             style={{ width: '50px', height: '18px', marginLeft: 8 }}
-            defaultValue={1}
+            defaultValue={currentPage}
           />
           <span>-</span>
           <Input
             size="small"
             style={{ width: '50px', height: '18px', marginRight: 8 }}
-            defaultValue={50}
+            defaultValue={totalPages}
           />
           <div className="d-flex align-center dropdown-arrows">
             <p>

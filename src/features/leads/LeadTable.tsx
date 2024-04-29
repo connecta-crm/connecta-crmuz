@@ -1,8 +1,11 @@
 import { Table } from 'antd';
-import { useEffect, useState } from 'react';
+import Empty from '../../ui/Empty';
+import TableHeaderActions from '../../ui/TableHeaderActions';
+import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
-import useLead from './useLead';
+import { useLeads } from './useLeads';
+
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
@@ -18,22 +21,36 @@ const rowSelection = {
     name: record.id,
   }),
 };
-export default function LeadTable() {
-  const [leads, setLead] = useState([]);
-  const { data, isSuccess } = useLead();
 
-  useEffect(() => {
-    if (isSuccess) setLead(data?.data);
-  }, [data]);
+function LeadTable() {
+  const { leads, currentPage, totalPages, totalData, isLoading } = useLeads();
+
+  if (isLoading) return null;
+  if (!leads.length) return <Empty resourceName="leads" />;
 
   return (
-    <Table
-      rowKey="id"
-      rowSelection={{
-        ...rowSelection,
-      }}
-      columns={LeadTableColumns}
-      dataSource={leads}
-    />
+    <>
+      <div className="dt-header">
+        <TableHeaderActions pageName="lead" />
+        <TableHeaderFilters
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalData={totalData}
+        />
+      </div>
+      <div className="leads-table">
+        <div className="table__container">
+          <Table
+            rowKey="id"
+            rowSelection={{
+              ...rowSelection,
+            }}
+            columns={LeadTableColumns}
+            dataSource={leads}
+          />
+        </div>
+      </div>
+    </>
   );
 }
+export default LeadTable;

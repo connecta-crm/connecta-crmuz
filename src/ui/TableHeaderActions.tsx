@@ -2,6 +2,7 @@ import calendar from '../../public/img/dt_table/calendar.svg';
 import sell from '../../public/img/dt_table/table_sells.svg';
 import plus from '../../public/img/plus_w.svg';
 import { useModal } from '../context/ModalContext';
+
 function TableHeaderActions({ pageName }: { pageName: string }) {
   const { showModal } = useModal();
 
