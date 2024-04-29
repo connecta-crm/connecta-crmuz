@@ -79,12 +79,13 @@
     margin-left: 12px;
     // .dt-header__showlist_price
     &_price {
+      padding: 3px 6px;
     }
     // .dt-header__showlist_gutter
     &_gutter {
       @include flexbox();
       align-items: center;
-      margin-left: 8px;
+      margin-left: 2px;
     }
     // .dt-header__showlist_perpage
     &_perpage {
@@ -96,16 +97,18 @@
     &_open {
       margin-left: 10px;
       display: flex;
-      width: 30px;
-      height: 25px;
+      width: 28px;
+      height: 22px;
       justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-shrink: 0;
       border-radius: 4px;
       border: 1px solid #d1d1d1;
+      cursor: pointer;
       img {
         width: 18px;
+        height: 14px;
       }
     }
   }
@@ -116,7 +119,7 @@
     background-color: $color-gray;
     font-size: 14px;
     font-weight: 600;
-    margin-left: 8px;
+    margin-left: 2px;
   }
   // .dt-header__search
   &__search {
@@ -138,4 +141,68 @@
       height: 100%;
     }
   }
+}
+.dropdown-arrows {
+  p {
+    display: flex;
+    padding: 6px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 2px;
+    @include anim(0.2s, 0s);
+    &:hover {
+      background-color: #d1d1d1;
+    }
+  }
+}
+.dropdown-clear {
+  color: #21232c;
+  font-size: 12px;
+  font-weight: 400;
+  @include anim(0.3s, 0s);
+  border-bottom: 1px solid transparent;
+
+  &:hover {
+    border-color: $color-secondary;
+  }
+}
+
+.dt-header__dropdown {
+  .label-contents {
+    height: 20px;
+    border-radius: 5px;
+    @include anim(0.3s, 0s);
+    padding: 0 5px;
+  }
+  input[type='checkbox']:checked + .label-contents {
+    background: #ddf2fd;
+  }
+  .dropdown-check {
+    &__inputs {
+      margin-bottom: 2px;
+      cursor: pointer;
+    }
+    &__input {
+      position: absolute;
+      opacity: 0;
+      z-index: -2;
+    }
+  }
+}
+/* ==================================================================================================================*/
+// dropdown style
+:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item,
+:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item,
+:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title,
+:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title {
+  padding: 5px !important;
 }
