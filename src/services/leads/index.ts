@@ -15,6 +15,8 @@ class Leads {
   async getAllLeads() {
     try {
       const { data } = await this.$api.get('/leads/');
+      console.log(data);
+      
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

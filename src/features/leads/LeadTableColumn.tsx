@@ -43,9 +43,9 @@ export const LeadTableColumns = [
     dataIndex: 'leadVehicles',
     render: (data: { vehicleName: string }[], record: LeadTableDataType) => (
       <div className="table__vehicle">
-        {data.length > 0 && (
+        {
           <div className="table__vehicle__imgs">
-            {record.condition === 'inopable' && (
+            {record.condition == 'rols' && (
               <img src="./img/dt_table/engine.svg" alt="engine" />
             )}
             {record.trailerType === 'open' &&
@@ -57,7 +57,7 @@ export const LeadTableColumns = [
                 />
               ))}
           </div>
-        )}
+        }
         <div className="table__vehicle__text">
           {data.map((item) => (
             <div key={item.vehicleName}>{item.vehicleName}</div>

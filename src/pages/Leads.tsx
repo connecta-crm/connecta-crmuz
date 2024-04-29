@@ -20,6 +20,8 @@ function Leads() {
     setFullScreen(value);
   }
 
+
+
   return (
     <div className="leads">
       <DrawerApp
@@ -35,7 +37,7 @@ function Leads() {
       <div className="leads-table">
         <button onClick={openDrawer}>openDrawer</button>
         <div className="table__container">
-          <LeadTable />
+          <LeadTable  />
         </div>
       </div>
 
