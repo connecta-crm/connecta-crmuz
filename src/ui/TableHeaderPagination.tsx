@@ -95,8 +95,10 @@ function TableHeaderPagination({
               <p className="">$120,000</p>
               <div className="dt-header__dot"></div>
               <div className="dt-header__showlist_gutter">
-                <p className="dt-header__showlist_perpage">1-50</p>/
-                <p className="dt-header__showlist_allcounts">2500</p>
+                <p className="dt-header__showlist_perpage">
+                  {currentPage}-{totalPages}
+                </p>
+                /<p className="dt-header__showlist_allcounts">{totalData}</p>
               </div>
             </Space>
           </a>
