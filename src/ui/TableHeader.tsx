@@ -1,11 +1,11 @@
-import TableHeaderLeft from './TableHeaderLeft';
-import TableHeaderRight from './TableHeaderRight';
+import TableHeaderActions from './TableHeaderActions';
+import TableHeaderFilters from './TableHeaderFilters';
 
-function TableHeader({pageName}:{pageName:string}) {
+function TableHeader({ pageName }: { pageName: string }) {
   return (
     <div className="dt-header">
-      <TableHeaderLeft pageName={pageName} />
-      <TableHeaderRight />
+      <TableHeaderActions pageName={pageName} />
+      <TableHeaderFilters />
     </div>
   );
 }

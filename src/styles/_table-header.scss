@@ -4,8 +4,8 @@
   @include flexbox();
   align-items: center;
   justify-content: space-between;
-  // .dt-header__left
-  &__left {
+  // .dt-header__actions
+  &__actions {
     @include flexbox();
     align-items: center;
     justify-content: space-between;
@@ -57,8 +57,8 @@
   &__add-btn {
     margin-left: 10px;
   }
-  // .dt-header__right
-  &__right {
+  // .dt-header__filters
+  &__filters {
     @include flexbox();
     align-items: center;
     justify-content: space-between;
@@ -141,6 +141,11 @@
       height: 100%;
     }
   }
+  // .dt-header__user-active
+  &__user-active {
+    background-color: #ddf2fd;
+    padding: 0px 5px;
+  }
 }
 .dropdown-arrows {
   p {
@@ -168,20 +173,30 @@
   }
 }
 
+.dropdown-subusername {
+  color: #21232c;
+  font-size: 12px;
+  font-weight: 400;
+}
+
 .dt-header__dropdown {
   .label-contents {
     height: 20px;
     border-radius: 5px;
     @include anim(0.3s, 0s);
     padding: 0 5px;
+    font-size: 15px;
   }
   input[type='checkbox']:checked + .label-contents {
-    background: #ddf2fd;
+    background-color: #ddf2fd;
   }
   .dropdown-check {
-    &__inputs {
+    &__item {
       margin-bottom: 2px;
-      cursor: pointer;
+      @include anim(0.3s, 0s);
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
     }
     &__input {
       position: absolute;
@@ -205,4 +220,18 @@
   .ant-dropdown-menu
   .ant-dropdown-menu-submenu-title {
   padding: 5px !important;
+}
+.dt-header__dropdown {
+  .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
+    background-color: transparent;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+  .ant-dropdown-menu-item.ant-dropdown-menu-item-active {
+    background-color: transparent !important;
+    &:hover {
+      background-color: transparent !important;
+    }
+  }
 }

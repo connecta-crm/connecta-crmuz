@@ -14,7 +14,11 @@ type TableSelectProps = {
   options: Option[];
 };
 
-function TableSelect({ selectField, options, ...props }: TableSelectProps) {
+function TableHeaderDiscount({
+  selectField,
+  options,
+  ...props
+}: TableSelectProps) {
   // const [searchParams, setSearchParams] = useSearchParams();
   // const value = searchParams.get(selectField) || options[0].value;
 
@@ -47,7 +51,7 @@ function TableSelect({ selectField, options, ...props }: TableSelectProps) {
         <div>
           <p className="dropdown-clear d-inline mr-5 ml-5">Clear all</p>
           <div className="dropdown-check">
-            <div className="dropdown-check__inputs d-flex align-center justify-between">
+            <div className="dropdown-check__item d-flex align-center justify-between">
               <input
                 type="checkbox"
                 name="source"
@@ -62,7 +66,7 @@ function TableSelect({ selectField, options, ...props }: TableSelectProps) {
                 <span className="ml-20">1200</span>
               </label>
             </div>
-            <div className="dropdown-check__inputs d-flex align-center justify-between">
+            <div className="dropdown-check__item d-flex align-center justify-between">
               <input
                 type="checkbox"
                 name="source"
@@ -112,4 +116,4 @@ function TableSelect({ selectField, options, ...props }: TableSelectProps) {
   );
 }
 
-export default TableSelect;
+export default TableHeaderDiscount;
