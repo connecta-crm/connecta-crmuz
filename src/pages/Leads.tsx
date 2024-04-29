@@ -1,32 +1,8 @@
-import { Table } from 'antd';
-import {  useState } from 'react';
+import { useState } from 'react';
+import LeadTable from '../features/leads/LeadTable';
 import DrawerApp from '../ui/Drawer';
 import TableHeader from '../ui/TableHeader';
 import LeadModal from '../ui/modal/LeadModal';
-import { LeadTableColumns, LeadTableData } from '../utils/table';
-
-type DataType = {
-  key: string;
-  id: string;
-  received: string;
-  user: string;
-  customer: string;
-  phone: string;
-  vehicle: string;
-  origin: string;
-  destination: string;
-  ship: string;
-};
-
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  getCheckboxProps: (record: DataType) => ({
-    // disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    name: record.id,
-  }),
-};
 
 function Leads() {
   const [open, setOpen] = useState(false);
@@ -44,6 +20,8 @@ function Leads() {
     setFullScreen(value);
   }
 
+
+
   return (
     <div className="leads">
       <DrawerApp
@@ -59,14 +37,7 @@ function Leads() {
       <div className="leads-table">
         <button onClick={openDrawer}>openDrawer</button>
         <div className="table__container">
-          <Table
-            rowSelection={{
-              // type: selectionType,
-              ...rowSelection,
-            }}
-            columns={LeadTableColumns}
-            dataSource={LeadTableData}
-          />
+          <LeadTable  />
         </div>
       </div>
 
