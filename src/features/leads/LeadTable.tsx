@@ -15,7 +15,6 @@ const rowSelection = {
     );
   },
   getCheckboxProps: (record: LeadTableDataType) => ({
-    // disabled: record.name === 'Disabled User', // Column configuration not to be checked
     name: record.id,
   }),
 };
@@ -31,7 +30,6 @@ export default function LeadTable() {
     <Table
       rowKey="id"
       rowSelection={{
-        // type: selectionType,
         ...rowSelection,
       }}
       columns={LeadTableColumns}

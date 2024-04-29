@@ -9,9 +9,6 @@ const useLead = () => {
         queryKey:["leads"]
         
     })
-    if(isSuccess) console.log("test");
-    
-    
     return {data,isLoading,isError,isSuccess}
 };
 export default useLead
