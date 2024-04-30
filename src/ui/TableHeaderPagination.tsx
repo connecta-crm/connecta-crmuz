@@ -1,24 +1,49 @@
 import { Dropdown, Input, MenuProps, Space } from 'antd';
 
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import openView from '../../public/img/dt_table/full_view.svg';
 import notView from '../../public/img/dt_table/not_full_view.svg';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
+import { PAGE_SIZE } from '../utils/constants';
 
 type TableHeaderPaginationProps = TableHeaderFiltersProps;
 
 function TableHeaderPagination({
-  currentPage,
+  currentPage: currentPage1,
   totalPages,
-  totalData,
+  totalData: count,
 }: TableHeaderPaginationProps) {
   const [open, setOpen] = useState(false);
-  console.log(totalData);
+  console.log(count, currentPage1, totalPages);
 
   function handleMenuClick(event: boolean) {
     console.log('event', event);
     setOpen(event);
   }
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = !searchParams.get('page')
+    ? 1
+    : Number(searchParams.get('page'));
+
+  const pageCount = Math.ceil(count / PAGE_SIZE);
+
+  function nextPage() {
+    const next = currentPage === pageCount ? currentPage : currentPage + 1;
+
+    searchParams.set('page', String(next));
+    setSearchParams(searchParams);
+  }
+
+  function prevPage() {
+    const prev = currentPage === 1 ? currentPage : currentPage - 1;
+
+    searchParams.set('page', String(prev));
+    setSearchParams(searchParams);
+  }
+
+  // if (pageCount <= 1) return null;
 
   const items: MenuProps['items'] = [
     {
@@ -35,15 +60,25 @@ function TableHeaderPagination({
           <Input
             size="small"
             style={{ width: '50px', height: '18px', marginRight: 8 }}
-            defaultValue={totalPages}
+            defaultValue={pageCount}
           />
           <div className="d-flex align-center dropdown-arrows">
-            <p>
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 1}
+              title="prev-page"
+              className="dropdown-arrows__btn"
+            >
               <img src="./img/left-arrow.svg" alt="" />
-            </p>
-            <p>
+            </button>
+            <button
+              onClick={nextPage}
+              disabled={currentPage === pageCount}
+              title="next-page"
+              className="dropdown-arrows__btn"
+            >
               <img src="./img/right-arrow.svg" alt="" />
-            </p>
+            </button>
           </div>
         </div>
       ),
@@ -96,9 +131,9 @@ function TableHeaderPagination({
               <div className="dt-header__dot"></div>
               <div className="dt-header__showlist_gutter">
                 <p className="dt-header__showlist_perpage">
-                  {currentPage}-{totalPages}
+                  {currentPage}-{pageCount}
                 </p>
-                /<p className="dt-header__showlist_allcounts">{totalData}</p>
+                /<p className="dt-header__showlist_allcounts">{count}</p>
               </div>
             </Space>
           </a>

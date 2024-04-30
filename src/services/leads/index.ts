@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { LeadsParamsType } from '../../features/leads/useLeads';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -12,9 +13,14 @@ class Leads {
     this.$api = apiClient;
   }
 
-  async getLeads() {
+  async getLeads({ page, pageSize }: LeadsParamsType) {
     try {
-      const { data } = await this.$api.get('/leads/');
+      const { data } = await this.$api.get('/leads/', {
+        params: {
+          page,
+          pageSize,
+        },
+      });
       console.log(data);
 
       return data;
