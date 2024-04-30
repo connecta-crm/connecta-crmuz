@@ -19,7 +19,7 @@ export function useLeads() {
 
   // QUERY
   const {
-    data: { data: leads, currentPage, totalPages, totalData } = {},
+    data: { results: leads, currentPage, totalPages, totalData } = {},
     isPending: isLoading,
     error,
   } = useQuery({

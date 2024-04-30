@@ -34,6 +34,10 @@ function DrawerLeft() {
     }
   };
 
+  const onChangePerson = () => {
+    alert('casd');
+  };
+
   const items: CollapseProps['items'] = [
     {
       key: '1',
@@ -54,7 +58,7 @@ function DrawerLeft() {
           keyValue={'2'}
           label="Person"
           value="person"
-          onChange={onChange}
+          onChange={onChangePerson}
         />
       ),
       children: <DrawerFeaturePersonContent />,

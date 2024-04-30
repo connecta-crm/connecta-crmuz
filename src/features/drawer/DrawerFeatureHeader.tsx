@@ -46,7 +46,10 @@ function DrawerFeatureHeader({
       case 'person':
         element = (
           <>
-            <div className="box-header__edit ml-10" onClick={() => {}}>
+            <div
+              className="box-header__edit ml-10"
+              onClick={() => onChange(keyValue)}
+            >
               <img src="./img/drawer/pen.svg" alt="" />
             </div>
             <div className="box-header__more ml-10">
