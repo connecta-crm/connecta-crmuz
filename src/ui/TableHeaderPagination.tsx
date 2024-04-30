@@ -1,6 +1,5 @@
 import { Dropdown, Input, MenuProps, Space } from 'antd';
-
-import { useState } from 'react';
+import {  useState } from 'react';
 import openView from '../../public/img/dt_table/full_view.svg';
 import notView from '../../public/img/dt_table/not_full_view.svg';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
@@ -13,7 +12,12 @@ function TableHeaderPagination({
   totalData,
 }: TableHeaderPaginationProps) {
   const [open, setOpen] = useState(false);
-  console.log(totalData);
+  // const [startPage, setStart] = useState(currentPage);
+  // const [lastPage, setLastPage] = useState(totalPages);
+
+
+
+
 
   function handleMenuClick(event: boolean) {
     console.log('event', event);
@@ -26,6 +30,7 @@ function TableHeaderPagination({
       label: (
         <div className="d-flex align-center justify-between">
           <p className="dropdown-text">Now</p>
+
           <Input
             size="small"
             style={{ width: '50px', height: '18px', marginLeft: 8 }}
@@ -38,12 +43,18 @@ function TableHeaderPagination({
             defaultValue={totalPages}
           />
           <div className="d-flex align-center dropdown-arrows">
-            <p>
+            <button
+              className="left-arrow d-flex align-center gap-2"
+              disabled={currentPage == 1 && true}
+            >
               <img src="./img/left-arrow.svg" alt="" />
-            </p>
-            <p>
+            </button>
+            <button
+              className="right-arrow d-flex align-center"
+              disabled={currentPage == totalPages && true}
+            >
               <img src="./img/right-arrow.svg" alt="" />
-            </p>
+            </button>
           </div>
         </div>
       ),

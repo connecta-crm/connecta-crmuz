@@ -14,7 +14,7 @@ class Leads {
 
   async getLeads() {
     try {
-      const { data } = await this.$api.get('/leads/');
+      const { data } = await this.$api.get('/leads/?page=1&pageSize=9');
       console.log(data);
 
       return data;
