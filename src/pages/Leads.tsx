@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import LeadTable from '../features/leads/LeadTable';
+import { LeadTableDataType } from '../features/leads/LeadTableColumnType';
 import DrawerApp from '../ui/Drawer';
 import LeadModal from '../ui/modal/LeadModal';
 
@@ -7,7 +8,8 @@ function Leads() {
   const [open, setOpen] = useState(false);
   const [isFullScreen, setFullScreen] = useState(false);
 
-  function openDrawer() {
+  function openDrawer(data: LeadTableDataType) {
+    console.log(data);
     setOpen(true);
   }
   function onClose() {
@@ -21,8 +23,8 @@ function Leads() {
 
   return (
     <div className="leads">
-      <button onClick={openDrawer}>openDrawer</button>
-      <LeadTable />
+      {/* <button onClick={openDrawer}>openDrawer</button> */}
+      <LeadTable openDrawer={openDrawer} />
       <LeadModal />
       <DrawerApp
         open={open}

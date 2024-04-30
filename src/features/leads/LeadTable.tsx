@@ -22,7 +22,11 @@ const rowSelection = {
   }),
 };
 
-function LeadTable() {
+
+type openDrawerType=(data:LeadTableDataType)=>void
+
+
+function LeadTable({ openDrawer }:{openDrawer:openDrawerType}) {
   const { leads, currentPage, totalPages, totalData, isLoading } = useLeads();
 
   if (isLoading) return null;
@@ -47,6 +51,14 @@ function LeadTable() {
             }}
             columns={LeadTableColumns}
             dataSource={leads}
+            // pagination={{ pageSize: 5 }}
+            onRow={(data) => ({
+              onClick: (event) => {
+                const target = event.target as HTMLTextAreaElement;
+                const element = target.className;
+                element == 'table__id' && openDrawer(data);
+              },
+            })}
           />
         </div>
       </div>
