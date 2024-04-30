@@ -1,6 +1,6 @@
 import { Drawer } from 'antd';
 
-import DrawerContent from '../features/drawer/DrawerContent';
+import DrawerContent from '../features/drawer/Drawer';
 import DrawerControl, {
   DrawerControlProps,
 } from '../features/drawer/DrawerControl';

@@ -1,18 +1,18 @@
 import { Button } from 'antd';
-import { useAppSelector } from '../../store/hooks';
-import { useEditVehicle } from './hooks/useEditVehicle';
+import { useAppSelector } from '../../../store/hooks';
+import { useEditVehicle } from '../hooks/useEditVehicle';
 
-type DetailInnerHeaderOpenProps = {
+type FeatItemOpenProps = {
   keyValue: string;
   hasAddAction?: boolean;
   onChange: (val: string) => void;
 };
 
-function DetailInnerHeaderOpen({
+function FeatItemOpen({
   keyValue,
   hasAddAction = false,
   onChange,
-}: DetailInnerHeaderOpenProps) {
+}: FeatItemOpenProps) {
   const formData = useAppSelector((state) => state.vehicle.formData);
   const { editVehicle } = useEditVehicle();
 
@@ -45,4 +45,4 @@ function DetailInnerHeaderOpen({
   );
 }
 
-export default DetailInnerHeaderOpen;
+export default FeatItemOpen;

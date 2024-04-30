@@ -1,12 +1,12 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useState } from 'react';
-import FeatCondition from './feature/FeatCondition';
-import FeatConditionInner from './feature/FeatConditionInner';
-import FeatVehicle from './feature/FeatVehicle';
-import FeatVehicleInner from './feature/FeatVehicleInner';
+import FeatCondition from './feature-details/FeatCondition';
+import FeatConditionInner from './feature-details/FeatConditionInner';
+import FeatVehicle from './feature-details/FeatVehicle';
+import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
-function DetailInner() {
+function DrawerFeatureDetailsContent() {
   const [openPanels, setOpenPanels] = useState<string[]>([]);
 
   const onChange = (key: string | string[]) => {
@@ -70,4 +70,4 @@ function DetailInner() {
   );
 }
 
-export default DetailInner;
+export default DrawerFeatureDetailsContent;
