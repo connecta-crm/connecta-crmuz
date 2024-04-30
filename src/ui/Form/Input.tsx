@@ -1,4 +1,4 @@
-export default function Input({
+function Input({
   type,
   placeholder,
   name,
@@ -21,3 +21,4 @@ export default function Input({
 
   return <input name={name} type={type} placeholder={placeholder} required />;
 }
+export default Input;

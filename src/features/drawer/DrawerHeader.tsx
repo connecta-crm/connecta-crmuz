@@ -30,7 +30,7 @@ function DrawerHeader({
   );
   if (!isFullScreen) {
     controls = <></>;
-    console.log(controls);
+    console.log('controls', controls);
   }
 
   const items: MenuProps['items'] = [
@@ -67,7 +67,7 @@ function DrawerHeader({
           {controls}
           <div
             className={classNames(
-              controls ? 'ml-20' : '',
+              isFullScreen ? 'ml-20' : '',
               'd-flex flex-column',
             )}
           >
