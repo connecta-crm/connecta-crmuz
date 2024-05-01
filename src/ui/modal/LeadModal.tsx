@@ -20,17 +20,16 @@ import UpCollapse from '../Form/UpCollapse';
 import SearchSelect from './SearchSelect';
 export default function LeadModal() {
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
-  const [url,seturl] = useState("")
+  const [url, seturl] = useState('');
+  const [selectPersonValue,setSelectPersonValue] = useState({})
   useEffect(() => {
     // const url = "";
-    const searchParam = new URLSearchParams(person)
-    seturl(searchParam.toString())
+    const searchParam = new URLSearchParams(person);
+    seturl(searchParam.toString());
   }, [person]);
-   
-  const personData = useLeadsPerson(url);
-  console.log(personData,"personData");
-  
 
+  const personData = useLeadsPerson(url);
+  console.log(personData, 'personData');
 
   const [vhicle, setVhicle] = useState('');
   const [zip, setZep] = useState('');
@@ -124,6 +123,29 @@ export default function LeadModal() {
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
+  // ==========Person==========
+
+  const handleSearchPersonName = (newValue: string) => {
+    setSelectPersonValue({})
+    setPerson({ ...person, name: newValue });
+  };
+  const handleSearchPersonEmail = (newValue: string) => {
+    setSelectPersonValue({})
+    setPerson({ ...person, email: newValue });
+  };
+  const handleSearchPersonPhone = (newValue: string) => {
+    setSelectPersonValue({})
+    setPerson({ ...person, phone: newValue });
+    
+  };
+
+  const handleChangePerson=(newValue: string,record)=>{
+    setSelectPersonValue(record.all)
+    console.log(newValue);
+    console.log(record);
+    
+  }
+
   return (
     <Modal title="New Lead" onSubmit={getFormData}>
       <div className="modal__row">
@@ -324,45 +346,75 @@ export default function LeadModal() {
         <div className="modal__col">
           <UpCollapse title="Person">
             <FormControl title="Name">
-              <input
-                placeholder="Empty"
-                onChange={(e) => setPerson({ ...person, name: e.target.value })}
+              <Select
+                showSearch
+                value={selectPersonValue?.name}
+                placeholder={'Select'}
+                style={{ width: '100%' }}
+                defaultActiveFirstOption={false}
+                suffixIcon={null}
+                filterOption={false}
+                onSearch={handleSearchPersonName}
+                onChange={(data,record) => handleChangePerson(data,record)}
+                notFoundContent={null}
+                options={(personData || []).map(
+                  (d: { id: number; name: string }) => ({
+                    value: d.id,
+                    all:d,
+                    label: d.name,
+                  }),
+                )}
               />
-              {/* <Input
-                type="text"
-                placeholder="Empty"
-                name="person_name"
-                defaultValue=""
-              /> */}
             </FormControl>
             <FormControl title="Email">
-              <input
-                placeholder="Empty"
-                onChange={(e) =>
-                  setPerson({ ...person, email: e.target.value })
-                }
+              <Select
+                showSearch
+                value={selectPersonValue?.email}
+                placeholder={'Select'}
+                style={{ width: '100%' }}
+                defaultActiveFirstOption={false}
+                suffixIcon={null}
+                filterOption={false}
+                onSearch={handleSearchPersonEmail}
+                onChange={(data,record) => handleChangePerson(data,record)}
+                notFoundContent={null}
+                options={(personData || []).map(
+                  (d: { id: number; email: string }) => ({
+                    value: d.id,
+                    all:d,
+                    label: d.email,
+                  }),
+                )}
               />
-              {/* <Input
-                type="text"
-                placeholder="Empty"
-                name="person_email"
-                defaultValue=""
-              /> */}
             </FormControl>
             <FormControl title="Phone">
-              <input
-                placeholder="Empty"
-                onChange={(e) =>
-                  setPerson({ ...person, phone: e.target.value })
-                }
+              <Select
+                showSearch
+                value={selectPersonValue?.phone}
+                placeholder={'Select'}
+                style={{ width: '100%' }}
+                defaultActiveFirstOption={false}
+                suffixIcon={null}
+                filterOption={false}
+                onSearch={handleSearchPersonPhone}
+                onChange={(data,record) => handleChangePerson(data,record)}
+                notFoundContent={null}
+                options={(personData || []).map(
+                  (d: { id: number; phone: string }) => ({
+                    value: d.id,
+                    all:d,
+                    label: d.phone,
+                  }),
+                )}
               />
-              {/* <Input
-                type="number"
-                placeholder="Empty"
-                name="person_phone"
-                defaultValue=""
-              /> */}
             </FormControl>
+            {
+              selectPersonValue?.extra?.length>0&&selectPersonValue?.extra?.map(item=>
+               <FormControl title='Phone'>
+                <Input type='text' placeholder='title' defaultValue={item.phone} name='person_phone' />
+               </FormControl>
+              )
+            }
           </UpCollapse>
         </div>
       </div>

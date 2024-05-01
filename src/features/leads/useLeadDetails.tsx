@@ -43,6 +43,6 @@ export function useLeadsPerson(text:string) {
     queryKey: ['lead-source',text],
     queryFn: () => Leads.getPerson(text),
   });
-  if (isSuccess) return data;
+  if (isSuccess) return data.results;
   return [];
 }
