@@ -14,9 +14,76 @@ class Leads {
 
   async getLeads() {
     try {
-      const { data } = await this.$api.get('/leads/?page=1&pageSize=9');
-      console.log(data);
+      const { data } = await this.$api.get('/leads/');
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
+  // get make
+
+  async getMake(text: string | undefined) {
+    try {
+      const { data } = await this.$api.get(
+        !text ? '/cars/marks-list/' : '/cars/marks-list/?q=' + text,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getModel(id: number | null, text: string | undefined) {
+    try {
+      const { data } = await this.$api.get(
+        `cars/models-list/${id ? '?mark=' + id : ''}${text ? '&q=' + text : ''}`,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getCity(text: string | null) {
+    try {
+      const { data } = await this.$api.get(
+        `/address/cities-list/${text ? '?q=' + text : ''}`,
+      );
+
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getSource() {
+    try {
+      const { data } = await this.$api.get(`/providers/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getPerson(text:string) {
+    try {
+      const { data } = await this.$api.get(`/customers/?`+ text);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

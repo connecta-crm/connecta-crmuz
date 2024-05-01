@@ -3,7 +3,7 @@ import Leads from '../../services/leads';
 
 export function useLeads() {
   const {
-    data: { data: leads, currentPage, totalPages, totalData } = {},
+    data: { results: leads, currentPage, totalPages, totalData } = {},
     isPending: isLoading,
     error,
   } = useQuery({

@@ -28,7 +28,7 @@ function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
   const { leads, currentPage, totalPages, totalData, isLoading } = useLeads();
 
   if (isLoading) return null;
-  if (!leads.length) return <Empty resourceName="leads" />;
+  if (!leads?.length) return <Empty resourceName="leads" />;
 
   return (
     <>

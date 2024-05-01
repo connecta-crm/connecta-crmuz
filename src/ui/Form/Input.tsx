@@ -2,14 +2,17 @@ export default function Input({
   type,
   placeholder,
   name,
+  defaultValue
 }: {
   type: string;
   placeholder: string;
   name: string | undefined;
+  defaultValue: string | undefined;
 }) {
   if (type == 'number') {
     return (
       <input
+      style={{width:"100%"}}
         name={name}
         type={type}
         placeholder={placeholder}
@@ -19,5 +22,15 @@ export default function Input({
     );
   }
 
-  return <input name={name} type={type} placeholder={placeholder} required />;
+  return (
+    <input
+    style={{width:"100%"}}
+
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      required
+      defaultValue={defaultValue}
+    />
+  );
 }
