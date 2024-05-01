@@ -13,12 +13,12 @@ class Leads {
     this.$api = apiClient;
   }
 
-  async getLeads({ page, pageSize }: LeadsParamsType) {
+  async getLeads({ limit, offset }: LeadsParamsType) {
     try {
       const { data } = await this.$api.get('/leads/', {
         params: {
-          page,
-          pageSize,
+          limit,
+          offset,
         },
       });
       console.log(data);

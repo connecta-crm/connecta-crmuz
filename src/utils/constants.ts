@@ -1,1 +1,1 @@
-export const PAGE_SIZE = 10; // should be 10 or 50
+export const DEFAULT_LIMIT = 10; // should be 10 or 50

@@ -1,5 +1,4 @@
 import { Table } from 'antd';
-import Empty from '../../ui/Empty';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
@@ -23,30 +22,23 @@ const rowSelection = {
 };
 
 function LeadTable() {
-  const { leads, currentPage, totalPages, totalData, isLoading } = useLeads();
-
-  if (isLoading) return null;
-  if (!leads?.length) return <Empty resourceName="leads" />;
+  const { leads, count, sumPrice, isLoading } = useLeads();
 
   return (
     <>
       <div className="dt-header">
         <TableHeaderActions pageName="lead" />
-        <TableHeaderFilters
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalData={totalData}
-        />
+        <TableHeaderFilters count={count} sumPrice={sumPrice} />
       </div>
       <div className="leads-table">
         <div className="table__container">
           <Table
             rowKey="id"
-            rowSelection={{
-              ...rowSelection,
-            }}
+            rowSelection={{ ...rowSelection }}
             columns={LeadTableColumns}
             dataSource={leads}
+            pagination={{ pageSize: leads?.length }}
+            loading={isLoading}
           />
         </div>
       </div>
