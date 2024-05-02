@@ -1,19 +1,14 @@
 import hamburg from '../../public/img/dt_table/hamburg_menu.svg';
-import TableHeaderDiscount from './TableHeaderDiscount';
 import TableHeaderPagination from './TableHeaderPagination';
+import TableHeaderProvider from './TableHeaderProvider';
 import TableHeaderSearch from './TableHeaderSearch';
 import TableHeaderUsers from './TableHeaderUsers';
 
 export type TableHeaderFiltersProps = {
-  currentPage: number;
-  totalPages: number;
-  totalData: number;
+  count: number;
+  sumPrice: number;
 };
-function TableHeaderFilters({
-  currentPage,
-  totalPages,
-  totalData,
-}: TableHeaderFiltersProps) {
+function TableHeaderFilters({ count, sumPrice }: TableHeaderFiltersProps) {
   const discountOptions = [
     { value: 'all', label: 'All' },
     { value: 'no-discount', label: 'No discount' },
@@ -28,12 +23,8 @@ function TableHeaderFilters({
 
   return (
     <div className="dt-header__filters">
-      <TableHeaderDiscount selectField="discount" options={discountOptions} />
-      <TableHeaderPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalData={totalData}
-      />
+      <TableHeaderProvider selectField="discount" options={discountOptions} />
+      <TableHeaderPagination count={count} sumPrice={sumPrice} />
       <TableHeaderSearch />
       <TableHeaderUsers selectField="users" options={userOptions} />
       <div className="dt-header__hamburg">

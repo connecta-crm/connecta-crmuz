@@ -1,4 +1,4 @@
-.drawer-content {
+.drawer {
   @include flexbox();
   background: #fafafa;
   .ant-collapse-item {
@@ -27,7 +27,7 @@
     > .ant-collapse-header {
     padding: 12px 10px;
   }
-  &__left {
+  &__feature {
     width: 400px;
     min-width: 400px;
     border-right: 1px solid #d1d1d1;
@@ -41,7 +41,7 @@
     //   pointer-events: none;
     // }
   }
-  &__right {
+  &__main {
     padding: 14px;
     width: 100%;
   }

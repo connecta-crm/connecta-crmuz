@@ -1,6 +1,8 @@
 import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import ellipse from '../../public/img/dt_table/ellipse.svg';
+// import { useQuery } from '@tanstack/react-query';
+// import Providers from '../services/providers';
 
 // import { useSearchParams } from 'react-router-dom';
 
@@ -14,7 +16,17 @@ type TableSelectProps = {
   options: Option[];
 };
 
-function TableHeaderDiscount({
+// function useProvider
+// const {
+//   isPending: isLoading,
+//   data,
+//   isError,
+// } = useQuery({
+//   queryKey: ['providers'],
+//   queryFn: () => Providers.getProviders(),
+// });
+
+function TableHeaderProvider({
   selectField,
   options,
   ...props
@@ -116,4 +128,4 @@ function TableHeaderDiscount({
   );
 }
 
-export default TableHeaderDiscount;
+export default TableHeaderProvider;

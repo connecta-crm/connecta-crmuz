@@ -1,6 +1,7 @@
-import DetailInnerHeaderDefault from '../DetailInnerHeaderDefault';
-import DetailInnerHeaderOpen from '../DetailInnerHeaderOpen';
-import { DetailHeaderInfo, IconArrowBold } from '../DrawerFeatures';
+import ArrowIcon from './ArrowIcon';
+import FeatItemClose from './FeatItemClose';
+import FeatItemLabel from './FeatItemLabel';
+import FeatItemOpen from './FeatItemOpen';
 
 type FeatConditionProps = {
   keyValue: string;
@@ -12,22 +13,22 @@ function FeatCondition({ keyValue, openPanels, onChange }: FeatConditionProps) {
   return (
     <div className="detail detail-condition">
       <div className="detail__header d-flex align-center justify-between">
-        <DetailHeaderInfo label="Condition" icon="dvigatel" />
+        <FeatItemLabel label="Condition" icon="dvigatel" />
         {openPanels?.includes(keyValue) ? (
-          <DetailInnerHeaderOpen
+          <FeatItemOpen
             keyValue={keyValue}
             hasAddAction={false}
             onChange={onChange}
           />
         ) : (
-          <DetailInnerHeaderDefault
+          <FeatItemClose
             keyValue={keyValue}
             textWithBg={true}
             data={{ label: 'Runs and drives' }}
             onChange={onChange}
           />
         )}
-        <IconArrowBold keyValue={keyValue} openPanels={openPanels} />
+        <ArrowIcon keyValue={keyValue} openPanels={openPanels} />
       </div>
     </div>
   );

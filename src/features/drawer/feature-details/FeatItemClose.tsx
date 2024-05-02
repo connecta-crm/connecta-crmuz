@@ -1,6 +1,6 @@
-import { classNames } from '../../utils/helpers';
+import { classNames } from '../../../utils/helpers';
 
-type DetailInnerHeaderDefaultProps = {
+type FeatItemCloseProps = {
   keyValue: string;
   textWithBg?: boolean;
   data: {
@@ -9,12 +9,12 @@ type DetailInnerHeaderDefaultProps = {
   onChange: (val: string) => void;
 };
 
-function DetailInnerHeaderDefault({
+function FeatItemClose({
   keyValue,
   textWithBg = false,
   data,
   onChange,
-}: DetailInnerHeaderDefaultProps) {
+}: FeatItemCloseProps) {
   return (
     <div className="detail__right d-flex align-center justify-between">
       <div
@@ -47,4 +47,4 @@ function DetailInnerHeaderDefault({
   );
 }
 
-export default DetailInnerHeaderDefault;
+export default FeatItemClose;

@@ -1,28 +1,75 @@
 import { Dropdown, Input, MenuProps, Space } from 'antd';
-import {  useState } from 'react';
+
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import openView from '../../public/img/dt_table/full_view.svg';
 import notView from '../../public/img/dt_table/not_full_view.svg';
+import { DEFAULT_LIMIT } from '../utils/constants';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
 
 type TableHeaderPaginationProps = TableHeaderFiltersProps;
 
 function TableHeaderPagination({
-  currentPage,
-  totalPages,
-  totalData,
+  count,
+  sumPrice,
 }: TableHeaderPaginationProps) {
   const [open, setOpen] = useState(false);
-  // const [startPage, setStart] = useState(currentPage);
-  // const [lastPage, setLastPage] = useState(totalPages);
-
-
-
-
+  const [searchParams, setSearchParams] = useSearchParams();
 
   function handleMenuClick(event: boolean) {
     console.log('event', event);
     setOpen(event);
   }
+
+  const defaultOffset = Number(searchParams.get('offset')) || 1;
+  const defaultLimit = Number(searchParams.get('limit')) || DEFAULT_LIMIT;
+
+  const [inputOffset, setInputOffset] = useState(defaultOffset);
+  const [inputLimit, setInputLimit] = useState(defaultLimit);
+
+  let endOffset = inputOffset + inputLimit - 1;
+  if (endOffset > count) {
+    endOffset = count;
+  }
+
+  const handleStartChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newOffset = Number(e.target.value);
+    if (newOffset >= 0) {
+      setInputOffset(newOffset);
+    }
+  };
+
+  const handleEndChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newEnd = Number(e.target.value);
+    if (newEnd >= 0) {
+      const newLimit = newEnd - inputOffset + 1;
+      setInputLimit(newLimit);
+    }
+  };
+
+  const updateSearchParams = () => {
+    setSearchParams({ offset: String(inputOffset), limit: String(inputLimit) });
+  };
+
+  const handlePrevious = () => {
+    const newOffset = Math.max(1, inputOffset - inputLimit);
+    setSearchParams({ offset: String(newOffset), limit: String(inputLimit) });
+  };
+
+  const handleNext = () => {
+    const newOffset = inputOffset + inputLimit;
+    setSearchParams({ offset: String(newOffset), limit: String(inputLimit) });
+  };
+
+  useEffect(() => {
+    setInputOffset(defaultOffset);
+    setInputLimit(defaultLimit);
+  }, [defaultOffset, defaultLimit]);
+
+  useEffect(() => {
+    const timer = setTimeout(updateSearchParams, 500);
+    return () => clearTimeout(timer);
+  }, [inputOffset, inputLimit]);
 
   const items: MenuProps['items'] = [
     {
@@ -34,24 +81,34 @@ function TableHeaderPagination({
           <Input
             size="small"
             style={{ width: '50px', height: '18px', marginLeft: 8 }}
-            defaultValue={currentPage}
+            type="number"
+            min={1}
+            value={inputOffset}
+            onChange={handleStartChange}
           />
           <span>-</span>
           <Input
             size="small"
             style={{ width: '50px', height: '18px', marginRight: 8 }}
-            defaultValue={totalPages}
+            type="number"
+            min={inputOffset}
+            value={endOffset}
+            onChange={handleEndChange}
           />
           <div className="d-flex align-center dropdown-arrows">
             <button
-              className="left-arrow d-flex align-center gap-2"
-              disabled={currentPage == 1 && true}
+              onClick={handlePrevious}
+              disabled={inputOffset <= 1}
+              title="prev-page"
+              className="dropdown-arrows__btn"
             >
               <img src="./img/left-arrow.svg" alt="" />
             </button>
             <button
-              className="right-arrow d-flex align-center"
-              disabled={currentPage == totalPages && true}
+              onClick={handleNext}
+              disabled={endOffset >= count}
+              title="next-page"
+              className="dropdown-arrows__btn"
             >
               <img src="./img/right-arrow.svg" alt="" />
             </button>
@@ -67,7 +124,7 @@ function TableHeaderPagination({
       label: (
         <div className="d-flex align-center justify-between">
           <p className="dropdown-text">All</p>
-          <span>2,500</span>
+          <span>{count}</span>
         </div>
       ),
     },
@@ -76,7 +133,7 @@ function TableHeaderPagination({
       label: (
         <div className="d-flex align-center justify-between">
           <p className="dropdown-text">Sum price</p>
-          <span>$120,000</span>
+          <span>{sumPrice}</span>
         </div>
       ),
     },
@@ -107,9 +164,10 @@ function TableHeaderPagination({
               <div className="dt-header__dot"></div>
               <div className="dt-header__showlist_gutter">
                 <p className="dt-header__showlist_perpage">
-                  {currentPage}-{totalPages}
+                  {inputOffset}-{endOffset}
                 </p>
-                /<p className="dt-header__showlist_allcounts">{totalData}</p>
+                /
+                <p className="dt-header__showlist_allcounts">{count || '00'}</p>
               </div>
             </Space>
           </a>

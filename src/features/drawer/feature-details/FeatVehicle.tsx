@@ -1,6 +1,7 @@
-import DetailInnerHeaderDefault from '../DetailInnerHeaderDefault';
-import DetailInnerHeaderOpen from '../DetailInnerHeaderOpen';
-import { DetailHeaderInfo, IconArrowBold } from '../DrawerFeatures';
+import ArrowIcon from './ArrowIcon';
+import FeatItemClose from './FeatItemClose';
+import FeatItemLabel from './FeatItemLabel';
+import FeatItemOpen from './FeatItemOpen';
 
 type FeatVehicleProps = {
   keyValue: string;
@@ -12,21 +13,21 @@ function FeatVehicle({ keyValue, openPanels, onChange }: FeatVehicleProps) {
   return (
     <div className="detail detail-vehicle">
       <div className="detail__header d-flex align-center justify-between">
-        <DetailHeaderInfo label="Vehicle" icon="car" />
+        <FeatItemLabel label="Vehicle" icon="car" />
         {openPanels?.includes(keyValue) ? (
-          <DetailInnerHeaderOpen
+          <FeatItemOpen
             keyValue={keyValue}
             hasAddAction={true}
             onChange={onChange}
           />
         ) : (
-          <DetailInnerHeaderDefault
+          <FeatItemClose
             keyValue={keyValue}
             data={{ label: '2022 Toyota Camry' }}
             onChange={onChange}
           />
         )}
-        <IconArrowBold keyValue={keyValue} openPanels={openPanels} />
+        <ArrowIcon keyValue={keyValue} openPanels={openPanels} />
       </div>
     </div>
   );

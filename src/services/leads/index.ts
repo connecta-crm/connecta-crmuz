@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { LeadsParamsType } from '../../features/leads/useLeads';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -12,9 +13,14 @@ class Leads {
     this.$api = apiClient;
   }
 
-  async getLeads() {
+  async getLeads({ limit, offset }: LeadsParamsType) {
     try {
-      const { data } = await this.$api.get('/leads/');
+      const { data } = await this.$api.get('/leads/', {
+        params: {
+          limit,
+          offset,
+        },
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -59,6 +65,7 @@ class Leads {
       const { data } = await this.$api.get(
         `/address/cities-list/${text ? '?q=' + text : ''}`,
       );
+      console.log(data);
 
       return data;
     } catch (error) {
@@ -81,9 +88,9 @@ class Leads {
     }
   }
 
-  async getPerson(text:string) {
+  async getPerson(text: string) {
     try {
-      const { data } = await this.$api.get(`/customers/?`+ text);
+      const { data } = await this.$api.get(`/customers/?` + text);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -95,7 +102,7 @@ class Leads {
 
   async createLead(lead) {
     try {
-      const { data } = await this.$api.post("/leads/create/",lead);
+      const { data } = await this.$api.post('/leads/create/', lead);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -104,7 +111,6 @@ class Leads {
       );
     }
   }
-
 
   // @ts-expect-error: Unreachable code error
   async vehicleEditFake(formData) {

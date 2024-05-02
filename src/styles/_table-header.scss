@@ -148,17 +148,22 @@
   }
 }
 .dropdown-arrows {
-  gap: 5px;
-  button {
+  &__btn {
     display: flex;
     padding: 6px;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
     border-radius: 2px;
+    background-color: transparent;
     @include anim(0.2s, 0s);
     &:hover {
       background-color: #d1d1d1;
+    }
+    &:disabled {
+      &:hover {
+        background-color: inherit;
+      }
     }
   }
 }
@@ -205,7 +210,6 @@
       z-index: -2;
     }
   }
-  
 }
 /* ==================================================================================================================*/
 // dropdown style

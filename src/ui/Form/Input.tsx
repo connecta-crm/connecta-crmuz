@@ -1,4 +1,4 @@
-export default function Input({
+function Input({
   type,
   placeholder,
   name,
@@ -20,3 +20,4 @@ export default function Input({
     />
   );
 }
+export default Input;

@@ -1,5 +1,4 @@
 import { Table } from 'antd';
-import Empty from '../../ui/Empty';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
@@ -22,34 +21,27 @@ const rowSelection = {
   }),
 };
 
-type openDrawerType = (data: LeadTableDataType) => void;
-
-function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
+function LeadTable() {
   const { leads, currentPage, totalPages, totalData, isLoading } = useLeads();
 
   if (isLoading) return null;
-  if (!leads?.length) return <Empty resourceName="leads" />;
+  if (!leads.length) return <Empty resourceName="leads" />;
 
   return (
     <>
       <div className="dt-header">
         <TableHeaderActions pageName="lead" />
-        <TableHeaderFilters
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalData={totalData}
-        />
+        <TableHeaderFilters count={count} sumPrice={sumPrice} />
       </div>
       <div className="leads-table">
         <div className="table__container">
           <Table
             rowKey="id"
-            rowSelection={{
-              ...rowSelection,
-            }}
+            rowSelection={{ ...rowSelection }}
             columns={LeadTableColumns}
             dataSource={leads}
-            pagination={{ pageSize: 15 }}
+            pagination={{ pageSize: leads?.length }}
+            loading={isLoading}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;
