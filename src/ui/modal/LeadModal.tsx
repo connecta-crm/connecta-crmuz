@@ -35,6 +35,8 @@ export default function LeadModal() {
     // const url = "";
     const searchParam = new URLSearchParams(person);
     seturl(searchParam.toString());
+
+
   }, [person]);
 
   const getFormData = (e: FormEvent) => {
@@ -151,19 +153,23 @@ export default function LeadModal() {
   // ==========Person==========
 
   const handleSearchPersonName = (newValue: string) => {
+    setPerson({ name: '', phone: '', email: '' })
     setSelectPersonValue({});
     setPerson({ ...person, name: newValue });
   };
   const handleSearchPersonEmail = (newValue: string) => {
+    setPerson({ name: '', phone: '', email: '' })
     setSelectPersonValue({});
     setPerson({ ...person, email: newValue });
   };
   const handleSearchPersonPhone = (newValue: string) => {
+    setPerson({ name: '', phone: '', email: '' })
     setSelectPersonValue({});
     setPerson({ ...person, phone: newValue });
   };
 
   const handleChangePerson = (newValue: string, record) => {
+    setPerson({ name: '', phone: '', email: '' })
     setSelectPersonValue(record.all);
     setCustomer(newValue);
   };

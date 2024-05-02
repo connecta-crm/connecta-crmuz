@@ -40,7 +40,7 @@ export function useLeadsSource() {
 
 export function useLeadsPerson(text: string) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-source', text],
+    queryKey: ['lead-person', text],
     queryFn: () => Leads.getPerson(text),
   });
   if (isSuccess) return data.results;
