@@ -13,11 +13,12 @@ class Leads {
     this.$api = apiClient;
   }
 
-  async getLeads({ limit, offset, source }: LeadsParamsType) {
+  async getLeads({ limit, offset, source, q }: LeadsParamsType) {
     try {
       const params: Record<string, unknown> = {
         limit,
         offset,
+        q,
       };
 
       if (source) {
