@@ -168,8 +168,12 @@ function TableHeaderPagination({
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              <p className="">$120,000</p>
-              <div className="dt-header__dot"></div>
+              {sumPrice && (
+                <>
+                  <p className="">${sumPrice}</p>
+                  <div className="dt-header__dot"></div>
+                </>
+              )}
               <div className="dt-header__showlist_gutter">
                 <p className="dt-header__showlist_perpage">
                   {inputOffset}-{endOffset}

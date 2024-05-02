@@ -1,8 +1,7 @@
 import { Dropdown, DropdownProps, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import ellipse from '../../public/img/dt_table/ellipse.svg';
-// import { useQuery } from '@tanstack/react-query';
-// import Providers from '../services/providers';
+import { useProviders } from '../features/providers/useProviders';
 
 // import { useSearchParams } from 'react-router-dom';
 
@@ -15,16 +14,6 @@ type TableSelectProps = {
   selectField: string;
   options: Option[];
 };
-
-// function useProvider
-// const {
-//   isPending: isLoading,
-//   data,
-//   isError,
-// } = useQuery({
-//   queryKey: ['providers'],
-//   queryFn: () => Providers.getProviders(),
-// });
 
 function TableHeaderProvider({
   selectField,
@@ -42,8 +31,11 @@ function TableHeaderProvider({
   console.log(selectField, options);
   const [open, setOpen] = useState(false);
   // DROPDOWN FUNCTION
+  const { providers, isLoading, error } = useProviders(open);
+
+  console.log('providers', providers, isLoading, error);
+
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
-    console.log('ssa', nextOpen, info);
     if (info.source === 'trigger' || nextOpen) {
       setOpen(nextOpen);
     }

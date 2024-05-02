@@ -25,5 +25,4 @@ class Providers {
     }
   }
 }
-
 export default new Providers();
