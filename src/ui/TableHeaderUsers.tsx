@@ -1,4 +1,4 @@
-import { Dropdown, MenuProps, Space } from 'antd';
+import { Dropdown, DropdownProps, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import user from '../../public/img/dt_table/default_user_image.png';
 import ellipse from '../../public/img/dt_table/ellipse.svg';
@@ -26,10 +26,13 @@ function TableHeaderUsers({ selectField, options }: TableSelectProps) {
 
   console.log(selectField, options);
   const [open, setOpen] = useState(false);
-  function handleMenuClick() {
-    const val = open ? false : true;
-    setOpen(val);
-  }
+  // DROPDOWN FUNCTION
+  const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
+    console.log('ssa', nextOpen, info);
+    if (info.source === 'trigger' || nextOpen) {
+      setOpen(nextOpen);
+    }
+  };
 
   const items: MenuProps['items'] = [
     {
@@ -127,10 +130,6 @@ function TableHeaderUsers({ selectField, options }: TableSelectProps) {
     <div className="dt-header__users dt-header-select">
       <img className="dt-header-select_icon" src={ellipse} alt="" />
       <img className="dt-header-select_avater" src={user} alt="" />
-      <div
-        onClick={handleMenuClick}
-        className="dt-header-select_position"
-      ></div>
       <div className="dt-header__allsources_select">
         <Dropdown
           menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
@@ -140,6 +139,7 @@ function TableHeaderUsers({ selectField, options }: TableSelectProps) {
           open={open}
           destroyPopupOnHide={true}
           overlayClassName="dt-header__dropdown"
+          onOpenChange={handleOpenChange}
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>

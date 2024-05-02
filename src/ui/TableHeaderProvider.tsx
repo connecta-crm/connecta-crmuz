@@ -1,4 +1,4 @@
-import { Dropdown, MenuProps, Space } from 'antd';
+import { Dropdown, DropdownProps, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import ellipse from '../../public/img/dt_table/ellipse.svg';
 // import { useQuery } from '@tanstack/react-query';
@@ -41,10 +41,13 @@ function TableHeaderProvider({
 
   console.log(selectField, options);
   const [open, setOpen] = useState(false);
-  function handleMenuClick() {
-    const val = open ? false : true;
-    setOpen(val);
-  }
+  // DROPDOWN FUNCTION
+  const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
+    console.log('ssa', nextOpen, info);
+    if (info.source === 'trigger' || nextOpen) {
+      setOpen(nextOpen);
+    }
+  };
 
   const items: MenuProps['items'] = [
     {
@@ -103,10 +106,6 @@ function TableHeaderProvider({
   return (
     <div className="dt-header__allsources dt-header-select">
       <img className="dt-header-select_icon" src={ellipse} alt="" />
-      <div
-        onClick={handleMenuClick}
-        className="dt-header-select_position"
-      ></div>
       <div {...props} className="dt-header__allsources_select">
         <Dropdown
           menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
@@ -116,6 +115,7 @@ function TableHeaderProvider({
           open={open}
           destroyPopupOnHide={true}
           overlayClassName="dt-header__dropdown"
+          onOpenChange={handleOpenChange}
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>

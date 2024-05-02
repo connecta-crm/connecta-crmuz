@@ -1,4 +1,4 @@
-import { Dropdown, Input, MenuProps, Space } from 'antd';
+import { Dropdown, DropdownProps, Input, MenuProps, Space } from 'antd';
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -15,11 +15,6 @@ function TableHeaderPagination({
 }: TableHeaderPaginationProps) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  function handleMenuClick(event: boolean) {
-    console.log('event', event);
-    setOpen(event);
-  }
 
   const defaultOffset = Number(searchParams.get('offset')) || 1;
   const defaultLimit = Number(searchParams.get('limit')) || DEFAULT_LIMIT;
@@ -70,6 +65,13 @@ function TableHeaderPagination({
     const timer = setTimeout(updateSearchParams, 500);
     return () => clearTimeout(timer);
   }, [inputOffset, inputLimit]);
+
+  // DROPDOWN FUNCTION
+  const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
+    if (info.source === 'trigger' || nextOpen) {
+      setOpen(nextOpen);
+    }
+  };
 
   const items: MenuProps['items'] = [
     {
@@ -129,33 +131,40 @@ function TableHeaderPagination({
     },
     {
       key: '3',
-      label: (
+      label: sumPrice && (
         <div className="d-flex align-center justify-between">
           <p className="dropdown-text">Sum price</p>
           <span>{sumPrice}</span>
         </div>
       ),
+      disabled: !sumPrice,
     },
     {
       key: '4',
-      label: (
+      label: sumPrice && (
         <div className="d-flex align-center justify-between">
           <p className="dropdown-text">Sum deposit</p>
           <span>$32,000</span>
         </div>
       ),
+      disabled: !sumPrice,
     },
   ];
   return (
     <>
       <div className="dt-header__showlist">
         <Dropdown
-          menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
+          menu={{
+            items,
+            selectable: false,
+            defaultSelectedKeys: [''],
+          }}
           trigger={['click']}
           placement="bottom"
           arrow={{ pointAtCenter: true }}
           open={open}
           destroyPopupOnHide={true}
+          onOpenChange={handleOpenChange}
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>
@@ -172,10 +181,7 @@ function TableHeaderPagination({
           </a>
         </Dropdown>
       </div>
-      <div
-        onClick={() => handleMenuClick(open ? false : true)}
-        className="dt-header__showlist_open"
-      >
+      <div className="dt-header__showlist_open">
         <img src={open ? notView : openView} alt="" />
       </div>
     </>
