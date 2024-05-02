@@ -10,13 +10,13 @@ export function useLeadsMake(text: string | undefined) {
   return [];
 }
 
-export function useLeadsModel(id: number | null,text:string|undefined) {
+export function useLeadsModel(id: number | null, text: string | undefined) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-model', id,text],
-    queryFn: () => Leads.getModel(id,text),
+    queryKey: ['lead-model', id, text],
+    queryFn: () => Leads.getModel(id, text),
   });
-  
-  if (isSuccess)return data.results;
+
+  if (isSuccess) return data.results;
   return [];
 }
 
@@ -38,11 +38,12 @@ export function useLeadsSource() {
   return [];
 }
 
-export function useLeadsPerson(text:string) {
+export function useLeadsPerson(text: string) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-source',text],
+    queryKey: ['lead-source', text],
     queryFn: () => Leads.getPerson(text),
   });
   if (isSuccess) return data.results;
   return [];
 }
+

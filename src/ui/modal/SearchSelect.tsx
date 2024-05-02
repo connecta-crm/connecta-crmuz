@@ -13,7 +13,7 @@ export default function SearchSelect({items,handleSearch,handleChange}:{
     <Select
       showSearch
       // value={value}
-      placeholder={"Select"}
+      placeholder={"Empty"}
       style={{ width: '100%' }}
       defaultActiveFirstOption={false}
       suffixIcon={null}

@@ -49,7 +49,7 @@ function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
             }}
             columns={LeadTableColumns}
             dataSource={leads}
-            // pagination={{ pageSize: 5 }}
+            pagination={{ pageSize: 15 }}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;

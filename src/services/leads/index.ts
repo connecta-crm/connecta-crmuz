@@ -93,6 +93,19 @@ class Leads {
     }
   }
 
+  async createLead(lead) {
+    try {
+      const { data } = await this.$api.post("/leads/create/",lead);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+
   // @ts-expect-error: Unreachable code error
   async vehicleEditFake(formData) {
     return await new Promise((res) => {
