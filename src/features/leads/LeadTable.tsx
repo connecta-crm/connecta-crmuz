@@ -20,12 +20,10 @@ const rowSelection = {
     name: record.id,
   }),
 };
+type openDrawerType = (data: LeadTableDataType) => void;
 
-function LeadTable() {
-  const { leads, currentPage, totalPages, totalData, isLoading } = useLeads();
-
-  if (isLoading) return null;
-  if (!leads.length) return <Empty resourceName="leads" />;
+function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
+  const { leads, count, sumPrice, isLoading } = useLeads();
 
   return (
     <>
