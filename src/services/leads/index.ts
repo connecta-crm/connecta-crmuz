@@ -13,14 +13,21 @@ class Leads {
     this.$api = apiClient;
   }
 
-  async getLeads({ limit, offset }: LeadsParamsType) {
+  async getLeads({ limit, offset, source }: LeadsParamsType) {
     try {
-      const { data } = await this.$api.get('/leads/', {
-        params: {
-          limit,
-          offset,
-        },
-      });
+      const params: Record<string, unknown> = {
+        limit,
+        offset,
+      };
+
+      if (source) {
+        if (Array.isArray(source)) {
+          source.forEach((s) => (params['source'] = s));
+        } else {
+          params['source'] = source;
+        }
+      }
+      const { data } = await this.$api.get('/leads/', { params });
       console.log(data);
 
       return data;

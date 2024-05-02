@@ -228,6 +228,9 @@
   padding: 5px !important;
 }
 .dt-header__dropdown {
+  .ant-dropdown-menu {
+    min-width: 138px;
+  }
   .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
     background-color: transparent;
     &:hover {

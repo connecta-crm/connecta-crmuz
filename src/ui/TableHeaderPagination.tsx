@@ -42,18 +42,27 @@ function TableHeaderPagination({
     }
   };
 
-  const updateSearchParams = () => {
-    setSearchParams({ offset: String(inputOffset), limit: String(inputLimit) });
+  const modify = () => {
+    updateSearchParams(inputOffset);
+  };
+
+  const updateSearchParams = (offsetValue: number) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete('offset');
+    newSearchParams.delete('limit');
+    newSearchParams.append('offset', String(offsetValue));
+    newSearchParams.append('limit', String(inputLimit));
+    setSearchParams(newSearchParams, { replace: true });
   };
 
   const handlePrevious = () => {
     const newOffset = Math.max(1, inputOffset - inputLimit);
-    setSearchParams({ offset: String(newOffset), limit: String(inputLimit) });
+    updateSearchParams(newOffset);
   };
 
   const handleNext = () => {
     const newOffset = inputOffset + inputLimit;
-    setSearchParams({ offset: String(newOffset), limit: String(inputLimit) });
+    updateSearchParams(newOffset);
   };
 
   useEffect(() => {
@@ -62,7 +71,7 @@ function TableHeaderPagination({
   }, [defaultOffset, defaultLimit]);
 
   useEffect(() => {
-    const timer = setTimeout(updateSearchParams, 500);
+    const timer = setTimeout(modify, 500);
     return () => clearTimeout(timer);
   }, [inputOffset, inputLimit]);
 
@@ -83,7 +92,6 @@ function TableHeaderPagination({
             size="small"
             style={{ width: '50px', height: '18px', marginLeft: 8 }}
             type="number"
-            min={1}
             value={inputOffset}
             onChange={handleStartChange}
           />
@@ -92,7 +100,6 @@ function TableHeaderPagination({
             size="small"
             style={{ width: '50px', height: '18px', marginRight: 8 }}
             type="number"
-            min={inputOffset}
             value={endOffset}
             onChange={handleEndChange}
           />

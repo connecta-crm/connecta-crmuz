@@ -1,5 +1,6 @@
-import { Dropdown, DropdownProps, MenuProps, Space } from 'antd';
-import { useState } from 'react';
+import { Dropdown, DropdownProps, MenuProps, Space, Spin } from 'antd';
+import { ChangeEvent, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ellipse from '../../public/img/dt_table/ellipse.svg';
 import { useProviders } from '../features/providers/useProviders';
 
@@ -30,15 +31,36 @@ function TableHeaderProvider({
 
   console.log(selectField, options);
   const [open, setOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   // DROPDOWN FUNCTION
   const { providers, isLoading, error } = useProviders(open);
-
-  console.log('providers', providers, isLoading, error);
 
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
       setOpen(nextOpen);
     }
+  };
+
+  const handleChangeProvider = (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked, value } = event.target;
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    const currentSources = searchParams.getAll('source');
+    console.log('currentSources', currentSources);
+
+    if (checked) {
+      newSearchParams.append('source', value);
+    } else {
+      const filteredSources = newSearchParams
+        .getAll('source')
+        .filter((source) => source !== value);
+      newSearchParams.delete('source'); // Remove all at once
+      filteredSources.forEach((source) =>
+        newSearchParams.append('source', source),
+      );
+    }
+
+    setSearchParams(newSearchParams, { replace: true });
   };
 
   const items: MenuProps['items'] = [
@@ -55,41 +77,46 @@ function TableHeaderProvider({
     },
     {
       label: (
-        <div>
-          <p className="dropdown-clear d-inline mr-5 ml-5">Clear all</p>
-          <div className="dropdown-check">
-            <div className="dropdown-check__item d-flex align-center justify-between">
-              <input
-                type="checkbox"
-                name="source"
-                id="source-1"
-                className="dropdown-check__input"
-              />
-              <label
-                htmlFor="source-1"
-                className="label-contents d-flex align-center justify-between"
-              >
-                <p className="dropdown-text">Provider 01</p>
-                <span className="ml-20">1200</span>
-              </label>
+        <>
+          {isLoading ? (
+            <Spin className="d-flex align-center justify-center" />
+          ) : error ? (
+            <p className="error-color">Error loading</p>
+          ) : (
+            <div>
+              <p className="dropdown-clear d-inline mr-5 ml-5">Clear all</p>
+              <div className="dropdown-check">
+                {providers.map((provider: { id: string; name: string }) => {
+                  return (
+                    <div
+                      key={provider.id}
+                      className="dropdown-check__item d-flex align-center justify-between"
+                    >
+                      <input
+                        type="checkbox"
+                        name="source"
+                        id={provider.id}
+                        value={provider.id}
+                        className="dropdown-check__input"
+                        checked={searchParams
+                          .getAll('source')
+                          .includes(String(provider.id))}
+                        onChange={handleChangeProvider}
+                      />
+                      <label
+                        htmlFor={provider.id}
+                        className="label-contents d-flex align-center justify-between"
+                      >
+                        <p className="dropdown-text">{provider.name}</p>
+                        <span className="ml-20">{provider.id}</span>
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="dropdown-check__item d-flex align-center justify-between">
-              <input
-                type="checkbox"
-                name="source"
-                id="source-2"
-                className="dropdown-check__input"
-              />
-              <label
-                htmlFor="source-2"
-                className="label-contents d-flex align-center justify-between"
-              >
-                <p className="dropdown-text">Provider 01</p>
-                <span className="ml-20">1200</span>
-              </label>
-            </div>
-          </div>
-        </div>
+          )}
+        </>
       ),
       key: '2',
     },
