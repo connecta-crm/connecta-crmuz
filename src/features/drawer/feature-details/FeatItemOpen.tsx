@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { useAppSelector } from '../../../store/hooks';
-import { useEditVehicle } from '../hooks/useEditVehicle';
+import { useEditVehicle } from '../useEditVehicle';
 
 type FeatItemOpenProps = {
   keyValue: string;

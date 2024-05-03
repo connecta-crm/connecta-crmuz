@@ -11,8 +11,8 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from '../features/authentication/authSlice';
-import conditionReducer from '../features/drawer/state/conditionSlice';
-import vehicleReducer from '../features/drawer/state/vehicleSlice';
+import conditionReducer from '../features/drawer/conditionSlice';
+import vehicleReducer from '../features/drawer/vehicleSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
