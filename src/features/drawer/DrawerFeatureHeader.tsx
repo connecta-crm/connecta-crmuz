@@ -19,6 +19,7 @@ function DrawerFeatureHeader({
     isEditPerson,
     onEditPerson,
     onChangeMainCollapse,
+    onChangeInnerCollapse,
   } = useDrawerFeature();
 
   // !DETAILS
@@ -27,13 +28,16 @@ function DrawerFeatureHeader({
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
     }
+    onChangeInnerCollapse(['1', '2', '3']);
   };
   const handleSaveDetails = () => {
     // some locig to save the data in DB and update UI
     onEditDetails(false);
+    onChangeInnerCollapse([]);
   };
   const handleCancelDetails = () => {
     onEditDetails(false);
+    onChangeInnerCollapse([]);
   };
   // !PERSON
   const handleEditPerson = (keyValue: string) => {

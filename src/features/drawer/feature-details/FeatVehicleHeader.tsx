@@ -8,7 +8,7 @@ type FeatVehicleProps = {
   keyValue: string;
 };
 
-function FeatVehicle({ keyValue }: FeatVehicleProps) {
+function FeatVehicleHeader({ keyValue }: FeatVehicleProps) {
   const { openInnerPanels } = useDrawerFeature();
   return (
     <div className="detail detail-vehicle">
@@ -28,4 +28,4 @@ function FeatVehicle({ keyValue }: FeatVehicleProps) {
   );
 }
 
-export default FeatVehicle;
+export default FeatVehicleHeader;

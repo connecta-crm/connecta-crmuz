@@ -4,11 +4,11 @@ import FeatItemClose from './FeatItemClose';
 import FeatItemLabel from './FeatItemLabel';
 import FeatItemOpen from './FeatItemOpen';
 
-type FeatConditionProps = {
+type FeatConditionHeaderProps = {
   keyValue: string;
 };
 
-function FeatCondition({ keyValue }: FeatConditionProps) {
+function FeatConditionHeader({ keyValue }: FeatConditionHeaderProps) {
   const { openInnerPanels } = useDrawerFeature();
   return (
     <div className="detail detail-condition">
@@ -29,4 +29,4 @@ function FeatCondition({ keyValue }: FeatConditionProps) {
   );
 }
 
-export default FeatCondition;
+export default FeatConditionHeader;

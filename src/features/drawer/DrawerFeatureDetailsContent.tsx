@@ -1,9 +1,9 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import FeatCondition from './feature-details/FeatCondition';
+import FeatConditionHeader from './feature-details/FeatConditionHeader';
 import FeatConditionInner from './feature-details/FeatConditionInner';
-import FeatVehicle from './feature-details/FeatVehicle';
+import FeatVehicleHeader from './feature-details/FeatVehicleHeader';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
 function DrawerFeatureDetailsContent() {
@@ -12,7 +12,7 @@ function DrawerFeatureDetailsContent() {
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: <FeatVehicle keyValue={'1'} />,
+      label: <FeatVehicleHeader keyValue={'1'} />,
       children: (
         <div className="detail-inner">
           <div className="detail-inner__form">
@@ -22,9 +22,21 @@ function DrawerFeatureDetailsContent() {
       ),
       showArrow: false,
     },
+    // {
+    //   key: '11',
+    //   label: <FeatVehicleHeader keyValue={'11'} />,
+    //   children: (
+    //     <div className="detail-inner">
+    //       <div className="detail-inner__form">
+    //         <FeatVehicleInner />
+    //       </div>
+    //     </div>
+    //   ),
+    //   showArrow: false,
+    // },
     {
       key: '2',
-      label: <FeatCondition keyValue={'2'} />,
+      label: <FeatConditionHeader keyValue={'2'} />,
       children: (
         <div className="detail-inner">
           <div className="detail-inner__form">

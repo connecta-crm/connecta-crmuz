@@ -59,13 +59,27 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   //   );
   // };
 
-  const onChangeInnerCollapse = (key: string | string[]) => {
-    const keyString = Array.isArray(key) ? key[0] : key;
-    setOpenInnerPanels(
-      openInnerPanels.includes(keyString)
-        ? openInnerPanels.filter((item) => item !== keyString)
-        : [...openInnerPanels, keyString],
-    );
+  const onChangeInnerCollapse = (panelKey: string | string[]) => {
+    // const keyString = Array.isArray(key) ? key[0] : key;
+    // setOpenInnerPanels(
+    //   openInnerPanels.includes(keyString)
+    //     ? openInnerPanels.filter((item) => item !== keyString)
+    //     : [...openInnerPanels, keyString],
+    // );
+
+    if (Array.isArray(panelKey)) {
+      setOpenInnerPanels(panelKey);
+    } else {
+      setOpenInnerPanels((currentPanels) => {
+        const currentSet = new Set(currentPanels);
+        if (currentSet.has(panelKey)) {
+          currentSet.delete(panelKey);
+        } else {
+          currentSet.add(panelKey);
+        }
+        return Array.from(currentSet);
+      });
+    }
   };
 
   const onChangeMainCollapse = (panelKey: string[] | string) => {
