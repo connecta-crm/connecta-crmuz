@@ -50,7 +50,7 @@ export default function Person() {
           style={{ width: '100%' }}
           onSearch={handleSearchPersonName}
           onChange={(data, record) => handleChangePerson(data, record)}
-        //   notFoundContent={null}
+          //   notFoundContent={null}
           options={(personData || []).map(
             (d: { id: number; name: string }) => ({
               value: d.id,
@@ -71,7 +71,7 @@ export default function Person() {
           filterOption={false}
           onSearch={handleSearchPersonEmail}
           onChange={(data, record) => handleChangePerson(data, record)}
-        //   notFoundContent={null}
+          //   notFoundContent={null}
           options={(personData || []).map(
             (d: { id: number; email: string }) => ({
               value: d.id,
@@ -92,7 +92,7 @@ export default function Person() {
           filterOption={false}
           onSearch={handleSearchPersonPhone}
           onChange={(data, record) => handleChangePerson(data, record)}
-        //   notFoundContent={null}
+          //   notFoundContent={null}
           options={(personData || []).map(
             (d: { id: number; phone: string }) => ({
               value: d.id,
@@ -109,7 +109,7 @@ export default function Person() {
               type="text"
               placeholder="title"
               defaultValue={item.phone}
-              name="person_phone"
+              name="disabled_value"
             />
           </FormControl>
         ))}
