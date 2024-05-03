@@ -22,6 +22,8 @@ export default function Person() {
     setPerson({ name: '', phone: '', email: '' });
     setSelectPersonValue({});
     setPerson({ ...person, name: newValue });
+    console.log(personData);
+    
   };
   const handleSearchPersonEmail = (newValue: string) => {
     setPerson({ name: '', phone: '', email: '' });
@@ -48,6 +50,9 @@ export default function Person() {
           value={selectPersonValue?.name}
           placeholder={'Empty'}
           style={{ width: '100%' }}
+          defaultActiveFirstOption={false}
+          suffixIcon={null}
+          filterOption={false}
           onSearch={handleSearchPersonName}
           onChange={(data, record) => handleChangePerson(data, record)}
           //   notFoundContent={null}
