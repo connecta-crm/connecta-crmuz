@@ -1,5 +1,9 @@
-import Modal from './Modal';
-// import { useModal } from '../../context/Modal';
+import { Select } from 'antd';
+import { useEffect, useState } from 'react';
+import Person from '../../features/Person/Person';
+import { useCity } from '../../features/leads/useLeadDetails';
+import Source from '../../features/sourcecom/Source';
+import Vehicle from '../../features/vehicle/Vehicle';
 import UseDatePicker from '../DatePicker/DatePicker';
 import DownCollapse from '../Form/DownCollapse';
 import FormControl from '../Form/FormControl';
@@ -7,76 +11,66 @@ import Input from '../Form/Input';
 import InputCol from '../Form/InputCol';
 import InputRow from '../Form/InputRow';
 import Label from '../Form/Label';
-import Select from '../Form/Select';
 import UpCollapse from '../Form/UpCollapse';
-import { FormEvent } from 'react';
-
+import Modal from './Modal';
 export default function LeadModal() {
-  // const { hideModal } = useModal()
+  const [conditionValue, setConditionValue] = useState<string | null>(null);
+  const [trailerType, setTrailerType] = useState<string | null>('');
+  const [cityValue, setCityValue] = useState(null);
+ 
+  useEffect(()=>{
+console.log(cityValue);
 
-  const getFotmData = (e:FormEvent) => {
-    e.preventDefault();
+  },[cityValue])
 
-    // const formData = new FormData(e.target);
-    // const formProps = Object.fromEntries(formData);
-    // console.log(formProps);
-  };
+  const [searchCity, setSearchCity] = useState('');
+  console.log(conditionValue);
+  console.log(trailerType);
+
+  const citys = useCity(searchCity);
 
   return (
-    <Modal title="New Lead" onSubmit={getFotmData}>
+    <Modal title="New Lead" onSubmit={() => console.log('Lead')}>
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">
-            <DownCollapse title="Vehicle">
-              <InputRow>
-                <InputCol>
-                  <Label>Vehicle year</Label>
-                </InputCol>
-
-                <InputCol>
-                  <UseDatePicker type="year" name="vehicle_year" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Vehicle make</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="vehicle_make" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Vehicle model</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="vehicle_model" />
-                </InputCol>
-              </InputRow>
-            </DownCollapse>
-
+            <Vehicle />
             <FormControl title="Condition">
-              <Select name="condition">
-                <option className="disabled">Select</option>
-              </Select>
+              <Select
+                defaultValue=""
+                style={{ width: '100%' }}
+                onChange={(a) => setConditionValue(a)}
+                placeholder="Select a condition"
+                options={[
+                  { value: 'run', label: 'Run and drives' },
+                  { value: 'rols', label: 'Inop, it rolls' },
+                  { value: 'forklift', label: 'forklift' },
+                ]}
+              />
             </FormControl>
-
-            <FormControl title="Type">
-              <Select name="type">
-                <option className="disabled">Select</option>
-              </Select>
-            </FormControl>
-
             <DownCollapse title="Pickup">
               <InputRow>
                 <InputCol>
                   <Label>Pickup city</Label>
                 </InputCol>
-
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_city" />
+                  <Select
+                    showSearch
+                    // value={makeValue ? makeValue : null}
+                    optionFilterProp="children"
+                    placeholder={'Search  make'}
+                    style={{ width: '100%' }}
+                    defaultActiveFirstOption={false}
+                    filterOption={false}
+                    onSearch={(value) => setSearchCity(value)}
+                    // onChange={(data, record) => handleSelectMake(data, record)}
+                    options={(citys || []).map(
+                      (d: { id: number; name: string }) => ({
+                        value: d.id,
+                        label: d.name,
+                      }),
+                    )}
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -94,17 +88,31 @@ export default function LeadModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_zip" />
+                  <Select
+                    showSearch
+                    // value={makeValue ? makeValue : null}
+                    optionFilterProp="children"
+                    placeholder={'Search  make'}
+                    style={{ width: '100%' }}
+                    defaultActiveFirstOption={false}
+                    filterOption={false}
+                    onSearch={(value) => setSearchCity(value)}
+                    onChange={(data) => setCityValue(data)}
+                    options={(citys || []).map(
+                      (d: { id: number; zip: string }) => ({
+                        value: d.id,
+                        label: d.zip,
+                      }),
+                    )}
+                  />
                 </InputCol>
               </InputRow>
             </DownCollapse>
-
             <DownCollapse title="Delivery">
               <InputRow>
                 <InputCol>
                   <Label>Delivery city</Label>
                 </InputCol>
-
                 <InputCol>
                   <Input type="text" placeholder="Empty" name="delivery_city" />
                 </InputCol>
@@ -134,18 +142,20 @@ export default function LeadModal() {
             </DownCollapse>
 
             <FormControl title="Trailer type">
-              <Select name="trailer_type">
-                <option className="disabled">Select</option>
-              </Select>
+              <Select
+                defaultValue=""
+                style={{ width: '100%' }}
+                onChange={(a) => setTrailerType(a)}
+                options={[
+                  { value: 'open', label: 'Open' },
+                  { value: 'enclosed', label: 'Enclosed' },
+                ]}
+              />
             </FormControl>
             <FormControl title="Est. Ship Date">
               <UseDatePicker type={'date'} name="est_ship_date" />
             </FormControl>
-            <FormControl title="Source">
-              <Select name="source">
-                <option className="disabled">Select</option>
-              </Select>
-            </FormControl>
+            <Source />
 
             <div className="form__footer">
               <Label>CM note</Label>
@@ -154,17 +164,7 @@ export default function LeadModal() {
           </UpCollapse>
         </div>
         <div className="modal__col">
-          <UpCollapse title="Person">
-            <FormControl title="Name">
-              <Input type="text" placeholder="Empty" name="person_name" />
-            </FormControl>
-            <FormControl title="Email">
-              <Input type="text" placeholder="Empty" name="person_email" />
-            </FormControl>
-            <FormControl title="Phone">
-              <Input type="number" placeholder="Empty" name="person_phone" />
-            </FormControl>
-          </UpCollapse>
+          <Person />
         </div>
       </div>
     </Modal>

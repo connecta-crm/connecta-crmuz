@@ -1,0 +1,52 @@
+import { useQuery } from '@tanstack/react-query';
+import Leads from '../../services/leads';
+
+export function useMake(text: string | undefined) {
+  const { data, isSuccess } = useQuery({
+    queryKey: ['mark', text],
+    queryFn: () => Leads.getMake(text),
+    enabled:!!text
+  });
+  if (isSuccess) return data.results;
+  return [];
+}
+
+export function useModel( text: undefined | {mark:string,q:string}) {
+  const { data, isSuccess } = useQuery({
+    queryKey: ['model', text],
+    queryFn: () => Leads.getModel(text),
+    enabled:!!(text?.mark || text?.q)
+  });
+
+  if (isSuccess) return data.results;
+  return [];
+}
+
+export function useCity(text: string | null) {
+  const { data, isSuccess } = useQuery({
+    queryKey: ['city', text],
+    queryFn: () => Leads.getCity(text),
+    enabled:!!text
+  });
+  if (isSuccess) return data.results;
+  return [];
+}
+
+export function useSource() {
+  const { data, isSuccess } = useQuery({
+    queryKey: ['source'],
+    queryFn: () => Leads.getSource(),
+  });
+  if (isSuccess) return data;
+  return [];
+}
+
+export function usePerson(text: string) {
+  const { data, isSuccess } = useQuery({
+    queryKey: ['person', text],
+    queryFn: () => Leads.getPerson(text),
+    enabled:!!text
+  });
+  if (isSuccess) return data.results;
+  return [];
+}

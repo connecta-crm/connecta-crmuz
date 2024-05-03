@@ -20,8 +20,9 @@ const rowSelection = {
     name: record.id,
   }),
 };
+type openDrawerType = (data: LeadTableDataType) => void;
 
-function LeadTable() {
+function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
   const { leads, count, isLoading } = useLeads();
 
   return (
@@ -39,6 +40,13 @@ function LeadTable() {
             dataSource={leads}
             pagination={{ pageSize: leads?.length }}
             loading={isLoading}
+            onRow={(data) => ({
+              onClick: (event) => {
+                const target = event.target as HTMLTextAreaElement;
+                const element = target.className;
+                element == 'table__id' && openDrawer(data);
+              },
+            })}
           />
         </div>
       </div>

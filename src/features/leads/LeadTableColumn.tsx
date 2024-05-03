@@ -4,7 +4,7 @@ export const LeadTableColumns = [
   {
     title: 'Id',
     dataIndex: 'id',
-    render: (text: string) => <a>{text}</a>,
+    render: (text: string) => <a className='table__id'>{text}</a>,
   },
   {
     title: 'Received',

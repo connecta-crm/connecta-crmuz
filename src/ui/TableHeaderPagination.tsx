@@ -88,6 +88,7 @@ function TableHeaderPagination({
       label: (
         <div className="d-flex align-center justify-between">
           <p className="dropdown-text">Now</p>
+
           <Input
             size="small"
             style={{ width: '50px', height: '18px', marginLeft: 8 }}

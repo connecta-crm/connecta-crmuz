@@ -2,23 +2,22 @@ function Input({
   type,
   placeholder,
   name,
+  defaultValue,
 }: {
   type: string;
   placeholder: string;
   name: string | undefined;
+  defaultValue: string | undefined;
 }) {
-  if (type == 'number') {
-    return (
-      <input
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        required
-        defaultValue={'998'}
-      />
-    );
-  }
-
-  return <input name={name} type={type} placeholder={placeholder} required />;
+  return (
+    <input
+      disabled={name == 'person_phone'}
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      required
+      defaultValue={defaultValue}
+    />
+  );
 }
 export default Input;
