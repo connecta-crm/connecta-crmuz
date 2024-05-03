@@ -13,7 +13,7 @@ type FeatVehicleProps = {
 function FeatVehicle({
   keyValue,
   openPanels,
-  isEditDetails,
+  // isEditDetails,
   onChange,
 }: FeatVehicleProps) {
   return (
