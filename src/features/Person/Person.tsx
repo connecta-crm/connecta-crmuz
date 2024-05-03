@@ -18,21 +18,21 @@ export default function Person() {
 
   const personData = usePerson(url);
 
-  const handleSearchPersonName = (newValue: string) => {
+  const handleSearchPerson = (newValue: string) => {
     setPerson({ name: '', phone: '', email: '' });
     setSelectPersonValue({});
     setPerson({ ...person, name: newValue });
   };
-  const handleSearchPersonEmail = (newValue: string) => {
-    setPerson({ name: '', phone: '', email: '' });
-    setSelectPersonValue({});
-    setPerson({ ...person, email: newValue });
-  };
-  const handleSearchPersonPhone = (newValue: string) => {
-    setPerson({ name: '', phone: '', email: '' });
-    setSelectPersonValue({});
-    setPerson({ ...person, phone: newValue });
-  };
+  // const handleSearchPersonEmail = (newValue: string) => {
+  //   setPerson({ name: '', phone: '', email: '' });
+  //   setSelectPersonValue({});
+  //   setPerson({ ...person, email: newValue });
+  // };
+  // const handleSearchPersonPhone = (newValue: string) => {
+  //   setPerson({ name: '', phone: '', email: '' });
+  //   setSelectPersonValue({});
+  //   setPerson({ ...person, phone: newValue });
+  // };
 
   const handleChangePerson = (newValue: string, record) => {
     setPerson({ name: '', phone: '', email: '' });
@@ -48,7 +48,10 @@ export default function Person() {
           value={selectPersonValue?.name}
           placeholder={'Empty'}
           style={{ width: '100%' }}
-          onSearch={handleSearchPersonName}
+          defaultActiveFirstOption={false}
+          suffixIcon={null}
+          filterOption={false}
+          onSearch={handleSearchPerson}
           onChange={(data, record) => handleChangePerson(data, record)}
           //   notFoundContent={null}
           options={(personData || []).map(
@@ -69,7 +72,7 @@ export default function Person() {
           defaultActiveFirstOption={false}
           suffixIcon={null}
           filterOption={false}
-          onSearch={handleSearchPersonEmail}
+          onSearch={handleSearchPerson}
           onChange={(data, record) => handleChangePerson(data, record)}
           //   notFoundContent={null}
           options={(personData || []).map(
@@ -90,7 +93,7 @@ export default function Person() {
           defaultActiveFirstOption={false}
           suffixIcon={null}
           filterOption={false}
-          onSearch={handleSearchPersonPhone}
+          onSearch={handleSearchPerson}
           onChange={(data, record) => handleChangePerson(data, record)}
           //   notFoundContent={null}
           options={(personData || []).map(
