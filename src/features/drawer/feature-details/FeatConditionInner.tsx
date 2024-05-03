@@ -1,6 +1,6 @@
 import { Form, Select } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { updateSelect } from '../state/conditionSlice';
+import { updateSelect } from '../conditionSlice';
 
 function FeatConditionInner() {
   const dispatch = useAppDispatch();

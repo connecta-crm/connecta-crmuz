@@ -6,7 +6,13 @@ import FeatConditionInner from './feature-details/FeatConditionInner';
 import FeatVehicle from './feature-details/FeatVehicle';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
-function DrawerFeatureDetailsContent() {
+type DrawerFeatureDetailsContentProps = {
+  isEditDetails: boolean;
+};
+
+function DrawerFeatureDetailsContent({
+  isEditDetails,
+}: DrawerFeatureDetailsContentProps) {
   const [openPanels, setOpenPanels] = useState<string[]>([]);
 
   const onChange = (key: string | string[]) => {
@@ -26,6 +32,7 @@ function DrawerFeatureDetailsContent() {
           keyValue={'1'}
           openPanels={openPanels}
           onChange={onChange}
+          isEditDetails={isEditDetails}
         />
       ),
       children: (

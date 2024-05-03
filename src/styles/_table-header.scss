@@ -187,6 +187,7 @@
 
 .dt-header__dropdown {
   .label-contents {
+    width: 100%;
     height: 20px;
     border-radius: 5px;
     @include anim(0.3s, 0s);
@@ -228,6 +229,9 @@
   padding: 5px !important;
 }
 .dt-header__dropdown {
+  .ant-dropdown-menu {
+    min-width: 138px;
+  }
   .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
     background-color: transparent;
     &:hover {

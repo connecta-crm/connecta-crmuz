@@ -7,7 +7,9 @@ type FeatPersonProps = {
 };
 
 function FeatPerson({ keyValue, openPanels, onChange }: FeatPersonProps) {
-  console.log(keyValue, openPanels, onChange);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const obj = [keyValue, openPanels, onChange];
+
   return (
     <>
       <FeatPersonContentClose />

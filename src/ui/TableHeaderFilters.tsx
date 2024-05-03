@@ -6,7 +6,7 @@ import TableHeaderUsers from './TableHeaderUsers';
 
 export type TableHeaderFiltersProps = {
   count: number;
-  sumPrice: number;
+  sumPrice: number | undefined;
 };
 function TableHeaderFilters({ count, sumPrice }: TableHeaderFiltersProps) {
   const discountOptions = [

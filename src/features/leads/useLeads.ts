@@ -6,6 +6,8 @@ import { DEFAULT_LIMIT } from '../../utils/constants';
 export type LeadsParamsType = {
   limit: number;
   offset: number;
+  q: string;
+  source?: string[];
 };
 
 export function useLeads() {
@@ -20,13 +22,16 @@ export function useLeads() {
     : Number(searchParams.get('offset'));
   // const calculatedOffset = offset - 1;
 
+  const q = searchParams.get('q') || '';
+  const sources = searchParams.getAll('source');
+
   const {
     data: { results: leads, count, sumPrice } = {},
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['leads', limit, offset],
-    queryFn: () => Leads.getLeads({ limit, offset }),
+    queryKey: ['leads', limit, offset, sources, q],
+    queryFn: () => Leads.getLeads({ limit, offset, source: sources, q }),
   });
   return { leads, count, sumPrice, isLoading, error };
 }

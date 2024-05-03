@@ -23,13 +23,13 @@ const rowSelection = {
 type openDrawerType = (data: LeadTableDataType) => void;
 
 function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
-  const { leads, count, sumPrice, isLoading } = useLeads();
+  const { leads, count, isLoading } = useLeads();
 
   return (
     <>
       <div className="dt-header">
         <TableHeaderActions pageName="lead" />
-        <TableHeaderFilters count={count} sumPrice={sumPrice} />
+        <TableHeaderFilters count={count} sumPrice={undefined} />
       </div>
       <div className="leads-table">
         <div className="table__container">

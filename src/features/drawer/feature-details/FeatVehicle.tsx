@@ -6,10 +6,16 @@ import FeatItemOpen from './FeatItemOpen';
 type FeatVehicleProps = {
   keyValue: string;
   openPanels: string[];
+  isEditDetails: boolean;
   onChange: (val: string) => void;
 };
 
-function FeatVehicle({ keyValue, openPanels, onChange }: FeatVehicleProps) {
+function FeatVehicle({
+  keyValue,
+  openPanels,
+  isEditDetails,
+  onChange,
+}: FeatVehicleProps) {
   return (
     <div className="detail detail-vehicle">
       <div className="detail__header d-flex align-center justify-between">

@@ -1,6 +1,6 @@
 import { Form, Input, Select } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { VehicleState, updateField } from '../state/vehicleSlice';
+import { VehicleState, updateField } from '../vehicleSlice';
 
 type FieldType = {
   vehicleYear?: string;

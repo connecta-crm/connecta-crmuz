@@ -8,8 +8,13 @@ import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
 
 function DrawerLeft() {
   const [openPanels, setOpenPanels] = useState<string[]>([]);
+  const [isEditDetails, setEditDetails] = useState(false);
 
-  const onChange = (key: string | string[]) => {
+  const onEditDetails = (value: boolean) => {
+    setEditDetails(value);
+  };
+
+  const onChangeDetails = (key: string | string[]) => {
     const keyString = Array.isArray(key) ? key[0] : key;
     setOpenPanels(
       openPanels.includes(keyString)
@@ -34,8 +39,13 @@ function DrawerLeft() {
     }
   };
 
-  const onChangePerson = () => {
-    alert('casd');
+  const onChangePerson = (key: string) => {
+    const keyString = Array.isArray(key) ? key[0] : key;
+    setOpenPanels(
+      openPanels.includes(keyString)
+        ? openPanels.filter((item) => item !== keyString)
+        : [...openPanels, keyString],
+    );
   };
 
   const items: CollapseProps['items'] = [
@@ -46,10 +56,13 @@ function DrawerLeft() {
           keyValue={'1'}
           label="Details"
           value="detail"
-          onChange={onChange}
+          openPanels={openPanels}
+          isEditDetails={isEditDetails}
+          onEditDetails={onEditDetails}
+          onChange={onChangeDetails}
         />
       ),
-      children: <DrawerFeatureDetailsContent />,
+      children: <DrawerFeatureDetailsContent isEditDetails={isEditDetails} />,
     },
     {
       key: '2',
@@ -58,6 +71,7 @@ function DrawerLeft() {
           keyValue={'2'}
           label="Person"
           value="person"
+          openPanels={openPanels}
           onChange={onChangePerson}
         />
       ),
