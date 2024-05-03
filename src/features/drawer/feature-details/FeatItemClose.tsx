@@ -1,3 +1,4 @@
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { classNames } from '../../../utils/helpers';
 
 type FeatItemCloseProps = {
@@ -6,15 +7,15 @@ type FeatItemCloseProps = {
   data: {
     label: string;
   };
-  onChange: (val: string) => void;
 };
 
 function FeatItemClose({
   keyValue,
   textWithBg = false,
   data,
-  onChange,
 }: FeatItemCloseProps) {
+  const { onChangeInnerCollapse } = useDrawerFeature();
+
   return (
     <div className="detail__right d-flex align-center justify-between">
       <div
@@ -29,7 +30,7 @@ function FeatItemClose({
         <div
           className="box-header__edit cursor-pointer __inner"
           onClick={() => {
-            onChange(keyValue);
+            onChangeInnerCollapse(keyValue);
           }}
         >
           <img src="./img/drawer/pen.svg" alt="" />

@@ -1,24 +1,22 @@
 import { Button } from 'antd';
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../../store/hooks';
 import { useEditVehicle } from '../useEditVehicle';
 
 type FeatItemOpenProps = {
   keyValue: string;
   hasAddAction?: boolean;
-  onChange: (val: string) => void;
 };
 
-function FeatItemOpen({
-  keyValue,
-  hasAddAction = false,
-  onChange,
-}: FeatItemOpenProps) {
+function FeatItemOpen({ keyValue, hasAddAction = false }: FeatItemOpenProps) {
+  const { onChangeInnerCollapse } = useDrawerFeature();
+
   const formData = useAppSelector((state) => state.vehicle.formData);
   const { editVehicle } = useEditVehicle();
 
   function handleSaveClick() {
     editVehicle(formData);
-    onChange(keyValue);
+    onChangeInnerCollapse(keyValue);
   }
 
   return (

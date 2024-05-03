@@ -1,33 +1,31 @@
 import { Button } from 'antd';
-import { useState } from 'react';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 
 type DrawerFeatureHeaderProps = {
   keyValue: string;
   label: string;
   value: string;
-  openPanels: string[] | string;
-  isEditDetails: boolean;
-  onEditDetails: (e: boolean) => void;
-  onChange: (e: string, b?: boolean | undefined) => void;
 };
 
 function DrawerFeatureHeader({
   keyValue,
   label,
   value,
-  openPanels,
-  isEditDetails,
-  onEditDetails,
-  onChange,
 }: DrawerFeatureHeaderProps) {
-  const [editPerson, setEditPerson] = useState(false);
-  console.log(openPanels);
+  const {
+    openMainPanels,
+    isEditDetails,
+    onEditDetails,
+    isEditPerson,
+    onEditPerson,
+    onChangeMainCollapse,
+  } = useDrawerFeature();
 
   // !DETAILS
   const handleEditDetails = (keyValue: string) => {
     onEditDetails(true);
-    if (!openPanels.includes(keyValue)) {
-      onChange(keyValue, isEditDetails);
+    if (!openMainPanels.includes(keyValue)) {
+      onChangeMainCollapse(keyValue);
     }
   };
   const handleSaveDetails = () => {
@@ -39,17 +37,17 @@ function DrawerFeatureHeader({
   };
   // !PERSON
   const handleEditPerson = (keyValue: string) => {
-    setEditPerson((prev) => !prev);
-    if (!openPanels.includes(keyValue)) {
-      onChange(keyValue);
+    onEditPerson(true);
+    if (!openMainPanels.includes(keyValue)) {
+      onChangeMainCollapse(keyValue);
     }
   };
   const handleSavePerson = () => {
     // some locig to save the data in DB and update UI
-    setEditPerson(false);
+    onEditPerson(false);
   };
   const handleCancelPerson = () => {
-    setEditPerson(false);
+    onEditPerson(false);
   };
 
   function Content() {
@@ -105,7 +103,7 @@ function DrawerFeatureHeader({
         );
         break;
       case 'person':
-        element = editPerson ? (
+        element = isEditPerson ? (
           <div className="detail__btns d-flex align-center pr-0">
             <Button
               onClick={(e) => {

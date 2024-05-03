@@ -1,40 +1,18 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
-import { useState } from 'react';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import FeatCondition from './feature-details/FeatCondition';
 import FeatConditionInner from './feature-details/FeatConditionInner';
 import FeatVehicle from './feature-details/FeatVehicle';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
-type DrawerFeatureDetailsContentProps = {
-  isEditDetails: boolean;
-};
-
-function DrawerFeatureDetailsContent({
-  isEditDetails,
-}: DrawerFeatureDetailsContentProps) {
-  const [openPanels, setOpenPanels] = useState<string[]>([]);
-
-  const onChange = (key: string | string[]) => {
-    const keyString = Array.isArray(key) ? key[0] : key;
-    setOpenPanels(
-      openPanels.includes(keyString)
-        ? openPanels.filter((item) => item !== keyString)
-        : [...openPanels, keyString],
-    );
-  };
+function DrawerFeatureDetailsContent() {
+  const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: (
-        <FeatVehicle
-          keyValue={'1'}
-          openPanels={openPanels}
-          onChange={onChange}
-          isEditDetails={isEditDetails}
-        />
-      ),
+      label: <FeatVehicle keyValue={'1'} />,
       children: (
         <div className="detail-inner">
           <div className="detail-inner__form">
@@ -46,13 +24,7 @@ function DrawerFeatureDetailsContent({
     },
     {
       key: '2',
-      label: (
-        <FeatCondition
-          keyValue={'2'}
-          openPanels={openPanels}
-          onChange={onChange}
-        />
-      ),
+      label: <FeatCondition keyValue={'2'} />,
       children: (
         <div className="detail-inner">
           <div className="detail-inner__form">
@@ -67,10 +39,10 @@ function DrawerFeatureDetailsContent({
   return (
     <div className="box-header-inner">
       <Collapse
-        activeKey={openPanels}
+        activeKey={openInnerPanels}
         ghost
         collapsible="icon"
-        onChange={onChange}
+        onChange={onChangeInnerCollapse}
         items={items}
       />
     </div>
