@@ -1,49 +1,52 @@
 import { useQuery } from '@tanstack/react-query';
 import Leads from '../../services/leads';
 
-export function useLeadsMake(text: string | undefined) {
+export function useMake(text: string | undefined) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-marks', text],
+    queryKey: ['mark', text],
     queryFn: () => Leads.getMake(text),
+    enabled:!!text
   });
   if (isSuccess) return data.results;
   return [];
 }
 
-export function useLeadsModel(id: number | null, text: string | undefined) {
+export function useModel( text: undefined | {mark:string,q:string}) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-model', id, text],
-    queryFn: () => Leads.getModel(id, text),
+    queryKey: ['model', text],
+    queryFn: () => Leads.getModel(text),
+    enabled:!!(text?.mark || text?.q)
   });
 
   if (isSuccess) return data.results;
   return [];
 }
 
-export function useLeadsCity(text: string | null) {
+export function useCity(text: string | null) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-city', text],
+    queryKey: ['city', text],
     queryFn: () => Leads.getCity(text),
+    enabled:!!text
   });
   if (isSuccess) return data.results;
   return [];
 }
 
-export function useLeadsSource() {
+export function useSource() {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-source'],
+    queryKey: ['source'],
     queryFn: () => Leads.getSource(),
   });
   if (isSuccess) return data;
   return [];
 }
 
-export function useLeadsPerson(text: string) {
+export function usePerson(text: string) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['lead-person', text],
+    queryKey: ['person', text],
     queryFn: () => Leads.getPerson(text),
+    enabled:!!text
   });
   if (isSuccess) return data.results;
   return [];
 }
-

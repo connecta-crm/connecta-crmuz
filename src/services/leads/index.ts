@@ -46,10 +46,11 @@ class Leads {
     }
   }
 
-  async getModel(id: number | null, text: string | undefined) {
+  async getModel(text: undefined | { mark: string; q: string }) {
+    const url = new URLSearchParams(text);
     try {
       const { data } = await this.$api.get(
-        `cars/models-list/${id ? '?mark=' + id : ''}${text ? '&q=' + text : ''}`,
+        `cars/models-list/${text ? '?' + url.toString() : ''}`,
       );
       return data;
     } catch (error) {
@@ -88,7 +89,7 @@ class Leads {
     }
   }
 
-  async getPerson(text: string) {
+  async getPerson(text: string | undefined) {
     try {
       const { data } = await this.$api.get(`/customers/?` + text);
       return data;
