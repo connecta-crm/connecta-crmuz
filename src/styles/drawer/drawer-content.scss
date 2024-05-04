@@ -162,6 +162,10 @@
     font-size: 15px;
     color: #21232c;
     font-weight: 400;
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &_with-bg {
       border-radius: 4px;
       background-color: #ddf2fd;

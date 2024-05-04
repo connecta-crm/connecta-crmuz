@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
@@ -26,7 +26,7 @@ const rowSelection = {
 };
 
 type OpenDrawerType = {
-  openDrawer: () => void;
+  openDrawer: (e: boolean) => void;
 };
 
 function LeadTable({ openDrawer }: OpenDrawerType) {
@@ -37,12 +37,17 @@ function LeadTable({ openDrawer }: OpenDrawerType) {
   const dispatch = useAppDispatch();
 
   const handleOpenDrawer = (guid: string) => {
+    openDrawer(false);
     setGuid(guid);
+  };
+
+  useEffect(() => {
     if (!isLoadingLead && !error) {
       dispatch(setLeadData(lead));
-      openDrawer();
+      openDrawer(true);
     }
-  };
+  }, [isLoadingLead, error, dispatch, lead]);
+
   return (
     <>
       <div className="dt-header">
@@ -57,7 +62,7 @@ function LeadTable({ openDrawer }: OpenDrawerType) {
             columns={LeadTableColumns}
             dataSource={leads}
             pagination={{ pageSize: leads?.length }}
-            loading={isLoadingLeads}
+            loading={isLoadingLeads || (isLoadingLead && !!guid)}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;

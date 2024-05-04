@@ -7,10 +7,9 @@ function Leads() {
   const [open, setOpen] = useState(false);
   const [isFullScreen, setFullScreen] = useState(false);
 
-  const openDrawer = () => {
-    setOpen(true);
+  const openDrawer = (value: boolean) => {
+    setOpen(value);
   };
-
   const closeDrawer = () => {
     setOpen(false);
     setFullScreen(false);

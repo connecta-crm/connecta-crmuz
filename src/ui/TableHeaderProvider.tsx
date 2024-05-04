@@ -4,32 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import ellipse from '../../public/img/dt_table/ellipse.svg';
 import { useProviders } from '../features/providers/useProviders';
 
-// import { useSearchParams } from 'react-router-dom';
-
-type Option = {
-  label: string;
-  value: string;
-};
-
-type TableSelectProps = {
-  selectField: string;
-  options: Option[];
-};
-
-function TableHeaderProvider({
-  selectField,
-  options,
-  ...props
-}: TableSelectProps) {
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const value = searchParams.get(selectField) || options[0].value;
-
-  // function handleChange(e: { target: { value: string } }) {
-  //   searchParams.set(selectField, e.target.value);
-  //   setSearchParams(searchParams);
-  // }
-
-  console.log(selectField, options);
+function TableHeaderProvider({ ...props }) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   // DROPDOWN FUNCTION

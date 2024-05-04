@@ -1,5 +1,5 @@
 import { Select } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Person from '../../features/Person/Person';
 import { useCity } from '../../features/leads/useLeadDetails';
 import Source from '../../features/sourcecom/Source';
@@ -14,18 +14,19 @@ import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
 import Modal from './Modal';
 export default function LeadModal() {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [conditionValue, setConditionValue] = useState<string | null>(null);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [trailerType, setTrailerType] = useState<string | null>('');
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [cityValue, setCityValue] = useState(null);
- 
-  useEffect(()=>{
-console.log(cityValue);
 
-  },[cityValue])
+  //   useEffect(()=>{
+  // console.log(cityValue);
+
+  //   },[cityValue])
 
   const [searchCity, setSearchCity] = useState('');
-  console.log(conditionValue);
-  console.log(trailerType);
 
   const citys = useCity(searchCity);
 

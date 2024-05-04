@@ -1,5 +1,5 @@
 import JoditEditor from 'jodit-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 function Notes() {
   const [content, setContent] = useState('');
@@ -30,9 +30,9 @@ function Notes() {
     [appendLog],
   );
 
-  useEffect(() => {
-    console.log('onChange = ', onChange);
-  }, [onChange]);
+  // useEffect(() => {
+  //   console.log('onChange = ', onChange);
+  // }, [onChange]);
 
   const onBlur = useCallback(
     // @ts-expect-error: Unreachable code error

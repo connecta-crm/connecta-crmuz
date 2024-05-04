@@ -18,19 +18,25 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 //   value: string;
 // };
 
-const initialState = {
+export type LeadState = {
+  leadData: object;
+};
+
+const initialState: LeadState = {
   leadData: {},
 };
 
 export const leadSlice = createSlice({
-  name: 'vehicle',
+  name: 'lead',
   initialState,
   reducers: {
-    setLeadData: (state, action: PayloadAction) => {
+    setLeadData: (state, action: PayloadAction<object>) => {
       state.leadData = action.payload;
     },
   },
 });
+
+export const getLeadData = (state: { lead: LeadState }) => state.lead.leadData;
 
 export const { setLeadData } = leadSlice.actions;
 

@@ -7,8 +7,8 @@ import { usePerson } from '../leads/useLeadDetails';
 export default function Person() {
   const [selectPersonValue, setSelectPersonValue] = useState({});
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [customer, setCustomer] = useState<string | null>('');
-  console.log(customer);
 
   const [url, seturl] = useState('');
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Person() {
           style={{ width: '100%' }}
           onSearch={handleSearchPersonName}
           onChange={(data, record) => handleChangePerson(data, record)}
-        //   notFoundContent={null}
+          //   notFoundContent={null}
           options={(personData || []).map(
             (d: { id: number; name: string }) => ({
               value: d.id,
@@ -71,7 +71,7 @@ export default function Person() {
           filterOption={false}
           onSearch={handleSearchPersonEmail}
           onChange={(data, record) => handleChangePerson(data, record)}
-        //   notFoundContent={null}
+          //   notFoundContent={null}
           options={(personData || []).map(
             (d: { id: number; email: string }) => ({
               value: d.id,
@@ -92,7 +92,7 @@ export default function Person() {
           filterOption={false}
           onSearch={handleSearchPersonPhone}
           onChange={(data, record) => handleChangePerson(data, record)}
-        //   notFoundContent={null}
+          //   notFoundContent={null}
           options={(personData || []).map(
             (d: { id: number; phone: string }) => ({
               value: d.id,

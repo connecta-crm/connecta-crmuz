@@ -4,15 +4,14 @@ import { classNames } from '../../../utils/helpers';
 type FeatItemCloseProps = {
   keyValue: string;
   textWithBg?: boolean;
-  data: {
-    label: string;
-  };
+
+  label: string;
 };
 
 function FeatItemClose({
   keyValue,
   textWithBg = false,
-  data,
+  label,
 }: FeatItemCloseProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
 
@@ -24,7 +23,7 @@ function FeatItemClose({
           'detail__text',
         )}
       >
-        {data?.label}
+        {label}
       </div>
       <div className="detail__right_actions d-flex align-center ml-10">
         <div

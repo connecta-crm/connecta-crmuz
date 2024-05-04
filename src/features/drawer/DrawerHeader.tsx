@@ -1,7 +1,9 @@
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
+import { useAppSelector } from '../../store/hooks';
 import { classNames } from '../../utils/helpers';
+import { getLeadData } from '../leads/leadSlice';
 import { DrawerControlProps } from './DrawerControl';
 
 function DrawerHeader({
@@ -9,30 +11,6 @@ function DrawerHeader({
   onClose,
   onFullScreen,
 }: DrawerControlProps) {
-  let controls = (
-    <>
-      <div onClick={onClose} className="control__item control__item_close">
-        <img src="./img/drawer/close-x.svg" alt="" />
-      </div>
-      <div className="control__item control__item_up-arrow">
-        <img src="./img/drawer/up-arrow.svg" alt="" />
-      </div>
-      <div className="control__item control__item_down-arrow">
-        <img src="./img/drawer/down-arrow.svg" alt="" />
-      </div>
-      <div
-        onClick={() => onFullScreen(false)}
-        className="control__item control__item_size"
-      >
-        <img src="./img/drawer/resize.svg" alt="" />
-      </div>
-    </>
-  );
-  if (!isFullScreen) {
-    controls = <></>;
-    console.log('controls', controls);
-  }
-
   const items: MenuProps['items'] = [
     {
       label: <a href="https://www.antgroup.com">1st menu item</a>,
@@ -60,11 +38,36 @@ function DrawerHeader({
     onClick: handleMenuClick,
   };
 
+  const data = useAppSelector(getLeadData);
+  const { id, customerName } = data;
+  console.log('lead', data);
+
   return (
     <div className="drawer-header">
       <div className="drawer-header__container">
         <div className="drawer-header__left control">
-          {controls}
+          {isFullScreen && (
+            <>
+              <div
+                onClick={onClose}
+                className="control__item control__item_close"
+              >
+                <img src="./img/drawer/close-x.svg" alt="" />
+              </div>
+              <div className="control__item control__item_up-arrow">
+                <img src="./img/drawer/up-arrow.svg" alt="" />
+              </div>
+              <div className="control__item control__item_down-arrow">
+                <img src="./img/drawer/down-arrow.svg" alt="" />
+              </div>
+              <div
+                onClick={() => onFullScreen(false)}
+                className="control__item control__item_size"
+              >
+                <img src="./img/drawer/resize.svg" alt="" />
+              </div>
+            </>
+          )}
           <div
             className={classNames(
               isFullScreen ? 'ml-20' : '',
@@ -72,8 +75,8 @@ function DrawerHeader({
             )}
           >
             <div className="d-flex">
-              <div className="drawer-header__id id_1">#600000</div>
-              <div className="drawer-header__username">John Smith</div>
+              <div className="drawer-header__id id_1">#{id}</div>
+              <div className="drawer-header__username">{customerName}</div>
             </div>
             <div className="drawer-header__id id_2">PD: #110004, #110006</div>
           </div>

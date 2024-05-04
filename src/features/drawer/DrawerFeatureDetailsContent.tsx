@@ -1,6 +1,8 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useAppSelector } from '../../store/hooks';
+import { getLeadData } from '../leads/leadSlice';
 import FeatConditionHeader from './feature-details/FeatConditionHeader';
 import FeatConditionInner from './feature-details/FeatConditionInner';
 import FeatVehicleHeader from './feature-details/FeatVehicleHeader';
@@ -8,6 +10,10 @@ import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
 function DrawerFeatureDetailsContent() {
   const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
+
+  const { leadVehicles } = useAppSelector(getLeadData);
+
+  console.log('leadVehicle', leadVehicles);
 
   const items: CollapseProps['items'] = [
     {
