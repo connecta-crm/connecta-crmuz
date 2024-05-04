@@ -4,19 +4,25 @@ import { useEffect, useState } from 'react';
 import FormControl from '../../ui/Form/FormControl';
 import Input from '../../ui/Form/Input';
 import UpCollapse from '../../ui/Form/UpCollapse';
-import { useCreatePerson, usePerson } from '../leads/useLeadDetails';
+import {
+  useCreateNumber,
+  useCreatePerson,
+  usePerson,
+} from '../leads/useLeadDetails';
 export default function Person() {
   const [newCustomer, setNewCustomer] = useState({
     name: '',
     email: '',
     phone: '',
   });
+  const [addNumber, setAddNumber] = useState(false);
+  const [newNumberValue, setNewNumberValue] = useState('');
   const [create, setCreate] = useState(false);
   const [selectPersonValue, setSelectPersonValue] = useState(null);
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
-  const [customer, setCustomer] = useState<string | null>('');
+  const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
-  console.log(customer);
+  console.log(customer, 'customer');
 
   const [url, seturl] = useState('');
   useEffect(() => {
@@ -49,11 +55,11 @@ export default function Person() {
     setPerson({ name: '', phone: '', email: '' });
     setSelectPersonValue(record.all);
     setCustomer(newValue);
+    setNewNumberValue("")
   };
 
   const onChangeInput = (e) => {
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
-    console.log(newCustomer);
   };
 
   useEffect(() => {
@@ -81,13 +87,26 @@ export default function Person() {
   }, [isLoading, isSuccess]);
 
   const createContact = () => {
-    console.log(isLoading, 'isloading');
     createPerson(newCustomer);
   };
 
   useEffect(() => {
     setPerson({ name: '', phone: '', email: '' });
   }, [create]);
+
+  const { createNumber, isPending, isCreatedSuccess, saveNumber } =
+    useCreateNumber();
+  useEffect(() => {
+    if (isCreatedSuccess) {
+      console.log(saveNumber, 'saveNumber');
+      setSelectPersonValue({...selectPersonValue,extra:[...selectPersonValue.extra,saveNumber]})
+      setAddNumber(false);
+      setNewNumberValue('');
+    }
+  }, [isCreatedSuccess]);
+  const createNewNumber = () => {
+    createNumber({ phone: newNumberValue, customer: customer });
+  };
 
   return (
     <UpCollapse title="Person">
@@ -231,13 +250,37 @@ export default function Person() {
             />
           </FormControl>
         ))}
-      <FormControl title="add">
-        {!create && (
-          <Button disabled={selectPersonValue?false:true} size="small">
-            +
-          </Button>
-        )}
-      </FormControl>
+      {!create && (
+        <>
+          {addNumber && selectPersonValue && (
+            <FormControl title="Phone">
+              <input
+                value={newNumberValue}
+                type="number"
+                placeholder="Enter new phone"
+                onChange={(e) => setNewNumberValue(e.target.value)}
+              />
+              <Button
+                onClick={createNewNumber}
+                disabled={newNumberValue ? false : true}
+                size="small"
+                type="primary"
+              >
+                {!isPending ? 'save' : <LoadingOutlined />}
+              </Button>
+            </FormControl>
+          )}
+          <FormControl title="add">
+            <Button
+              disabled={selectPersonValue ? false : true}
+              size="small"
+              onClick={() => setAddNumber(!addNumber)}
+            >
+              {addNumber ? 'cancel' : '+'}
+            </Button>
+          </FormControl>
+        </>
+      )}
     </UpCollapse>
   );
 }

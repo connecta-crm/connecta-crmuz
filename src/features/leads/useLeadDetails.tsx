@@ -65,3 +65,18 @@ export function useCreatePerson() {
   });
   return { createPerson, isLoading ,isSuccess};
 }
+
+
+export function useCreateNumber() {
+  const { mutate: createNumber, data:saveNumber, isPending,isSuccess:isCreatedSuccess } = useMutation({
+    mutationFn: (item: { customer: string; phone: string }) =>
+      Leads.createNumber(item),
+    onSuccess: () => {
+      toast.success('Customer created');
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return { createNumber, isPending ,isCreatedSuccess,saveNumber};
+}
