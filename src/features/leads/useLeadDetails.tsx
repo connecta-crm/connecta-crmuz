@@ -1,21 +1,22 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import Leads from '../../services/leads';
 
 export function useMake(text: string | undefined) {
   const { data, isSuccess } = useQuery({
     queryKey: ['mark', text],
     queryFn: () => Leads.getMake(text),
-    enabled:!!text
+    enabled: !!text,
   });
   if (isSuccess) return data.results;
   return [];
 }
 
-export function useModel( text: undefined | {mark:string,q:string}) {
+export function useModel(text: undefined | { mark: string; q: string }) {
   const { data, isSuccess } = useQuery({
     queryKey: ['model', text],
     queryFn: () => Leads.getModel(text),
-    enabled:!!(text?.mark || text?.q)
+    enabled: !!(text?.mark || text?.q),
   });
 
   if (isSuccess) return data.results;
@@ -26,7 +27,7 @@ export function useCity(text: string | null) {
   const { data, isSuccess } = useQuery({
     queryKey: ['city', text],
     queryFn: () => Leads.getCity(text),
-    enabled:!!text
+    enabled: !!text,
   });
   if (isSuccess) return data.results;
   return [];
@@ -45,8 +46,22 @@ export function usePerson(text: string) {
   const { data, isSuccess } = useQuery({
     queryKey: ['person', text],
     queryFn: () => Leads.getPerson(text),
-    enabled:!!text
+    enabled: !!text,
   });
   if (isSuccess) return data.results;
   return [];
+}
+
+export function useCreatePerson() {
+  const { mutate: createPerson, isPending: isLoading,isSuccess } = useMutation({
+    mutationFn: (item: { name: string; email: string; phone: string }) =>
+      Leads.createPerson(item),
+    onSuccess: () => {
+      toast.success('Customer created');
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return { createPerson, isLoading ,isSuccess};
 }

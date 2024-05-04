@@ -1,13 +1,21 @@
-import { Select } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Button, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import FormControl from '../../ui/Form/FormControl';
 import Input from '../../ui/Form/Input';
 import UpCollapse from '../../ui/Form/UpCollapse';
-import { usePerson } from '../leads/useLeadDetails';
+import { useCreatePerson, usePerson } from '../leads/useLeadDetails';
 export default function Person() {
-  const [selectPersonValue, setSelectPersonValue] = useState({});
+  const [newCustomer, setNewCustomer] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+  const [create, setCreate] = useState(false);
+  const [selectPersonValue, setSelectPersonValue] = useState(null);
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
   const [customer, setCustomer] = useState<string | null>('');
+  const [disabled, setDisabled] = useState(true);
   console.log(customer);
 
   const [url, seturl] = useState('');
@@ -18,21 +26,24 @@ export default function Person() {
 
   const personData = usePerson(url);
 
-  const handleSearchPerson = (newValue: string) => {
+  const handleSearchPersonName = (newValue: string) => {
+    setNewCustomer({ name: newValue, email: '', phone: '' });
     setPerson({ name: '', phone: '', email: '' });
-    setSelectPersonValue({});
+    setSelectPersonValue(null);
     setPerson({ ...person, name: newValue });
   };
-  // const handleSearchPersonEmail = (newValue: string) => {
-  //   setPerson({ name: '', phone: '', email: '' });
-  //   setSelectPersonValue({});
-  //   setPerson({ ...person, email: newValue });
-  // };
-  // const handleSearchPersonPhone = (newValue: string) => {
-  //   setPerson({ name: '', phone: '', email: '' });
-  //   setSelectPersonValue({});
-  //   setPerson({ ...person, phone: newValue });
-  // };
+  const handleSearchPersonEmail = (newValue: string) => {
+    setNewCustomer({ name: '', email: newValue, phone: '' });
+    setPerson({ name: '', phone: '', email: '' });
+    setSelectPersonValue(null);
+    setPerson({ ...person, email: newValue });
+  };
+  const handleSearchPersonPhone = (newValue: string) => {
+    setNewCustomer({ name: '', email: '', phone: newValue });
+    setPerson({ name: '', phone: '', email: '' });
+    setSelectPersonValue(null);
+    setPerson({ ...person, phone: newValue });
+  };
 
   const handleChangePerson = (newValue: string, record) => {
     setPerson({ name: '', phone: '', email: '' });
@@ -40,71 +51,175 @@ export default function Person() {
     setCustomer(newValue);
   };
 
+  const onChangeInput = (e) => {
+    setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
+    console.log(newCustomer);
+  };
+
+  useEffect(() => {
+    if (create) {
+      if (
+        newCustomer.name &&
+        newCustomer.email.match(/^\S+@\S+\.\S+$/) &&
+        newCustomer.phone
+      ) {
+        setDisabled(false);
+      } else {
+        setDisabled(true);
+      }
+    } else {
+      setDisabled(true);
+    }
+  }, [newCustomer]);
+
+  const { createPerson, isLoading, isSuccess } = useCreatePerson();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setCreate(false);
+    }
+  }, [isLoading, isSuccess]);
+
+  const createContact = () => {
+    console.log(isLoading, 'isloading');
+    createPerson(newCustomer);
+  };
+
+  useEffect(() => {
+    setPerson({ name: '', phone: '', email: '' });
+  }, [create]);
+
   return (
     <UpCollapse title="Person">
       <FormControl title="Name">
-        <Select
-          showSearch
-          value={selectPersonValue?.name}
-          placeholder={'Empty'}
-          style={{ width: '100%' }}
-          defaultActiveFirstOption={false}
-          suffixIcon={null}
-          filterOption={false}
-          onSearch={handleSearchPerson}
-          onChange={(data, record) => handleChangePerson(data, record)}
-          //   notFoundContent={null}
-          options={(personData || []).map(
-            (d: { id: number; name: string }) => ({
-              value: d.id,
-              all: d,
-              label: d.name,
-            }),
-          )}
-        />
+        {create ? (
+          <input
+            type="text"
+            placeholder="Enter name"
+            required
+            name="name"
+            value={newCustomer.name}
+            onChange={onChangeInput}
+          />
+        ) : (
+          <Select
+            showSearch
+            value={selectPersonValue?.name}
+            placeholder={'Search name'}
+            style={{ width: '100%' }}
+            defaultActiveFirstOption={false}
+            suffixIcon={null}
+            filterOption={false}
+            onSearch={handleSearchPersonName}
+            onChange={(data, record) => handleChangePerson(data, record)}
+            notFoundContent={
+              <Button onClick={() => setCreate(true)} size="small">
+                create
+              </Button>
+            }
+            options={(personData || []).map(
+              (d: { id: number; name: string }) => ({
+                value: d.id,
+                all: d,
+                label: d.name,
+              }),
+            )}
+          />
+        )}
       </FormControl>
       <FormControl title="Email">
-        <Select
-          showSearch
-          value={selectPersonValue?.email}
-          placeholder={'Empty'}
-          style={{ width: '100%' }}
-          defaultActiveFirstOption={false}
-          suffixIcon={null}
-          filterOption={false}
-          onSearch={handleSearchPerson}
-          onChange={(data, record) => handleChangePerson(data, record)}
-          //   notFoundContent={null}
-          options={(personData || []).map(
-            (d: { id: number; email: string }) => ({
-              value: d.id,
-              all: d,
-              label: d.email,
-            }),
-          )}
-        />
+        {create ? (
+          <input
+            type="text"
+            placeholder="Enter email"
+            required
+            name="email"
+            value={newCustomer.email}
+            onChange={onChangeInput}
+          />
+        ) : (
+          <Select
+            showSearch
+            value={selectPersonValue?.email}
+            placeholder={'Search email'}
+            style={{ width: '100%' }}
+            defaultActiveFirstOption={false}
+            suffixIcon={null}
+            filterOption={false}
+            onSearch={handleSearchPersonEmail}
+            onChange={(data, record) => handleChangePerson(data, record)}
+            notFoundContent={
+              <Button onClick={() => setCreate(true)} size="small">
+                create
+              </Button>
+            }
+            options={(personData || []).map(
+              (d: { id: number; email: string }) => ({
+                value: d.id,
+                all: d,
+                label: d.email,
+              }),
+            )}
+          />
+        )}
       </FormControl>
+
       <FormControl title="Phone">
-        <Select
-          showSearch
-          value={selectPersonValue?.phone}
-          placeholder={'Empty'}
-          style={{ width: '100%' }}
-          defaultActiveFirstOption={false}
-          suffixIcon={null}
-          filterOption={false}
-          onSearch={handleSearchPerson}
-          onChange={(data, record) => handleChangePerson(data, record)}
-          //   notFoundContent={null}
-          options={(personData || []).map(
-            (d: { id: number; phone: string }) => ({
-              value: d.id,
-              all: d,
-              label: d.phone,
-            }),
-          )}
-        />
+        {create ? (
+          <input
+            type="number"
+            placeholder="Enter phone"
+            required
+            name="phone"
+            value={newCustomer.phone}
+            onChange={onChangeInput}
+          />
+        ) : (
+          <Select
+            showSearch
+            value={selectPersonValue?.phone}
+            placeholder={'Search phone'}
+            style={{ width: '100%' }}
+            defaultActiveFirstOption={false}
+            suffixIcon={null}
+            filterOption={false}
+            onSearch={handleSearchPersonPhone}
+            onChange={(data, record) => handleChangePerson(data, record)}
+            notFoundContent={
+              <Button onClick={() => setCreate(true)} size="small">
+                create
+              </Button>
+            }
+            options={(personData || []).map(
+              (d: { id: number; phone: string }) => ({
+                value: d.id,
+                all: d,
+                label: d.phone,
+              }),
+            )}
+          />
+        )}
       </FormControl>
+      {create && (
+        <div className="create__contact__actions">
+          <span className="create__contact__error-message">
+            {/* Lorem ipsum dolor sit amet. */}
+          </span>
+          <div className="">
+            <Button size="small" onClick={() => setCreate(false)}>
+              cancel
+            </Button>
+            <Button
+              size="small"
+              type="primary"
+              disabled={disabled}
+              onClick={createContact}
+            >
+              {!isLoading ? 'save' : <LoadingOutlined />}
+            </Button>
+          </div>
+        </div>
+      )}
       {selectPersonValue?.extra?.length > 0 &&
         selectPersonValue?.extra?.map((item) => (
           <FormControl key={item.id} title="Phone">
@@ -116,6 +231,13 @@ export default function Person() {
             />
           </FormControl>
         ))}
+      <FormControl title="add">
+        {!create && (
+          <Button disabled={selectPersonValue?false:true} size="small">
+            +
+          </Button>
+        )}
+      </FormControl>
     </UpCollapse>
   );
 }
