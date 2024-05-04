@@ -55,7 +55,7 @@ export default function Person() {
     setPerson({ name: '', phone: '', email: '' });
     setSelectPersonValue(record.all);
     setCustomer(newValue);
-    setNewNumberValue("")
+    setNewNumberValue('');
   };
 
   const onChangeInput = (e) => {
@@ -99,7 +99,10 @@ export default function Person() {
   useEffect(() => {
     if (isCreatedSuccess) {
       console.log(saveNumber, 'saveNumber');
-      setSelectPersonValue({...selectPersonValue,extra:[...selectPersonValue.extra,saveNumber]})
+      setSelectPersonValue({
+        ...selectPersonValue,
+        extra: [...selectPersonValue.extra, saveNumber],
+      });
       setAddNumber(false);
       setNewNumberValue('');
     }
@@ -250,13 +253,37 @@ export default function Person() {
             />
           </FormControl>
         ))}
-      <FormControl title="add">
-        {!create && (
-          <Button disabled={selectPersonValue?false:true} size="small">
-            +
-          </Button>
-        )}
-      </FormControl>
+      {!create && (
+        <>
+          {addNumber && selectPersonValue && (
+            <FormControl title="Phone">
+              <input
+                value={newNumberValue}
+                type="number"
+                placeholder="Enter new phone"
+                onChange={(e) => setNewNumberValue(e.target.value)}
+              />
+              <Button
+                onClick={createNewNumber}
+                disabled={newNumberValue ? false : true}
+                size="small"
+                type="primary"
+              >
+                {!isPending ? 'save' : <LoadingOutlined />}
+              </Button>
+            </FormControl>
+          )}
+          <FormControl title="add">
+            <Button
+              disabled={selectPersonValue ? false : true}
+              size="small"
+              onClick={() => setAddNumber(!addNumber)}
+            >
+              {addNumber ? 'cancel' : '+'}
+            </Button>
+          </FormControl>
+        </>
+      )}
     </UpCollapse>
   );
 }
