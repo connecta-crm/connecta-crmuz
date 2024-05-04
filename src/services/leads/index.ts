@@ -120,6 +120,17 @@ class Leads {
       );
     }
   }
+  async createNumber(item: { customer: string; phone: string }) {
+    try {
+      const { data } = await this.$api.post(`/customers/create-contact/`, item);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
   async createLead(lead) {
     try {
