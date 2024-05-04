@@ -13,11 +13,13 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from '../features/authentication/authSlice';
 import conditionReducer from '../features/drawer/conditionSlice';
 import vehicleReducer from '../features/drawer/vehicleSlice';
+import leadReducer from '../features/leads/leadSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   vehicle: vehicleReducer,
   condition: conditionReducer,
+  lead: leadReducer,
 });
 
 const persistConfig = {

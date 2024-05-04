@@ -1,8 +1,12 @@
 import { Table } from 'antd';
+import { useState } from 'react';
+import { useAppDispatch } from '../../store/hooks';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
+import { setLeadData } from './leadSlice';
+import { useLead } from './useLead';
 import { useLeads } from './useLeads';
 
 const rowSelection = {
@@ -20,11 +24,25 @@ const rowSelection = {
     name: record.id,
   }),
 };
-type openDrawerType = (data: LeadTableDataType) => void;
 
-function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
-  const { leads, count, isLoading } = useLeads();
+type OpenDrawerType = {
+  openDrawer: () => void;
+};
 
+function LeadTable({ openDrawer }: OpenDrawerType) {
+  const [guid, setGuid] = useState<string | null>(null);
+  const { leads, count, isLoading: isLoadingLeads } = useLeads();
+  const { lead, isLoading: isLoadingLead, error } = useLead(guid);
+
+  const dispatch = useAppDispatch();
+
+  const handleOpenDrawer = (guid: string) => {
+    setGuid(guid);
+    if (!isLoadingLead && !error) {
+      dispatch(setLeadData(lead));
+      openDrawer();
+    }
+  };
   return (
     <>
       <div className="dt-header">
@@ -39,12 +57,12 @@ function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
             columns={LeadTableColumns}
             dataSource={leads}
             pagination={{ pageSize: leads?.length }}
-            loading={isLoading}
+            loading={isLoadingLeads}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;
                 const element = target.className;
-                element == 'table__id' && openDrawer(data);
+                element == 'table__id' && handleOpenDrawer(data.guid);
               },
             })}
           />

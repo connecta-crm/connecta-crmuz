@@ -39,7 +39,17 @@ class Leads {
     }
   }
 
-  // get make
+  async getLead(guid: string | null) {
+    try {
+      const { data } = await this.$api.get(`/leads/${guid}/detail/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
   async getMake(text: string | undefined) {
     try {
