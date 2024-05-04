@@ -2,7 +2,7 @@ import { Select } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getLeadData, updateField } from '../../leads/leadSlice';
 
-function FeatConditionInner() {
+function FeatOriginInner() {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
@@ -11,7 +11,7 @@ function FeatConditionInner() {
   };
   return (
     <div className="d-flex justify-between">
-      <div className="form-label">Condition</div>
+      <div className="form-label">Pickup city</div>
       <Select
         value={leadData.condition}
         defaultValue={leadData.condition}
@@ -36,4 +36,4 @@ function FeatConditionInner() {
   );
 }
 
-export default FeatConditionInner;
+export default FeatOriginInner;

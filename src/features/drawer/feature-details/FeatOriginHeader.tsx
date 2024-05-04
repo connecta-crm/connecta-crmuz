@@ -9,21 +9,21 @@ type FeatConditionHeaderProps = {
   label: string;
 };
 
-function FeatConditionHeader({ keyValue, label }: FeatConditionHeaderProps) {
+function FeatOriginHeader({ keyValue, label }: FeatConditionHeaderProps) {
   const { openInnerPanels } = useDrawerFeature();
 
   return (
-    <div className="detail detail-condition">
+    <div className="detail detail-origin">
       <div className="detail__header d-flex align-center justify-between">
-        <FeatItemLabel label="Condition" icon="dvigatel" />
+        <FeatItemLabel label="Origin" icon="origin" />
         {openInnerPanels?.includes(keyValue) ? (
           <FeatItemOpen
             keyValue={keyValue}
-            feature="lead_condition"
+            feature="origin"
             hasAddAction={false}
           />
         ) : (
-          <FeatItemClose keyValue={keyValue} textWithBg={true} label={label} />
+          <FeatItemClose keyValue={keyValue} textWithBg={false} label={label} />
         )}
         <ArrowIcon keyValue={keyValue} />
       </div>
@@ -31,4 +31,4 @@ function FeatConditionHeader({ keyValue, label }: FeatConditionHeaderProps) {
   );
 }
 
-export default FeatConditionHeader;
+export default FeatOriginHeader;
