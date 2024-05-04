@@ -31,8 +31,6 @@ export default function Person() {
     setPerson({ name: '', phone: '', email: '' });
     setSelectPersonValue(null);
     setPerson({ ...person, name: newValue });
-    console.log(personData);
-    
   };
   const handleSearchPersonEmail = (newValue: string) => {
     setNewCustomer({ name: '', email: newValue, phone: '' });
@@ -94,22 +92,40 @@ export default function Person() {
   return (
     <UpCollapse title="Person">
       <FormControl title="Name">
-        <Select
-          showSearch
-          value={selectPersonValue?.name}
-          placeholder={'Empty'}
-          style={{ width: '100%' }}
-          onSearch={handleSearchPersonName}
-          onChange={(data, record) => handleChangePerson(data, record)}
-          //   notFoundContent={null}
-          options={(personData || []).map(
-            (d: { id: number; name: string }) => ({
-              value: d.id,
-              all: d,
-              label: d.name,
-            }),
-          )}
-        />
+        {create ? (
+          <input
+            type="text"
+            placeholder="Enter name"
+            required
+            name="name"
+            value={newCustomer.name}
+            onChange={onChangeInput}
+          />
+        ) : (
+          <Select
+            showSearch
+            value={selectPersonValue?.name}
+            placeholder={'Search name'}
+            style={{ width: '100%' }}
+            defaultActiveFirstOption={false}
+            suffixIcon={null}
+            filterOption={false}
+            onSearch={handleSearchPersonName}
+            onChange={(data, record) => handleChangePerson(data, record)}
+            notFoundContent={
+              <Button onClick={() => setCreate(true)} size="small">
+                create
+              </Button>
+            }
+            options={(personData || []).map(
+              (d: { id: number; name: string }) => ({
+                value: d.id,
+                all: d,
+                label: d.name,
+              }),
+            )}
+          />
+        )}
       </FormControl>
       <FormControl title="Email">
         {create ? (
@@ -217,7 +233,7 @@ export default function Person() {
         ))}
       <FormControl title="add">
         {!create && (
-          <Button disabled={selectPersonValue?false:true} size="small">
+          <Button disabled={selectPersonValue ? false : true} size="small">
             +
           </Button>
         )}
