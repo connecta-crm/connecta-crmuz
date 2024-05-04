@@ -11,7 +11,7 @@ function Input({
 }) {
   return (
     <input
-      disabled={name == 'person_phone'}
+      disabled={name == 'disabled_value'}
       name={name}
       type={type}
       placeholder={placeholder}

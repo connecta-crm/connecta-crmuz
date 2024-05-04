@@ -94,4 +94,27 @@
   &__col:nth-child(2) {
     background: #eaeaea;
   }
+  .create__contact__actions{
+    @include flexbox();
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+    padding: 0 10px;
+    .create__contact__error-message{
+      font-family: $fontfamily;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 11.85px;
+      text-align: left;
+      color:  #E52E2E;
+
+      
+    }
+    div{
+    @include flexbox();
+    gap: 3px;
+    justify-content: space-between;
+  }
+  }
+  
 }

@@ -1,15 +1,13 @@
 import { Select } from 'antd';
 import { useState } from 'react';
 import Person from '../../features/Person/Person';
-import { useCity } from '../../features/leads/useLeadDetails';
+import Delivery from '../../features/delivery/Delivery';
+import Pickup from '../../features/pickup/Pickup';
 import Source from '../../features/sourcecom/Source';
 import Vehicle from '../../features/vehicle/Vehicle';
 import UseDatePicker from '../DatePicker/DatePicker';
-import DownCollapse from '../Form/DownCollapse';
 import FormControl from '../Form/FormControl';
 import Input from '../Form/Input';
-import InputCol from '../Form/InputCol';
-import InputRow from '../Form/InputRow';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
 import Modal from './Modal';
@@ -49,99 +47,8 @@ export default function LeadModal() {
                 ]}
               />
             </FormControl>
-            <DownCollapse title="Pickup">
-              <InputRow>
-                <InputCol>
-                  <Label>Pickup city</Label>
-                </InputCol>
-                <InputCol>
-                  <Select
-                    showSearch
-                    // value={makeValue ? makeValue : null}
-                    optionFilterProp="children"
-                    placeholder={'Search  make'}
-                    style={{ width: '100%' }}
-                    defaultActiveFirstOption={false}
-                    filterOption={false}
-                    onSearch={(value) => setSearchCity(value)}
-                    // onChange={(data, record) => handleSelectMake(data, record)}
-                    options={(citys || []).map(
-                      (d: { id: number; name: string }) => ({
-                        value: d.id,
-                        label: d.name,
-                      }),
-                    )}
-                  />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Pickup state</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_state" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Pickup zip</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Select
-                    showSearch
-                    // value={makeValue ? makeValue : null}
-                    optionFilterProp="children"
-                    placeholder={'Search  make'}
-                    style={{ width: '100%' }}
-                    defaultActiveFirstOption={false}
-                    filterOption={false}
-                    onSearch={(value) => setSearchCity(value)}
-                    onChange={(data) => setCityValue(data)}
-                    options={(citys || []).map(
-                      (d: { id: number; zip: string }) => ({
-                        value: d.id,
-                        label: d.zip,
-                      }),
-                    )}
-                  />
-                </InputCol>
-              </InputRow>
-            </DownCollapse>
-            <DownCollapse title="Delivery">
-              <InputRow>
-                <InputCol>
-                  <Label>Delivery city</Label>
-                </InputCol>
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="delivery_city" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Delivery state</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input
-                    type="text"
-                    placeholder="Empty"
-                    name="delivery_state"
-                  />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Delivery zip</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="delivery_zip" />
-                </InputCol>
-              </InputRow>
-            </DownCollapse>
-
+            <Pickup />
+            <Delivery />
             <FormControl title="Trailer type">
               <Select
                 defaultValue=""
@@ -160,7 +67,12 @@ export default function LeadModal() {
 
             <div className="form__footer">
               <Label>CM note</Label>
-              <Input type="text" placeholder="Empty" name="cm_note" />
+              <Input
+                type="text"
+                placeholder="Empty"
+                name="cm_note"
+                defaultValue=""
+              />
             </div>
           </UpCollapse>
         </div>
