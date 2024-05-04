@@ -109,6 +109,18 @@ class Leads {
     }
   }
 
+  async createPerson(item: { name: string; email: string; phone: string }) {
+    try {
+      const { data } = await this.$api.post(`/customers/create/`, item);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   async createLead(lead) {
     try {
       const { data } = await this.$api.post('/leads/create/', lead);
