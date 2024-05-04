@@ -23,7 +23,7 @@ const lazyLoad = (
   return lazy(importFunc);
 };
 
-type FilterByType = {
+export type SortByStatusType = {
   id: number;
   value: string;
   title: string;
@@ -39,7 +39,7 @@ export type MenuData = {
     | ComponentType<unknown>
     | LazyExoticComponent<ComponentType<unknown>>;
   roles: string[];
-  filterBy?: FilterByType[];
+  status?: SortByStatusType[];
   elements?: MenuNestedData[];
 };
 
@@ -52,7 +52,7 @@ export const getMenuData: MenuData[] = [
     iconActive: firstImgActive,
     component: Leads,
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       //!? /leads?filter_by=query -> www.meta.uz/leads?filter_by=quotes
       { id: 1, value: 'leads', title: 'Leads' },
       { id: 2, value: 'archived', title: 'Archived' },
@@ -66,7 +66,7 @@ export const getMenuData: MenuData[] = [
     iconActive: secondImgActive,
     component: lazyLoad(() => import('../../pages/Quotes')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 3, value: 'quotes', title: 'Quotes' },
       { id: 4, value: 'follow_up', title: 'Follow up' },
       { id: 5, value: 'warm', title: 'Warm' },
@@ -85,7 +85,7 @@ export const getMenuData: MenuData[] = [
     iconActive: thirdImgActive,
     component: lazyLoad(() => import('../../pages/Orders')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 11, value: 'orders', title: 'Orders' },
       { id: 12, value: 'booked', title: 'Booked' },
       { id: 13, value: 'posted', title: 'Posted' },
@@ -106,7 +106,7 @@ export const getMenuData: MenuData[] = [
     iconActive: fifthImgActive,
     component: lazyLoad(() => import('../../pages/Task')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 21, value: 'task_list', title: 'Task list' },
       { id: 22, value: 'support', title: 'Support' },
       { id: 23, value: 'completed', title: 'Completed' },
@@ -121,7 +121,7 @@ export const getMenuData: MenuData[] = [
     iconActive: sixthImgActive,
     component: lazyLoad(() => import('../../pages/Contact')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 25, value: 'all_customers', title: 'All customers' },
       { id: 26, value: 'active', title: 'Active' },
       { id: 27, value: 'inactive', title: 'Inactive' },

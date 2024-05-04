@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { MenuData, getMenuData } from '../services/menu';
+import { MenuData, SortByStatusType, getMenuData } from '../services/menu';
 import { classNames } from '../utils/helpers';
 
 type Breadcrumb = {
@@ -11,7 +11,7 @@ type Breadcrumb = {
 function HeaderMenu() {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
-  const isActive = searchParams.get('filterBy') || '';
+  const isActive = searchParams.get('status') || '';
 
   const currentPath: MenuData | undefined = getMenuData.find((menu) =>
     pathname.includes(menu.path),
@@ -50,14 +50,21 @@ function HeaderMenu() {
     setBreadcrumbs(fullBreadcrumb);
   }, [pathname]);
 
+  const handleLink = (item: SortByStatusType) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('status', item.value);
+    const newPath = `${currentPath?.path}?${params.toString()}`;
+    return newPath;
+  };
+
   return (
     <div className="header__menu menu">
       <ul className="menu__list">
-        {currentPath?.['filterBy'] ? (
-          currentPath['filterBy'].map((item) => (
+        {currentPath?.['status'] ? (
+          currentPath['status'].map((item) => (
             <li key={item.id}>
               <Link
-                to={`${currentPath.path}?filterBy=${item.value}`}
+                to={handleLink(item)}
                 className={classNames(
                   isActive === item.value ? '_active' : '',
                   'menu__link',
