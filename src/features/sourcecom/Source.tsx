@@ -1,11 +1,9 @@
-import { useState } from 'react';
+
 import FormControl from '../../ui/Form/FormControl';
 import { Select } from 'antd';
 import { useSource } from '../leads/useLeadDetails';
-export default function Source() {
-  const [source, setSource] = useState<string | null>('');
+export default function Source({setSource}) {
   const sources = useSource();
-  console.log(source);
   return (
     <FormControl title="Source">
               <Select

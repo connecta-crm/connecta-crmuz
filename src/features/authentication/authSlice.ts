@@ -48,6 +48,7 @@ const authSlice = createSlice({
 });
 
 export const getToken = (state: { auth: AuthState }) => state.auth.access_token;
+export const getUser = (state: { auth: AuthState }) => state.auth.user;
 export const getRefreshToken = (state: { auth: AuthState }) =>
   state.auth.refresh_token;
 

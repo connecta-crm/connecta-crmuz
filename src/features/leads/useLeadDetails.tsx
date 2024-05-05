@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import Leads from '../../services/leads';
 
@@ -53,7 +53,11 @@ export function usePerson(text: string) {
 }
 
 export function useCreatePerson() {
-  const { mutate: createPerson, isPending: isLoading,isSuccess } = useMutation({
+  const {
+    mutate: createPerson,
+    isPending: isLoading,
+    isSuccess,
+  } = useMutation({
     mutationFn: (item: { name: string; email: string; phone: string }) =>
       Leads.createPerson(item),
     onSuccess: () => {
@@ -63,12 +67,16 @@ export function useCreatePerson() {
       toast.error(err.message);
     },
   });
-  return { createPerson, isLoading ,isSuccess};
+  return { createPerson, isLoading, isSuccess };
 }
 
-
 export function useCreateNumber() {
-  const { mutate: createNumber, data:saveNumber, isPending,isSuccess:isCreatedSuccess } = useMutation({
+  const {
+    mutate: createNumber,
+    data: saveNumber,
+    isPending,
+    isSuccess: isCreatedSuccess,
+  } = useMutation({
     mutationFn: (item: { customer: string; phone: string }) =>
       Leads.createNumber(item),
     onSuccess: () => {
@@ -78,5 +86,20 @@ export function useCreateNumber() {
       toast.error(err.message);
     },
   });
-  return { createNumber, isPending ,isCreatedSuccess,saveNumber};
+  return { createNumber, isPending, isCreatedSuccess, saveNumber };
+}
+
+export function useCreateLead() {
+  const queryClient = useQueryClient()
+  const { mutate: create, isPending: isLoading,isSuccess } = useMutation({
+    mutationFn: (item) => Leads.createLead(item),
+    onSuccess: () => {
+      toast.success('Lead created');
+      queryClient.invalidateQueries({ queryKey: ['leads'] })
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+  return { create,isLoading,isSuccess };
 }

@@ -9,7 +9,7 @@ import {
   useCreatePerson,
   usePerson,
 } from '../leads/useLeadDetails';
-export default function Person() {
+export default function Person({ setPersonId }) {
   const [newCustomer, setNewCustomer] = useState({
     name: '',
     email: '',
@@ -22,7 +22,7 @@ export default function Person() {
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
   const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
-  console.log(customer, 'customer');
+  // console.log(customer, 'customer');
 
   const [url, seturl] = useState('');
   useEffect(() => {
@@ -55,7 +55,9 @@ export default function Person() {
     setPerson({ name: '', phone: '', email: '' });
     setSelectPersonValue(record.all);
     setCustomer(newValue);
+    setPersonId(newValue);
     setNewNumberValue('');
+    console.log(record, newValue);
   };
 
   const onChangeInput = (e) => {
@@ -152,6 +154,7 @@ export default function Person() {
       <FormControl title="Email">
         {create ? (
           <input
+            autoComplete="off"
             type="text"
             placeholder="Enter email"
             required
@@ -189,6 +192,7 @@ export default function Person() {
       <FormControl title="Phone">
         {create ? (
           <input
+            autoComplete="off"
             type="number"
             placeholder="Enter phone"
             required
@@ -258,6 +262,7 @@ export default function Person() {
           {addNumber && selectPersonValue && (
             <FormControl title="Phone">
               <input
+                autoComplete="off"
                 value={newNumberValue}
                 type="number"
                 placeholder="Enter new phone"

@@ -74,7 +74,6 @@ class Leads {
       const { data } = await this.$api.get(
         `/address/cities-list/${text ? '?q=' + text : ''}`,
       );
-      console.log(data);
 
       return data;
     } catch (error) {

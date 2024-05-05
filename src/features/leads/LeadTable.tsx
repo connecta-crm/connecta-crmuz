@@ -24,6 +24,8 @@ type openDrawerType = (data: LeadTableDataType) => void;
 
 function LeadTable({ openDrawer }: { openDrawer: openDrawerType }) {
   const { leads, count, isLoading } = useLeads();
+  console.log(count);
+  
 
   return (
     <>
