@@ -20,8 +20,6 @@ function DrawerFeatureDetailsContent() {
   // ? label'ni har FeatCtHeader ichida chaqirmasdan, shu yerda hammasini bitta qilib chaqirib qoygan yaxshi
   const { condition, originName } = data;
 
-  // console.log('leadVehicle', leadVehicles);
-
   const items: CollapseProps['items'] = [
     {
       key: '1',

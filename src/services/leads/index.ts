@@ -54,10 +54,10 @@ class Leads {
   }
 
   // PATCH: /leads/:guid/update/
-  async editLead({ guid, updatedLeadData }: EditLeadProps) {
+  async editLead({ guid, updateLeadData }: EditLeadProps) {
     try {
       const { data } = await this.$api.patch(`/leads/${guid}/update/`, {
-        ...updatedLeadData,
+        ...updateLeadData,
       });
       return data;
     } catch (error) {

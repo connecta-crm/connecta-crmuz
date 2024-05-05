@@ -1,38 +1,54 @@
-import { Select } from 'antd';
+import { Input } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getLeadData, updateField } from '../../leads/leadSlice';
 
 function FeatOriginInner() {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
+  //   {
+  //     "id": 371,
+  //     "state": {
+  //         "id": 6,
+  //         "name": "California",
+  //         "code": "CA"
+  //     },
+  //     "name": "Eureka",
+  //     "zip": "95501",
+  //     "text": null,
+  //     "long": -124.15668495735295,
+  //     "lat": 40.79577976495098
+  // }
 
-  const handleChange = (value: string) => {
-    dispatch(updateField({ field: 'condition', value }));
+  const handleChange = (field, value: string) => {
+    dispatch(updateField({ field, value }));
   };
   return (
-    <div className="d-flex justify-between">
-      <div className="form-label">Pickup city</div>
-      <Select
-        value={leadData.condition}
-        defaultValue={leadData.condition}
-        style={{ width: 200, float: 'inline-end', height: 24 }}
-        onChange={handleChange}
-        options={[
-          {
-            label: 'Run',
-            value: 'run',
-          },
-          {
-            label: 'Rols',
-            value: 'rols',
-          },
-          {
-            label: 'Forklift',
-            value: 'forklift',
-          },
-        ]}
-      />
-    </div>
+    <>
+      <div className="d-flex justify-between mb-5">
+        <div className="form-label required-label">Pickup city</div>
+        <Input
+          value={leadData.origin.state.name}
+          style={{ width: 200, float: 'inline-end', height: 24 }}
+          onChange={(e) => handleChange('origin.state.name', e.target.value)}
+        />
+      </div>
+      <div className="d-flex justify-between mb-5">
+        <div className="form-label required-label">Pickup state</div>
+        <Input
+          value={leadData.origin.state.code}
+          style={{ width: 200, float: 'inline-end', height: 24 }}
+          onChange={(e) => handleChange('origin.state.code', e.target.value)}
+        />
+      </div>
+      <div className="d-flex justify-between">
+        <div className="form-label required-label">Pickup zip</div>
+        <Input
+          value={leadData.origin.zip}
+          style={{ width: 200, float: 'inline-end', height: 24 }}
+          onChange={(e) => handleChange('origin.zip', e.target.value)}
+        />
+      </div>
+    </>
   );
 }
 

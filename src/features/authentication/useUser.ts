@@ -17,6 +17,8 @@ export function useUser() {
     enabled: !!token,
   });
 
+  console.log(data);
+
   const userData = data?.user;
   if (userData && !isLoading) {
     dispatch(setCredentials(userData));

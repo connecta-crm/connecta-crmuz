@@ -82,6 +82,7 @@ export type LeadData = {
 
 export type LeadState = {
   leadData: LeadData;
+  initialLeadData: LeadData;
   status?: 'idle' | 'loading' | 'succeeded' | 'failed';
   error?: unknown;
 };
@@ -141,6 +142,30 @@ const initialState: LeadState = {
     reservationPrice: 0,
     dateEstShip: '',
   },
+  initialLeadData: {
+    id: 0,
+    customerName: '',
+    customerPhone: '',
+    originName: '',
+    destinationName: '',
+    leadVehicles: [],
+    user: initialUser,
+    extraUser: null,
+    customer: initialCustomer,
+    origin: initialLocation,
+    destination: initialLocation,
+    source: initialSource,
+    guid: '',
+    createdAt: '',
+    updatedAt: '',
+    status: '',
+    price: 0,
+    condition: '',
+    trailerType: '',
+    notes: '',
+    reservationPrice: 0,
+    dateEstShip: '',
+  },
   status: 'idle',
 };
 
@@ -149,12 +174,17 @@ type UpdateFieldAction<T extends keyof LeadData> = {
   value: LeadData[T]; // Ensures the value is of the type that the field in LeadData expects
 };
 
+type RevertFieldAction<T extends keyof LeadData> = {
+  field: T;
+};
+
 export const leadSlice = createSlice({
   name: 'lead',
   initialState,
   reducers: {
     setLeadData: (state, action: PayloadAction<LeadData>) => {
       state.leadData = action.payload;
+      state.initialLeadData = action.payload;
     },
     updateField: <T extends keyof LeadData>(
       state: LeadState,
@@ -163,12 +193,21 @@ export const leadSlice = createSlice({
       const { field, value } = action.payload;
       state.leadData[field] = value;
     },
+    resetField: <T extends keyof LeadData>(
+      state: LeadState,
+      action: PayloadAction<RevertFieldAction<T>>,
+    ) => {
+      const { field } = action.payload;
+      if (!(field in state.initialLeadData))
+        throw new Error('Invalid Field in LeadSlice');
+      state.leadData[field] = state.initialLeadData[field];
+    },
   },
 });
 
 export const getLeadData = (state: { lead: LeadState }) => state.lead.leadData;
 
-export const { setLeadData, updateField } = leadSlice.actions;
+export const { setLeadData, updateField, resetField } = leadSlice.actions;
 
 export default leadSlice.reducer;
 

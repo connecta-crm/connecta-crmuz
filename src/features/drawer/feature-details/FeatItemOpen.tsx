@@ -1,9 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
-import { useAppSelector } from '../../../store/hooks';
-import { getLeadData } from '../../leads/leadSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { getLeadData, resetField, setLeadData } from '../../leads/leadSlice';
 import { useEditLead } from '../useEditLead';
 import { useEditVehicle } from '../useEditVehicle';
 
@@ -22,11 +23,12 @@ function FeatItemOpen({
 
   const formData = useAppSelector((state) => state.vehicle.formData);
   const leadData = useAppSelector(getLeadData);
+  const dispatch = useAppDispatch();
 
   const { editVehicle } = useEditVehicle();
-  const { editLead, isLoading } = useEditLead();
+  const { editLead, updatedLeadData, isLoading, error } = useEditLead();
 
-  const updatedLeadData = {
+  const updateLeadData = {
     ...leadData,
     customer: leadData.customer.id,
     source: leadData.source.id,
@@ -42,18 +44,21 @@ function FeatItemOpen({
         editVehicle(formData);
         break;
       case 'lead_condition':
-        editLead({ guid: leadData.guid, updatedLeadData });
+        editLead({ guid: leadData.guid, updateLeadData });
         break;
     }
   };
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !error) {
+      const merged = merge({}, leadData, updatedLeadData);
+      dispatch(setLeadData(merged));
       onChangeInnerCollapse(keyValue);
     }
-  }, [isLoading, keyValue]);
+  }, [isLoading, keyValue, error]);
 
-  const handleCancelClick = () => {
+  const handleCancel = () => {
+    dispatch(resetField({ field: 'condition' }));
     onChangeInnerCollapse(keyValue);
   };
 
@@ -68,7 +73,7 @@ function FeatItemOpen({
             block
             size="small"
             disabled={isLoading}
-            onClick={handleCancelClick}
+            onClick={handleCancel}
           >
             Cancel
           </Button>

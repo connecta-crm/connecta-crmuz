@@ -4,7 +4,7 @@ import Leads from '../../services/leads';
 
 export type EditLeadProps = {
   guid: string;
-  updatedLeadData: object;
+  updateLeadData: object;
 };
 
 export function useEditLead() {
@@ -13,9 +13,10 @@ export function useEditLead() {
     mutate: editLead,
     isPending: isLoading,
     isError: error,
+    data: updatedLeadData,
   } = useMutation({
-    mutationFn: ({ guid, updatedLeadData }: EditLeadProps) =>
-      Leads.editLead({ guid, updatedLeadData }),
+    mutationFn: ({ guid, updateLeadData }: EditLeadProps) =>
+      Leads.editLead({ guid, updateLeadData }),
     onSuccess: (data) => {
       queryClient.setQueryData(['lead'], data);
       toast.success('Lead successfully edited');
@@ -25,5 +26,5 @@ export function useEditLead() {
     onError: (err) => toast.error(err.message),
   });
 
-  return { isLoading, editLead, error };
+  return { isLoading, updatedLeadData, editLead, error };
 }
