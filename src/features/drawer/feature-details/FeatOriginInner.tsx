@@ -5,19 +5,6 @@ import { getLeadData, updateField } from '../../leads/leadSlice';
 function FeatOriginInner() {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
-  //   {
-  //     "id": 371,
-  //     "state": {
-  //         "id": 6,
-  //         "name": "California",
-  //         "code": "CA"
-  //     },
-  //     "name": "Eureka",
-  //     "zip": "95501",
-  //     "text": null,
-  //     "long": -124.15668495735295,
-  //     "lat": 40.79577976495098
-  // }
 
   const handleChange = (field, value: string) => {
     dispatch(updateField({ field, value }));

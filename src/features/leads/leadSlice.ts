@@ -178,6 +178,20 @@ type RevertFieldAction<T extends keyof LeadData> = {
   field: T;
 };
 
+function setNestedObjectValue(obj, path, value) {
+  // Split the path into an array of keys
+  const keys = path.split('.');
+  // Get the last key
+  const lastKey = keys.pop();
+  // Reduce the keys array to navigate to the nested object
+  const lastObj = keys.reduce((acc, key) => {
+    if (acc[key] === undefined) acc[key] = {}; // Create nested object if it does not exist
+    return acc[key];
+  }, obj);
+  // Set the value to the last key
+  lastObj[lastKey] = value;
+}
+
 export const leadSlice = createSlice({
   name: 'lead',
   initialState,
@@ -191,7 +205,9 @@ export const leadSlice = createSlice({
       action: PayloadAction<UpdateFieldAction<T>>,
     ) => {
       const { field, value } = action.payload;
-      state.leadData[field] = value;
+      setNestedObjectValue(state.leadData, field, value);
+
+      // state.leadData[field] = value;
     },
     resetField: <T extends keyof LeadData>(
       state: LeadState,

@@ -59,6 +59,13 @@ function DrawerFeatureDetailsContent() {
     },
   ];
 
+  const updatedItems = items.filter((item) => {
+    if (!condition) {
+      return item.key !== '2';
+    }
+    return item;
+  });
+
   return (
     <div className="box-header-inner">
       <Collapse
@@ -66,7 +73,7 @@ function DrawerFeatureDetailsContent() {
         ghost
         collapsible="icon"
         onChange={onChangeInnerCollapse}
-        items={items}
+        items={updatedItems}
       />
     </div>
   );
