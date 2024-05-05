@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { EditLeadProps } from '../../features/drawer/useEditLead';
 import { LeadsParamsType } from '../../features/leads/useLeads';
 import apiClient from '../axios';
 
@@ -39,9 +40,25 @@ class Leads {
     }
   }
 
+  // GET: /leads/:guid/detail/
   async getLead(guid: string | null) {
     try {
       const { data } = await this.$api.get(`/leads/${guid}/detail/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // PATCH: /leads/:guid/update/
+  async editLead({ guid, updateLeadData }: EditLeadProps) {
+    try {
+      const { data } = await this.$api.patch(`/leads/${guid}/update/`, {
+        ...updateLeadData,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

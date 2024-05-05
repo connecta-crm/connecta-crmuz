@@ -5,15 +5,20 @@ import { useAppSelector } from '../../store/hooks';
 import { getLeadData } from '../leads/leadSlice';
 import FeatConditionHeader from './feature-details/FeatConditionHeader';
 import FeatConditionInner from './feature-details/FeatConditionInner';
+import FeatOriginHeader from './feature-details/FeatOriginHeader';
+import FeatOriginInner from './feature-details/FeatOriginInner';
 import FeatVehicleHeader from './feature-details/FeatVehicleHeader';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
 function DrawerFeatureDetailsContent() {
   const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
-  const { leadVehicles } = useAppSelector(getLeadData);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
 
-  console.log('leadVehicle', leadVehicles);
+  const { leadVehicles } = useAppSelector(getLeadData);
+  const data = useAppSelector(getLeadData);
+  // ? label'ni har FeatCtHeader ichida chaqirmasdan, shu yerda hammasini bitta qilib chaqirib qoygan yaxshi
+  const { condition, originName } = data;
 
   const items: CollapseProps['items'] = [
     {
@@ -28,25 +33,25 @@ function DrawerFeatureDetailsContent() {
       ),
       showArrow: false,
     },
-    // {
-    //   key: '11',
-    //   label: <FeatVehicleHeader keyValue={'11'} />,
-    //   children: (
-    //     <div className="detail-inner">
-    //       <div className="detail-inner__form">
-    //         <FeatVehicleInner />
-    //       </div>
-    //     </div>
-    //   ),
-    //   showArrow: false,
-    // },
     {
       key: '2',
-      label: <FeatConditionHeader keyValue={'2'} />,
+      label: <FeatConditionHeader keyValue={'2'} label={condition} />,
       children: (
         <div className="detail-inner">
           <div className="detail-inner__form">
             <FeatConditionInner />
+          </div>
+        </div>
+      ),
+      showArrow: false,
+    },
+    {
+      key: '3',
+      label: <FeatOriginHeader keyValue={'3'} label={originName} />,
+      children: (
+        <div className="detail-inner">
+          <div className="detail-inner__form">
+            <FeatOriginInner />
           </div>
         </div>
       ),

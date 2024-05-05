@@ -26,7 +26,7 @@ const rowSelection = {
 };
 
 type OpenDrawerType = {
-  openDrawer: (e: boolean) => void;
+  openDrawer: () => void;
 };
 
 function LeadTable({ openDrawer }: OpenDrawerType) {
@@ -37,17 +37,16 @@ function LeadTable({ openDrawer }: OpenDrawerType) {
   const dispatch = useAppDispatch();
 
   const handleOpenDrawer = (guid: string) => {
-    openDrawer(false);
-    setGuid(guid);
+    setGuid(null);
+    setTimeout(() => setGuid(guid), 0);
   };
 
   useEffect(() => {
     if (!isLoadingLead && !error) {
       dispatch(setLeadData(lead));
-      openDrawer(true);
+      openDrawer();
     }
-  }, [isLoadingLead, error, dispatch, lead]);
-  console.log(count);
+  }, [isLoadingLead, error, dispatch]);
 
   return (
     <>

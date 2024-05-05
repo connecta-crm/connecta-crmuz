@@ -1,44 +1,213 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-// export type VehicleFormData = {
-//   vehicleYear: string;
-//   vehicleMake: string;
-//   vehicleModel: string;
-//   vehicleType: string;
-// };
+type Mark = {
+  id: number;
+  name: string;
+};
 
-// export type VehicleState = {
-//   formData: VehicleFormData;
-//   status?: 'idle' | 'loading' | 'succeeded' | 'failed';
-//   error?: unknown;
-// };
+type Vehicle = {
+  id: number;
+  mark: Mark;
+  name: string;
+  vehicleType: string;
+};
 
-// type UpdateFieldAction = {
-//   field: keyof VehicleState['formData'];
-//   value: string;
-// };
+type LeadVehicle = {
+  id: number;
+  vehicle: Vehicle;
+  vehicleYear: number;
+  lead: number;
+};
+
+type User = {
+  id: number;
+  picture: string;
+};
+
+type Customer = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type State = {
+  id: number;
+  name: string;
+  code: string;
+};
+
+type Location = {
+  id: number;
+  state: State;
+  name: string;
+  zip: string;
+  text: string | null;
+  long: number;
+  lat: number;
+};
+
+type Source = {
+  id: number;
+  name: string;
+};
+
+export type LeadData = {
+  id: number;
+  customerName: string;
+  customerPhone: string;
+  originName: string;
+  destinationName: string;
+  leadVehicles: LeadVehicle[];
+  user: User;
+  extraUser: null;
+  customer: Customer;
+  origin: Location;
+  destination: Location;
+  source: Source;
+  guid: string;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+  price: number;
+  condition: string;
+  trailerType: string;
+  notes: string;
+  reservationPrice: number;
+  dateEstShip: string;
+};
 
 export type LeadState = {
-  leadData: object;
+  leadData: LeadData;
+  initialLeadData: LeadData;
+  status?: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error?: unknown;
+};
+
+const initialUser: User = {
+  id: 0,
+  picture: '',
+};
+
+const initialCustomer: Customer = {
+  id: 0,
+  name: '',
+  email: '',
+  phone: '',
+  note: null,
+  createdAt: '',
+  updatedAt: '',
+};
+
+const initialLocation: Location = {
+  id: 0,
+  state: { id: 0, name: '', code: '' },
+  name: '',
+  zip: '',
+  text: null,
+  long: 0,
+  lat: 0,
+};
+
+const initialSource: Source = {
+  id: 0,
+  name: '',
 };
 
 const initialState: LeadState = {
-  leadData: {},
+  leadData: {
+    id: 0,
+    customerName: '',
+    customerPhone: '',
+    originName: '',
+    destinationName: '',
+    leadVehicles: [],
+    user: initialUser,
+    extraUser: null,
+    customer: initialCustomer,
+    origin: initialLocation,
+    destination: initialLocation,
+    source: initialSource,
+    guid: '',
+    createdAt: '',
+    updatedAt: '',
+    status: '',
+    price: 0,
+    condition: '',
+    trailerType: '',
+    notes: '',
+    reservationPrice: 0,
+    dateEstShip: '',
+  },
+  initialLeadData: {
+    id: 0,
+    customerName: '',
+    customerPhone: '',
+    originName: '',
+    destinationName: '',
+    leadVehicles: [],
+    user: initialUser,
+    extraUser: null,
+    customer: initialCustomer,
+    origin: initialLocation,
+    destination: initialLocation,
+    source: initialSource,
+    guid: '',
+    createdAt: '',
+    updatedAt: '',
+    status: '',
+    price: 0,
+    condition: '',
+    trailerType: '',
+    notes: '',
+    reservationPrice: 0,
+    dateEstShip: '',
+  },
+  status: 'idle',
+};
+
+type UpdateFieldAction<T extends keyof LeadData> = {
+  field: T;
+  value: LeadData[T]; // Ensures the value is of the type that the field in LeadData expects
+};
+
+type RevertFieldAction<T extends keyof LeadData> = {
+  field: T;
 };
 
 export const leadSlice = createSlice({
   name: 'lead',
   initialState,
   reducers: {
-    setLeadData: (state, action: PayloadAction<object>) => {
+    setLeadData: (state, action: PayloadAction<LeadData>) => {
       state.leadData = action.payload;
+      state.initialLeadData = action.payload;
+    },
+    updateField: <T extends keyof LeadData>(
+      state: LeadState,
+      action: PayloadAction<UpdateFieldAction<T>>,
+    ) => {
+      const { field, value } = action.payload;
+      state.leadData[field] = value;
+    },
+    resetField: <T extends keyof LeadData>(
+      state: LeadState,
+      action: PayloadAction<RevertFieldAction<T>>,
+    ) => {
+      const { field } = action.payload;
+      if (!(field in state.initialLeadData))
+        throw new Error('Invalid Field in LeadSlice');
+      state.leadData[field] = state.initialLeadData[field];
     },
   },
 });
 
 export const getLeadData = (state: { lead: LeadState }) => state.lead.leadData;
 
-export const { setLeadData } = leadSlice.actions;
+export const { setLeadData, updateField, resetField } = leadSlice.actions;
 
 export default leadSlice.reducer;
 

@@ -37,7 +37,11 @@ function FeatVehicleHeader({ keyValue }: FeatVehicleProps) {
       <div className="detail__header d-flex align-center justify-between">
         <FeatItemLabel label="Vehicle" icon="car" />
         {openInnerPanels?.includes(keyValue) ? (
-          <FeatItemOpen keyValue={keyValue} hasAddAction={true} />
+          <FeatItemOpen
+            keyValue={keyValue}
+            feature="vehicle"
+            hasAddAction={true}
+          />
         ) : (
           <FeatItemClose keyValue={keyValue} label={label} />
         )}
