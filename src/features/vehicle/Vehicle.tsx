@@ -8,7 +8,7 @@ import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
 import Input from '../../ui/Form/Input';
 
-export default function Vehicle() {
+export default function Vehicle({setCarModel}) {
   const [modelValue, setModelValue] = useState(null);
   const [makeValue, setMakeValue] = useState(null);
   const [searchCarMake, setSearchCarMake] = useState('');
@@ -19,7 +19,6 @@ export default function Vehicle() {
 
   // serach handle
   const handleSearchCar = (value: string, from: string) => {
-    console.log(value);
 
     if (from === 'make') {
       setSearchCarMake(value);
@@ -44,6 +43,7 @@ export default function Vehicle() {
     
     setVhicleType(d?.vehicleType)
     setModelValue(record);
+    setCarModel(d.id)
   };
 
   return (
@@ -111,7 +111,7 @@ export default function Vehicle() {
         <InputCol>
           <Input
             defaultValue={vhicleType}
-            name="vehicl_type"
+            name="disabled_value"
             type="text"
             placeholder="Vehicle type"
           />

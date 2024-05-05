@@ -47,6 +47,7 @@ function LeadTable({ openDrawer }: OpenDrawerType) {
       openDrawer(true);
     }
   }, [isLoadingLead, error, dispatch, lead]);
+  console.log(count);
 
   return (
     <>

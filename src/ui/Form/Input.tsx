@@ -11,11 +11,12 @@ function Input({
 }) {
   return (
     <input
+      autoComplete="off"
       disabled={name == 'disabled_value'}
       name={name}
       type={type}
       placeholder={placeholder}
-      required
+      // required
       defaultValue={defaultValue}
     />
   );

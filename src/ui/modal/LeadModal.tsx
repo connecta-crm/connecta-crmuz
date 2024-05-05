@@ -1,11 +1,13 @@
 import { Select } from 'antd';
 import { useState } from 'react';
 import Person from '../../features/Person/Person';
+import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/delivery/Delivery';
-import { useCity } from '../../features/leads/useLeadDetails';
+import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/pickup/Pickup';
 import Source from '../../features/sourcecom/Source';
 import Vehicle from '../../features/vehicle/Vehicle';
+import { useAppSelector } from '../../store/hooks';
 import UseDatePicker from '../DatePicker/DatePicker';
 import FormControl from '../Form/FormControl';
 import Input from '../Form/Input';
@@ -17,24 +19,53 @@ export default function LeadModal() {
   const [conditionValue, setConditionValue] = useState<string | null>(null);
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const [trailerType, setTrailerType] = useState<string | null>('');
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [cityValue, setCityValue] = useState(null);
+  const [origin, setOrigin] = useState<string | null>('');
+  const [delivery, setDelivery] = useState<string | null>('');
+  const [source, setSource] = useState<string | null>('');
+  const [personId, setPersonId] = useState<string | null>('');
+  const [carModel, setCarModel] = useState<string | null>('');
 
-  //   useEffect(()=>{
-  // console.log(cityValue);
+  const user = useAppSelector((item) => getUser(item));
+  const { create, isLoading, isSuccess } = useCreateLead();
+  const createLead = (e) => {
+    e.preventDefault();
 
-  //   },[cityValue])
-
-  const [searchCity, setSearchCity] = useState('');
-
-  const citys = useCity(searchCity);
+    const items = Object.fromEntries(new FormData(e.target));
+    const data = {
+      vehicles: [
+        {
+          vehicle: carModel,
+          vehicleYear: items.vehicle_year,
+        },
+      ],
+      status: 'leads',
+      // price: 2147483647,
+      condition: conditionValue,
+      trailerType: trailerType,
+      notes: items.cm_note,
+      // reservationPrice: 2147483647,
+      dateEstShip: items.est_ship_date,
+      customer: personId,
+      source: source,
+      origin: origin,
+      destination: delivery,
+      user: user?.id,
+      // extraUser: 0,
+    };
+    create(data);
+  };
 
   return (
-    <Modal title="New Lead" onSubmit={() => console.log('Lead')}>
+    <Modal
+      isLoading={isLoading}
+      isSuccess={isSuccess}
+      title="New Lead"
+      onSubmit={(e) => createLead(e)}
+    >
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">
-            <Vehicle />
+            <Vehicle setCarModel={setCarModel} />
             <FormControl title="Condition">
               <Select
                 defaultValue=""
@@ -48,8 +79,8 @@ export default function LeadModal() {
                 ]}
               />
             </FormControl>
-            <Pickup />
-            <Delivery />
+            <Pickup setPickup={setOrigin} />
+            <Delivery setDelivery={setDelivery} />
             <FormControl title="Trailer type">
               <Select
                 defaultValue=""
@@ -64,7 +95,7 @@ export default function LeadModal() {
             <FormControl title="Est. Ship Date">
               <UseDatePicker type={'date'} name="est_ship_date" />
             </FormControl>
-            <Source />
+            <Source setSource={setSource} />
 
             <div className="form__footer">
               <Label>CM note</Label>
@@ -78,7 +109,7 @@ export default function LeadModal() {
           </UpCollapse>
         </div>
         <div className="modal__col">
-          <Person />
+          <Person setPersonId={setPersonId} />
         </div>
       </div>
     </Modal>

@@ -85,7 +85,6 @@ class Leads {
       const { data } = await this.$api.get(
         `/address/cities-list/${text ? '?q=' + text : ''}`,
       );
-      console.log(data);
 
       return data;
     } catch (error) {
@@ -123,6 +122,17 @@ class Leads {
   async createPerson(item: { name: string; email: string; phone: string }) {
     try {
       const { data } = await this.$api.post(`/customers/create/`, item);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+  async createNumber(item: { customer: string; phone: string }) {
+    try {
+      const { data } = await this.$api.post(`/customers/create-contact/`, item);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
