@@ -72,6 +72,8 @@ function DrawerLeft() {
           label="Person"
           value="person"
           openPanels={openPanels}
+          isEditDetails={isEditDetails}
+          onEditDetails={onEditDetails}
           onChange={onChangePerson}
         />
       ),
