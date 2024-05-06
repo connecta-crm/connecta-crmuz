@@ -25,7 +25,7 @@ const rowSelection = {
 export default function CompanyName() {
   return (
     <div className="company">
-      <TableHeader pageName='Company'/>
+      <TableHeader />
        <div className='table__container'>
         <Table
           rowSelection={{

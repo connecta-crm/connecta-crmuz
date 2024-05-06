@@ -6,10 +6,29 @@ import InputCol from '../../ui/Form/InputCol';
 import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
 import { useCity } from '../leads/useLeadDetails';
-export default function Pickup({ setPickup }) {
-  const [cityValue, setCityValue] = useState(null);
+import { DefaultOptionType } from 'antd/es/select';
+type CityType = {
+  id?: string;
+  name?: string;
+  state?: { id: string; name: string; code: string };
+  zip?: string;
+};
+
+export default function Pickup({
+  setPickup,
+}: {
+  setPickup: (a: string | null) => void;
+}) {
+  const [cityValue, setCityValue] = useState<CityType | null>(null);
   const [searchCity, setSearchCity] = useState('');
   const citys = useCity(searchCity);
+
+  const onChangeHandler = (value: string, data: DefaultOptionType) => {
+    setPickup(value);
+    setCityValue(data.data);
+  };
+
+
   return (
     <DownCollapse title="Pickup">
       <InputRow>
@@ -26,10 +45,10 @@ export default function Pickup({ setPickup }) {
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
-            onChange={(data, record) => {
-              setCityValue(record?.data);
-              setPickup(data);
-            }}
+            onChange={(
+              value,
+              record: DefaultOptionType | DefaultOptionType[],
+            ) => onChangeHandler(value, record)}
             options={(citys || []).map((d: { id: number; name: string }) => ({
               value: d.id,
               data: d,
@@ -67,10 +86,10 @@ export default function Pickup({ setPickup }) {
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
-            onChange={(data, record) => {
-              setCityValue(record?.data);
-              setPickup(data);
-            }}
+            onChange={(
+              value,
+              record: DefaultOptionType | DefaultOptionType[],
+            ) => onChangeHandler(value, record)}
             options={(citys || []).map((d: { id: number; zip: string }) => ({
               value: d.id,
               data: d,

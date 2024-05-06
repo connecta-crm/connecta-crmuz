@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-type  UserType = {
-  id: string,
-  firstName: string,
-  lastName: string,
-  email: string,
+
+type UserType = {
+  email: string;
+  firstName: string;
+  id: string;
+  lastName: string;
 };
+
 type AuthState = {
   access_token: string | null;
   refresh_token: string | null;
@@ -38,7 +40,7 @@ const authSlice = createSlice({
       state.refresh_token = refresh_token;
       localStorage.setItem('refresh_token', refresh_token);
     },
-    setCredentials: (state, action: PayloadAction<object>) => {
+    setCredentials: (state, action: PayloadAction<UserType>) => {
       state.user = action.payload;
     },
     logout: (state) => {

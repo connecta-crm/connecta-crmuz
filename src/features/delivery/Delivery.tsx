@@ -27,7 +27,6 @@ export default function Delivery({
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
     setDelivery(value);
     setCityValue(data.data);
-    console.log(data);
   };
 
   return (

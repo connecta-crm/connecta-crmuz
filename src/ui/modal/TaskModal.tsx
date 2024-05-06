@@ -34,12 +34,12 @@ export default function TaskModal() {
   };
 
   return (
-    <Modal title="New Task" onSubmit={getFotmData}>
+    <Modal isLoading title="New Task" onSubmit={getFotmData}>
       <div className="modal__row">
         <div className="modal__col">
           <div className="form__control">
             <img src={''} width="17px" height="17px" alt="" />
-            <Input type="text" placeholder="Title" name="title" />
+            <Input defaultValue="" type="text" placeholder="Title" name="title" />
           </div>
 
           <div className="task__modal__menu form__control">

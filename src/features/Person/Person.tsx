@@ -1,5 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import FormControl from '../../ui/Form/FormControl';
 import Input from '../../ui/Form/Input';
@@ -9,8 +10,12 @@ import {
   useCreatePerson,
   usePerson,
 } from '../leads/useLeadDetails';
-export default function Person({ setPersonId }) {
-  const [newCustomer, setNewCustomer] = useState({
+export default function Person({
+  setPersonId,
+}: {
+  setPersonId: (a: string | null) => void;
+}) {
+  const [newCustomer, setNewCustomer] = useState<{name:string,email:string,phone:string}>({
     name: '',
     email: '',
     phone: '',
@@ -18,7 +23,8 @@ export default function Person({ setPersonId }) {
   const [addNumber, setAddNumber] = useState(false);
   const [newNumberValue, setNewNumberValue] = useState('');
   const [create, setCreate] = useState(false);
-  const [selectPersonValue, setSelectPersonValue] = useState(null);
+  const [selectPersonValue, setSelectPersonValue] =
+    useState<DefaultOptionType | null>(null);
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
   const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
@@ -50,7 +56,7 @@ export default function Person({ setPersonId }) {
     setPerson({ ...person, phone: newValue });
   };
 
-  const handleChangePerson = (newValue: string, record) => {
+  const handleChangePerson = (newValue: string, record: DefaultOptionType) => {
     setPerson({ name: '', phone: '', email: '' });
     setSelectPersonValue(record.all);
     setCustomer(newValue);
@@ -94,20 +100,23 @@ export default function Person({ setPersonId }) {
     setPerson({ name: '', phone: '', email: '' });
   }, [create]);
 
-  const { createNumber, isPending, isCreatedSuccess, saveNumber } =
-    useCreateNumber();
-  useEffect(() => {
-    if (isCreatedSuccess) {
-      setSelectPersonValue({
-        ...selectPersonValue,
-        extra: [...selectPersonValue.extra, saveNumber],
-      });
-      setAddNumber(false);
-      setNewNumberValue('');
-    }
-  }, [isCreatedSuccess]);
+  const { createNumber, isPending } = useCreateNumber();
   const createNewNumber = () => {
-    createNumber({ phone: newNumberValue, customer: customer });
+    createNumber(
+      { phone: newNumberValue, customer: customer },
+      {
+        onSuccess: (data) => {
+          if (data && selectPersonValue) {
+            setSelectPersonValue({
+              ...selectPersonValue,
+              extra: [...selectPersonValue.extra, data],
+            });
+            setAddNumber(false);
+            setNewNumberValue('');
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -244,7 +253,7 @@ export default function Person({ setPersonId }) {
         </div>
       )}
       {selectPersonValue?.extra?.length > 0 &&
-        selectPersonValue?.extra?.map((item) => (
+        selectPersonValue?.extra?.map((item: DefaultOptionType) => (
           <FormControl key={item.id} title="Phone">
             <Input
               type="text"

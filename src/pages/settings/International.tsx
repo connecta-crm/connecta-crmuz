@@ -24,7 +24,7 @@ const rowSelection = {
 export default function International() {
   return (
     <div className="international">
-      <TableHeader pageName='international'/>
+      <TableHeader />
          <div className='table__container'>
         <Table
           rowSelection={{

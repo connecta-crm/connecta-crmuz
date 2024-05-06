@@ -56,6 +56,8 @@ export default function Vehicle({
     value: DefaultOptionType,
     record: DefaultOptionType,
   ) => {
+    console.log(value);
+    
     const d = record.data;
     setMakeValue({ value: d.mark.id, label: d.mark.name });
     setCarModel(d.id);

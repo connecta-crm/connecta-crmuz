@@ -26,7 +26,7 @@ const rowSelection = {
 export default function Users() {
   return (
     <div className="users">
-      <TableHeader pageName='User'/>
+      <TableHeader />
          <div className='table__container'>
           <Table
             rowSelection={{

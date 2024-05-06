@@ -25,6 +25,8 @@ export default function LeadModal() {
   const [carModel, setCarModel] = useState<string | null>('');
 
   const user = useAppSelector((item) => getUser(item));
+  console.log(user);
+  
   const { create, isLoading } = useCreateLead();
 
   const createLead = (e:React.FormEvent<HTMLFormElement>) => {

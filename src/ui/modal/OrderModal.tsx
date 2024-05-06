@@ -22,7 +22,7 @@ export default function OrderModal() {
   return (
 
 
-    <Modal title='New Order' onSubmit={onSubmit}>
+    <Modal isLoading title='New Order' onSubmit={onSubmit}>
       <div className='modal__row'>
         <div className='modal__col'>
           <UpCollapse title="Details">
@@ -46,7 +46,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='vehicle_make' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_make' />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -57,7 +57,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='vehicle_model' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_model' />
                 </InputCol>
               </InputRow>
               {/* --------- */}
@@ -65,22 +65,22 @@ export default function OrderModal() {
               <div className='vehicle__details'>
                 <div className='vehicle__details__left'>
                     <Label>Lot</Label>
-                    <Input type='text' placeholder='Empty' name='vehicle_lot' />
+                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_lot' />
                 </div>
                 <div className='vehicle__details__right'>
                     <Label>VIN</Label>
-                    <Input type='text' placeholder='Empty' name='vehicle_vin' />
+                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_vin' />
                 </div>
               </div>
 
               <div className='vehicle__details'>
                 <div className='vehicle__details__left'>
                     <Label>Color</Label>
-                    <Input type='text' placeholder='Empty' name='vehicle_color' />
+                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_color' />
                 </div>
                 <div className='vehicle__details__right'>
                     <Label>Plate</Label>
-                    <Input type='text' placeholder='Empty' name='vehicle_plate' />
+                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_plate' />
                 </div>
               </div>
 
@@ -88,13 +88,13 @@ export default function OrderModal() {
               {/* <InputRow>
                 <InputCol>
                  
-                  <Input type='text' placeholder='Empty' name='vehicle_model' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_model' />
                 </InputCol>
                 <InputCol>
                   <Label>
                     VIN
                   </Label>
-                  <Input type='text' placeholder='Empty' name='vehicle_model' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_model' />
                 </InputCol>
               </InputRow> */}
 
@@ -103,13 +103,13 @@ export default function OrderModal() {
                   <Label>
                     Color
                   </Label>
-                  <Input type='text' placeholder='Empty' name='vehicle_model' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_model' />
                 </InputCol>
                 <InputCol>
                   <Label>
                     Plate
                   </Label>
-                  <Input type='text' placeholder='Empty' name='vehicle_model' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_model' />
                 </InputCol>
               </InputRow> */}
 
@@ -138,7 +138,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_address' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_address' />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -149,7 +149,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_city' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_city' />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -160,7 +160,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_state' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_state' />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -171,7 +171,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_zip' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_zip' />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -182,7 +182,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_business_name' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_business_name' />
                 </InputCol>
               </InputRow>
 
@@ -194,7 +194,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_business_phone' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_business_phone' />
                 </InputCol>
               </InputRow>
 
@@ -206,17 +206,17 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_contact_person' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_contact_person' />
                 </InputCol>
               </InputRow>
               <div className='phone__details'>
                 <div className='phone__details__left'>
                   <Label>Phone</Label>
-                  <Input type='text' placeholder='Empty' name='pickup_phone__first'/>
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_phone__first'/>
                 </div>
                 <div className='phone__details__right'>
                   <Label>Second</Label>
-                  <Input type='text' placeholder='Empty' name='pickup_phone__second'/>
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_phone__second'/>
                 </div>
               </div>
               <InputRow>
@@ -227,7 +227,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='pickup_buyer_number' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_buyer_number' />
                 </InputCol>
               </InputRow>
 
@@ -244,7 +244,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='delivery_address' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_address' />
                 </InputCol>
               </InputRow>
 
@@ -256,7 +256,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='delivery_city' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_city' />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -267,7 +267,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name='delivery_state' />
+                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_state' />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -278,7 +278,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name="delivery_zip" />
+                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_zip" />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -289,7 +289,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name="delivery_business_name" />
+                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_business_name" />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -300,7 +300,7 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name="delivery_business_phone" />
+                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_business_phone" />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -311,18 +311,18 @@ export default function OrderModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type='text' placeholder='Empty' name="delivery_contact_person*" />
+                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_contact_person*" />
                 </InputCol>
               </InputRow>
 
               <div className='phone__details'>
                 <div className='phone__details__left'>
                   <Label>Phone</Label>
-                  <Input type='text' placeholder='Empty' name='delivery_phone__first'/>
+                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_phone__first'/>
                 </div>
                 <div className='phone__details__right'>
                   <Label>Second</Label>
-                  <Input type='text' placeholder='Empty' name='delivery_phone__second'/>
+                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_phone__second'/>
                 </div>
               </div>
 
@@ -349,13 +349,13 @@ export default function OrderModal() {
               <Label>
                 Cd note
               </Label>
-              <Input type='text' placeholder='Empty' name='cd_note' />
+              <Input defaultValue="" type='text' placeholder='Empty' name='cd_note' />
             </div>
             <div className='form__footer'>
               <Label>
                 CM note
               </Label>
-              <Input type='text' placeholder='Empty' name='cm_note' />
+              <Input defaultValue="" type='text' placeholder='Empty' name='cm_note' />
             </div>
 
           </UpCollapse>
@@ -363,13 +363,13 @@ export default function OrderModal() {
         <div className='modal__col'>
           <UpCollapse title="Person">
             <FormControl title="Name">
-              <Input type='text' placeholder='Empty' name='person_name' />
+              <Input defaultValue="" type='text' placeholder='Empty' name='person_name' />
             </FormControl>
             <FormControl title="Email">
-              <Input type='text' placeholder='Empty' name='person_email' />
+              <Input defaultValue="" type='text' placeholder='Empty' name='person_email' />
             </FormControl>
             <FormControl title="Phone">
-              <Input type='number' placeholder='Empty' name='person_phone' />
+              <Input defaultValue="" type='number' placeholder='Empty' name='person_phone' />
             </FormControl>
           </UpCollapse>
 

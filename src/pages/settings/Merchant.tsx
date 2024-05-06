@@ -24,7 +24,7 @@ const rowSelection = {
 export default function Merchant() {
   return (
     <div className="merchant">
-      <TableHeader pageName='merchant'/>
+      <TableHeader />
        <div className='table__container'>
         <Table
           rowSelection={{

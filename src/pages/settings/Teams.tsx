@@ -22,7 +22,7 @@ const rowSelection = {
 export default function Teams() {
   return (
     <div className='team'>
-      <TableHeader pageName='Team'/>
+      <TableHeader />
        <div className='table__container'>
           <Table
             rowSelection={{
