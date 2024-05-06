@@ -135,7 +135,7 @@ export default function Vehicle({
         <InputCol>
           <Input
             defaultValue={vhicleType}
-            name="vehicl_type"
+            name="disabled_value"
             type="text"
             placeholder="Vehicle type"
           />
