@@ -10,8 +10,8 @@ import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
 
 type DataType = {
-  value: string;
-  label: string;
+  mark: string;
+  q: string;
 };
 
 export default function Vehicle({
@@ -19,18 +19,18 @@ export default function Vehicle({
 }: {
   setCarModel: (a: string | null) => void;
 }) {
-  const [modelValue, setModelValue] = useState<DataType | null>(null);
-  const [makeValue, setMakeValue] = useState<DataType | null>(null);
+  const [modelValue, setModelValue] = useState<DefaultOptionType | null>(null);
+  const [makeValue, setMakeValue] = useState<DefaultOptionType | null>(null);
   const [searchCarMake, setSearchCarMake] = useState('');
-  const [searchCarModel, setSearchCarModel] = useState({ mark: '', q: '' });
+  const [searchCarModel, setSearchCarModel] = useState<
+    DataType | DefaultOptionType
+  >({ mark: '', q: '' });
   const [vhicleType, setVhicleType] = useState('');
   const makes = useMake(searchCarMake);
   const models = useModel(searchCarModel);
 
   // serach handle
   const handleSearchCar = (value: string, from: string) => {
-    console.log(value);
-
     if (from === 'make') {
       setSearchCarMake(value);
       return;
@@ -42,25 +42,25 @@ export default function Vehicle({
   };
 
   const handleSelectMake = (
-    value: string | null,
+    value: DefaultOptionType | string,
     record: DefaultOptionType,
   ) => {
     setVhicleType('');
     setModelValue(null);
     setMakeValue(record);
-    setSearchCarModel({ ...searchCarModel, mark: value ? value : '', q: '' });
+
+    setSearchCarModel({ ...searchCarModel, mark: value, q: '' });
   };
 
   const handleSelectModel = (
-    value: string | null,
+    value: DefaultOptionType,
     record: DefaultOptionType,
   ) => {
     const d = record.data;
     setMakeValue({ value: d.mark.id, label: d.mark.name });
-    setCarModel(value);
+    setCarModel(d.id);
     setVhicleType(d?.vehicleType);
-    // setModelValue({value:record.value,label:record.label});
-    console.log(record);
+    setModelValue({ value: record.value, label: record.label });
   };
 
   return (
@@ -89,7 +89,9 @@ export default function Vehicle({
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => handleSearchCar(value, 'make')}
-            onChange={(data, record) => handleSelectMake(data, record)}
+            onChange={(data: DefaultOptionType, record) =>
+              handleSelectMake(data, record)
+            }
             options={(makes || []).map((d: { id: string; name: string }) => ({
               value: d.id,
               label: d.name,

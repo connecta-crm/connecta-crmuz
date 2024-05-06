@@ -1,28 +1,19 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { FormEvent, useEffect } from 'react';
 import { useModal } from '../../context/ModalContext';
-type onSubmitType = (e: FormEvent) => void;
+type onSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
 
 export default function Modal({
   title,
   children,
   isLoading,
-  isSuccess,
   onSubmit,
 }: {
   title: string;
   children: React.ReactNode;
   onSubmit: onSubmitType;
   isLoading: boolean;
-  isSuccess:boolean
 }) {
   const { show, hideModal } = useModal();
-
-  useEffect(()=>{
-if(isSuccess){
-  hideModal()
-}
-  },[isSuccess])
 
   return (
     <>

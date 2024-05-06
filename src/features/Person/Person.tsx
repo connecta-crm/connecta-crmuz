@@ -22,7 +22,6 @@ export default function Person({ setPersonId }) {
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
   const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
-  // console.log(customer, 'customer');
 
   const [url, seturl] = useState('');
   useEffect(() => {
@@ -57,7 +56,6 @@ export default function Person({ setPersonId }) {
     setCustomer(newValue);
     setPersonId(newValue);
     setNewNumberValue('');
-    console.log(record, newValue);
   };
 
   const onChangeInput = (e) => {
@@ -100,7 +98,6 @@ export default function Person({ setPersonId }) {
     useCreateNumber();
   useEffect(() => {
     if (isCreatedSuccess) {
-      console.log(saveNumber, 'saveNumber');
       setSelectPersonValue({
         ...selectPersonValue,
         extra: [...selectPersonValue.extra, saveNumber],

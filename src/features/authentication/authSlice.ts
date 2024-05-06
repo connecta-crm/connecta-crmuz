@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+type  UserType = {
+  id: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+};
 type AuthState = {
   access_token: string | null;
   refresh_token: string | null;
-  user: object | null;
+  user: UserType | null;
   isAuthenticated: boolean;
   // status: string;
   // error: null;

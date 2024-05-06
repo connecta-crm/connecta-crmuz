@@ -7,6 +7,7 @@ import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/pickup/Pickup';
 import Source from '../../features/sourcecom/Source';
 import Vehicle from '../../features/vehicle/Vehicle';
+import { LeadDataType } from '../../models/LeadDataType';
 import { useAppSelector } from '../../store/hooks';
 import UseDatePicker from '../DatePicker/DatePicker';
 import FormControl from '../Form/FormControl';
@@ -24,12 +25,13 @@ export default function LeadModal() {
   const [carModel, setCarModel] = useState<string | null>('');
 
   const user = useAppSelector((item) => getUser(item));
-  const { create ,isLoading,isSuccess} = useCreateLead();
-  const createLead = (e) => {
+  const { create, isLoading } = useCreateLead();
+
+  const createLead = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const items = Object.fromEntries(new FormData(e.target));
-    const data = {
+    const items = Object.fromEntries(new FormData(e.currentTarget));
+    const data: LeadDataType = {
       vehicles: [
         {
           vehicle: carModel,
@@ -50,11 +52,17 @@ export default function LeadModal() {
       user: user?.id,
       // extraUser: 0,
     };
-    create(data)
+    console.log(data);
+    
+    create(data);
   };
 
   return (
-    <Modal isLoading={isLoading} isSuccess={isSuccess}  title="New Lead" onSubmit={(e) => createLead(e)}>
+    <Modal
+      isLoading={isLoading}
+      title="New Lead"
+      onSubmit={createLead}
+    >
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">
