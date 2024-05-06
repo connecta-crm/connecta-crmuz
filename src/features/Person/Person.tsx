@@ -63,8 +63,8 @@ export default function Person({
     setPersonId(newValue);
     setNewNumberValue('');
   };
-
-  const onChangeInput = (e) => {
+  const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
   };
 
@@ -129,7 +129,7 @@ export default function Person({
             required
             name="name"
             value={newCustomer.name}
-            onChange={onChangeInput}
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onChangeInput(e)}
           />
         ) : (
           <Select
