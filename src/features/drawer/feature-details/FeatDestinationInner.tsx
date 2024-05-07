@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useCities } from '../../address/useCities';
 import { getLeadData, updateField, type Location } from '../../leads/leadSlice';
 
-type Record = {
+export type Record = {
   data: Location;
 };
 

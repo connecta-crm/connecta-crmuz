@@ -8,7 +8,7 @@ export default function UseDatePicker({
   type,
   name,
 }: {
-  type: "year"|"date"|"time";
+  type: 'year' | 'date' | 'time';
   name: string;
 }) {
   return <DatePicker picker={type} name={name} required />;

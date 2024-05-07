@@ -2,33 +2,29 @@ import { Select } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getLeadData, updateField } from '../../leads/leadSlice';
 
-function FeatConditionInner() {
+function FeatTrailertypeInner() {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
   const handleChange = (value: string) => {
-    dispatch(updateField({ field: 'condition', value }));
+    dispatch(updateField({ field: 'trailerType', value }));
   };
   return (
     <div className="d-flex justify-between">
-      <div className="form-label">Condition</div>
+      <div className="form-label">Trailer Type</div>
       <Select
-        value={leadData.condition}
-        defaultValue={leadData.condition}
+        value={leadData.trailerType}
+        defaultValue={leadData.trailerType}
         style={{ width: 200, float: 'inline-end', height: 24 }}
         onChange={handleChange}
         options={[
           {
-            label: 'Run and drives',
-            value: 'run',
+            label: 'Open',
+            value: 'open',
           },
           {
-            label: 'Inop, it rolls',
-            value: 'rols',
-          },
-          {
-            label: 'Inop, need forklift',
-            value: 'forklift',
+            label: 'Enclosed',
+            value: 'enclosed',
           },
         ]}
       />
@@ -36,4 +32,4 @@ function FeatConditionInner() {
   );
 }
 
-export default FeatConditionInner;
+export default FeatTrailertypeInner;

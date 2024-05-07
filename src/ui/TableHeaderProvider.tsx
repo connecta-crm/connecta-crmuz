@@ -7,7 +7,7 @@ import { useProviders } from '../features/providers/useProviders';
 function TableHeaderProvider({ ...props }) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  // DROPDOWN FUNCTION
+
   const { providers, isLoading, error } = useProviders(open);
 
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
@@ -61,33 +61,34 @@ function TableHeaderProvider({ ...props }) {
             <div>
               <p className="dropdown-clear d-inline mr-5 ml-5">Clear all</p>
               <div className="dropdown-check">
-                {providers.map((provider: { id: string; name: string }) => {
-                  return (
-                    <div
-                      key={provider.id}
-                      className="dropdown-check__item d-flex align-center justify-between"
-                    >
-                      <input
-                        type="checkbox"
-                        name="source"
-                        id={provider.id}
-                        value={provider.id}
-                        className="dropdown-check__input"
-                        checked={searchParams
-                          .getAll('source')
-                          .includes(String(provider.id))}
-                        onChange={handleChangeProvider}
-                      />
-                      <label
-                        htmlFor={provider.id}
-                        className="label-contents d-flex align-center justify-between"
+                {providers?.length &&
+                  providers.map((provider: { id: string; name: string }) => {
+                    return (
+                      <div
+                        key={provider.id}
+                        className="dropdown-check__item d-flex align-center justify-between"
                       >
-                        <p className="dropdown-text">{provider.name}</p>
-                        <span className="ml-20">{provider.id}</span>
-                      </label>
-                    </div>
-                  );
-                })}
+                        <input
+                          type="checkbox"
+                          name="source"
+                          id={provider.id}
+                          value={provider.id}
+                          className="dropdown-check__input"
+                          checked={searchParams
+                            .getAll('source')
+                            .includes(String(provider.id))}
+                          onChange={handleChangeProvider}
+                        />
+                        <label
+                          htmlFor={provider.id}
+                          className="label-contents d-flex align-center justify-between"
+                        >
+                          <p className="dropdown-text">{provider.name}</p>
+                          <span className="ml-20">{provider.id}</span>
+                        </label>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           )}

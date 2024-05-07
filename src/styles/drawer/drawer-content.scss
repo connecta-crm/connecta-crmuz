@@ -221,7 +221,9 @@
 
 .form-label {
   position: relative;
+  padding-left: 9px;
   &.required-label {
+    padding-left: 0;
     &::before {
       display: inline-block;
       margin-inline-end: 4px;

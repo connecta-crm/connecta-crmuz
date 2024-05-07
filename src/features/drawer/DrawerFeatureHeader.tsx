@@ -22,7 +22,7 @@ function DrawerFeatureHeader({
     onChangeInnerCollapse,
   } = useDrawerFeature();
 
-  // !DETAILS
+  // ?DETAILS
   const handleEditDetails = (keyValue: string) => {
     onEditDetails(true);
     if (!openMainPanels.includes(keyValue)) {
@@ -39,7 +39,7 @@ function DrawerFeatureHeader({
     onEditDetails(false);
     onChangeInnerCollapse([]);
   };
-  // !PERSON
+  // ?PERSON
   const handleEditPerson = (keyValue: string) => {
     onEditPerson(true);
     if (!openMainPanels.includes(keyValue)) {

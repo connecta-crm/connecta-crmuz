@@ -2,24 +2,22 @@ import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import ArrowIcon from './ArrowIcon';
 import FeatItemClose from './FeatItemClose';
 import FeatItemLabel from './FeatItemLabel';
-import FeatItemOpen from './FeatItemOpen';
+import FeatItemOpen, { FeatItemOpenProps } from './FeatItemOpen';
 
-type FeatConditionHeaderProps = {
-  keyValue: string;
+export type FeatConditionHeaderProps = {
   itemLabel: string;
-  valueLabel: string;
+  itemCloseLabel: string;
   icon: string;
-  feature: string;
-  hasAddAction?: boolean;
   textWithBg?: boolean;
-};
+} & FeatItemOpenProps;
 
 function FeatItemHeader({
   keyValue,
   itemLabel,
-  valueLabel,
+  itemCloseLabel,
   icon,
   feature,
+  featureItemField,
   hasAddAction = false,
   textWithBg = false,
 }: FeatConditionHeaderProps) {
@@ -33,13 +31,14 @@ function FeatItemHeader({
           <FeatItemOpen
             keyValue={keyValue}
             feature={feature}
+            featureItemField={featureItemField}
             hasAddAction={hasAddAction}
           />
         ) : (
           <FeatItemClose
             keyValue={keyValue}
             textWithBg={textWithBg}
-            label={valueLabel}
+            label={itemCloseLabel}
           />
         )}
         <ArrowIcon keyValue={keyValue} />

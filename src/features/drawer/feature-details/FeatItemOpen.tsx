@@ -4,28 +4,32 @@ import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getLeadData, resetField, setLeadData } from '../../leads/leadSlice';
+import {
+  LeadData,
+  getLeadData,
+  resetField as resetLeadField,
+  setLeadData,
+} from '../../leads/leadSlice';
 import { useEditLead } from '../useEditLead';
-import { useEditVehicle } from '../useEditVehicle';
 
-type FeatItemOpenProps = {
+export type FeatItemOpenProps = {
   keyValue: string;
-  feature: string;
+  feature: 'lead' | 'quote' | 'order';
+  featureItemField: keyof LeadData; // keyof LeadData | QuoteData
   hasAddAction?: boolean;
 };
 
 function FeatItemOpen({
   keyValue,
   feature,
+  featureItemField: field,
   hasAddAction = false,
 }: FeatItemOpenProps) {
   const { isEditDetails, onChangeInnerCollapse } = useDrawerFeature();
 
-  const formData = useAppSelector((state) => state.vehicle.formData);
   const leadData = useAppSelector(getLeadData);
   const dispatch = useAppDispatch();
 
-  const { editVehicle } = useEditVehicle();
   const { editLead, updatedLeadData, isLoading, error } = useEditLead();
 
   const updateLeadData = {
@@ -40,31 +44,22 @@ function FeatItemOpen({
 
   const handleSave = () => {
     switch (feature) {
-      case 'lead_vehicle':
-        editVehicle(formData);
-        break;
-      case 'lead_condition':
+      case 'lead':
         editLead({ guid: leadData.guid, updateLeadData });
         break;
-      case 'lead_destination':
-        editLead({ guid: leadData.guid, updateLeadData });
+      case 'quote':
+        // editQuote({ guid: leadData.guid, updateLeadData });
         break;
     }
   };
 
   const handleCancel = () => {
     switch (feature) {
-      case 'lead_vehicle':
-        // dispatch(resetField({ field: 'condition' }));
+      case 'lead':
+        dispatch(resetLeadField({ field }));
         break;
-      case 'lead_condition':
-        dispatch(resetField({ field: 'condition' }));
-        break;
-      case 'lead_origin':
-        dispatch(resetField({ field: 'origin' }));
-        break;
-      case 'lead_destination':
-        dispatch(resetField({ field: 'destination' }));
+      case 'quote':
+        // dispatch(resetQuoteField({ field }));
         break;
     }
     onChangeInnerCollapse(keyValue);

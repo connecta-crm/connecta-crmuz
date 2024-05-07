@@ -4,6 +4,7 @@ import Providers from '../../services/providers';
 export function useProviders(enabled: boolean) {
   const {
     isPending: isLoading,
+    isFetching,
     data: providers,
     isError,
   } = useQuery({
@@ -12,5 +13,5 @@ export function useProviders(enabled: boolean) {
     enabled,
   });
 
-  return { isLoading, providers, error: isError };
+  return { isLoading, isFetching, providers, error: isError };
 }
