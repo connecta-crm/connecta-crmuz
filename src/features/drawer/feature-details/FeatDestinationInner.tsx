@@ -4,18 +4,11 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useCities } from '../../address/useCities';
 import { getLeadData, updateField, type Location } from '../../leads/leadSlice';
 
-// const cityData = {
-//   Zhejiang: ['Hangzhou', 'Ningbo', 'Wenzhou'],
-//   Jiangsu: ['Nanjing', 'Suzhou', 'Zhenjiang'],
-// };
-
-// type CityName = keyof typeof cityData;
-
-// const stateData: CityName[] = ['Zhejiang', 'Jiangsu'];
+type Record = {
+  data: Location;
+};
 
 function FeatDestinationInner() {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
@@ -24,20 +17,17 @@ function FeatDestinationInner() {
 
   const { cities, isLoading } = useCities(isSelectCity, searchCity);
 
-  console.log(isLoading, 'loading');
-  console.log(cities, 'cities');
-
   // CITY
   const handleFocusCity = () => {
     setSelectCity(true);
   };
-  type Record = {
-    data: Location;
+
+  const handleChangeCity = (id: number | string, option: Record | Record[]) => {
+    if (!Array.isArray(option)) {
+      dispatch(updateField({ field: 'destination', value: option?.data }));
+    }
   };
-  const handleChangeCity = (id: number, record: Record) => {
-    dispatch(updateField({ field: 'destination', value: record?.data }));
-    console.log('handleChangeCity', id);
-  };
+
   const handleSearchCity = (value: string) => {
     setSearchCity(value);
   };
@@ -52,8 +42,8 @@ function FeatDestinationInner() {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search city"
-          defaultValue={leadData.destination.id}
-          value={leadData.destination.id}
+          defaultValue={leadData.destination.name}
+          value={leadData.destination.name}
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
@@ -82,8 +72,9 @@ function FeatDestinationInner() {
           showSearch
           optionFilterProp="children"
           filterOption={false}
-          placeholder="Search city"
+          placeholder="Search zip"
           defaultValue={leadData.destination?.zip}
+          value={leadData.destination.zip}
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
@@ -99,22 +90,6 @@ function FeatDestinationInner() {
           }))}
         />
       </div>
-      {/* <Select
-          showSearch
-          value={leadData.destination?.state?.name || ''}
-          optionFilterProp="children"
-          placeholder="Search city"
-          // style={{ width: '100%' }}
-          defaultActiveFirstOption={false}
-          filterOption={false}
-          onSearch={(value) => setSearchCity(value)}
-          onChange={(data, record) => handleChangeCity(data, record)}
-          options={(citys || []).map((d: { id: number; name: string }) => ({
-            value: d.id,
-            data: d,
-            label: d.name,
-          }))}
-        /> */}
     </>
   );
 }

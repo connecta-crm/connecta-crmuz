@@ -46,16 +46,11 @@ function FeatItemOpen({
       case 'lead_condition':
         editLead({ guid: leadData.guid, updateLeadData });
         break;
+      case 'lead_destination':
+        editLead({ guid: leadData.guid, updateLeadData });
+        break;
     }
   };
-
-  useEffect(() => {
-    if (!isLoading && !error) {
-      const merged = merge({}, leadData, updatedLeadData);
-      dispatch(setLeadData(merged));
-      onChangeInnerCollapse(keyValue);
-    }
-  }, [isLoading, keyValue, error]);
 
   const handleCancel = () => {
     switch (feature) {
@@ -68,9 +63,20 @@ function FeatItemOpen({
       case 'lead_origin':
         dispatch(resetField({ field: 'origin' }));
         break;
+      case 'lead_destination':
+        dispatch(resetField({ field: 'destination' }));
+        break;
     }
     onChangeInnerCollapse(keyValue);
   };
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      const merged = merge({}, leadData, updatedLeadData);
+      dispatch(setLeadData(merged));
+      onChangeInnerCollapse(keyValue);
+    }
+  }, [isLoading, keyValue, error]);
 
   const handleAddNewVehicle = () => {
     // onAddNewVehicle('newvehicle-');
