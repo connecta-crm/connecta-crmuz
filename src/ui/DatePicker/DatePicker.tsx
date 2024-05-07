@@ -11,5 +11,5 @@ export default function UseDatePicker({
   type: "year"|"date"|"time";
   name: string;
 }) {
-  return <DatePicker picker={type} name={name} required />;
+  return <DatePicker picker={type} name={name}  />;
 }

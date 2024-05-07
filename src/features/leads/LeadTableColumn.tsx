@@ -13,10 +13,10 @@ export const LeadTableColumns = [
   {
     title: 'User',
     dataIndex: 'user',
-    render: () => (
+    render: (data:{id:string,picture:string}) => (
       <div className="table__img__container">
         <img
-          src="./img/dt_table/default_user_image.png"
+          src={data?.picture}
           alt=""
           className="table__user__img"
         />

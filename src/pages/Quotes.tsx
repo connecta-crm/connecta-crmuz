@@ -1,57 +1,34 @@
-// import Table from "../ui/Table";
-import { Table } from 'antd';
-import TableHeader from '../ui/TableHeader';
-// import QuotesModal from '../ui/modal/QuotesModal';
-import { QuotesTableColumns, QuotesTableData } from '../utils/table';
-
-type DataType = {
-  key: string;
-  id: string;
-  quotes: string;
-  node: number;
-  user: string;
-  customer: string;
-  phone: string;
-  vehicle: string;
-  origin: string;
-  destination: string;
-  price: string;
-  ship: string;
-};
-
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      'selectedRows: ',
-      selectedRows,
-    );
-  },
-  getCheckboxProps: (record: DataType) => ({
-    // disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    name: record.user,
-  }),
-};
-
+import QuotesTable from '../features/quotes/QuoteTable';
+import DrawerApp from '../ui/Drawer';
+import { useState } from 'react';
+import { QuotesTableDataType } from '../features/quotes/QuotesTableColumnType';
+import QuotesModal from '../ui/modal/QuotesModal';
 function Quotes() {
+  const [open, setOpen] = useState(false);
+  const [isFullScreen, setFullScreen] = useState(false);
+
+  function openDrawer(data: QuotesTableDataType) {
+    console.log(data);
+    setOpen(true);
+  }
+  function onClose() {
+    console.log('close');
+    setOpen(false);
+    setFullScreen(false);
+  }
+  function onDrawerFull(value: boolean) {
+    setFullScreen(value);
+  }
   return (
-    <div className="leads">
-      <div>
-        <TableHeader  />
-      </div>
-      <div className="quotes-table">
-        <div className="table__container">
-          <Table
-            rowSelection={{
-              // type: selectionType,
-              ...rowSelection,
-            }}
-            columns={QuotesTableColumns}
-            dataSource={QuotesTableData}
-          />
-        </div>
-      </div>
-      {/* <QuotesModal /> */}
+    <div className="quotes">
+      <QuotesTable openDrawer={openDrawer}  />
+      <QuotesModal/>
+      <DrawerApp
+        open={open}
+        isFullScreen={isFullScreen}
+        onClose={onClose}
+        onFullScreen={onDrawerFull}
+      />
     </div>
   );
 }
