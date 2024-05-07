@@ -1,25 +1,36 @@
 import { Select } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useMake, useModel } from '../../features/leads/useLeadDetails';
 import UseDatePicker from '../../ui/DatePicker/DatePicker';
 import DownCollapse from '../../ui/Form/DownCollapse';
+import Input from '../../ui/Form/Input';
 import InputCol from '../../ui/Form/InputCol';
 import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
-import Input from '../../ui/Form/Input';
 
-export default function Vehicle({setCarModel}) {
-  const [modelValue, setModelValue] = useState(null);
-  const [makeValue, setMakeValue] = useState(null);
+type DataType = {
+  mark: string;
+  q: string;
+};
+
+export default function Vehicle({
+  setCarModel,
+}: {
+  setCarModel: (a: string | null) => void;
+}) {
+  const [modelValue, setModelValue] = useState<DefaultOptionType | null>(null);
+  const [makeValue, setMakeValue] = useState<DefaultOptionType | null>(null);
   const [searchCarMake, setSearchCarMake] = useState('');
-  const [searchCarModel, setSearchCarModel] = useState({ mark: '', q: '' });
-    const [vhicleType, setVhicleType] = useState('');
+  const [searchCarModel, setSearchCarModel] = useState<
+    DataType | DefaultOptionType
+  >({ mark: '', q: '' });
+  const [vhicleType, setVhicleType] = useState('');
   const makes = useMake(searchCarMake);
   const models = useModel(searchCarModel);
 
   // serach handle
   const handleSearchCar = (value: string, from: string) => {
-
     if (from === 'make') {
       setSearchCarMake(value);
       return;
@@ -30,20 +41,28 @@ export default function Vehicle({setCarModel}) {
     }
   };
 
-  const handleSelectMake = (value: string | null, record) => {
-    setVhicleType("")
+  const handleSelectMake = (
+    value: DefaultOptionType | string,
+    record: DefaultOptionType,
+  ) => {
+    setVhicleType('');
     setModelValue(null);
     setMakeValue(record);
-    setSearchCarModel({ ...searchCarModel, mark: value ? value : '', q: '' });
+
+    setSearchCarModel({ ...searchCarModel, mark: value, q: '' });
   };
 
-  const handleSelectModel = (value: string | null, record) => {
-    const d = JSON.parse(record.value);
-    setMakeValue({ id: d?.mark?.id, label: d?.mark?.name });
+  const handleSelectModel = (
+    value: DefaultOptionType,
+    record: DefaultOptionType,
+  ) => {
+    console.log(value);
     
-    setVhicleType(d?.vehicleType)
-    setModelValue(record);
-    setCarModel(d.id)
+    const d = record.data;
+    setMakeValue({ value: d.mark.id, label: d.mark.name });
+    setCarModel(d.id);
+    setVhicleType(d?.vehicleType);
+    setModelValue({ value: record.value, label: record.label });
   };
 
   return (
@@ -72,8 +91,10 @@ export default function Vehicle({setCarModel}) {
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => handleSearchCar(value, 'make')}
-            onChange={(data, record) => handleSelectMake(data, record)}
-            options={(makes || []).map((d: { id: number; name: string }) => ({
+            onChange={(data: DefaultOptionType, record) =>
+              handleSelectMake(data, record)
+            }
+            options={(makes || []).map((d: { id: string; name: string }) => ({
               value: d.id,
               label: d.name,
             }))}
@@ -96,9 +117,12 @@ export default function Vehicle({setCarModel}) {
             filterOption={false}
             onSelect={() => null}
             onSearch={(value) => handleSearchCar(value, 'model')}
-            onChange={(data, record) => handleSelectModel(data, record)}
-            options={(models || []).map((d: { id: number; name: string }) => ({
-              value: JSON.stringify(d),
+            onChange={(data, record: DefaultOptionType | DefaultOptionType[]) =>
+              handleSelectModel(data, record)
+            }
+            options={(models || []).map((d: { id: string; name: string }) => ({
+              value: d.id,
+              data: d,
               label: d.name,
             }))}
           />{' '}

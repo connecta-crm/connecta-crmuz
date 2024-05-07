@@ -23,7 +23,7 @@ export default function QuotesModal() {
   };
 
   return (
-    <Modal title="New Quates" onSubmit={getFotmData}>
+    <Modal isLoading title="New Quates" onSubmit={getFotmData}>
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">
@@ -43,7 +43,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="vehicle_make" />
+                  <Input defaultValue="" type="text" placeholder="Empty" name="vehicle_make" />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -52,7 +52,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="vehicle_model" />
+                  <Input defaultValue="" type="text" placeholder="Empty" name="vehicle_model" />
                 </InputCol>
               </InputRow>
             </DownCollapse>
@@ -76,7 +76,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_city" />
+                  <Input defaultValue="" type="text" placeholder="Empty" name="pickup_city" />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -85,7 +85,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_state" />
+                  <Input defaultValue="" type="text" placeholder="Empty" name="pickup_state" />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -94,7 +94,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_zip" />
+                  <Input defaultValue="" type="text" placeholder="Empty" name="pickup_zip" />
                 </InputCol>
               </InputRow>
             </DownCollapse>
@@ -106,7 +106,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="delivery_city" />
+                  <Input defaultValue="" type="text" placeholder="Empty" name="delivery_city" />
                 </InputCol>
               </InputRow>
               <InputRow>
@@ -115,7 +115,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input
+                  <Input defaultValue=""
                     type="text"
                     placeholder="Empty"
                     name="delivery_state"
@@ -128,7 +128,7 @@ export default function QuotesModal() {
                 </InputCol>
 
                 <InputCol>
-                  <Input type="text" placeholder="Empty" name="delivery_zip" />
+                  <Input defaultValue="" type="text" placeholder="Empty" name="delivery_zip" />
                 </InputCol>
               </InputRow>
             </DownCollapse>
@@ -149,20 +149,20 @@ export default function QuotesModal() {
 
             <div className="form__footer">
               <Label>CM note</Label>
-              <Input type="text" placeholder="Empty" name="cm_note" />
+              <Input defaultValue="" type="text" placeholder="Empty" name="cm_note" />
             </div>
           </UpCollapse>
         </div>
         <div className="modal__col">
           <UpCollapse title="Person">
             <FormControl title="Name">
-              <Input type="text" placeholder="Empty" name="person_name" />
+              <Input defaultValue="" type="text" placeholder="Empty" name="person_name" />
             </FormControl>
             <FormControl title="Email">
-              <Input type="text" placeholder="Empty" name="person_email" />
+              <Input defaultValue="" type="text" placeholder="Empty" name="person_email" />
             </FormControl>
             <FormControl title="Phone">
-              <Input type="number" placeholder="Empty" name="person_phone" />
+              <Input defaultValue="" type="number" placeholder="Empty" name="person_phone" />
             </FormControl>
           </UpCollapse>
         </div>

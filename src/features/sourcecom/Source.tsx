@@ -1,11 +1,12 @@
 import { Select } from 'antd';
 
-import { useState } from 'react';
 import FormControl from '../../ui/Form/FormControl';
 import { useSource } from '../leads/useLeadDetails';
-export default function Source() {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [source, setSource] = useState<string | null>('');
+export default function Source({
+  setSource,
+}: {
+  setSource: (a: string) => void;
+}) {
   const sources = useSource();
   return (
     <FormControl title="Source">

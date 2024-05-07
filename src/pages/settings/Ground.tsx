@@ -24,7 +24,7 @@ const rowSelection = {
 export default function Ground() {
   return (
     <div className="ground">
-      <TableHeader pageName='ground'/>
+      <TableHeader/>
           <div className='table__container'>
         <Table
           rowSelection={{

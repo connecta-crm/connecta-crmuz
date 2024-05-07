@@ -2,6 +2,8 @@ import { AxiosError } from 'axios';
 import { EditLeadProps } from '../../features/drawer/useEditLead';
 import { LeadsParamsType } from '../../features/leads/useLeads';
 import apiClient from '../axios';
+import { DefaultOptionType } from 'antd/es/select';
+import { LeadDataType } from '../../models/LeadDataType';
 
 type ApiErrorResponse = {
   message: string;
@@ -82,7 +84,7 @@ class Leads {
     }
   }
 
-  async getModel(text: undefined | { mark: string; q: string }) {
+  async getModel(text: DefaultOptionType| undefined | { mark: string; q: string }) {
     const url = new URLSearchParams(text);
     try {
       const { data } = await this.$api.get(
@@ -159,7 +161,7 @@ class Leads {
     }
   }
 
-  async createLead(lead) {
+  async createLead(lead:LeadDataType) {
     try {
       const { data } = await this.$api.post('/leads/create/', lead);
       return data;

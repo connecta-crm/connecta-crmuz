@@ -32,7 +32,7 @@ const rowSelection = {
 function Inbox() {
   return (
     <div className="inbox">
-      <TableHeader pageName="contact" />
+      <TableHeader  />
       <div className="quotes-table">
         <div className="table__container">
           <Table

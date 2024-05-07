@@ -24,7 +24,7 @@ const rowSelection = {
 export default function HawaiiAndAlaska() {
   return (
     <div className="regions">
-      <TableHeader pageName='region'/>
+      <TableHeader />
           <div className='table__container'>
         <Table
           rowSelection={{

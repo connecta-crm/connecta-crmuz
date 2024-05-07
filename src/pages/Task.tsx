@@ -3,7 +3,7 @@ import TableHeader from '../ui/TableHeader'
 import { Table } from 'antd';
 import { TaskTableColumns, TaskTableData } from '../utils/table'
 import TableSearchButtons from '../ui/TableSearchButtons';
-import TaskModal from '../ui/modal/TaskModal';
+// import TaskModal from '../ui/modal/TaskModal';
 type DataType = {
     key: string,
     done:string,
@@ -31,7 +31,7 @@ export default function Task() {
     const [selectionType] = useState<'checkbox' | 'radio'>('checkbox');
     return (
         <div className='task'>
-            <TableHeader pageName="task" />
+            <TableHeader  />
             <TableSearchButtons/>
             <div className="quotes-table">
                 <div className='table__container'>
@@ -46,7 +46,7 @@ export default function Task() {
                     />
                 </div>
             </div>
-            <TaskModal/>
+            {/* <TaskModal/> */}
         </div>
     )
 }

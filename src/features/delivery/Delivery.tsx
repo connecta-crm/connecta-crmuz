@@ -1,4 +1,5 @@
 import { Select } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import DownCollapse from '../../ui/Form/DownCollapse';
 import Input from '../../ui/Form/Input';
@@ -6,31 +7,49 @@ import InputCol from '../../ui/Form/InputCol';
 import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
 import { useCity } from '../leads/useLeadDetails';
-export default function Delivery({ setDelivery }) {
-  const [cityValue, setCityValue] = useState(null);
+type CityType = {
+  id?: string;
+  name?: string;
+  state?: { id: string; name: string; code: string };
+  zip?: string;
+};
+
+
+export default function Delivery({
+  setDelivery,
+}: {
+  setDelivery: (a: string | null) => void;
+}) {
+  const [cityValue, setCityValue] = useState<CityType | null>(null);
   const [searchCity, setSearchCity] = useState('');
   const citys = useCity(searchCity);
+
+  const onChangeHandler = (value: string, data: DefaultOptionType) => {
+    setDelivery(value);
+    setCityValue(data.data);
+  };
+
   return (
     <DownCollapse title="Delivery">
       <InputRow>
         <InputCol>
-          <Label>Pickup city</Label>
+          <Label>Delivery city</Label>
         </InputCol>
         <InputCol>
           <Select
             showSearch
             value={cityValue?.name}
             optionFilterProp="children"
-            placeholder={'Search  make'}
+            placeholder={'Search  city'}
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
-            onChange={(data, record) => {
-              setCityValue(record?.data);
-              setDelivery(data);
-            }}
-            options={(citys || []).map((d: { id: number; name: string }) => ({
+            onChange={(
+              value,
+              record: DefaultOptionType | DefaultOptionType[],
+            ) => onChangeHandler(value, record)}
+            options={(citys || []).map((d: CityType) => ({
               value: d.id,
               data: d,
               label: d.name,
@@ -40,7 +59,7 @@ export default function Delivery({ setDelivery }) {
       </InputRow>
       <InputRow>
         <InputCol>
-          <Label>Pickup state</Label>
+          <Label>Delivery state</Label>
         </InputCol>
 
         <InputCol>
@@ -54,7 +73,7 @@ export default function Delivery({ setDelivery }) {
       </InputRow>
       <InputRow>
         <InputCol>
-          <Label>Pickup zip</Label>
+          <Label>Delivery zip</Label>
         </InputCol>
 
         <InputCol>
@@ -62,16 +81,16 @@ export default function Delivery({ setDelivery }) {
             showSearch
             value={cityValue?.zip}
             optionFilterProp="children"
-            placeholder={'Search  make'}
+            placeholder={'Search  zip'}
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
-            onChange={(data, record) => {
-              setCityValue(record?.data);
-              setDelivery(data);
-            }}
-            options={(citys || []).map((d: { id: number; zip: string }) => ({
+            onChange={(
+              value,
+              record: DefaultOptionType | DefaultOptionType[],
+            ) => onChangeHandler(value, record)}
+            options={(citys || []).map((d: CityType) => ({
               value: d.id,
               data: d,
               label: d.zip,

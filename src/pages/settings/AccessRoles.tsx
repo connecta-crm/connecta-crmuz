@@ -27,7 +27,7 @@ const rowSelection = {
 export default function AccessRoles() {
   return (
     <div className="access">
-      <TableHeader pageName="Role" />
+      <TableHeader  />
       <div className="table__container">
         <Table
           rowSelection={{

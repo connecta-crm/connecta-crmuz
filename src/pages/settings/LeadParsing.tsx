@@ -24,7 +24,7 @@ const rowSelection = {
 export default function LeadParsing() {
   return (
     <div className="lead-parsing">
-      <TableHeader pageName='lead parsing'/>
+      <TableHeader />
          <div className='table__container'>
         <Table
           rowSelection={{

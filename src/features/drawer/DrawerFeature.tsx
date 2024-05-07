@@ -20,7 +20,15 @@ function DrawerLeft() {
     {
       key: '2',
       label: (
-        <DrawerFeatureHeader keyValue={'2'} label="Person" value="person" />
+        <DrawerFeatureHeader
+          keyValue={'2'}
+          label="Person"
+          value="person"
+          openPanels={openPanels}
+          isEditDetails={isEditDetails}
+          onEditDetails={onEditDetails}
+          onChange={onChangePerson}
+        />
       ),
       children: <DrawerFeaturePersonContent />,
     },

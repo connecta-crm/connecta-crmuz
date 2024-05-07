@@ -25,7 +25,7 @@ const rowSelection = {
 export default function Distribution() {
   return (
     <div className="distribution">
-      <TableHeader pageName='distribution'/>
+      <TableHeader />
     <div className='table__container'>
         <Table
           rowSelection={{

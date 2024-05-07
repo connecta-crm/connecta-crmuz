@@ -24,7 +24,7 @@ const rowSelection = {
 export default function VoIP() {
   return (
     <div className="voip">
-      <TableHeader pageName='voip'/>
+      <TableHeader />
         <div className='table__container'>
         <Table
           rowSelection={{

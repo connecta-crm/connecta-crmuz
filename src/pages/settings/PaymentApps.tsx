@@ -24,7 +24,7 @@ const rowSelection = {
 export default function PaymentApps() {
   return (
     <div className="payment-app">
-      <TableHeader pageName='payment'/>
+      <TableHeader  />
         <div className='table__container'>
         <Table
           rowSelection={{

@@ -1,5 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { DefaultOptionType } from 'antd/es/select';
 import toast from 'react-hot-toast';
+import { useModal } from '../../context/ModalContext';
+import { LeadDataType } from '../../models/LeadDataType';
 import Leads from '../../services/leads';
 
 export function useMake(text: string | undefined) {
@@ -12,7 +15,9 @@ export function useMake(text: string | undefined) {
   return [];
 }
 
-export function useModel(text: undefined | { mark: string; q: string }) {
+export function useModel(
+  text: DefaultOptionType | undefined | { mark: string; q: string },
+) {
   const { data, isSuccess } = useQuery({
     queryKey: ['model', text],
     queryFn: () => Leads.getModel(text),
@@ -90,16 +95,18 @@ export function useCreateNumber() {
 }
 
 export function useCreateLead() {
-  const queryClient = useQueryClient()
-  const { mutate: create, isPending: isLoading,isSuccess } = useMutation({
-    mutationFn: (item) => Leads.createLead(item),
+  const { hideModal } = useModal();
+  const queryClient = useQueryClient();
+  const { mutate: create, isPending: isLoading } = useMutation({
+    mutationFn: (item: LeadDataType) => Leads.createLead(item),
     onSuccess: () => {
+      hideModal();
       toast.success('Lead created');
-      queryClient.invalidateQueries({ queryKey: ['leads'] })
+      queryClient.invalidateQueries({ queryKey: ['leads'] });
     },
     onError: (err) => {
       toast.error(err.message);
     },
   });
-  return { create,isLoading,isSuccess };
+  return { create, isLoading };
 }

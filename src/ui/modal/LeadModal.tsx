@@ -1,5 +1,6 @@
 import { Select } from 'antd';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import Person from '../../features/Person/Person';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/delivery/Delivery';
@@ -7,6 +8,7 @@ import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/pickup/Pickup';
 import Source from '../../features/sourcecom/Source';
 import Vehicle from '../../features/vehicle/Vehicle';
+import { LeadDataType } from '../../models/LeadDataType';
 import { useAppSelector } from '../../store/hooks';
 import UseDatePicker from '../DatePicker/DatePicker';
 import FormControl from '../Form/FormControl';
@@ -26,12 +28,14 @@ export default function LeadModal() {
   const [carModel, setCarModel] = useState<string | null>('');
 
   const user = useAppSelector((item) => getUser(item));
-  const { create, isLoading, isSuccess } = useCreateLead();
-  const createLead = (e) => {
+
+  const { create, isLoading } = useCreateLead();
+
+  const createLead = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const items = Object.fromEntries(new FormData(e.target));
-    const data = {
+    const items = Object.fromEntries(new FormData(e.currentTarget));
+    const data: LeadDataType = {
       vehicles: [
         {
           vehicle: carModel,
@@ -39,11 +43,11 @@ export default function LeadModal() {
         },
       ],
       status: 'leads',
-      // price: 2147483647,
+      price: 2147483647,
       condition: conditionValue,
       trailerType: trailerType,
       notes: items.cm_note,
-      // reservationPrice: 2147483647,
+      reservationPrice: 2147483647,
       dateEstShip: items.est_ship_date,
       customer: personId,
       source: source,
@@ -52,16 +56,31 @@ export default function LeadModal() {
       user: user?.id,
       // extraUser: 0,
     };
+
+    let errorText = '';
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if (key === 'vehicles' && data[key].length === 0) {
+          errorText += key + ' , ';
+        }
+        if (!data[key as keyof LeadDataType] && key !== 'notes') {
+          errorText += key + ' , ';
+        }
+      }
+    }
+
+    if (errorText) {
+      toast.error(errorText + 'required ! ');
+      console.log(data);
+
+      return;
+    }
+
     create(data);
   };
 
   return (
-    <Modal
-      isLoading={isLoading}
-      isSuccess={isSuccess}
-      title="New Lead"
-      onSubmit={(e) => createLead(e)}
-    >
+    <Modal isLoading={isLoading} title="New Lead" onSubmit={createLead}>
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">

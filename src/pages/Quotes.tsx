@@ -1,7 +1,7 @@
 // import Table from "../ui/Table";
 import { Table } from 'antd';
 import TableHeader from '../ui/TableHeader';
-import QuotesModal from '../ui/modal/QuotesModal';
+// import QuotesModal from '../ui/modal/QuotesModal';
 import { QuotesTableColumns, QuotesTableData } from '../utils/table';
 
 type DataType = {
@@ -37,7 +37,7 @@ function Quotes() {
   return (
     <div className="leads">
       <div>
-        <TableHeader pageName="quotes" />
+        <TableHeader  />
       </div>
       <div className="quotes-table">
         <div className="table__container">
@@ -51,7 +51,7 @@ function Quotes() {
           />
         </div>
       </div>
-      <QuotesModal />
+      {/* <QuotesModal /> */}
     </div>
   );
 }

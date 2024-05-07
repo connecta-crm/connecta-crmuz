@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { QuotesTableColumns } from '../utils/table';
+import { QuotesTableData,QuotesTableColumns } from '../../utils/table';
 
 type DataType = {
   key: string;
