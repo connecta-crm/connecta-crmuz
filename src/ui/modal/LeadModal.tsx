@@ -7,7 +7,9 @@ import Delivery from '../../features/delivery/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/pickup/Pickup';
 import Source from '../../features/sourcecom/Source';
-import Vehicle from '../../features/vehicle/Vehicle';
+import VehicleContainer, {
+  CarType,
+} from '../../features/vehicle/vehicleContainer';
 import { LeadDataType } from '../../models/LeadDataType';
 import { useAppSelector } from '../../store/hooks';
 import UseDatePicker from '../DatePicker/DatePicker';
@@ -17,7 +19,7 @@ import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
 import Modal from './Modal';
 export default function LeadModal() {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const [trailerType, setTrailerType] = useState<string | null>('');
@@ -25,30 +27,21 @@ export default function LeadModal() {
   const [delivery, setDelivery] = useState<string | null>('');
   const [source, setSource] = useState<string | null>('');
   const [personId, setPersonId] = useState<string | null>('');
-  const [carModel, setCarModel] = useState<string | null>('');
-
+  const [dateEstShip, setDateEstShip] = useState<string>('');
   const user = useAppSelector((item) => getUser(item));
-
   const { create, isLoading } = useCreateLead();
-
   const createLead = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const items = Object.fromEntries(new FormData(e.currentTarget));
     const data: LeadDataType = {
-      vehicles: [
-        {
-          vehicle: carModel,
-          vehicleYear: items.vehicle_year,
-        },
-      ],
+      vehicles: carData,
       status: 'leads',
       price: 2147483647,
       condition: conditionValue,
       trailerType: trailerType,
       notes: items.cm_note,
       reservationPrice: 2147483647,
-      dateEstShip: items.est_ship_date,
+      dateEstShip: dateEstShip,
       customer: personId,
       source: source,
       origin: origin,
@@ -56,7 +49,6 @@ export default function LeadModal() {
       user: user?.id,
       // extraUser: 0,
     };
-
     let errorText = '';
     for (const key in data) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
@@ -70,12 +62,10 @@ export default function LeadModal() {
     }
 
     if (errorText) {
-      toast.error(errorText + 'required ! ');
       console.log(data);
-
+      toast.error(errorText + 'required ! ');
       return;
     }
-
     create(data);
   };
 
@@ -84,7 +74,7 @@ export default function LeadModal() {
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">
-            <Vehicle setCarModel={setCarModel} />
+            <VehicleContainer setCarData={setCarData} />
             <FormControl title="Condition">
               <Select
                 defaultValue=""
@@ -112,7 +102,11 @@ export default function LeadModal() {
               />
             </FormControl>
             <FormControl title="Est. Ship Date">
-              <UseDatePicker type={'date'} name="est_ship_date" />
+              <UseDatePicker
+                getYear={setDateEstShip}
+                type={'date'}
+                name="est_ship_date"
+              />
             </FormControl>
             <Source setSource={setSource} />
 

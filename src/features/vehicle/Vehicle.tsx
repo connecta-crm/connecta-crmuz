@@ -1,6 +1,6 @@
 import { Select } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMake, useModel } from '../../features/leads/useLeadDetails';
 import UseDatePicker from '../../ui/DatePicker/DatePicker';
 import DownCollapse from '../../ui/Form/DownCollapse';
@@ -8,6 +8,7 @@ import Input from '../../ui/Form/Input';
 import InputCol from '../../ui/Form/InputCol';
 import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
+import { CarType } from './vehicleContainer';
 
 type DataType = {
   mark: string;
@@ -15,10 +16,23 @@ type DataType = {
 };
 
 export default function Vehicle({
-  setCarModel,
+  title,
+  vehicleAdd,
+  vehicleRemove,
+  getCarValue,
+  carId,
 }: {
-  setCarModel: (a: string | null) => void;
+  title: string;
+  vehicleAdd: (car: CarType) => void;
+  vehicleRemove: () => void;
+  getCarValue: (a: CarType) => void;
+  carId: number;
 }) {
+  const [carValue, setCarValue] = useState<CarType>({
+    id: carId,
+    vehicle: '',
+    vehicleYear: '',
+  });
   const [modelValue, setModelValue] = useState<DefaultOptionType | null>(null);
   const [makeValue, setMakeValue] = useState<DefaultOptionType | null>(null);
   const [searchCarMake, setSearchCarMake] = useState('');
@@ -28,6 +42,10 @@ export default function Vehicle({
   const [vhicleType, setVhicleType] = useState('');
   const makes = useMake(searchCarMake);
   const models = useModel(searchCarModel);
+
+  useEffect(() => {
+    getCarValue(carValue);
+  }, [carValue]);
 
   // serach handle
   const handleSearchCar = (value: string, from: string) => {
@@ -57,23 +75,32 @@ export default function Vehicle({
     record: DefaultOptionType,
   ) => {
     console.log(value);
-    
+
     const d = record.data;
     setMakeValue({ value: d.mark.id, label: d.mark.name });
-    setCarModel(d.id);
+    setCarValue({...carValue,vehicle:d.id})
+
     setVhicleType(d?.vehicleType);
     setModelValue({ value: record.value, label: record.label });
   };
 
+ const getYear=(date:string)=>{
+  setCarValue({...carValue,vehicleYear:date})
+ }
+
   return (
-    <DownCollapse title="Vehicle">
+    <DownCollapse
+      vehicleRemove={vehicleRemove}
+      vehicleAdd={vehicleAdd}
+      title={title}
+    >
       <InputRow>
         <InputCol>
           <Label>Vehicle year</Label>
         </InputCol>
 
         <InputCol>
-          <UseDatePicker type="year" name="vehicle_year" />
+          <UseDatePicker getYear={getYear} type="year" name="vehicle_year" />
         </InputCol>
       </InputRow>
       <InputRow>
