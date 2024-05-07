@@ -26,7 +26,7 @@ export default function LeadModal() {
   const [delivery, setDelivery] = useState<string | null>('');
   const [source, setSource] = useState<string | null>('');
   const [personId, setPersonId] = useState<string | null>('');
-  const [dateEstShip,setDateEstShip] = useState<string>("")
+  const [dateEstShip, setDateEstShip] = useState<string>('');
   const user = useAppSelector((item) => getUser(item));
   const { create, isLoading } = useCreateLead();
   const createLead = (e: React.FormEvent<HTMLFormElement>) => {
@@ -101,7 +101,11 @@ export default function LeadModal() {
               />
             </FormControl>
             <FormControl title="Est. Ship Date">
-              <UseDatePicker  getYear={setDateEstShip} type={'date'} name="est_ship_date" />
+              <UseDatePicker
+                getYear={setDateEstShip}
+                type={'date'}
+                name="est_ship_date"
+              />
             </FormControl>
             <Source setSource={setSource} />
 
