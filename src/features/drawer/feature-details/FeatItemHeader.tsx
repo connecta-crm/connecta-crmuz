@@ -9,6 +9,7 @@ export type FeatConditionHeaderProps = {
   itemCloseLabel: string;
   icon: string;
   textWithBg?: boolean;
+  editable?: boolean;
 } & FeatItemOpenProps;
 
 function FeatItemHeader({
@@ -19,6 +20,7 @@ function FeatItemHeader({
   feature,
   featureItemField,
   hasAddAction = false,
+  editable = true,
   textWithBg = false,
 }: FeatConditionHeaderProps) {
   const { openInnerPanels } = useDrawerFeature();
@@ -39,9 +41,10 @@ function FeatItemHeader({
             keyValue={keyValue}
             textWithBg={textWithBg}
             label={itemCloseLabel}
+            editable={editable}
           />
         )}
-        <ArrowIcon keyValue={keyValue} />
+        {editable && <ArrowIcon keyValue={keyValue} />}
       </div>
     </div>
   );

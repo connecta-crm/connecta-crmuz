@@ -5,9 +5,11 @@ import DrawerArrowIcon from './DrawerArrowIcon';
 import DrawerFeatureDetailsContent from './DrawerFeatureDetailsContent';
 import DrawerFeatureHeader from './DrawerFeatureHeader';
 import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
+import FeatPersonInner from './feature-details/FeatPersonInner';
 
 function DrawerLeft() {
-  const { openMainPanels, onChangeMainCollapse } = useDrawerFeature();
+  const { isEditPerson, openMainPanels, onChangeMainCollapse } =
+    useDrawerFeature();
 
   const items: CollapseProps['items'] = [
     {
@@ -22,7 +24,13 @@ function DrawerLeft() {
       label: (
         <DrawerFeatureHeader keyValue={'2'} label="Person" value="person" />
       ),
-      children: <DrawerFeaturePersonContent />,
+      children: isEditPerson ? (
+        <div className="box-header-inner box-header-inner-single">
+          <FeatPersonInner />
+        </div>
+      ) : (
+        <DrawerFeaturePersonContent />
+      ),
     },
   ];
 

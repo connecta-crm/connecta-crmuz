@@ -1,31 +1,82 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
-import { useState } from 'react';
-import FeatPerson from './feature-person/FeatPerson';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useAppSelector } from '../../store/hooks';
+import { getLeadData } from '../leads/leadSlice';
+import DrawerFeatureRow from './DrawerFeatureRow';
+import FeatItemHeader from './feature-details/FeatItemHeader';
+import FeatPersonEmailInner from './feature-details/FeatPersonEmailInner';
+import FeatPersonNameInner from './feature-details/FeatPersonNameInner';
+import FeatPersonPhoneInner from './feature-details/FeatPersonPhoneInner';
 
 function DrawerFeaturePersonContent() {
-  const [openPanels, setOpenPanels] = useState<string[]>([]);
+  const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
-  const onChange = (key: string | string[]) => {
-    const keyString = Array.isArray(key) ? key[0] : key;
-    setOpenPanels(
-      openPanels.includes(keyString)
-        ? openPanels.filter((item) => item !== keyString)
-        : [...openPanels, keyString],
-    );
-  };
+  const {
+    customerName,
+    customerPhone,
+    customer: { email: customerEmail },
+  } = useAppSelector(getLeadData);
 
   const items: CollapseProps['items'] = [
     {
-      key: '1',
+      key: '10',
       label: (
-        <FeatPerson
-          keyValue={'1'}
-          openPanels={openPanels}
-          onChange={onChange}
+        <FeatItemHeader
+          keyValue="10"
+          itemCloseLabel={customerName}
+          itemLabel="Name"
+          icon="user"
+          feature="lead"
+          featureItemField="customer"
+          editable={false}
         />
       ),
-      children: null,
+      children: (
+        <DrawerFeatureRow>
+          <FeatPersonNameInner />
+        </DrawerFeatureRow>
+      ),
+      showArrow: false,
+    },
+    {
+      key: '11',
+      label: (
+        <FeatItemHeader
+          keyValue="11"
+          itemCloseLabel={customerEmail}
+          itemLabel="Email"
+          icon="mail"
+          feature="lead"
+          featureItemField="customer"
+          editable={false}
+        />
+      ),
+      children: (
+        <DrawerFeatureRow>
+          <FeatPersonEmailInner />
+        </DrawerFeatureRow>
+      ),
+      showArrow: false,
+    },
+    {
+      key: '12',
+      label: (
+        <FeatItemHeader
+          keyValue="12"
+          itemCloseLabel={customerPhone}
+          itemLabel="Phone"
+          icon="phone"
+          feature="lead"
+          featureItemField="customer"
+          editable={false}
+        />
+      ),
+      children: (
+        <DrawerFeatureRow>
+          <FeatPersonPhoneInner />
+        </DrawerFeatureRow>
+      ),
       showArrow: false,
     },
   ];
@@ -33,10 +84,10 @@ function DrawerFeaturePersonContent() {
   return (
     <div className="box-header-inner">
       <Collapse
-        activeKey={openPanels}
+        activeKey={openInnerPanels}
         ghost
         collapsible="icon"
-        onChange={onChange}
+        onChange={onChangeInnerCollapse}
         items={items}
       />
     </div>

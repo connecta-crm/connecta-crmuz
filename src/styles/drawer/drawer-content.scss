@@ -129,6 +129,13 @@
     .ant-collapse-expand-icon {
     padding-inline-start: 0;
   }
+  &-single {
+    padding: 4px 10px;
+    margin-left: 9px;
+    margin-right: 9px;
+    background-color: #eaeaea;
+    border-radius: 4px;
+  }
 }
 /* ==================================================================================================================*/
 .detail {
