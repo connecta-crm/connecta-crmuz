@@ -30,12 +30,12 @@ function FeatItemOpen({
 
   const updateLeadData = {
     ...leadData,
-    customer: leadData.customer.id,
-    source: leadData.source.id,
-    origin: leadData.origin.id,
-    destination: leadData.destination.id,
-    user: leadData.user.id,
-    extraUser: leadData.extraUser,
+    customer: leadData.customer?.id,
+    source: leadData.source?.id,
+    origin: leadData.origin?.id,
+    destination: leadData.destination?.id,
+    user: leadData.user?.id,
+    extraUser: leadData?.extraUser,
   };
 
   const handleSave = () => {
@@ -58,7 +58,17 @@ function FeatItemOpen({
   }, [isLoading, keyValue, error]);
 
   const handleCancel = () => {
-    dispatch(resetField({ field: 'condition' }));
+    switch (feature) {
+      case 'lead_vehicle':
+        // dispatch(resetField({ field: 'condition' }));
+        break;
+      case 'lead_condition':
+        dispatch(resetField({ field: 'condition' }));
+        break;
+      case 'lead_origin':
+        dispatch(resetField({ field: 'origin' }));
+        break;
+    }
     onChangeInnerCollapse(keyValue);
   };
 
@@ -85,7 +95,7 @@ function FeatItemOpen({
             onClick={handleSave}
           >
             {isLoading ? <LoadingOutlined /> : 'Save'}
-          </Button>{' '}
+          </Button>
         </>
       )}
       {hasAddAction && (

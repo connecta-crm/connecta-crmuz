@@ -43,7 +43,7 @@ class Leads {
   // GET: /leads/:guid/detail/
   async getLead(guid: string | null) {
     try {
-      const { data } = await this.$api.get(`/leads/${guid}/detail/`);
+      const { data } = await this.$api.get(`/leads/detail/${guid}/`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

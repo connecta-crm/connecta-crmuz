@@ -54,7 +54,7 @@ function TableHeaderProvider({ ...props }) {
       label: (
         <>
           {isLoading ? (
-            <Spin className="d-flex align-center justify-center" />
+            <Spin size="small" className="d-flex align-center justify-center" />
           ) : error ? (
             <p className="error-color">Error loading</p>
           ) : (

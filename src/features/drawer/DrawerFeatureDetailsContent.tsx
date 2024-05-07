@@ -3,57 +3,94 @@ import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
 import { getLeadData } from '../leads/leadSlice';
-import FeatConditionHeader from './feature-details/FeatConditionHeader';
+import DrawerFeatureRow from './DrawerFeatureRow';
 import FeatConditionInner from './feature-details/FeatConditionInner';
-import FeatOriginHeader from './feature-details/FeatOriginHeader';
+import FeatItemHeader from './feature-details/FeatItemHeader';
 import FeatOriginInner from './feature-details/FeatOriginInner';
-import FeatVehicleHeader from './feature-details/FeatVehicleHeader';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
+import FeatDestinationInner from './feature-details/FeatDestinationInner';
 
 function DrawerFeatureDetailsContent() {
   const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
 
-  const { leadVehicles } = useAppSelector(getLeadData);
   const data = useAppSelector(getLeadData);
   // ? label'ni har FeatCtHeader ichida chaqirmasdan, shu yerda hammasini bitta qilib chaqirib qoygan yaxshi
-  const { condition, originName } = data;
+  const { condition, originName, destinationName } = data;
 
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: <FeatVehicleHeader keyValue={'1'} />,
+      label: (
+        <FeatItemHeader
+          keyValue={'1'}
+          valueLabel={condition}
+          itemLabel="Vehicle"
+          icon="car"
+          feature="lead_vehicle"
+          hasAddAction={true}
+        />
+      ),
       children: (
-        <div className="detail-inner">
-          <div className="detail-inner__form">
-            <FeatVehicleInner />
-          </div>
-        </div>
+        <DrawerFeatureRow>
+          <FeatVehicleInner />
+        </DrawerFeatureRow>
       ),
       showArrow: false,
     },
     {
       key: '2',
-      label: <FeatConditionHeader keyValue={'2'} label={condition} />,
+      label: (
+        <FeatItemHeader
+          keyValue={'2'}
+          valueLabel={condition}
+          itemLabel="Condition"
+          icon="dvigatel"
+          feature="lead_condition"
+          textWithBg={true}
+        />
+      ),
       children: (
-        <div className="detail-inner">
-          <div className="detail-inner__form">
-            <FeatConditionInner />
-          </div>
-        </div>
+        <DrawerFeatureRow>
+          <FeatConditionInner />
+        </DrawerFeatureRow>
       ),
       showArrow: false,
     },
     {
       key: '3',
-      label: <FeatOriginHeader keyValue={'3'} label={originName} />,
+      label: (
+        <FeatItemHeader
+          keyValue={'3'}
+          valueLabel={originName}
+          itemLabel="Origin"
+          icon="origin"
+          feature="lead_origin"
+        />
+      ),
       children: (
-        <div className="detail-inner">
-          <div className="detail-inner__form">
-            <FeatOriginInner />
-          </div>
-        </div>
+        <DrawerFeatureRow>
+          <FeatOriginInner />
+        </DrawerFeatureRow>
+      ),
+      showArrow: false,
+    },
+    {
+      key: '4',
+      label: (
+        <FeatItemHeader
+          keyValue={'4'}
+          valueLabel={destinationName}
+          itemLabel="Destination"
+          icon="destination"
+          feature="lead_destination"
+        />
+      ),
+      children: (
+        <DrawerFeatureRow>
+          <FeatDestinationInner />
+        </DrawerFeatureRow>
       ),
       showArrow: false,
     },

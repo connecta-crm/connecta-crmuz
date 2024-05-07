@@ -24,7 +24,7 @@ type User = {
   picture: string;
 };
 
-type Customer = {
+export type Customer = {
   id: number;
   name: string;
   email: string;
@@ -40,7 +40,7 @@ type State = {
   code: string;
 };
 
-type Location = {
+export type Location = {
   id: number;
   state: State;
   name: string;
