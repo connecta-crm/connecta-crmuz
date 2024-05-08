@@ -7,6 +7,9 @@ import Delivery from '../../features/delivery/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/pickup/Pickup';
 import Source from '../../features/sourcecom/Source';
+import dvigatel from "../../../public/img/drawer/dvigatel.svg"
+import trailer from "../../../public/img/drawer/trailer.svg"
+import date from "../../../public/img/drawer/est-ship-date.svg"
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/vehicleContainer';
@@ -21,6 +24,7 @@ import Modal from './Modal';
 export default function QuoteModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [trailerType, setTrailerType] = useState<string | null>('');
   const [origin, setOrigin] = useState<string | null>('');
   const [delivery, setDelivery] = useState<string | null>('');
@@ -69,12 +73,12 @@ export default function QuoteModal() {
   };
 
   return (
-    <Modal isLoading={isLoading} title="New Lead" onSubmit={createLead}>
+    <Modal isLoading={isLoading} title="New quote" onSubmit={createLead}>
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">
             <VehicleContainer setCarData={setCarData} />
-            <FormControl title="Condition">
+            <FormControl title="Condition" img={dvigatel}>
               <Select
                 defaultValue=""
                 style={{ width: '100%' }}
@@ -89,7 +93,7 @@ export default function QuoteModal() {
             </FormControl>
             <Pickup setPickup={setOrigin} />
             <Delivery setDelivery={setDelivery} />
-            <FormControl title="Trailer type">
+            <FormControl title="Trailer type"  img={trailer}>
               <Select
                 defaultValue=""
                 style={{ width: '100%' }}
@@ -100,14 +104,14 @@ export default function QuoteModal() {
                 ]}
               />
             </FormControl>
-            <FormControl title="Est. Ship Date">
+            <FormControl title="Est. Ship Date" img={date}>
               <UseDatePicker
                 getYear={setDateEstShip}
                 type={'date'}
                 name="est_ship_date"
               />
             </FormControl>
-            <Source setSource={setSource} />
+            <Source setSource={setSource}  />
 
             <div className="form__footer">
               <Label>CM note</Label>

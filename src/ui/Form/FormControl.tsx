@@ -3,9 +3,11 @@ import React from 'react';
 export default function FormControl({
   children,
   title,
+  img,
 }: {
   children: React.ReactNode;
   title: string;
+  img?: string;
 }) {
   return (
     <div className="form__controller ">
@@ -13,12 +15,19 @@ export default function FormControl({
         <div className="down__collapse__header-item">
           {title !== 'add' ? (
             <>
-              <img
-                src="./img/sports-car.svg"
-                alt=""
-                width="20px"
-                height="20px"
-              />
+              {!img ? (
+                <img
+                  src="./img/sports-car.svg"
+                  alt=""
+                  width="20px"
+                  height="20px"
+                />
+              ) : (
+                <img src={img} 
+                alt="" 
+                width="20px" 
+                height="20px" />
+              )}
               <span>{title}</span>
             </>
           ) : (

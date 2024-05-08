@@ -1,5 +1,6 @@
 import { Select } from 'antd';
 import { useState } from 'react';
+import origin from '../../../public/img/drawer/origin.svg'
 import DownCollapse from '../../ui/Form/DownCollapse';
 import Input from '../../ui/Form/Input';
 import InputCol from '../../ui/Form/InputCol';
@@ -30,7 +31,7 @@ export default function Pickup({
 
 
   return (
-    <DownCollapse title="Pickup">
+    <DownCollapse title="Origin" img={origin}>
       <InputRow>
         <InputCol>
           <Label>Pickup city</Label>

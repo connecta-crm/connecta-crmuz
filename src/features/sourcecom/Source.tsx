@@ -1,5 +1,5 @@
 import { Select } from 'antd';
-
+import sourceImg from "../../../public/img/drawer/source.svg"
 import FormControl from '../../ui/Form/FormControl';
 import { useSource } from '../leads/useLeadDetails';
 export default function Source({
@@ -9,7 +9,7 @@ export default function Source({
 }) {
   const sources = useSource();
   return (
-    <FormControl title="Source">
+    <FormControl title="Source" img={sourceImg}>
       <Select
         defaultValue=""
         style={{ width: '100%' }}

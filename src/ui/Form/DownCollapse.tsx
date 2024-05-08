@@ -6,12 +6,14 @@ export default function DownCollapse({
   children,
   title,
   vehicleAdd,
-  vehicleRemove
+  vehicleRemove,
+  img,
 }: {
   children: React.ReactNode;
   title: string;
   vehicleAdd?: (car: CarType) => void;
-  vehicleRemove?:()=>void
+  vehicleRemove?: () => void;
+  img?: string;
 }) {
   const [show, setShow] = useState(false);
 
@@ -22,7 +24,12 @@ export default function DownCollapse({
           className="down__collapse__header-item"
           onClick={() => setShow(!show)}
         >
-          <img src="./img/sports-car.svg" alt="" width="20px" height="20px" />
+          {img ? (
+            <img src={img}></img>
+          ) : (
+            <img src="./img/sports-car.svg" alt="" width="20px" height="20px" />
+          )}
+
           <span>{title}</span>
         </div>
         <div className="down__collapse__header-item">
@@ -31,7 +38,8 @@ export default function DownCollapse({
               {title == 'Vehicle' ? (
                 <a
                   onClick={() =>
-                   vehicleAdd&& vehicleAdd({ id: Date.now(), vehicle: '', vehicleYear: '' })
+                    vehicleAdd &&
+                    vehicleAdd({ id: Date.now(), vehicle: '', vehicleYear: '' })
                   }
                 >
                   <img src={add} />

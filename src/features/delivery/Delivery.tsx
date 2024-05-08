@@ -1,5 +1,6 @@
 import { Select } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
+import origin from '../../../public/img/drawer/destination.svg'
 import { useState } from 'react';
 import DownCollapse from '../../ui/Form/DownCollapse';
 import Input from '../../ui/Form/Input';
@@ -30,7 +31,7 @@ export default function Delivery({
   };
 
   return (
-    <DownCollapse title="Delivery">
+    <DownCollapse title="Destination" img={origin}>
       <InputRow>
         <InputCol>
           <Label>Delivery city</Label>
