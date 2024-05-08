@@ -1,15 +1,15 @@
 import { Select } from 'antd';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import Person from '../../features/person/Person';
+import dvigatel from '../../../public/img/drawer/dvigatel.svg';
+import date from '../../../public/img/drawer/est-ship-date.svg';
+import trailer from '../../../public/img/drawer/trailer.svg';
 import { getUser } from '../../features/authentication/authSlice';
-import Delivery from '../../features/delivery/Delivery';
+import Delivery from '../../features/destination/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
-import Pickup from '../../features/pickup/Pickup';
+import Pickup from '../../features/origin/Pickup';
+import Person from '../../features/person/Person';
 import Source from '../../features/sourcecom/Source';
-import dvigatel from "../../../public/img/drawer/dvigatel.svg"
-import trailer from "../../../public/img/drawer/trailer.svg"
-import date from "../../../public/img/drawer/est-ship-date.svg"
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/vehicleContainer';
@@ -93,7 +93,7 @@ export default function LeadModal() {
             </FormControl>
             <Pickup setPickup={setOrigin} />
             <Delivery setDelivery={setDelivery} />
-            <FormControl title="Trailer type"  img={trailer}>
+            <FormControl title="Trailer type" img={trailer}>
               <Select
                 defaultValue=""
                 style={{ width: '100%' }}
@@ -111,7 +111,7 @@ export default function LeadModal() {
                 name="est_ship_date"
               />
             </FormControl>
-            <Source setSource={setSource}  />
+            <Source setSource={setSource} />
 
             <div className="form__footer">
               <Label>CM note</Label>

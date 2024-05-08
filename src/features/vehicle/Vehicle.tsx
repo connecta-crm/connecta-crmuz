@@ -1,4 +1,4 @@
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import { useMake, useModel } from '../../features/leads/useLeadDetails';
@@ -40,8 +40,10 @@ export default function Vehicle({
     DataType | DefaultOptionType
   >({ mark: '', q: '' });
   const [vhicleType, setVhicleType] = useState('');
-  const makes = useMake(searchCarMake);
-  const models = useModel(searchCarModel);
+  const [makeEnabled,setMakeEnabled] =useState(false)
+  const [modelEnabled,setModelEnabled] =useState(false)
+  const { makes, isFetching: isLoading } = useMake(searchCarMake,makeEnabled);
+  const { models, isFetching }= useModel(searchCarModel,modelEnabled);
 
   useEffect(() => {
     getCarValue(carValue);
@@ -78,15 +80,15 @@ export default function Vehicle({
 
     const d = record.data;
     setMakeValue({ value: d.mark.id, label: d.mark.name });
-    setCarValue({...carValue,vehicle:d.id})
+    setCarValue({ ...carValue, vehicle: d.id });
 
     setVhicleType(d?.vehicleType);
     setModelValue({ value: record.value, label: record.label });
   };
 
- const getYear=(date:string)=>{
-  setCarValue({...carValue,vehicleYear:date})
- }
+  const getYear = (date: string) => {
+    setCarValue({ ...carValue, vehicleYear: date });
+  };
 
   return (
     <DownCollapse
@@ -117,6 +119,9 @@ export default function Vehicle({
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
             filterOption={false}
+            loading={isLoading}
+            onFocus={()=>setMakeEnabled(true)}
+            notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onSearch={(value) => handleSearchCar(value, 'make')}
             onChange={(data: DefaultOptionType, record) =>
               handleSelectMake(data, record)
@@ -141,6 +146,9 @@ export default function Vehicle({
             placeholder={'Search model'}
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
+            onFocus={()=>setModelEnabled(true)}
+            loading={isFetching}
+            notFoundContent={isFetching ? <Spin size="small" /> : 'No data'}
             filterOption={false}
             onSelect={() => null}
             onSearch={(value) => handleSearchCar(value, 'model')}

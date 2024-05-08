@@ -5,46 +5,48 @@ import { useModal } from '../../context/ModalContext';
 import { LeadDataType } from '../../models/LeadDataType';
 import Leads from '../../services/leads';
 
-export function useMake(text: string | undefined) {
-  const { data, isSuccess } = useQuery({
+export function useMake(text: string | undefined, enabled: boolean) {
+  const { data: { results: makes } = {}, isFetching } = useQuery({
     queryKey: ['mark', text],
     queryFn: () => Leads.getMake(text),
-    enabled: !!text,
+    enabled,
   });
-  if (isSuccess) return data.results;
-  return [];
+  return { makes, isFetching };
 }
 
 export function useModel(
   text: DefaultOptionType | undefined | { mark: string; q: string },
+  enabled: boolean,
 ) {
-  const { data, isSuccess } = useQuery({
+  const { data: { results: models } = {}, isFetching } = useQuery({
     queryKey: ['model', text],
     queryFn: () => Leads.getModel(text),
-    enabled: !!(text?.mark || text?.q),
+    enabled,
   });
-
-  if (isSuccess) return data.results;
-  return [];
+  return { models, isFetching };
 }
 
-export function useCity(text: string | null) {
-  const { data, isSuccess } = useQuery({
+export function useCity(text: string | null, enabled: boolean) {
+  const {
+    data: { results: citys } = {},
+    isPending: isLoading,
+    isFetching,
+    error,
+  } = useQuery({
     queryKey: ['city', text],
     queryFn: () => Leads.getCity(text),
-    enabled: !!text,
+    enabled,
   });
-  if (isSuccess) return data.results;
-  return [];
+  return { citys, isLoading, isFetching, error };
 }
 
-export function useSource() {
-  const { data, isSuccess } = useQuery({
+export function useSource(enabled: boolean) {
+  const { data: sources, isFetching } = useQuery({
     queryKey: ['source'],
     queryFn: () => Leads.getSource(),
+    enabled,
   });
-  if (isSuccess) return data;
-  return [];
+  return { sources, isFetching };
 }
 
 export function usePerson(text: string) {
