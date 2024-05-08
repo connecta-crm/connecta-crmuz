@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import Person from '../../features/Person/Person';
+import Person from '../../features/person/Person';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/delivery/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
