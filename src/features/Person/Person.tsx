@@ -26,7 +26,7 @@ export default function Person({
   const [selectPersonValue, setSelectPersonValue] =
     useState<DefaultOptionType | null>(null);
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
-  const [customer, setCustomer] = useState<string | null>('');
+  const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
 
   const [url, seturl] = useState('');
