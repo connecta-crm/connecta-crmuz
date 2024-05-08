@@ -1,7 +1,7 @@
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import origin from '../../../public/img/drawer/destination.svg'
 import { useState } from 'react';
+import origin from '../../../public/img/drawer/origin.svg';
 import DownCollapse from '../../ui/Form/DownCollapse';
 import Input from '../../ui/Form/Input';
 import InputCol from '../../ui/Form/InputCol';
@@ -15,42 +15,45 @@ type CityType = {
   zip?: string;
 };
 
-
-export default function Delivery({
-  setDelivery,
+export default function Pickup({
+  setPickup,
 }: {
-  setDelivery: (a: string | null) => void;
+  setPickup: (a: string | null) => void;
 }) {
+  const [enabled, setEnabled] = useState(false);
   const [cityValue, setCityValue] = useState<CityType | null>(null);
   const [searchCity, setSearchCity] = useState('');
-  const citys = useCity(searchCity);
+  const { citys, isFetching: isLoading } = useCity(searchCity, enabled);
 
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
-    setDelivery(value);
+    setPickup(value);
     setCityValue(data.data);
   };
 
   return (
-    <DownCollapse title="Destination" img={origin}>
+    <DownCollapse title="Origin" img={origin}>
       <InputRow>
         <InputCol>
-          <Label>Delivery city</Label>
+          <Label>Pickup city</Label>
         </InputCol>
         <InputCol>
           <Select
             showSearch
             value={cityValue?.name}
             optionFilterProp="children"
-            placeholder={'Search  city'}
+            placeholder={'Search  make'}
             style={{ width: '100%' }}
-            defaultActiveFirstOption={false}
+            loading={isLoading}
             filterOption={false}
+            defaultActiveFirstOption={false}
+            onFocus={() => setEnabled(true)}
             onSearch={(value) => setSearchCity(value)}
+            notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onChange={(
               value,
               record: DefaultOptionType | DefaultOptionType[],
             ) => onChangeHandler(value, record)}
-            options={(citys || []).map((d: CityType) => ({
+            options={(citys || []).map((d: { id: number; name: string }) => ({
               value: d.id,
               data: d,
               label: d.name,
@@ -60,7 +63,7 @@ export default function Delivery({
       </InputRow>
       <InputRow>
         <InputCol>
-          <Label>Delivery state</Label>
+          <Label>Pickup state</Label>
         </InputCol>
 
         <InputCol>
@@ -74,7 +77,7 @@ export default function Delivery({
       </InputRow>
       <InputRow>
         <InputCol>
-          <Label>Delivery zip</Label>
+          <Label>Pickup zip</Label>
         </InputCol>
 
         <InputCol>
@@ -82,16 +85,19 @@ export default function Delivery({
             showSearch
             value={cityValue?.zip}
             optionFilterProp="children"
-            placeholder={'Search  zip'}
+            placeholder={'Search  make'}
             style={{ width: '100%' }}
+            loading={isLoading}
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
+            notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
+            onFocus={() => setEnabled(true)}
             onChange={(
               value,
               record: DefaultOptionType | DefaultOptionType[],
             ) => onChangeHandler(value, record)}
-            options={(citys || []).map((d: CityType) => ({
+            options={(citys || []).map((d: { id: number; zip: string }) => ({
               value: d.id,
               data: d,
               label: d.zip,

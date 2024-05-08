@@ -2,9 +2,9 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
-import user from '../../../public/img/drawer/user.svg'
-import email from '../../../public/img/drawer/mail.svg'
-import phone from '../../../public/img/drawer/phone.svg'
+import email from '../../../public/img/drawer/mail.svg';
+import phone from '../../../public/img/drawer/phone.svg';
+import user from '../../../public/img/drawer/user.svg';
 import FormControl from '../../ui/Form/FormControl';
 import Input from '../../ui/Form/Input';
 import UpCollapse from '../../ui/Form/UpCollapse';
@@ -18,7 +18,11 @@ export default function Person({
 }: {
   setPersonId: (a: string | null) => void;
 }) {
-  const [newCustomer, setNewCustomer] = useState<{name:string,email:string,phone:string}>({
+  const [newCustomer, setNewCustomer] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+  }>({
     name: '',
     email: '',
     phone: '',
@@ -66,7 +70,7 @@ export default function Person({
     setPersonId(newValue);
     setNewNumberValue('');
   };
-  const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e);
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
   };
@@ -124,7 +128,7 @@ export default function Person({
 
   return (
     <UpCollapse title="Person">
-      <FormControl title="Name" img={user} >
+      <FormControl title="Name" img={user}>
         {create ? (
           <input
             type="text"
@@ -132,7 +136,9 @@ export default function Person({
             required
             name="name"
             value={newCustomer.name}
-            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onChangeInput(e)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChangeInput(e)
+            }
           />
         ) : (
           <Select
