@@ -50,13 +50,12 @@ export function useSource(enabled: boolean) {
 }
 
 export function usePerson(text: string) {
-  const { data, isSuccess } = useQuery({
+  const { data: { results: personData } = {}, isFetching }= useQuery({
     queryKey: ['person', text],
     queryFn: () => Leads.getPerson(text),
     enabled: !!text,
   });
-  if (isSuccess) return data.results;
-  return [];
+  return { personData, isFetching };
 }
 
 export function useCreatePerson() {
