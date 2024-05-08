@@ -7,6 +7,7 @@ export type LeadsParamsType = {
   limit: number;
   offset: number;
   q: string;
+  status: string;
   source?: string[];
 };
 
@@ -23,6 +24,7 @@ export function useLeads() {
   // const calculatedOffset = offset - 1;
 
   const q = searchParams.get('q') || '';
+  const status = searchParams.get('status') || '';
   const sources = searchParams.getAll('source');
 
   const {
@@ -30,8 +32,9 @@ export function useLeads() {
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['leads', limit, offset, sources, q],
-    queryFn: () => Leads.getLeads({ limit, offset, source: sources, q }),
+    queryKey: ['leads', limit, offset, sources, q, status],
+    queryFn: () =>
+      Leads.getLeads({ limit, offset, source: sources, q, status }),
   });
   return { leads, count, sumPrice, isLoading, error };
 }

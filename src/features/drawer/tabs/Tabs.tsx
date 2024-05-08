@@ -119,13 +119,13 @@ const tabData = [
 ];
 
 const items = tabData.map(({ key, label, value, icon, children }) => {
-  console.log(value);
   return {
     label,
     key,
     children,
     // style: i === 0 ? { height: 200 } : undefined,
     icon,
+    value,
   };
 });
 

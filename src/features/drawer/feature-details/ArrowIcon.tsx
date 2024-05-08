@@ -1,15 +1,16 @@
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { classNames } from '../../../utils/helpers';
 
 type ArrowIconProps = {
   keyValue: string;
-  openPanels: string[];
 };
-function ArrowIcon({ keyValue, openPanels }: ArrowIconProps) {
+function ArrowIcon({ keyValue }: ArrowIconProps) {
+  const { openInnerPanels } = useDrawerFeature();
   return (
     <div
       onClick={(e) => e.stopPropagation()}
       className={classNames(
-        openPanels?.includes(keyValue) ? '_active -ml-25' : '',
+        openInnerPanels?.includes(keyValue) ? '_active -ml-25' : '',
         'box-header__arrow-bold cursor-inherit',
       )}
     >

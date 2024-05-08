@@ -1,9 +1,9 @@
 :where(.css-dev-only-do-not-override-1qfezbu).ant-drawer .ant-drawer-mask {
-  inset: initial;
+  inset: 56px 0 0 56px;
 }
 :where(.css-dev-only-do-not-override-1qfezbu).ant-drawer-right
   > .ant-drawer-content-wrapper {
-  margin-top: 57px;
+  margin-top: 56px;
 }
 :where(.css-dev-only-do-not-override-1qfezbu).ant-drawer .ant-drawer-header {
   padding: 0;
@@ -74,6 +74,7 @@
   padding: 3px 5px;
   background: #fff;
 }
-:where(.css-dev-only-do-not-override-1qfezbu).ant-select-single .ant-select-selector{
+:where(.css-dev-only-do-not-override-1qfezbu).ant-select-single
+  .ant-select-selector {
   border-radius: 4px;
 }

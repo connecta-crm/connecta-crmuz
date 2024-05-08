@@ -1,40 +1,38 @@
-import { Form, Select } from 'antd';
+import { Select } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { updateSelect } from '../conditionSlice';
+import { getLeadData, updateField } from '../../leads/leadSlice';
 
 function FeatConditionInner() {
   const dispatch = useAppDispatch();
-  const formData = useAppSelector((state) => state.condition.formData);
+  const leadData = useAppSelector(getLeadData);
 
-  const handleFieldChange = (value: string) => {
-    dispatch(updateSelect({ value }));
+  const handleChange = (value: string) => {
+    dispatch(updateField({ field: 'condition', value }));
   };
   return (
-    <Form
-      name="basic2"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      autoComplete="off"
-      colon={false}
-      labelWrap
-      size="small"
-    >
-      <Form.Item
-        name="conditionType"
-        label="Vehicle make"
-        rules={[{ required: true, message: '' }]}
-      >
-        <Select
-          value={formData.conditionType}
-          style={{ width: 200, float: 'inline-end', height: 24 }}
-          onChange={(e) => handleFieldChange(e)}
-        >
-          <Select.Option value="runs">Runs</Select.Option>
-          <Select.Option value="drives">Drives</Select.Option>
-          <Select.Option value="others">Others</Select.Option>
-        </Select>
-      </Form.Item>
-    </Form>
+    <div className="d-flex justify-between">
+      <div className="form-label">Condition</div>
+      <Select
+        value={leadData.condition}
+        defaultValue={leadData.condition}
+        style={{ width: 200, float: 'inline-end', height: 24 }}
+        onChange={handleChange}
+        options={[
+          {
+            label: 'Run and drives',
+            value: 'run',
+          },
+          {
+            label: 'Inop, it rolls',
+            value: 'rols',
+          },
+          {
+            label: 'Inop, need forklift',
+            value: 'forklift',
+          },
+        ]}
+      />
+    </div>
   );
 }
 

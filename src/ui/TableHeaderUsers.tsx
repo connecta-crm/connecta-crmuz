@@ -3,32 +3,10 @@ import { useState } from 'react';
 import user from '../../public/img/dt_table/default_user_image.png';
 import ellipse from '../../public/img/dt_table/ellipse.svg';
 
-// import { useSearchParams } from 'react-router-dom';
-
-type Option = {
-  label: string;
-  value: string;
-};
-
-type TableSelectProps = {
-  selectField: string;
-  options: Option[];
-};
-
-function TableHeaderUsers({ selectField, options }: TableSelectProps) {
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const value = searchParams.get(selectField) || options[0].value;
-
-  // function handleChange(e: { target: { value: string } }) {
-  //   searchParams.set(selectField, e.target.value);
-  //   setSearchParams(searchParams);
-  // }
-
-  console.log(selectField, options);
+function TableHeaderUsers() {
   const [open, setOpen] = useState(false);
   // DROPDOWN FUNCTION
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
-    console.log('ssa', nextOpen, info);
     if (info.source === 'trigger' || nextOpen) {
       setOpen(nextOpen);
     }

@@ -4,6 +4,7 @@ export type VehicleFormData = {
   vehicleYear: string;
   vehicleMake: string;
   vehicleModel: string;
+  vehicleType: string;
 };
 
 export type VehicleState = {
@@ -24,6 +25,7 @@ export const vehicleSlice = createSlice({
       vehicleYear: '',
       vehicleMake: '',
       vehicleModel: '',
+      vehicleType: '',
     },
     status: 'idle',
     error: null,

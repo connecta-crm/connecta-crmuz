@@ -21,6 +21,7 @@ import Modal from './Modal';
 export default function LeadModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [trailerType, setTrailerType] = useState<string | null>('');
   const [origin, setOrigin] = useState<string | null>('');
   const [delivery, setDelivery] = useState<string | null>('');

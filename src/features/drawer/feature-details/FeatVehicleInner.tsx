@@ -18,6 +18,7 @@ function FeatVehicleInner() {
   ) => {
     dispatch(updateField({ field, value }));
   };
+
   return (
     <Form
       name="basic"
@@ -70,6 +71,18 @@ function FeatVehicleInner() {
           <Select.Option value="model1">model1</Select.Option>
           <Select.Option value="model2">model2</Select.Option>
         </Select>
+      </Form.Item>
+
+      <Form.Item
+        name="vehicleType"
+        label="Vehicle type"
+        rules={[{ required: true, message: '' }]}
+      >
+        <Input
+          value={formData.vehicleType}
+          style={{ width: 200, float: 'inline-end', height: 24 }}
+          onChange={(e) => handleFieldChange('vehicleType', e.target.value)}
+        />
       </Form.Item>
     </Form>
   );

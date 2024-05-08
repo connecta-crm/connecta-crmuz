@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { EditLeadProps } from '../../features/drawer/useEditLead';
 import { LeadsParamsType } from '../../features/leads/useLeads';
 import apiClient from '../axios';
 import { DefaultOptionType } from 'antd/es/select';
@@ -15,12 +16,13 @@ class Leads {
     this.$api = apiClient;
   }
 
-  async getLeads({ limit, offset, source, q }: LeadsParamsType) {
+  async getLeads({ limit, offset, source, q, status }: LeadsParamsType) {
     try {
       const params: Record<string, unknown> = {
         limit,
         offset,
         q,
+        status,
       };
 
       if (source) {
@@ -40,7 +42,33 @@ class Leads {
     }
   }
 
-  // get make
+  // GET: /leads/:guid/detail/
+  async getLead(guid: string | null) {
+    try {
+      const { data } = await this.$api.get(`/leads/detail/${guid}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // PATCH: /leads/:guid/update/
+  async editLead({ guid, updateLeadData }: EditLeadProps) {
+    try {
+      const { data } = await this.$api.put(`/leads/update/${guid}/`, {
+        ...updateLeadData,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
   async getMake(text: string | undefined) {
     try {

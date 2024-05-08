@@ -9,24 +9,24 @@ export type TableHeaderFiltersProps = {
   sumPrice: number | undefined;
 };
 function TableHeaderFilters({ count, sumPrice }: TableHeaderFiltersProps) {
-  const discountOptions = [
-    { value: 'all', label: 'All' },
-    { value: 'no-discount', label: 'No discount' },
-    { value: 'with-discount', label: 'With discount' },
-  ];
+  // const discountOptions = [
+  //   { value: 'all', label: 'All' },
+  //   { value: 'no-discount', label: 'No discount' },
+  //   { value: 'with-discount', label: 'With discount' },
+  // ];
 
-  const userOptions = [
-    { value: 'all', label: 'All' },
-    { value: 'user-1', label: 'User 1' },
-    { value: 'user-2', label: 'User 2' },
-  ];
+  // const userOptions = [
+  //   { value: 'all', label: 'All' },
+  //   { value: 'user-1', label: 'User 1' },
+  //   { value: 'user-2', label: 'User 2' },
+  // ];
 
   return (
     <div className="dt-header__filters">
-      <TableHeaderProvider selectField="discount" options={discountOptions} />
+      <TableHeaderProvider />
       <TableHeaderPagination count={count} sumPrice={sumPrice} />
       <TableHeaderSearch />
-      <TableHeaderUsers selectField="users" options={userOptions} />
+      <TableHeaderUsers />
       <div className="dt-header__hamburg">
         <img src={hamburg} alt="" />
       </div>

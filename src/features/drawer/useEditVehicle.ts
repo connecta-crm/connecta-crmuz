@@ -6,7 +6,8 @@ import { VehicleFormData } from './vehicleSlice';
 export function useEditVehicle() {
   // const queryClient = useQueryClient();
   const { mutate: editVehicle, isPending: isLoading } = useMutation({
-    mutationFn: (formData: VehicleFormData) => Leads.vehicleEditFake(formData),
+    mutationFn: (formData: VehicleFormData) =>
+      Leads['vehicleEditFake'](formData),
     onSuccess: () => {
       toast.success('Vehicle successfully edited');
       // queryClient.invalidateQueries({ queryKey: ["vehicles"] });
