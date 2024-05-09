@@ -1,22 +1,22 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type Mark = {
-  id: number;
-  name: string;
+  id: number | null;
+  name: string | null;
 };
 
-type Vehicle = {
-  id: number;
+export type Vehicle = {
+  id: number | null;
   mark: Mark;
-  name: string;
-  vehicleType: string;
+  name: string | null;
+  vehicleType: string | null;
 };
 
-type LeadVehicle = {
-  id: number;
+export type LeadVehicle = {
+  id: number | null;
   vehicle: Vehicle;
-  vehicleYear: number;
-  lead: number;
+  vehicleYear: number | null;
+  lead: number | null;
 };
 
 type User = {
@@ -171,7 +171,13 @@ const initialState: LeadState = {
 
 type UpdateFieldAction<T extends keyof LeadData> = {
   field: T;
-  value: LeadData[T]; // Ensures the value is of the type that the field in LeadData expects
+  value: LeadData[T];
+};
+
+type UpdateVehicleFieldAction<T extends keyof Vehicle> = {
+  vehicleIndex: number;
+  field: T;
+  value: Vehicle[T];
 };
 
 type RevertFieldAction<T extends keyof LeadData> = {
@@ -209,6 +215,17 @@ export const leadSlice = createSlice({
 
       // state.leadData[field] = value;
     },
+    updateVehicleField: <T extends keyof Vehicle>(
+      state: LeadState,
+      action: PayloadAction<UpdateVehicleFieldAction<T>>,
+    ) => {
+      const { vehicleIndex, field, value } = action.payload;
+      const vehicles = [...state.leadData.leadVehicles];
+      const vehicle = vehicles[vehicleIndex];
+      setNestedObjectValue(vehicle, field, value); // vehicle[field] = value;
+      vehicles[vehicleIndex] = vehicle;
+      state.leadData.leadVehicles = vehicles;
+    },
     resetField: <T extends keyof LeadData>(
       state: LeadState,
       action: PayloadAction<RevertFieldAction<T>>,
@@ -223,7 +240,8 @@ export const leadSlice = createSlice({
 
 export const getLeadData = (state: { lead: LeadState }) => state.lead.leadData;
 
-export const { setLeadData, updateField, resetField } = leadSlice.actions;
+export const { setLeadData, updateField, updateVehicleField, resetField } =
+  leadSlice.actions;
 
 export default leadSlice.reducer;
 

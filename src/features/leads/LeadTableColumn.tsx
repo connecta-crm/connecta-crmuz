@@ -4,7 +4,7 @@ export const LeadTableColumns = [
   {
     title: 'Id',
     dataIndex: 'id',
-    render: (text: string) => <a className='table__id'>{text}</a>,
+    render: (text: string) => <a className="table__id">{text}</a>,
   },
   {
     title: 'Received',
@@ -13,13 +13,9 @@ export const LeadTableColumns = [
   {
     title: 'User',
     dataIndex: 'user',
-    render: (data:{id:string,picture:string}) => (
+    render: (data: { id: string; picture: string }) => (
       <div className="table__img__container">
-        <img
-          src={data?.picture}
-          alt=""
-          className="table__user__img"
-        />
+        <img src={data?.picture} alt="" className="table__user__img" />
       </div>
     ),
   },
@@ -58,8 +54,8 @@ export const LeadTableColumns = [
           </div>
         }
         <div className="table__vehicle__text">
-          {data.map((item) => (
-            <div key={item.vehicleName}>{item.vehicleName}</div>
+          {data.map((item, index) => (
+            <div key={index}>{item.vehicleName}</div>
           ))}
         </div>
       </div>

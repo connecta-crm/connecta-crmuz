@@ -18,8 +18,10 @@ type DrawerFeatureContextType = {
   // onChange: (e: string, b?: boolean | undefined) => void;
   isEditDetails: boolean;
   isEditPerson: boolean;
+  isEditNotes: boolean;
   onEditDetails: (e: boolean) => void;
   onEditPerson: (e: boolean) => void;
+  onEditNotes: (e: boolean) => void;
   onChangeMainCollapse: (e: string[] | string) => void;
   onChangeInnerCollapse: (e: string | string[]) => void;
 };
@@ -33,12 +35,16 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const [openInnerPanels, setOpenInnerPanels] = useState<string[]>([]);
   const [isEditDetails, setEditDetails] = useState(false);
   const [isEditPerson, setEditPerson] = useState(false);
+  const [isEditNotes, setEditNote] = useState(false);
 
   const onEditDetails = (value: boolean) => {
     setEditDetails(value);
   };
   const onEditPerson = (value: boolean) => {
     setEditPerson(value);
+  };
+  const onEditNotes = (value: boolean) => {
+    setEditNote(value);
   };
 
   // const onChangeDetails = (key: string | string[]) => {
@@ -60,13 +66,6 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   // };
 
   const onChangeInnerCollapse = (panelKey: string | string[]) => {
-    // const keyString = Array.isArray(key) ? key[0] : key;
-    // setOpenInnerPanels(
-    //   openInnerPanels.includes(keyString)
-    //     ? openInnerPanels.filter((item) => item !== keyString)
-    //     : [...openInnerPanels, keyString],
-    // );
-
     if (Array.isArray(panelKey)) {
       setOpenInnerPanels(panelKey);
     } else {
@@ -107,7 +106,9 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         setOpenInnerPanels,
         isEditDetails,
         onEditPerson,
+        onEditNotes,
         isEditPerson,
+        isEditNotes,
         onEditDetails,
         // onChangeDetails,
         // onChangePerson,

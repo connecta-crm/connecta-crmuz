@@ -1,38 +1,72 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoadingOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { useQueryClient } from '@tanstack/react-query';
+import { Button, Popconfirm } from 'antd';
 import { merge } from 'lodash';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   LeadData,
+  LeadVehicle,
   getLeadData,
   resetField as resetLeadField,
   setLeadData,
 } from '../../leads/leadSlice';
-import { useEditLead } from '../useEditLead';
+import { useLead } from '../../leads/useLead';
+import { useLeadEdit } from '../../leads/useLeadEdit';
+import { useLeadVehicleCreate } from '../../leads/useLeadVehicleCreate';
+import { useLeadVehicleDelete } from '../../leads/useLeadVehicleDelete';
+import { useLeadVehicleEdit } from '../../leads/useLeadVehicleEdit';
+import { useLeads } from '../../leads/useLeads';
 
 export type FeatItemOpenProps = {
   keyValue: string;
   feature: 'lead' | 'quote' | 'order';
   featureItemField: keyof LeadData; // keyof LeadData | QuoteData
-  hasAddAction?: boolean;
+  addRemoveBtn?: 'add' | 'remove' | 'none';
+  featureItemData?: LeadVehicle;
 };
+
+const text = 'Are you sure to delete this vehicle?';
+const description = 'Delete the vehicle';
 
 function FeatItemOpen({
   keyValue,
   feature,
   featureItemField: field,
-  hasAddAction = false,
+  addRemoveBtn = 'none',
+  featureItemData,
 }: FeatItemOpenProps) {
+  const [popconfirmOpen, setPopconfirmOpen] = useState(false);
   const { isEditDetails, onChangeInnerCollapse } = useDrawerFeature();
 
   const leadData = useAppSelector(getLeadData);
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
-  const { editLead, updatedLeadData, isLoading, error } = useEditLead();
+  const [guid, setGuid] = useState<string | null>(null);
 
-  const updateLeadData = {
+  const { leads, isLoading: isLoadingLeads } = useLeads();
+  const {
+    lead,
+    isLoading: isLoadingLead,
+    isFetchingLead,
+    error: errorLead,
+  } = useLead(guid);
+
+  const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
+
+  const { editLeadVehicle, isLoading: isLoadingLeadVehicleEdit } =
+    useLeadVehicleEdit();
+
+  const { deleteLeadVehicle, isLoading: isLoadingLeadVehicleDelete } =
+    useLeadVehicleDelete();
+
+  const { createLeadVehicle, isLoading: isLoadingLeadVehicleCreate } =
+    useLeadVehicleCreate();
+
+  const updateLeadModel = {
     ...leadData,
     customer: leadData.customer?.id,
     source: leadData.source?.id,
@@ -45,7 +79,16 @@ function FeatItemOpen({
   const handleSave = () => {
     switch (feature) {
       case 'lead':
-        editLead({ guid: leadData.guid, updateLeadData });
+        if (field === 'leadVehicles') {
+          editLeadVehicle({
+            id: featureItemData?.id,
+            vehicle: featureItemData?.vehicle.id,
+            lead: leadData.id,
+            vehicleYear: featureItemData?.vehicleYear,
+          });
+          return;
+        }
+        editLead({ guid: leadData.guid, updateLeadModel });
         break;
       case 'quote':
         // editQuote({ guid: leadData.guid, updateLeadData });
@@ -65,41 +108,112 @@ function FeatItemOpen({
     onChangeInnerCollapse(keyValue);
   };
 
+  const handleAddNewVehicle = () => {
+    const lead = leadData.id;
+    const vehicle = leadData.leadVehicles[0]?.vehicle.id || null;
+    const vehicleYear = leadData.leadVehicles[0]?.vehicleYear || '';
+    createLeadVehicle({ vehicle, vehicleYear, lead });
+  };
+
+  const handleRemoveVehicle = () => {
+    const id = featureItemData?.id;
+    setGuid(null);
+    if (id) {
+      deleteLeadVehicle(id);
+    }
+    // queryClient
+    //   .invalidateQueries({
+    //     queryKey: ['lead', null],
+    //     exact: true,
+    //     refetchType: 'active',
+    //   })
+    //   .then(() => {
+    //     setGuid(leadData.guid);
+    //     console.log('SET GUID', leadData.guid);
+    //   });
+
+    // queryClient
+    //   .invalidateQueries({
+    //     queryKey: ['lead', null],
+    //     exact: true,
+    //     refetchType: 'active',
+    //   })
+    //   .then((data) => {
+    //     // setGuid(leadData.guid);
+    //     console.log('INVALIDATE LEAD DATA', data);
+    //   });
+    // setGuid(leadData.guid);
+
+    // queryClient.invalidateQueries({ queryKey: ['lead', null] });
+  };
+
+  const leadId = leadData.guid;
+
   useEffect(() => {
-    if (!isLoading && !error) {
+    if (!isLoadingLeadVehicleDelete) {
+      setGuid(leadId);
+      console.log('SET GUID', leadId);
+    }
+  }, [isLoadingLeadVehicleDelete, leadId]);
+
+  useEffect(() => {
+    if (!isFetchingLead && !errorLead && leads.length) {
+      dispatch(setLeadData(lead));
+      console.log('SET NEW LEAD', lead);
+    }
+  }, [isFetchingLead, errorLead, leads, dispatch]);
+
+  useEffect(() => {
+    if (
+      !isLoading &&
+      !error &&
+      !isLoadingLeadVehicleEdit &&
+      !isLoadingLeadVehicleDelete &&
+      !isLoadingLeadVehicleCreate
+    ) {
       const merged = merge({}, leadData, updatedLeadData);
       dispatch(setLeadData(merged));
       onChangeInnerCollapse(keyValue);
+      console.log('MERGE');
     }
-  }, [isLoading, keyValue, error]);
+  }, [
+    isLoading,
+    isLoadingLeadVehicleEdit,
+    isLoadingLeadVehicleDelete,
+    isLoadingLeadVehicleCreate,
+    keyValue,
+    error,
+  ]);
 
-  const handleAddNewVehicle = () => {
-    // onAddNewVehicle('newvehicle-');
-  };
   return (
     <div className="detail__btns d-flex align-center">
-      {!isEditDetails && (
-        <>
-          <Button
-            block
-            size="small"
-            disabled={isLoading}
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="ml-10"
-            type="primary"
-            size="small"
-            disabled={isLoading}
-            onClick={handleSave}
-          >
-            {isLoading ? <LoadingOutlined /> : 'Save'}
-          </Button>
-        </>
-      )}
-      {hasAddAction && (
+      {!isEditDetails &&
+        !(field === 'price' || field === 'reservationPrice') && (
+          <>
+            <Button
+              block
+              size="small"
+              disabled={isLoading || isLoadingLeadVehicleEdit}
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="ml-10"
+              type="primary"
+              size="small"
+              disabled={isLoading || isLoadingLeadVehicleEdit}
+              onClick={handleSave}
+            >
+              {isLoading || isLoadingLeadVehicleEdit ? (
+                <LoadingOutlined />
+              ) : (
+                'Save'
+              )}
+            </Button>
+          </>
+        )}
+      {addRemoveBtn === 'add' ? (
         <div className="d-flex ml-10">
           <div
             onClick={() => {
@@ -110,7 +224,27 @@ function FeatItemOpen({
             <img src="./img/plus_bold.svg" alt="" />
           </div>
         </div>
-      )}
+      ) : addRemoveBtn === 'remove' ? (
+        <div className="d-flex ml-10">
+          <Popconfirm
+            placement="top"
+            title={text}
+            description={description}
+            okText={isLoadingLeadVehicleDelete ? <LoadingOutlined /> : 'Yes'}
+            cancelText="No"
+            open={popconfirmOpen}
+            onConfirm={handleRemoveVehicle}
+            onCancel={() => setPopconfirmOpen(false)}
+          >
+            <div
+              onClick={() => setPopconfirmOpen(true)}
+              className="box-header__add"
+            >
+              <img src="./img/minus_bold.svg" alt="" />
+            </div>
+          </Popconfirm>
+        </div>
+      ) : null}
     </div>
   );
 }

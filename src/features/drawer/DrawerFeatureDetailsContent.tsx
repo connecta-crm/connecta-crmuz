@@ -10,7 +10,6 @@ import FeatDestinationInner from './feature-details/FeatDestinationInner';
 import FeatEstShipDateInner from './feature-details/FeatEstShipDateInner';
 import FeatItemHeader from './feature-details/FeatItemHeader';
 import FeatOriginInner from './feature-details/FeatOriginInner';
-import FeatReservationInner from './feature-details/FeatReservationInner';
 import FeatSourceInner from './feature-details/FeatSourceInner';
 import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
@@ -28,29 +27,34 @@ function DrawerFeatureDetailsContent() {
     source: { name: sourceName },
     price: totalTariff,
     reservationPrice,
+    leadVehicles,
   } = useAppSelector(getLeadData);
 
-  const items: CollapseProps['items'] = [
-    {
-      key: '1',
+  const renderLeadVehicles = (): CollapseProps['items'] => {
+    return leadVehicles.map((vehicle, index) => ({
+      key: String(index + 20),
       label: (
         <FeatItemHeader
-          keyValue={'1'}
-          itemCloseLabel={condition}
-          itemLabel="Vehicle"
-          featureItemField="condition"
+          keyValue={String(index + 20)}
+          itemCloseLabel={`${vehicle.vehicleYear} ${vehicle.vehicle?.mark.name || ''} ${vehicle.vehicle?.name || ''}`}
+          itemLabel={index === 0 ? 'Vehicle' : `Vehicle #${index + 1}`}
+          featureItemField="leadVehicles"
           icon="car"
           feature="lead"
-          hasAddAction={true}
+          featureItemData={vehicle}
+          addRemoveBtn={index === 0 ? 'add' : 'remove'}
         />
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatVehicleInner />
+          <FeatVehicleInner vehicleIndex={index} vehicleItem={vehicle} />
         </DrawerFeatureRow>
       ),
       showArrow: false,
-    },
+    }));
+  };
+
+  const items: CollapseProps['items'] = [
     {
       key: '2',
       label: (
@@ -182,7 +186,7 @@ function DrawerFeatureDetailsContent() {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTotalTariffInner />
+          <FeatTotalTariffInner keyValue="8" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -201,20 +205,15 @@ function DrawerFeatureDetailsContent() {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatReservationInner />
+          <FeatTotalTariffInner keyValue="9" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
     },
   ];
 
-  // Agar condition yoki boshqa null bolsa, uni hide qilish!
-  const updatedItems = items.filter((item) => {
-    if (!condition) {
-      return item.key !== '2';
-    }
-    return item;
-  });
+  const vehicleItems = renderLeadVehicles();
+  const mergeItems = vehicleItems?.concat(items);
 
   return (
     <div className="box-header-inner">
@@ -223,7 +222,7 @@ function DrawerFeatureDetailsContent() {
         ghost
         collapsible="icon"
         onChange={onChangeInnerCollapse}
-        items={updatedItems}
+        items={mergeItems}
       />
     </div>
   );

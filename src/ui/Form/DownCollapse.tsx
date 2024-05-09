@@ -6,12 +6,12 @@ export default function DownCollapse({
   children,
   title,
   vehicleAdd,
-  vehicleRemove
+  vehicleRemove,
 }: {
   children: React.ReactNode;
   title: string;
   vehicleAdd: (car: CarType) => void;
-  vehicleRemove:()=>void
+  vehicleRemove: () => void;
 }) {
   const [show, setShow] = useState(false);
 
@@ -34,11 +34,11 @@ export default function DownCollapse({
                     vehicleAdd({ id: Date.now(), vehicle: '', vehicleYear: '' })
                   }
                 >
-                  <img src={add} />
+                  <img alt="" src={add} />
                 </a>
               ) : (
                 <a onClick={vehicleRemove}>
-                  <img src={remove} />
+                  <img alt="" src={remove} />
                 </a>
               )}
             </>

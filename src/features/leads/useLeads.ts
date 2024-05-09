@@ -28,7 +28,7 @@ export function useLeads() {
   const sources = searchParams.getAll('source');
 
   const {
-    data: { results: leads, count, sumPrice } = {},
+    data: { results: leads, count } = {},
     isPending: isLoading,
     error,
   } = useQuery({
@@ -36,5 +36,5 @@ export function useLeads() {
     queryFn: () =>
       Leads.getLeads({ limit, offset, source: sources, q, status }),
   });
-  return { leads, count, sumPrice, isLoading, error };
+  return { leads, count, isLoading, error };
 }

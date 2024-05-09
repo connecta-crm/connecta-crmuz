@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useQueryClient } from '@tanstack/react-query';
 import { Table } from 'antd';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
-import { setLeadData } from './leadSlice';
+import { getLeadData, setLeadData } from './leadSlice';
 import { useLead } from './useLead';
 import { useLeads } from './useLeads';
 
@@ -34,6 +36,10 @@ function LeadTable({ openDrawer }: OpenDrawerType) {
   const { leads, count, isLoading: isLoadingLeads } = useLeads();
   const { lead, isLoading: isLoadingLead, error } = useLead(guid);
 
+  const queryClient = useQueryClient();
+
+  const leadData = useAppSelector(getLeadData);
+
   const dispatch = useAppDispatch();
 
   const handleOpenDrawer = (guid: string) => {
@@ -45,8 +51,16 @@ function LeadTable({ openDrawer }: OpenDrawerType) {
     if (!isLoadingLead && !error) {
       dispatch(setLeadData(lead));
       openDrawer();
+      // console.log('SET LEAD in Lead Table');
     }
   }, [isLoadingLead, error, dispatch]);
+
+  useEffect(() => {
+    if (!isLoadingLeads && leads.length && lead && Object.keys(lead)?.length) {
+      dispatch(setLeadData(lead));
+      console.log('SET  LEAD in dt', lead);
+    }
+  }, [leads, lead, dispatch, isLoadingLeads]);
 
   return (
     <>

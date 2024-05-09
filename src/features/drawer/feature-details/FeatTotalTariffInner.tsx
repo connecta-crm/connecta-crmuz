@@ -1,26 +1,101 @@
-import { Input } from 'antd';
-import { ChangeEvent } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Button, Input } from 'antd';
+import { ChangeEvent, useState } from 'react';
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getLeadData, updateField } from '../../leads/leadSlice';
+import {
+  getLeadData,
+  resetField as resetLeadField,
+  updateField,
+} from '../../leads/leadSlice';
+import { useLeadConvert } from '../../leads/useLeadConvert';
 
-function FeatTotalTariffInner() {
+function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
+  const [loadingType, setLoadingType] = useState('save');
   const dispatch = useAppDispatch();
-  const leadData = useAppSelector(getLeadData);
+  const { guid, price, reservationPrice } = useAppSelector(getLeadData);
+  const { onChangeInnerCollapse } = useDrawerFeature();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const { leadConvert, isLoading, error } = useLeadConvert();
+  console.log(error);
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    field: 'price' | 'reservationPrice',
+  ) => {
     const value = e.target.value;
-    dispatch(updateField({ field: 'price', value }));
+    dispatch(updateField({ field, value }));
+  };
+
+  const handleSave = () => {
+    setLoadingType('save');
+    leadConvert({ guid, price, reservationPrice });
+  };
+
+  const handleSaveQuote = () => {
+    setLoadingType('saveQuote');
+    leadConvert({ guid, price, reservationPrice });
+  };
+
+  const handleCancel = () => {
+    dispatch(resetLeadField({ field: 'price' }));
+    dispatch(resetLeadField({ field: 'reservationPrice' }));
+    onChangeInnerCollapse(keyValue);
   };
 
   return (
-    <div className="d-flex justify-between mb-5">
-      <div className="form-label">Total tariff</div>
-      <Input
-        value={leadData.price}
-        onChange={handleChange}
-        style={{ width: 200, float: 'inline-end', height: 24 }}
-      />
-    </div>
+    <>
+      <div className="d-flex justify-between mb-5">
+        <div className="form-label">Total tariff</div>
+        <Input
+          value={price}
+          onChange={(e) => handleChange(e, 'price')}
+          style={{ width: 200, float: 'inline-end', height: 24 }}
+        />
+      </div>
+      <div className="d-flex justify-between mb-5">
+        <div className="form-label">Reservation</div>
+        <Input
+          value={reservationPrice}
+          onChange={(e) => handleChange(e, 'reservationPrice')}
+          style={{ width: 200, float: 'inline-end', height: 24 }}
+        />
+      </div>
+      <div className="d-flex justify-end mt-10">
+        <Button size="small" disabled={isLoading} onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button
+          className="ml-10"
+          style={{
+            borderColor: '#1677ff',
+            color: '#1677ff',
+            backgroundColor: 'rgba(221, 242, 253, 1)',
+          }}
+          size="small"
+          disabled={isLoading}
+          onClick={handleSave}
+        >
+          {isLoading && loadingType === 'save' ? <LoadingOutlined /> : 'Save'}
+        </Button>
+        <Button
+          className="ml-10"
+          type="primary"
+          size="small"
+          disabled={isLoading}
+          onClick={handleSaveQuote}
+        >
+          {isLoading && loadingType === 'saveQuote' ? (
+            <>
+              <span>Save and send quote </span>
+              <LoadingOutlined />
+            </>
+          ) : (
+            'Save and send quote'
+          )}
+        </Button>
+      </div>
+    </>
   );
 }
 

@@ -40,6 +40,13 @@
     //   cursor: none;
     //   pointer-events: none;
     // }
+    &-notes {
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 144px !important;
+      width: 100%;
+      border-radius: 3px !important;
+    }
   }
   &__main {
     padding: 14px;
@@ -50,6 +57,9 @@
 
 .box-header {
   &__label {
+    color: #21232c;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   &__more,

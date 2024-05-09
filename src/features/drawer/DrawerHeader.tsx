@@ -38,9 +38,7 @@ function DrawerHeader({
     onClick: handleMenuClick,
   };
 
-  const data = useAppSelector(getLeadData);
-  const { id, customerName } = data;
-  console.log('lead', data);
+  const { id, customerName } = useAppSelector(getLeadData);
 
   return (
     <div className="drawer-header">

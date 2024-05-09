@@ -41,14 +41,16 @@ function FeatPersonInner() {
   const handleChange = (_: number | string, option: Record | Record[]) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'customer', value: option.data }));
-      // dispatch(updateField({ field: 'customer.id', value: id }));
     }
   };
 
   return (
     <>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Name</div>
+        <div className="d-flex">
+          <img src="./img/drawer/user.svg" alt="" />
+          <div className="form-label">Name</div>
+        </div>
         <Select
           size="small"
           showSearch
@@ -62,7 +64,7 @@ function FeatPersonInner() {
           onSearch={(value) => handleSearch('name', value)}
           style={{ width: 200 }}
           loading={isLoading}
-          notFoundContent={isLoading ? <Spin size="small" /> : 'No such name'}
+          notFoundContent={isLoading ? <Spin size="small" /> : 'No such name '}
           options={(customers || []).map((d: { id: number; name: string }) => ({
             value: d.id,
             data: d,
@@ -71,7 +73,10 @@ function FeatPersonInner() {
         />
       </div>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Email</div>
+        <div className="d-flex">
+          <img src="./img/drawer/mail.svg" alt="" />
+          <div className="form-label">Email</div>
+        </div>
         <Select
           size="small"
           showSearch
@@ -96,7 +101,10 @@ function FeatPersonInner() {
         />
       </div>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Phone</div>
+        <div className="d-flex">
+          <img src="./img/drawer/phone.svg" alt="" />
+          <div className="form-label">Phone</div>
+        </div>
         <Select
           size="small"
           showSearch
