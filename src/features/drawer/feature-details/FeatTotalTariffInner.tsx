@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
@@ -14,10 +14,9 @@ function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
   const [loadingType, setLoadingType] = useState('save');
   const dispatch = useAppDispatch();
   const { guid, price, reservationPrice } = useAppSelector(getLeadData);
-  const { onChangeInnerCollapse } = useDrawerFeature();
+  const { onChangeInnerCollapse, closeDrawer } = useDrawerFeature();
 
-  const { leadConvert, isLoading, error } = useLeadConvert();
-  console.log(error);
+  const { leadConvert, isLoading, error, isSuccess } = useLeadConvert();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -29,12 +28,12 @@ function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
 
   const handleSave = () => {
     setLoadingType('save');
-    leadConvert({ guid, price, reservationPrice });
+    leadConvert({ guid, price, reservationPrice, quote: false });
   };
 
   const handleSaveQuote = () => {
     setLoadingType('saveQuote');
-    leadConvert({ guid, price, reservationPrice });
+    leadConvert({ guid, price, reservationPrice, quote: true });
   };
 
   const handleCancel = () => {
@@ -42,6 +41,12 @@ function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
     dispatch(resetLeadField({ field: 'reservationPrice' }));
     onChangeInnerCollapse(keyValue);
   };
+
+  useEffect(() => {
+    if (!isLoading && !error && isSuccess) {
+      closeDrawer();
+    }
+  }, [isLoading, error, isSuccess]);
 
   return (
     <>

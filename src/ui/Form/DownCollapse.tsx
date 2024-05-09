@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import add from '../../../public/img/add.svg';
 import remove from '../../../public/img/remove.svg';
 import { CarType } from '../../features/vehicle/vehicleContainer';
@@ -9,7 +9,7 @@ export default function DownCollapse({
   vehicleRemove,
   img,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   title: string;
   vehicleAdd?: (car: CarType) => void;
   vehicleRemove?: () => void;
@@ -25,7 +25,7 @@ export default function DownCollapse({
           onClick={() => setShow(!show)}
         >
           {img ? (
-            <img src={img}></img>
+            <img alt="" src={img}></img>
           ) : (
             <img src="./img/sports-car.svg" alt="" width="20px" height="20px" />
           )}

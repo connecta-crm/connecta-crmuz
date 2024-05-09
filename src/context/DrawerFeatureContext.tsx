@@ -12,6 +12,12 @@ type DrawerFeatureContextType = {
   openInnerPanels: string[] | string;
   setOpenInnerPanels: (e: SetStateAction<string[]>) => void;
 
+  isOpenDrawer: boolean;
+  isFullScreen: boolean;
+  makeDrawerFull: (e: boolean) => void;
+  openDrawer: () => void;
+  closeDrawer: () => void;
+
   // setEditDetails: (e: SetStateAction<boolean>) => void;
   // onChangePerson: (e: string) => void;
   // onChangeDetails: (e: string | string[]) => void;
@@ -37,6 +43,24 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const [isEditPerson, setEditPerson] = useState(false);
   const [isEditNotes, setEditNote] = useState(false);
 
+  const [isOpenDrawer, setOpenDrawer] = useState(false);
+  const [isFullScreen, setFullScreen] = useState(false);
+  // const queryClient = useQueryClient();
+
+  const openDrawer = () => {
+    setOpenDrawer(true);
+  };
+  const closeDrawer = () => {
+    setOpenDrawer(false);
+    // queryClient.invalidateQueries({
+    //   queryKey: ['lead'],
+    // });
+    setFullScreen(false);
+  };
+  const makeDrawerFull = (value: boolean) => {
+    setFullScreen(value);
+  };
+
   const onEditDetails = (value: boolean) => {
     setEditDetails(value);
   };
@@ -46,15 +70,6 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const onEditNotes = (value: boolean) => {
     setEditNote(value);
   };
-
-  // const onChangeDetails = (key: string | string[]) => {
-  //   const keyString = Array.isArray(key) ? key[0] : key;
-  //   setOpenInnerPanels(
-  //     openInnerPanels.includes(keyString)
-  //       ? openInnerPanels.filter((item) => item !== keyString)
-  //       : [...openInnerPanels, keyString],
-  //   );
-  // };
 
   // const onChangePerson = (key: string) => {
   //   const keyString = Array.isArray(key) ? key[0] : key;
@@ -110,10 +125,14 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         isEditPerson,
         isEditNotes,
         onEditDetails,
-        // onChangeDetails,
-        // onChangePerson,
         onChangeMainCollapse,
         onChangeInnerCollapse,
+
+        isFullScreen,
+        isOpenDrawer,
+        openDrawer,
+        closeDrawer,
+        makeDrawerFull,
       }}
     >
       {children}

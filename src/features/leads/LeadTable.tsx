@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useQueryClient } from '@tanstack/react-query';
 import { Table } from 'antd';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useAppDispatch } from '../../store/hooks';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
-import { getLeadData, setLeadData } from './leadSlice';
+import { setLeadData } from './leadSlice';
 import { useLead } from './useLead';
 import { useLeads } from './useLeads';
 
@@ -27,18 +26,12 @@ const rowSelection = {
   }),
 };
 
-type OpenDrawerType = {
-  openDrawer: () => void;
-};
-
-function LeadTable({ openDrawer }: OpenDrawerType) {
+function LeadTable() {
   const [guid, setGuid] = useState<string | null>(null);
   const { leads, count, isLoading: isLoadingLeads } = useLeads();
   const { lead, isLoading: isLoadingLead, error } = useLead(guid);
 
-  const queryClient = useQueryClient();
-
-  const leadData = useAppSelector(getLeadData);
+  const { openDrawer } = useDrawerFeature();
 
   const dispatch = useAppDispatch();
 

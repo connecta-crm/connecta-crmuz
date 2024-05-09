@@ -1,34 +1,17 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useDrawerFeature } from '../context/DrawerFeatureContext';
 import LeadTable from '../features/leads/LeadTable';
 import DrawerApp from '../ui/Drawer';
 import LeadModal from '../ui/modal/LeadModal';
 
 function Leads() {
-  const [open, setOpen] = useState(false);
-  const [isFullScreen, setFullScreen] = useState(false);
-  const queryClient = useQueryClient();
-
-  const openDrawer = () => {
-    setOpen(true);
-  };
-  const closeDrawer = () => {
-    setOpen(false);
-    queryClient.invalidateQueries({
-      queryKey: ['lead'],
-    });
-    setFullScreen(false);
-  };
-  const makeDrawerFull = (value: boolean) => {
-    setFullScreen(value);
-  };
-
+  const { closeDrawer, isFullScreen, makeDrawerFull, isOpenDrawer } =
+    useDrawerFeature();
   return (
     <div className="leads">
-      <LeadTable openDrawer={openDrawer} />
+      <LeadTable />
       <LeadModal />
       <DrawerApp
-        open={open}
+        open={isOpenDrawer}
         isFullScreen={isFullScreen}
         onClose={closeDrawer}
         onFullScreen={makeDrawerFull}

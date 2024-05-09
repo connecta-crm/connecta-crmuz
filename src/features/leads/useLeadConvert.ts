@@ -6,6 +6,7 @@ export type LeadConvertParams = {
   guid: string;
   price: number | null;
   reservationPrice: number | null;
+  quote: boolean;
 };
 
 export function useLeadConvert() {
@@ -14,9 +15,10 @@ export function useLeadConvert() {
     mutate: leadConvert,
     isPending: isLoading,
     isError: error,
+    isSuccess,
   } = useMutation({
-    mutationFn: ({ guid, price, reservationPrice }: LeadConvertParams) =>
-      Leads.leadConvert({ guid, price, reservationPrice }),
+    mutationFn: ({ guid, price, reservationPrice, quote }: LeadConvertParams) =>
+      Leads.leadConvert({ guid, price, reservationPrice, quote }),
     onSuccess: (data) => {
       queryClient.setQueryData(['leadConvert'], data);
       queryClient.invalidateQueries({ queryKey: ['leads'] });
@@ -26,5 +28,5 @@ export function useLeadConvert() {
     onError: (err) => toast.error(err.message),
   });
 
-  return { isLoading, leadConvert, error };
+  return { isLoading, leadConvert, isSuccess, error };
 }

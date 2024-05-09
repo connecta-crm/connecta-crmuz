@@ -130,11 +130,17 @@ class Leads {
   }
 
   // POST: /leads/convert/:guid/
-  async leadConvert({ guid, price, reservationPrice }: LeadConvertParams) {
+  async leadConvert({
+    guid,
+    price,
+    reservationPrice,
+    quote,
+  }: LeadConvertParams) {
     try {
       const { data } = await this.$api.post(`/leads/convert/${guid}/`, {
         price,
         reservationPrice,
+        quote,
       });
       return data;
     } catch (error) {

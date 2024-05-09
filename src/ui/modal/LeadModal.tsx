@@ -4,11 +4,11 @@ import toast from 'react-hot-toast';
 import dvigatel from '../../../public/img/drawer/dvigatel.svg';
 import date from '../../../public/img/drawer/est-ship-date.svg';
 import trailer from '../../../public/img/drawer/trailer.svg';
+import Person from '../../features/Person/Person.tsx';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
-import Person from '../../features/person/Person';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
