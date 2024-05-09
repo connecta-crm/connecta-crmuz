@@ -2,6 +2,9 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
+import email from '../../../public/img/drawer/mail.svg';
+import phone from '../../../public/img/drawer/phone.svg';
+import user from '../../../public/img/drawer/user.svg';
 import FormControl from '../../ui/Form/FormControl';
 import Input from '../../ui/Form/Input';
 import UpCollapse from '../../ui/Form/UpCollapse';
@@ -15,7 +18,11 @@ export default function Person({
 }: {
   setPersonId: (a: string | null) => void;
 }) {
-  const [newCustomer, setNewCustomer] = useState<{name:string,email:string,phone:string}>({
+  const [newCustomer, setNewCustomer] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+  }>({
     name: '',
     email: '',
     phone: '',
@@ -26,7 +33,7 @@ export default function Person({
   const [selectPersonValue, setSelectPersonValue] =
     useState<DefaultOptionType | null>(null);
   const [person, setPerson] = useState({ name: '', phone: '', email: '' });
-  const [customer, setCustomer] = useState<string | null>('');
+  const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
 
   const [url, seturl] = useState('');
@@ -63,7 +70,7 @@ export default function Person({
     setPersonId(newValue);
     setNewNumberValue('');
   };
-  const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e);
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
   };
@@ -121,7 +128,7 @@ export default function Person({
 
   return (
     <UpCollapse title="Person">
-      <FormControl title="Name">
+      <FormControl title="Name" img={user}>
         {create ? (
           <input
             type="text"
@@ -129,7 +136,9 @@ export default function Person({
             required
             name="name"
             value={newCustomer.name}
-            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>onChangeInput(e)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChangeInput(e)
+            }
           />
         ) : (
           <Select
@@ -157,7 +166,7 @@ export default function Person({
           />
         )}
       </FormControl>
-      <FormControl title="Email">
+      <FormControl title="Email" img={email}>
         {create ? (
           <input
             autoComplete="off"
@@ -195,7 +204,7 @@ export default function Person({
         )}
       </FormControl>
 
-      <FormControl title="Phone">
+      <FormControl title="Phone" img={phone}>
         {create ? (
           <input
             autoComplete="off"
@@ -254,7 +263,7 @@ export default function Person({
       )}
       {selectPersonValue?.extra?.length > 0 &&
         selectPersonValue?.extra?.map((item: DefaultOptionType) => (
-          <FormControl key={item.id} title="Phone">
+          <FormControl key={item.id} title="Phone" img={phone}>
             <Input
               type="text"
               placeholder="title"
@@ -266,7 +275,7 @@ export default function Person({
       {!create && (
         <>
           {addNumber && selectPersonValue && (
-            <FormControl title="Phone">
+            <FormControl title="Phone" img={phone}>
               <input
                 autoComplete="off"
                 value={newNumberValue}

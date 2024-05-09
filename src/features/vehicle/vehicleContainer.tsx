@@ -28,7 +28,7 @@ export default function VehicleContainer({
     setCar(() => cars.filter((item) => item.id !== id));
   };
   const getCarValue = (a: CarType) => {
-    if (a.vehicle && a.vehicle) {
+    if (a.vehicle && a.vehicleYear) {
       const f = cars.map((item) => {
         if (item.id == a.id) {
           item.vehicle = a.vehicle;

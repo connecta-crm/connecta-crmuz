@@ -1,6 +1,7 @@
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
+import origin from '../../../public/img/drawer/destination.svg';
 import DownCollapse from '../../ui/Form/DownCollapse';
 import Input from '../../ui/Form/Input';
 import InputCol from '../../ui/Form/InputCol';
@@ -14,15 +15,15 @@ type CityType = {
   zip?: string;
 };
 
-
 export default function Delivery({
   setDelivery,
 }: {
   setDelivery: (a: string | null) => void;
 }) {
+  const [enabled, setEnabled] = useState(false);
   const [cityValue, setCityValue] = useState<CityType | null>(null);
   const [searchCity, setSearchCity] = useState('');
-  const citys = useCity(searchCity);
+  const { citys, isFetching: isLoading } = useCity(searchCity, enabled);
 
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
     setDelivery(value);
@@ -30,7 +31,7 @@ export default function Delivery({
   };
 
   return (
-    <DownCollapse title="Delivery">
+    <DownCollapse title="Destination" img={origin}>
       <InputRow>
         <InputCol>
           <Label>Delivery city</Label>
@@ -44,6 +45,9 @@ export default function Delivery({
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
             filterOption={false}
+            onFocus={() => setEnabled(true)}
+            loading={isLoading}
+            notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onSearch={(value) => setSearchCity(value)}
             onChange={(
               value,
@@ -86,6 +90,9 @@ export default function Delivery({
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
+            onFocus={() => setEnabled(true)}
+            loading={isLoading}
+            notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onChange={(
               value,
               record: DefaultOptionType | DefaultOptionType[],

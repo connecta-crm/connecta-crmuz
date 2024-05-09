@@ -1,12 +1,13 @@
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
+import origin from '../../../public/img/drawer/origin.svg';
 import DownCollapse from '../../ui/Form/DownCollapse';
 import Input from '../../ui/Form/Input';
 import InputCol from '../../ui/Form/InputCol';
 import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
 import { useCity } from '../leads/useLeadDetails';
-import { DefaultOptionType } from 'antd/es/select';
 type CityType = {
   id?: string;
   name?: string;
@@ -19,18 +20,18 @@ export default function Pickup({
 }: {
   setPickup: (a: string | null) => void;
 }) {
+  const [enabled, setEnabled] = useState(false);
   const [cityValue, setCityValue] = useState<CityType | null>(null);
   const [searchCity, setSearchCity] = useState('');
-  const citys = useCity(searchCity);
+  const { citys, isFetching: isLoading } = useCity(searchCity, enabled);
 
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
     setPickup(value);
     setCityValue(data.data);
   };
 
-
   return (
-    <DownCollapse title="Pickup">
+    <DownCollapse title="Origin" img={origin}>
       <InputRow>
         <InputCol>
           <Label>Pickup city</Label>
@@ -42,9 +43,12 @@ export default function Pickup({
             optionFilterProp="children"
             placeholder={'Search  make'}
             style={{ width: '100%' }}
-            defaultActiveFirstOption={false}
+            loading={isLoading}
             filterOption={false}
+            defaultActiveFirstOption={false}
+            onFocus={() => setEnabled(true)}
             onSearch={(value) => setSearchCity(value)}
+            notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onChange={(
               value,
               record: DefaultOptionType | DefaultOptionType[],
@@ -83,9 +87,12 @@ export default function Pickup({
             optionFilterProp="children"
             placeholder={'Search  make'}
             style={{ width: '100%' }}
+            loading={isLoading}
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
+            notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
+            onFocus={() => setEnabled(true)}
             onChange={(
               value,
               record: DefaultOptionType | DefaultOptionType[],
