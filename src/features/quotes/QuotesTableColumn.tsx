@@ -1,4 +1,5 @@
 import TableDropdown from "../../ui/TableDropdown";
+import { QuotesTableDataType } from "./QuotesTableColumnType";
 export const QuotesTableColumns = [
     {
       title: 'Id',
@@ -7,7 +8,7 @@ export const QuotesTableColumns = [
     },
     {
       title: 'Quotes	',
-      dataIndex: 'quotes',
+      dataIndex: 'updatedAt',
     },
     {
       title: 'Note	',
@@ -29,11 +30,11 @@ export const QuotesTableColumns = [
     },
     {
       title: 'Customer',
-      dataIndex: 'customer',
+      dataIndex: 'customerName',
     },
     {
       title: 'Phone',
-      dataIndex: 'phone',
+      dataIndex: 'customerPhone',
       render: (text: string) => (
         <div className="table__phone">
           <img src="./img/dt_table/call.svg" alt="" />
@@ -43,24 +44,39 @@ export const QuotesTableColumns = [
     },
     {
       title: 'Vehicle',
-      dataIndex: 'vehicle',
-      render: () => (
-        <div className="table__vehicle">
+    dataIndex: 'quoteVehicles',
+    render: (data: { vehicleName: string }[], record: QuotesTableDataType) => (
+      <div className="table__vehicle">
+        {
           <div className="table__vehicle__imgs">
-            <img src="./img/dt_table/engine.svg" alt="engine" />
-            <img src="./img/dt_table/trailer.svg" alt="trailer" />
+            {record.condition == 'rols' && (
+              <img src="./img/dt_table/engine.svg" alt="engine" />
+            )}
+            {record.trailerType === 'open' &&
+              data.map((i, index) => (
+                <img
+                  key={index}
+                  src="./img/dt_table/trailer-red.svg"
+                  alt={i + 'trailer-red'}
+                />
+              ))}
           </div>
-          <div className="table__vehicle__text">2022 Toyota Sienna</div>
+        }
+        <div className="table__vehicle__text">
+          {data.map((item) => (
+            <div key={item.vehicleName}>{item.vehicleName}</div>
+          ))}
         </div>
-      ),
+      </div>
+    ),
     },
     {
       title: 'Origin',
-      dataIndex: 'origin',
+      dataIndex: 'originName',
     },
     {
       title: 'Destination',
-      dataIndex: 'destination',
+      dataIndex: 'destinationName',
     },
     {
       title: 'Price',
@@ -74,6 +90,18 @@ export const QuotesTableColumns = [
     },
     {
       title: 'Est. Ship',
-      dataIndex: 'ship',
+      dataIndex: 'dateEstShip',
     },
   ];
+
+
+
+
+
+
+
+
+
+
+
+  
