@@ -20,10 +20,10 @@ export default function Pickup({
 }: {
   setPickup: (a: string | null) => void;
 }) {
-  const [enabled, setEnabled] = useState(false);
+  // const [enabled, setEnabled] = useState(false);
   const [cityValue, setCityValue] = useState<CityType | null>(null);
   const [searchCity, setSearchCity] = useState('');
-  const { citys, isFetching: isLoading } = useCity(searchCity, enabled);
+  const { citys, isFetching: isLoading } = useCity(searchCity);
 
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
     setPickup(value);
@@ -46,7 +46,7 @@ export default function Pickup({
             loading={isLoading}
             filterOption={false}
             defaultActiveFirstOption={false}
-            onFocus={() => setEnabled(true)}
+            // onFocus={() => setEnabled(true)}
             onSearch={(value) => setSearchCity(value)}
             notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onChange={(
@@ -92,7 +92,7 @@ export default function Pickup({
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
             notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
-            onFocus={() => setEnabled(true)}
+            // onFocus={() => setEnabled(true)}
             onChange={(
               value,
               record: DefaultOptionType | DefaultOptionType[],

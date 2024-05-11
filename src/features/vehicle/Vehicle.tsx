@@ -40,10 +40,9 @@ export default function Vehicle({
     DataType | DefaultOptionType
   >({ mark: '', q: '' });
   const [vhicleType, setVhicleType] = useState('');
-  const [makeEnabled,setMakeEnabled] =useState(false)
-  const [modelEnabled,setModelEnabled] =useState(false)
-  const { makes, isFetching: isLoading } = useMake(searchCarMake,makeEnabled);
-  const { models, isFetching }= useModel(searchCarModel,modelEnabled);
+  const [modelEnabled, setModelEnabled] = useState(false);
+  const { makes, isFetching: isLoading } = useMake(searchCarMake);
+  const { models, isFetching } = useModel(searchCarModel, modelEnabled);
 
   useEffect(() => {
     getCarValue(carValue);
@@ -120,9 +119,11 @@ export default function Vehicle({
             defaultActiveFirstOption={false}
             filterOption={false}
             loading={isLoading}
-            onFocus={()=>setMakeEnabled(true)}
             notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
-            onSearch={(value) => handleSearchCar(value, 'make')}
+            onSearch={(value) => {
+              handleSearchCar(value, 'make');
+              setModelEnabled(true);
+            }}
             onChange={(data: DefaultOptionType, record) =>
               handleSelectMake(data, record)
             }
@@ -146,7 +147,7 @@ export default function Vehicle({
             placeholder={'Search model'}
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
-            onFocus={()=>setModelEnabled(true)}
+            onKeyUp={() => setModelEnabled(true)}
             loading={isFetching}
             notFoundContent={isFetching ? <Spin size="small" /> : 'No data'}
             filterOption={false}

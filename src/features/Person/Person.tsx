@@ -38,8 +38,10 @@ export default function Person({
 
   const [url, seturl] = useState('');
   useEffect(() => {
-    const searchParam = new URLSearchParams(person);
-    seturl(searchParam.toString());
+    if (person.name || person.email || person.phone) {
+      const searchParam = new URLSearchParams(person);
+      seturl(searchParam.toString());
+    }
   }, [person]);
 
   const { personData, isFetching } = usePerson(url);
