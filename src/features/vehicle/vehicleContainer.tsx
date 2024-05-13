@@ -26,6 +26,7 @@ export default function VehicleContainer({
 
   const vehicleRemove = (id: number) => {
     setCar(() => cars.filter((item) => item.id !== id));
+    toast.success("Vehicle deleted!")
   };
   const getCarValue = (a: CarType) => {
     if (a.vehicle && a.vehicleYear) {
