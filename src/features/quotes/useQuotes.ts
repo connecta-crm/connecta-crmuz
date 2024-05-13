@@ -26,12 +26,12 @@ export function useQuotes() {
   const sources = searchParams.getAll('source');
 
   const {
-    data: { results: leads, count, sumPrice } = {},
+    data: { results: quotes, count, sumPrice } = {},
     isPending: isLoading,
     error,
   } = useQuery({
     queryKey: ['quotes', limit, offset, sources, q],
     queryFn: () => Quotes.getQuotes({ limit, offset, source: sources, q }),
   });
-  return { leads, count, sumPrice, isLoading, error };
+  return { quotes, count, sumPrice, isLoading, error };
 }

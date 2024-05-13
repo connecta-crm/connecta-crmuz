@@ -20,10 +20,10 @@ export default function Delivery({
 }: {
   setDelivery: (a: string | null) => void;
 }) {
-  const [enabled, setEnabled] = useState(false);
+  // const [enabled, setEnabled] = useState(false);
   const [cityValue, setCityValue] = useState<CityType | null>(null);
   const [searchCity, setSearchCity] = useState('');
-  const { citys, isFetching: isLoading } = useCity(searchCity, enabled);
+  const { citys, isFetching: isLoading } = useCity(searchCity);
 
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
     setDelivery(value);
@@ -45,7 +45,7 @@ export default function Delivery({
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
             filterOption={false}
-            onFocus={() => setEnabled(true)}
+            // onFocus={() => setEnabled(true)}
             loading={isLoading}
             notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onSearch={(value) => setSearchCity(value)}
@@ -53,10 +53,10 @@ export default function Delivery({
               value,
               record: DefaultOptionType | DefaultOptionType[],
             ) => onChangeHandler(value, record)}
-            options={(citys || []).map((d: CityType) => ({
+            options={(citys || []).map((d: { id: number; name: string,zip:string,state:{code:string} }) => ({
               value: d.id,
               data: d,
-              label: d.name,
+              label: d.name+ ", " + d.state.code + " " +  d.zip,
             }))}
           />
         </InputCol>
@@ -90,17 +90,17 @@ export default function Delivery({
             defaultActiveFirstOption={false}
             filterOption={false}
             onSearch={(value) => setSearchCity(value)}
-            onFocus={() => setEnabled(true)}
+            // onFocus={() => setEnabled(true)}
             loading={isLoading}
             notFoundContent={isLoading ? <Spin size="small" /> : 'No data'}
             onChange={(
               value,
               record: DefaultOptionType | DefaultOptionType[],
             ) => onChangeHandler(value, record)}
-            options={(citys || []).map((d: CityType) => ({
+            options={(citys || []).map((d: { id: number; name: string,zip:string,state:{code:string} }) => ({
               value: d.id,
               data: d,
-              label: d.zip,
+              label: d.name+ ", " + d.state.code + " " +  d.zip,
             }))}
           />
         </InputCol>

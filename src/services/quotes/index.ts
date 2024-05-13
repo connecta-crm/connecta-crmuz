@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { QuotesParamsType } from '../../features/quotes/useQuotes';
 import apiClient from '../axios';
+import { QuoteDataType } from '../../models/QuoteDataType';
 
 type ApiErrorResponse = {
   message: string;
@@ -38,6 +39,18 @@ class Quotes {
     }
   }
 
+
+  async createQuote(quote:QuoteDataType) {
+    try {
+      const { data } = await this.$api.post('/quote/create/', quote);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
   
 
   // @ts-expect-error: Unreachable code error

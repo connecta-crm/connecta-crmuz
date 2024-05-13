@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Button, Select } from 'antd';
+import { Button, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import email from '../../../public/img/drawer/mail.svg';
@@ -38,11 +38,13 @@ export default function Person({
 
   const [url, seturl] = useState('');
   useEffect(() => {
-    const searchParam = new URLSearchParams(person);
-    seturl(searchParam.toString());
+    if (person.name || person.email || person.phone) {
+      const searchParam = new URLSearchParams(person);
+      seturl(searchParam.toString());
+    }
   }, [person]);
 
-  const personData = usePerson(url);
+  const { personData, isFetching } = usePerson(url);
 
   const handleSearchPersonName = (newValue: string) => {
     setNewCustomer({ name: newValue, email: '', phone: '' });
@@ -147,14 +149,18 @@ export default function Person({
             placeholder={'Search name'}
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
-            suffixIcon={null}
             filterOption={false}
             onSearch={handleSearchPersonName}
             onChange={(data, record) => handleChangePerson(data, record)}
+            loading={isFetching}
             notFoundContent={
-              <Button onClick={() => setCreate(true)} size="small">
-                create
-              </Button>
+              isFetching ? (
+                <Spin size="small" />
+              ) : (
+                <Button onClick={() => setCreate(true)} size="small">
+                  create
+                </Button>
+              )
             }
             options={(personData || []).map(
               (d: { id: number; name: string }) => ({
@@ -184,14 +190,18 @@ export default function Person({
             placeholder={'Search email'}
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
-            suffixIcon={null}
             filterOption={false}
             onSearch={handleSearchPersonEmail}
             onChange={(data, record) => handleChangePerson(data, record)}
+            loading={isFetching}
             notFoundContent={
-              <Button onClick={() => setCreate(true)} size="small">
-                create
-              </Button>
+              isFetching ? (
+                <Spin size="small" />
+              ) : (
+                <Button onClick={() => setCreate(true)} size="small">
+                  create
+                </Button>
+              )
             }
             options={(personData || []).map(
               (d: { id: number; email: string }) => ({
@@ -222,14 +232,18 @@ export default function Person({
             placeholder={'Search phone'}
             style={{ width: '100%' }}
             defaultActiveFirstOption={false}
-            suffixIcon={null}
             filterOption={false}
             onSearch={handleSearchPersonPhone}
             onChange={(data, record) => handleChangePerson(data, record)}
+            loading={isFetching}
             notFoundContent={
-              <Button onClick={() => setCreate(true)} size="small">
-                create
-              </Button>
+              isFetching ? (
+                <Spin size="small" />
+              ) : (
+                <Button onClick={() => setCreate(true)} size="small">
+                  create
+                </Button>
+              )
             }
             options={(personData || []).map(
               (d: { id: number; phone: string }) => ({

@@ -4,7 +4,7 @@ import { QuotesTableDataType } from './QuotesTableColumnType';
 // import { useQuotes } from './useQuotes';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
-import { useLeads } from '../leads/useLeads';
+import { useQuotes } from './useQuotes';
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
@@ -23,7 +23,7 @@ const rowSelection = {
 type openDrawerType = (data:QuotesTableDataType ) => void;
 
 function QuotesTable({ openDrawer }: { openDrawer: openDrawerType }) {
-  const { leads, count, isLoading } = useLeads();
+  const { quotes, count, isLoading } = useQuotes();
   return (
     <>
       <div className="dt-header">
@@ -36,8 +36,8 @@ function QuotesTable({ openDrawer }: { openDrawer: openDrawerType }) {
             rowKey="id"
             rowSelection={{ ...rowSelection }}
             columns={QuotesTableColumns}
-            dataSource={leads}
-            pagination={{ pageSize: leads?.length }}
+            dataSource={quotes}
+            pagination={{ pageSize: quotes?.length }}
             loading={isLoading}
             onRow={(data) => ({
               onClick: (event) => {

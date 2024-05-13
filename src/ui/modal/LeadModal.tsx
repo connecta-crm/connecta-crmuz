@@ -7,7 +7,6 @@ import trailer from '../../../public/img/drawer/trailer.svg';
 import Person from '../../features/Person/Person.tsx';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
-import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
@@ -21,6 +20,7 @@ import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
 import Modal from './Modal';
+import { useCreateLead } from '../../features/leads/useLeadDetails';
 export default function LeadModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);

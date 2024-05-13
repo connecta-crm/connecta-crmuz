@@ -5,11 +5,11 @@ import { useModal } from '../../context/ModalContext';
 import { LeadDataType } from '../../models/LeadDataType';
 import Leads from '../../services/leads';
 
-export function useMake(text: string | undefined, enabled: boolean) {
+export function useMake(text: string | undefined) {
   const { data: { results: makes } = {}, isFetching } = useQuery({
     queryKey: ['mark', text],
     queryFn: () => Leads.getMake(text),
-    enabled,
+    enabled:!!text,
   });
   return { makes, isFetching };
 }
@@ -26,7 +26,7 @@ export function useModel(
   return { models, isFetching };
 }
 
-export function useCity(text: string | null, enabled: boolean) {
+export function useCity(text: string | null) {
   const {
     data: { results: citys } = {},
     isPending: isLoading,
@@ -35,7 +35,7 @@ export function useCity(text: string | null, enabled: boolean) {
   } = useQuery({
     queryKey: ['city', text],
     queryFn: () => Leads.getCity(text),
-    enabled,
+    enabled:!!text,
   });
   return { citys, isLoading, isFetching, error };
 }
@@ -50,13 +50,12 @@ export function useSource(enabled: boolean) {
 }
 
 export function usePerson(text: string) {
-  const { data, isSuccess } = useQuery({
+  const { data: { results: personData } = {}, isFetching }= useQuery({
     queryKey: ['person', text],
     queryFn: () => Leads.getPerson(text),
     enabled: !!text,
   });
-  if (isSuccess) return data.results;
-  return [];
+  return { personData, isFetching };
 }
 
 export function useCreatePerson() {

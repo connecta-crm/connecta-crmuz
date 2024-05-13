@@ -3,17 +3,20 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import dvigatel from '../../../public/img/drawer/dvigatel.svg';
 import date from '../../../public/img/drawer/est-ship-date.svg';
+import reservation from '../../../public/img/drawer/reservation.svg';
+import total from '../../../public/img/drawer/total-tariff.svg';
 import trailer from '../../../public/img/drawer/trailer.svg';
 import Person from '../../features/Person/Person';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
-import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
+import { useCreateQuote } from '../../features/quotes/useQuote';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/vehicleContainer';
 import { LeadDataType } from '../../models/LeadDataType';
+import { QuoteDataType } from '../../models/QuoteDataType';
 import { useAppSelector } from '../../store/hooks';
 import UseDatePicker from '../DatePicker/DatePicker';
 import FormControl from '../Form/FormControl';
@@ -24,7 +27,6 @@ import Modal from './Modal';
 export default function QuoteModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [trailerType, setTrailerType] = useState<string | null>('');
   const [origin, setOrigin] = useState<string | null>('');
   const [delivery, setDelivery] = useState<string | null>('');
@@ -32,13 +34,13 @@ export default function QuoteModal() {
   const [personId, setPersonId] = useState<string | null>('');
   const [dateEstShip, setDateEstShip] = useState<string>('');
   const user = useAppSelector((item) => getUser(item));
-  const { create, isLoading } = useCreateLead();
+  const { create, isLoading } = useCreateQuote();
   const createLead = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const items = Object.fromEntries(new FormData(e.currentTarget));
-    const data: LeadDataType = {
+    const data: QuoteDataType = {
       vehicles: carData,
-      status: 'leads',
+      status: 'quote',
       price: 2147483647,
       condition: conditionValue,
       trailerType: trailerType,
@@ -49,6 +51,8 @@ export default function QuoteModal() {
       source: source,
       origin: origin,
       destination: delivery,
+      paymentTotalTariff: items.paymentTotalTariff,
+      paymentReservation: items.paymentReservation,
       user: user?.id,
       // extraUser: 0,
     };
@@ -112,6 +116,22 @@ export default function QuoteModal() {
               />
             </FormControl>
             <Source setSource={setSource} />
+            <FormControl title="Total tariff" img={total}>
+              <Input
+                type="number"
+                placeholder="$0"
+                name="paymentTotalTariff"
+                defaultValue=""
+              />
+            </FormControl>
+            <FormControl title="Reservation" img={reservation}>
+              <Input
+                type="number"
+                placeholder="$0"
+                name="paymentReservation"
+                defaultValue=""
+              />
+            </FormControl>
 
             <div className="form__footer">
               <Label>CM note</Label>

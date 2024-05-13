@@ -26,6 +26,7 @@ export default function VehicleContainer({
 
   const vehicleRemove = (id: number) => {
     setCar(() => cars.filter((item) => item.id !== id));
+    toast.success("Vehicle deleted!")
   };
   const getCarValue = (a: CarType) => {
     if (a.vehicle && a.vehicleYear) {
@@ -56,7 +57,7 @@ export default function VehicleContainer({
           vehicleAdd={vehicleAdd}
           vehicleRemove={() => vehicleRemove(item.id)}
           key={item.id}
-          title={'Vehicle' + (item.id == 1 ? '' : index.toString())}
+          title={'Vehicle' + (item.id == 1 ? '' : ("#"+(index+1)))}
         />
       ))}
     </>
