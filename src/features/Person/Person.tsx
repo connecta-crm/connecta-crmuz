@@ -13,7 +13,6 @@ import {
   useCreatePerson,
   usePerson,
 } from '../leads/useLeadDetails';
-import UseCalendar from '../../ui/calendar/UseCalendar';
 export default function Person({
   setPersonId,
 }: {
@@ -319,7 +318,6 @@ export default function Person({
           </FormControl>
         </>
       )}
-      <UseCalendar/>
     </UpCollapse>
   );
 }
