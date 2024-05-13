@@ -1,9 +1,11 @@
 import { Radio } from 'antd';
+import { NoteItemType } from './History';
 
 export type HistoryCardProps = {
   type: string;
+  item: NoteItemType;
 };
-function HistoryCard({ type }: HistoryCardProps) {
+function HistoryCard({ type, item }: HistoryCardProps) {
   return (
     <div className="card mb-10">
       <div className="card__row">
@@ -18,15 +20,14 @@ function HistoryCard({ type }: HistoryCardProps) {
               <div className="card__texts d-flex align-center mb-5">
                 <div className="card__text">
                   <Radio>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Esse excepturi optio unde cumque veritatis cum.
+                    <div dangerouslySetInnerHTML={{ __html: item?.title }} />
                   </Radio>
                 </div>
               </div>
               <div className="card__bottom d-flex align-center">
                 <p>12.31.2024 at 3:40</p>
                 <p>Ali Brain</p>
-                <p>Call was scheduled on 12.31.2024 at 3:40 pm</p>
+                <p>Call was scheduled on {item?.createdAt}</p>
               </div>
             </div>
             <div className="card__right d-flex align-center">

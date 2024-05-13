@@ -44,14 +44,12 @@ function LeadTable() {
     if (!isLoadingLead && !error) {
       dispatch(setLeadData(lead));
       openDrawer();
-      // console.log('SET LEAD in Lead Table');
     }
   }, [isLoadingLead, error, dispatch]);
 
   useEffect(() => {
     if (!isLoadingLeads && leads.length && lead && Object.keys(lead)?.length) {
       dispatch(setLeadData(lead));
-      console.log('SET  LEAD in dt', lead);
     }
   }, [leads, lead, dispatch, isLoadingLeads]);
 

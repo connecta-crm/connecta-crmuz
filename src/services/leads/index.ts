@@ -151,6 +151,19 @@ class Leads {
     }
   }
 
+  // GET: /leads/attachments/:leadId/
+  async getLeadAttachments(id: number) {
+    try {
+      const { data } = await this.$api.get(`/leads/attachments/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   async getMake(text: string | undefined) {
     try {
       const { data } = await this.$api.get(

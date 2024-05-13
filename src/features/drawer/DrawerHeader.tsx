@@ -1,9 +1,12 @@
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
-import { useAppSelector } from '../../store/hooks';
+import { merge } from 'lodash';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { classNames } from '../../utils/helpers';
-import { getLeadData } from '../leads/leadSlice';
+import { getLeadData, setLeadData, updateField } from '../leads/leadSlice';
+import { useLeadEdit } from '../leads/useLeadEdit';
 import { DrawerControlProps } from './DrawerControl';
 
 function DrawerHeader({
@@ -38,7 +41,35 @@ function DrawerHeader({
     onClick: handleMenuClick,
   };
 
-  const { id, customerName } = useAppSelector(getLeadData);
+  const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
+  const leadData = useAppSelector(getLeadData);
+  const dispatch = useAppDispatch();
+
+  const updateLeadModel = {
+    ...leadData,
+    customer: leadData.customer?.id,
+    source: leadData.source?.id,
+    origin: leadData.origin?.id,
+    destination: leadData.destination?.id,
+    user: leadData.user?.id,
+    extraUser: leadData?.extraUser,
+  };
+
+  const handleArchive = () => {
+    const value = leadData.status === 'leads' ? 'archive' : 'leads';
+    console.log(value);
+    dispatch(updateField({ field: 'status', value }));
+    console.log(updateLeadModel);
+    editLead({ guid: leadData.guid, updateLeadModel });
+  };
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      console.log(updatedLeadData);
+      const merged = merge({}, leadData, updatedLeadData);
+      dispatch(setLeadData(merged));
+    }
+  }, [isLoading, error, dispatch]);
 
   return (
     <div className="drawer-header">
@@ -73,8 +104,10 @@ function DrawerHeader({
             )}
           >
             <div className="d-flex">
-              <div className="drawer-header__id id_1">#{id}</div>
-              <div className="drawer-header__username">{customerName}</div>
+              <div className="drawer-header__id id_1">#100{leadData.id}</div>
+              <div className="drawer-header__username">
+                {leadData.customerName}
+              </div>
             </div>
             <div className="drawer-header__id id_2">PD: #110004, #110006</div>
           </div>
@@ -96,7 +129,7 @@ function DrawerHeader({
                 </a>
               </Dropdown>
             </div>
-            <div className="drawer-header__btnitem">
+            <div className="drawer-header__btnitem d-none">
               <Dropdown menu={menuProps} trigger={['click']}>
                 <Button>
                   <Space>
@@ -106,13 +139,20 @@ function DrawerHeader({
                 </Button>
               </Dropdown>
             </div>
-            <div className="drawer-header__btnitem">
-              <Button type="primary">Convert to order</Button>
-              <Button className="ml-10" type="primary" danger>
-                Archive
+            <div className="drawer-header__btnitem ">
+              <Button className="d-none" type="primary">
+                Convert to order
+              </Button>
+              <Button
+                onClick={handleArchive}
+                className="ml-10 mr-10"
+                type="primary"
+                danger
+              >
+                {leadData.status === 'archive' ? 'Leads' : 'Archive'}
               </Button>
             </div>
-            <div className="drawer-header__btnitem">
+            <div className="drawer-header__btnitem d-none">
               <Dropdown menu={menuProps} trigger={['click']}>
                 <Button>
                   <Space>

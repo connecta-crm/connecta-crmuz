@@ -130,14 +130,12 @@ function FeatItemOpen({
   useEffect(() => {
     if (!isLoadingLeadVehicleDelete) {
       setGuid(leadId);
-      console.log('SET GUID', leadId);
     }
   }, [isLoadingLeadVehicleDelete, leadId]);
 
   useEffect(() => {
     if (!isFetchingLead && !errorLead && leads.length) {
       dispatch(setLeadData(lead));
-      console.log('SET NEW LEAD', lead);
     }
   }, [isFetchingLead, errorLead, leads, dispatch]);
 
@@ -152,7 +150,6 @@ function FeatItemOpen({
       const merged = merge({}, leadData, updatedLeadData);
       dispatch(setLeadData(merged));
       onChangeInnerCollapse(keyValue);
-      console.log('MERGE');
     }
   }, [
     isLoading,

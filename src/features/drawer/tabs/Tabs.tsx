@@ -1,4 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import { useQueryClient } from '@tanstack/react-query';
 import type { RadioChangeEvent, TabsProps, TimePickerProps } from 'antd';
 import {
   Button,
@@ -14,13 +15,30 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import { ChangeEvent, useState } from 'react';
 import StickyBox from 'react-sticky-box';
+import ArrowDownIcon from '../../../../public/img/drawer/tab/task/arrow.svg';
+import { useAppSelector } from '../../../store/hooks';
+import Calendar from '../../../ui/Calendar';
+import { useCreateNote } from '../../attachments/useCreateNote';
+import { getUser } from '../../authentication/authSlice';
+import { getLeadData } from '../../leads/leadSlice';
 import TabEmail from './TabEmail';
 import TabFiles from './TabFiles';
 import Notes from './TabNotes';
 
 function TabsApp() {
   const [eventType, setEventType] = useState('call');
-  const [notes, setNotes] = useState('');
+  const [taskNote, setTaskNote] = useState('');
+  const [notes, setNotes] = useState({
+    mainNote: '',
+    phoneNote: '',
+    emailNote: '',
+  });
+
+  const { id: leadId } = useAppSelector(getLeadData);
+  const userData = useAppSelector(getUser);
+
+  const queryClient = useQueryClient();
+  queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
 
   const handleEventType = (e: RadioChangeEvent) => {
     setEventType(e.target.value);
@@ -41,16 +59,44 @@ function TabsApp() {
     console.log(value);
   };
 
-  const handleChangeNotes = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeTaskNote = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    setNotes(value);
+    setTaskNote(value);
+  };
+
+  type CancelActionType = 'main' | 'phone' | 'task' | 'email';
+
+  const handleSetNotes = (type: CancelActionType, note: string) => {
+    switch (type) {
+      case 'main':
+        setNotes({ ...notes, mainNote: note });
+        break;
+      case 'phone':
+        setNotes({ ...notes, phoneNote: note });
+        break;
+      case 'email':
+        setNotes({ ...notes, emailNote: note });
+        break;
+    }
   };
 
   const feature = 'lead';
-  const isLoading = false;
-  const handleSave = () => {
+  // const isLoading = false;
+
+  const { createNote, isLoading } = useCreateNote();
+
+  const handleSave = (type: string) => {
+    const user = userData?.id ? +userData?.id : undefined;
     switch (feature) {
       case 'lead':
+        if (type === 'notes') {
+          createNote({
+            rel: leadId,
+            endpointType: 'lead',
+            text: notes.mainNote,
+            user,
+          });
+        }
         // editLead({ guid: leadData.guid, updateLeadModel });
         break;
       // case 'quote':
@@ -59,10 +105,23 @@ function TabsApp() {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = (type: CancelActionType) => {
     switch (feature) {
       case 'lead':
-        // dispatch(resetLeadField({ field: 'trailerType' }));
+        switch (type) {
+          case 'main':
+            setNotes({ ...notes, mainNote: '' });
+            break;
+          case 'phone':
+            setNotes({ ...notes, phoneNote: '' });
+            break;
+          case 'email':
+            setNotes({ ...notes, emailNote: '' });
+            break;
+          case 'task':
+            setTaskNote('');
+            break;
+        }
         break;
     }
   };
@@ -97,11 +156,32 @@ function TabsApp() {
       ),
       children: (
         <div>
-          <Notes />
-          <Flex className="p-5" gap="small" wrap="wrap">
-            <Button size="small">Cancel</Button>
-            <Button type="primary" size="small">
-              Save
+          <Notes
+            type="main"
+            content={notes.mainNote}
+            onSetContent={handleSetNotes}
+          />
+          <Flex
+            className="p-5"
+            gap="small"
+            wrap="wrap"
+            style={{ backgroundColor: 'rgba(234, 234, 234, 1)' }}
+          >
+            <Button
+              size="small"
+              disabled={isLoading}
+              onClick={() => handleCancel('main')}
+            >
+              Cancel
+            </Button>
+            <Button
+              // className="ml-10"
+              type="primary"
+              size="small"
+              disabled={isLoading}
+              onClick={() => handleSave('main')}
+            >
+              {isLoading ? <LoadingOutlined /> : 'Save'}
             </Button>
           </Flex>
         </div>
@@ -215,6 +295,7 @@ function TabsApp() {
                     defaultValue="lucy"
                     style={{ width: 120, height: 30 }}
                     onChange={handleChangePriority}
+                    suffixIcon={<img alt="" src={ArrowDownIcon} />}
                     options={[
                       { value: 'jack', label: 'Jack' },
                       { value: 'lucy', label: 'Lucy' },
@@ -231,6 +312,7 @@ function TabsApp() {
                     defaultValue="lucy"
                     style={{ width: 120, height: 30 }}
                     onChange={handleChangeBusy}
+                    suffixIcon={<img alt="" src={ArrowDownIcon} />}
                     options={[
                       { value: 'jack', label: 'Jack' },
                       { value: 'lucy', label: 'Lucy' },
@@ -244,8 +326,8 @@ function TabsApp() {
                 </div>
                 <div className="feature-task--group mb-10">
                   <TextArea
-                    value={notes}
-                    onChange={handleChangeNotes}
+                    value={taskNote}
+                    onChange={handleChangeTaskNote}
                     autoSize={{ minRows: 1, maxRows: 5 }}
                     className="feature-task__notes"
                   />
@@ -258,6 +340,7 @@ function TabsApp() {
                     defaultValue="lucy"
                     style={{ width: '100%', height: 30 }}
                     onChange={handleChangeBusy}
+                    suffixIcon={<img alt="" src={ArrowDownIcon} />}
                     options={[
                       { value: 'ali', label: 'Ali Brain (you)' },
                       { value: 'lucy', label: 'Lucy' },
@@ -275,6 +358,7 @@ function TabsApp() {
                     style={{ width: '100%', height: 30 }}
                     onChange={handleChangeBusy}
                     allowClear={true}
+                    suffixIcon={<img alt="" src={ArrowDownIcon} />}
                     options={[
                       { value: 'ali', label: 'Ali Brain (you)' },
                       { value: 'lucy', label: 'Lucy' },
@@ -292,6 +376,7 @@ function TabsApp() {
                     style={{ width: '100%', height: 30 }}
                     onChange={handleChangeBusy}
                     allowClear={true}
+                    suffixIcon={<img alt="" src={ArrowDownIcon} />}
                     options={[
                       { value: 'ali', label: 'Ali Brain (you)' },
                       { value: 'lucy', label: 'Lucy' },
@@ -306,7 +391,7 @@ function TabsApp() {
                   <Button
                     size="small"
                     // disabled={isLoading}
-                    onClick={handleCancel}
+                    onClick={() => handleCancel('task')}
                   >
                     Cancel
                   </Button>
@@ -315,7 +400,7 @@ function TabsApp() {
                     type="primary"
                     size="small"
                     // disabled={isLoading}
-                    onClick={handleSave}
+                    onClick={() => handleSave('task')}
                   >
                     {isLoading ? <LoadingOutlined /> : 'Save'}
                   </Button>
@@ -324,9 +409,7 @@ function TabsApp() {
             </div>
             <div className="task__col">
               <div className="task__calendar calendar">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Delectus a quas dolores possimus sit quis assumenda rerum eos,
-                asperiores voluptates.
+                <Calendar />
               </div>
             </div>
           </div>
@@ -351,7 +434,104 @@ function TabsApp() {
           />
         </>
       ),
-      children: <p>tab content 3</p>,
+      children: (
+        <div className="phone">
+          <div className="phone__body">
+            <div className="phone__item item-phone">
+              <div className="item-phone__text">From:</div>
+              <div className="item-phone__select">
+                <Select
+                  variant="borderless"
+                  defaultValue={['(929) 592-3003']}
+                  placeholder=""
+                  style={{ flex: 1, width: 150 }}
+                  suffixIcon={<img alt="" src={ArrowDownIcon} />}
+                  options={[
+                    { value: '(929) 592-3003', label: '(929) 592-3003' },
+                    { value: 'lucy', label: 'Lucy' },
+                    { value: 'Yiminghe', label: 'yiminghe' },
+                  ]}
+                />
+              </div>
+            </div>
+            <div className="phone__item item-phone">
+              <div className="item-phone__text">To:</div>
+              <div className="item-phone__select">
+                <Select
+                  variant="borderless"
+                  defaultValue={['(929) 999-9999']}
+                  placeholder=""
+                  style={{ flex: 1, width: 150 }}
+                  suffixIcon={<img alt="" src={ArrowDownIcon} />}
+                  allowClear={true}
+                  options={[
+                    { value: '(929) 999-9999', label: '(929) 999-9999' },
+                    { value: 'lucy', label: 'Lucy' },
+                    { value: 'Yiminghe', label: 'yiminghe' },
+                  ]}
+                />
+              </div>
+            </div>
+            <div className="phone__item item-phone">
+              <div className="item-phone__select">
+                <Select
+                  variant="filled"
+                  // defaultValue={['']}
+                  placeholder="Choose from template"
+                  style={{ flex: 1, width: 190, height: 22 }}
+                  suffixIcon={<img alt="" src={ArrowDownIcon} />}
+                  options={[
+                    { value: '(929) 999-9999', label: '(929) 999-9999' },
+                    { value: 'lucy', label: 'Lucy' },
+                    { value: 'Yiminghe', label: 'yiminghe' },
+                  ]}
+                />
+              </div>
+              <div className="item-phone__select">
+                <Select
+                  variant="borderless"
+                  // defaultValue={''}
+                  // value={''}
+                  placeholder="Insert a field"
+                  style={{ flex: 1, width: 130 }}
+                  suffixIcon={<img alt="" src={ArrowDownIcon} />}
+                  options={[
+                    { value: '(929) 592-3003', label: '(929) 592-3003' },
+                    { value: 'lucy', label: 'Lucy' },
+                    { value: 'Yiminghe', label: 'yiminghe' },
+                  ]}
+                />
+              </div>
+            </div>
+            <div className="phone__item item-phone px-0">
+              <div className="w-100">
+                <Notes
+                  type="phone"
+                  content={notes.phoneNote}
+                  onSetContent={handleSetNotes}
+                />
+                <Flex
+                  className="p-5"
+                  style={{ backgroundColor: 'rgba(234, 234, 234, 1)' }}
+                  gap="small"
+                  wrap="wrap"
+                >
+                  <Button size="small" onClick={() => handleCancel('phone')}>
+                    Cancel
+                  </Button>
+                  <Button
+                    type="primary"
+                    size="small"
+                    onClick={() => handleSave('phone')}
+                  >
+                    Save
+                  </Button>
+                </Flex>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
     },
     {
       key: '4',

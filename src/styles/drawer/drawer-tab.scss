@@ -110,6 +110,34 @@
     .ant-upload-list {
     display: none;
   }
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-top
+    > .ant-tabs-nav::before,
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-bottom
+    > .ant-tabs-nav::before,
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-top
+    > div
+    > .ant-tabs-nav::before,
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-bottom
+    > div
+    > .ant-tabs-nav::before {
+    border-color: #d1d1d1;
+  }
+  :where(
+      .css-dev-only-do-not-override-1qfezbu
+    ).ant-select-single.ant-select-show-arrow
+    .ant-select-selection-item,
+  :where(
+      .css-dev-only-do-not-override-1qfezbu
+    ).ant-select-single.ant-select-show-arrow
+    .ant-select-selection-placeholder {
+    color: #666666;
+  }
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-select-filled:not(
+      .ant-select-customize-input
+    )
+    .ant-select-selector {
+    background: rgba(234, 234, 234, 1);
+  }
 }
 
 /* ==================================================================================================================*/
@@ -189,7 +217,7 @@
   &__calendar {
     border-left: 1px solid #d1d1d1;
     background-color: #f4f4f4;
-    height: max-content;
+    height: 100%;
   }
   &__feature {
     padding: 10px 35px;
@@ -243,5 +271,26 @@
     min-height: 50px !important;
     width: 390px;
     border-radius: 3px !important;
+  }
+}
+
+/* =================================== PHONE styles ===============================================================================*/
+.phone {
+  &__body {
+  }
+  &__item {
+    @include flexbox();
+    align-items: center;
+    border-bottom: 1px solid #d1d1d1;
+    padding: 0 10px;
+  }
+}
+
+.item-phone {
+  &__select {
+  }
+  &__text {
+    font-size: 15px;
+    font-weight: 400;
   }
 }
