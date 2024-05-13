@@ -2,11 +2,7 @@ import { Input, Select, Spin } from 'antd';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useCities } from '../../address/useCities';
-import { getLeadData, updateField, type Location } from '../../leads/leadSlice';
-
-type Record = {
-  data: Location;
-};
+import { getLeadData, updateField } from '../../leads/leadSlice';
 
 function FeatOriginInner() {
   const dispatch = useAppDispatch();
@@ -22,7 +18,7 @@ function FeatOriginInner() {
     setSelectCity(true);
   };
 
-  const handleChangeCity = (id: number | string, option: Record | Record[]) => {
+  const handleChangeCity = (_: number | string, option: { data: never }) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'origin', value: option?.data }));
     }
@@ -47,7 +43,7 @@ function FeatOriginInner() {
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such city'}
           options={(cities || []).map((d: { id: number; name: string }) => ({
@@ -62,7 +58,7 @@ function FeatOriginInner() {
         <Input
           value={leadData.origin?.state.name}
           disabled
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
       <div className="d-flex justify-between">
@@ -78,7 +74,7 @@ function FeatOriginInner() {
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={
             isLoading ? <Spin size="small" /> : 'No such zip code'

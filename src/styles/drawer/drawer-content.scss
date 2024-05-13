@@ -124,6 +124,9 @@
     &:hover,
     &-active {
       background: #eaeaea;
+      .detail__text {
+        max-width: 142px;
+      }
       .detail__right_actions {
         opacity: 1;
         visibility: visible;
@@ -146,6 +149,12 @@
     background-color: #eaeaea;
     border-radius: 4px;
   }
+}
+:where(
+    .css-dev-only-do-not-override-1qfezbu
+  ).ant-input-outlined.ant-input-disabled,
+:where(.css-dev-only-do-not-override-1qfezbu).ant-input-outlined[disabled] {
+  background-color: #f8f8f8 !important;
 }
 /* ==================================================================================================================*/
 .detail {
@@ -173,16 +182,18 @@
     opacity: 0;
     visibility: hidden;
     z-index: -2;
+    position: absolute;
     @include anim(0.15s, 0s);
   }
   &__text {
     font-size: 15px;
     color: #21232c;
     font-weight: 400;
-    max-width: 140px;
+    max-width: 191px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    // margin-right: 15px;
     &_with-bg {
       border-radius: 4px;
       background-color: #ddf2fd;
@@ -250,5 +261,15 @@
       line-height: 1;
       content: '*';
     }
+  }
+}
+
+/* ==================================================================================================================*/
+.feature-content {
+  position: relative;
+  &__inner {
+    position: absolute;
+    right: 0;
+    bottom: 28px;
   }
 }

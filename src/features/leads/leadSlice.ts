@@ -15,7 +15,7 @@ export type Vehicle = {
 export type LeadVehicle = {
   id: number | null;
   vehicle: Vehicle;
-  vehicleYear: number | null;
+  vehicleYear: string | null;
   lead: number | null;
 };
 
@@ -50,9 +50,13 @@ export type Location = {
   lat: number;
 };
 
-type Source = {
+export type Source = {
   id: number;
   name: string;
+};
+
+export type SourceState = {
+  data: Source;
 };
 
 export type LeadData = {
@@ -77,7 +81,7 @@ export type LeadData = {
   trailerType: string;
   notes: string;
   reservationPrice: number;
-  dateEstShip: string;
+  dateEstShip: string | null;
 };
 
 export type LeadState = {
@@ -140,7 +144,7 @@ const initialState: LeadState = {
     trailerType: '',
     notes: '',
     reservationPrice: 0,
-    dateEstShip: '',
+    dateEstShip: null,
   },
   initialLeadData: {
     id: 0,
@@ -164,20 +168,30 @@ const initialState: LeadState = {
     trailerType: '',
     notes: '',
     reservationPrice: 0,
-    dateEstShip: '',
+    dateEstShip: null,
   },
   status: 'idle',
 };
 
-type UpdateFieldAction<T extends keyof LeadData> = {
-  field: T;
-  value: LeadData[T];
+// type UpdateFieldAction<T extends keyof LeadData> = {
+//   field: T | keyof T;
+//   value: LeadData[T] | T[keyof T];
+// };
+type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> = {
+  field: T extends keyof LeadData
+    ? LeadData[T]
+    : T extends keyof Customer
+      ? Customer[T]
+      : T extends keyof Source
+        ? Source[T]
+        : never;
+  value: T[keyof T];
 };
 
-type UpdateVehicleFieldAction<T extends keyof Vehicle> = {
+type UpdateVehicleFieldAction<T extends keyof LeadVehicle> = {
   vehicleIndex: number;
-  field: T;
-  value: Vehicle[T];
+  field: T extends keyof LeadVehicle ? LeadVehicle[T] : never;
+  value: LeadVehicle[T];
 };
 
 type RevertFieldAction<T extends keyof LeadData> = {
@@ -206,16 +220,15 @@ export const leadSlice = createSlice({
       state.leadData = action.payload;
       state.initialLeadData = action.payload;
     },
-    updateField: <T extends keyof LeadData>(
+    updateField: <T extends keyof (LeadData & Customer)>(
       state: LeadState,
       action: PayloadAction<UpdateFieldAction<T>>,
     ) => {
       const { field, value } = action.payload;
       setNestedObjectValue(state.leadData, field, value);
-
       // state.leadData[field] = value;
     },
-    updateVehicleField: <T extends keyof Vehicle>(
+    updateVehicleField: <T extends keyof LeadVehicle>(
       state: LeadState,
       action: PayloadAction<UpdateVehicleFieldAction<T>>,
     ) => {
@@ -244,81 +257,3 @@ export const { setLeadData, updateField, updateVehicleField, resetField } =
   leadSlice.actions;
 
 export default leadSlice.reducer;
-
-// {
-//   "id": 84,
-//   "customerName": "Ali Brian",
-//   "customerPhone": "22222222222",
-//   "originName": "Illinois, IL 61791",
-//   "destinationName": "California, CA 90844",
-//   "leadVehicles": [
-//       {
-//           "id": 54,
-//           "vehicle": {
-//               "id": 218,
-//               "mark": {
-//                   "id": 35,
-//                   "name": "Mercedes-Benz"
-//               },
-//               "name": "A-Class",
-//               "vehicleType": "Car"
-//           },
-//           "vehicleYear": 2024,
-//           "lead": 84
-//       }
-//   ],
-//   "user": {
-//       "id": 1,
-//       "picture": "http://crmapi01xz.matelogisticss.com/media/profile_pictures/1.png"
-//   },
-//   "extraUser": null,
-//   "customer": {
-//       "id": 2,
-//       "name": "Ali Brian",
-//       "email": "alibrian@gmail.com",
-//       "phone": "22222222222",
-//       "note": null,
-//       "createdAt": "03/17/2024 09:22 AM",
-//       "updatedAt": "03/17/2024 09:22 AM"
-//   },
-//   "origin": {
-//       "id": 370,
-//       "state": {
-//           "id": 17,
-//           "name": "Illinois",
-//           "code": "IL"
-//       },
-//       "name": "Bloomington",
-//       "zip": "61791",
-//       "text": null,
-//       "long": -1.5891981,
-//       "lat": 42.8082302
-//   },
-//   "destination": {
-//       "id": 377,
-//       "state": {
-//           "id": 6,
-//           "name": "California",
-//           "code": "CA"
-//       },
-//       "name": "Long Beach",
-//       "zip": "90844",
-//       "text": null,
-//       "long": 17.168092452559726,
-//       "lat": 48.7172601837884
-//   },
-//   "source": {
-//       "id": 2,
-//       "name": "Website"
-//   },
-//   "guid": "ae006353-6f0d-47ab-bc66-c63ce56d3c6c",
-//   "createdAt": "05/01/2024 05:05 PM",
-//   "updatedAt": "05/01/2024 05:05 PM",
-//   "status": "leads",
-//   "price": 2147483647,
-//   "condition": "rols",
-//   "trailerType": "open",
-//   "notes": "test",
-//   "reservationPrice": 2147483647,
-//   "dateEstShip": "2024-05-29"
-// }

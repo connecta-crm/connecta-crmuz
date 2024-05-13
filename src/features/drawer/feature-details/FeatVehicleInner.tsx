@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DatePicker, Input, Select, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { useAppDispatch } from '../../../store/hooks';
 import {
   LeadVehicle,
-  getLeadData,
   updateVehicleField,
   type Vehicle,
 } from '../../leads/leadSlice';
@@ -23,9 +21,8 @@ type VehicleItemType = {
 
 function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
   const dispatch = useAppDispatch();
-  const leadData = useAppSelector(getLeadData);
 
-  const { id, vehicleYear, vehicle, lead: leadId } = vehicleItem;
+  const { vehicleYear, vehicle } = vehicleItem;
 
   const [isSelectMark, setSelectMark] = useState(false);
   const [searchMark, setSearchMark] = useState<string | null>(null);
@@ -140,9 +137,9 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
           }}
           picker="year"
           allowClear={false}
-          value={dayjs(String(vehicleYear), 'YYYY')}
-          defaultValue={dayjs(String(vehicleYear), 'YYYY')}
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          value={dayjs(String(vehicleYear), 'YYYY') as unknown as string}
+          defaultValue={dayjs(String(vehicleYear), 'YYYY') as unknown as string}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
           onChange={handleChangeDate}
         />
       </div>
@@ -159,7 +156,7 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
           onChange={handleChange}
           onFocus={handleFocusMark}
           onSearch={handleSearchMark}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such make'}
           options={(carMarks || []).map((d: { id: number; name: string }) => ({
@@ -182,7 +179,7 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
           onChange={handleChangeModel}
           onFocus={handleFocusModel}
           onSearch={handleSearchModel}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoadingModel}
           notFoundContent={
             isLoadingModel ? <Spin size="small" /> : 'No such model'
@@ -199,7 +196,7 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
         <Input
           value={vehicle?.vehicleType || ''}
           disabled
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
     </>

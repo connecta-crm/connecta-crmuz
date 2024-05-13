@@ -174,4 +174,74 @@
     }
   }
 }
-/* ==================================================================================================================*/
+/* ================================== TASK styles ================================================================================*/
+.task {
+  &__row {
+    @include flexbox();
+  }
+  &__col {
+    flex: 1 1 auto;
+
+    &:last-child {
+      flex: 0 0 240px;
+    }
+  }
+  &__calendar {
+    border-left: 1px solid #d1d1d1;
+    background-color: #f4f4f4;
+    height: max-content;
+  }
+  &__feature {
+    padding: 10px 35px;
+  }
+  &__bottom {
+    padding: 5px 35px;
+    background-color: #f8f8f8;
+    @include flexbox();
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+.feature-task {
+  &--group {
+    position: relative;
+    .task-icon {
+      position: absolute;
+      top: 50%;
+      left: -26px;
+      @include tr(0, -50%, 0);
+      width: 17px;
+      height: 17px;
+      z-index: 2;
+      img {
+        width: 100%;
+      }
+    }
+  }
+  &__item {
+    img {
+      width: 15px;
+      height: 15px;
+    }
+    span {
+      color: #666666;
+    }
+  }
+  &__dates {
+    @include flexbox();
+    align-items: center;
+    span.mx-15 {
+      color: #666666;
+    }
+  }
+  &__date {
+    @include flexbox();
+    align-items: center;
+  }
+  &__notes {
+    min-height: 50px !important;
+    width: 390px;
+    border-radius: 3px !important;
+  }
+}

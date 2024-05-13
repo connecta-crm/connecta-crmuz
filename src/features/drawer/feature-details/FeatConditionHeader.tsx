@@ -19,8 +19,9 @@ function FeatConditionHeader({ keyValue, label }: FeatConditionHeaderProps) {
         {openInnerPanels?.includes(keyValue) ? (
           <FeatItemOpen
             keyValue={keyValue}
-            feature="lead_condition"
-            hasAddAction={false}
+            feature="lead"
+            addRemoveBtn="none"
+            featureItemField="condition"
           />
         ) : (
           <FeatItemClose keyValue={keyValue} textWithBg={true} label={label} />

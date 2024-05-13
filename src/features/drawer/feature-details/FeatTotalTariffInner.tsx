@@ -55,7 +55,7 @@ function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
         <Input
           value={price}
           onChange={(e) => handleChange(e, 'price')}
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
       <div className="d-flex justify-between mb-5">
@@ -63,10 +63,10 @@ function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
         <Input
           value={reservationPrice}
           onChange={(e) => handleChange(e, 'reservationPrice')}
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
-      <div className="d-flex justify-end mt-10">
+      <div className="d-flex justify-end mt-5">
         <Button size="small" disabled={isLoading} onClick={handleCancel}>
           Cancel
         </Button>

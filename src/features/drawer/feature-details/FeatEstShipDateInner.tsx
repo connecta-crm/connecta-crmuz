@@ -1,9 +1,26 @@
-import { DatePicker } from 'antd';
+import { Button, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getLeadData, updateField } from '../../leads/leadSlice';
 
-function FeatEstShipDateInner() {
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
+import { setLeadData } from '../../leads/leadSlice';
+
+import { LoadingOutlined } from '@ant-design/icons';
+import { merge } from 'lodash';
+import { useEffect } from 'react';
+import { resetField as resetLeadField } from '../../leads/leadSlice';
+import { useLeadEdit } from '../../leads/useLeadEdit';
+
+type FeatEstShipDateInnerProps = {
+  feature: string;
+  keyValue: string | string[];
+};
+
+function FeatEstShipDateInner({
+  feature,
+  keyValue,
+}: FeatEstShipDateInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
@@ -12,21 +29,96 @@ function FeatEstShipDateInner() {
       dispatch(updateField({ field: 'dateEstShip', value }));
     }
   };
+
+  const { onChangeInnerCollapse } = useDrawerFeature();
+
+  const {
+    editLead,
+    updatedLeadData,
+    error: errorEditLead,
+    isLoading: isLoadingEditLead,
+  } = useLeadEdit();
+
+  const updateLeadModel = {
+    ...leadData,
+    customer: leadData.customer?.id,
+    source: leadData.source?.id,
+    origin: leadData.origin?.id,
+    destination: leadData.destination?.id,
+    user: leadData.user?.id,
+    extraUser: leadData?.extraUser,
+  };
+
+  const handleSave = () => {
+    switch (feature) {
+      case 'lead':
+        editLead({ guid: leadData.guid, updateLeadModel });
+        break;
+      case 'quote':
+        // editQuote({ guid: leadData.guid, updateLeadData });
+        break;
+    }
+  };
+
+  const handleCancel = () => {
+    switch (feature) {
+      case 'lead':
+        dispatch(resetLeadField({ field: 'dateEstShip' }));
+        break;
+      case 'quote':
+        // dispatch(resetQuoteField({ field }));
+        break;
+    }
+    onChangeInnerCollapse(keyValue);
+  };
+
+  useEffect(() => {
+    if (!isLoadingEditLead && !errorEditLead) {
+      const merged = merge({}, leadData, updatedLeadData);
+      dispatch(setLeadData(merged));
+      onChangeInnerCollapse(keyValue);
+    }
+  }, [isLoadingEditLead, keyValue, errorEditLead]);
+
   return (
-    <div className="d-flex justify-between">
-      <div className="form-label">Est. ship date</div>
-      <DatePicker
-        format={{
-          format: 'YYYY-MM-DD',
-          type: 'mask',
-        }}
-        type="date"
-        name="est_ship_date"
-        value={dayjs(leadData.dateEstShip, 'YYYY-MM-DD')}
-        defaultValue={dayjs(leadData.dateEstShip, 'YYYY-MM-DD')}
-        style={{ width: 200, float: 'inline-end', height: 24 }}
-        onChange={handleChange}
-      />
+    <div className="d-flex justify-end feature-content">
+      <div className="feature-content__inner">
+        <DatePicker
+          format={{
+            format: 'MM-DD-YYYY',
+            type: 'mask',
+          }}
+          allowClear={false}
+          type="date"
+          name="est_ship_date"
+          value={dayjs(leadData.dateEstShip, 'MM-DD-YYYY') as unknown as string}
+          defaultValue={
+            dayjs(leadData.dateEstShip, 'MM-DD-YYYY') as unknown as string
+          }
+          style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={handleChange}
+        />
+      </div>
+      <>
+        <Button
+          block
+          size="small"
+          style={{ width: 'auto' }}
+          disabled={isLoadingEditLead}
+          onClick={handleCancel}
+        >
+          Cancel
+        </Button>
+        <Button
+          className="ml-10"
+          type="primary"
+          size="small"
+          disabled={isLoadingEditLead}
+          onClick={handleSave}
+        >
+          {isLoadingEditLead ? <LoadingOutlined /> : 'Save'}
+        </Button>
+      </>
     </div>
   );
 }

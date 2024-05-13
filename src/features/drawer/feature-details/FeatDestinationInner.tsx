@@ -22,7 +22,7 @@ function FeatDestinationInner() {
     setSelectCity(true);
   };
 
-  const handleChangeCity = (id: number | string, option: Record | Record[]) => {
+  const handleChangeCity = (_: number | string, option: { data: never }) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'destination', value: option?.data }));
     }
@@ -47,7 +47,7 @@ function FeatDestinationInner() {
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such city'}
           options={(cities || []).map((d: { id: number; name: string }) => ({
@@ -62,7 +62,7 @@ function FeatDestinationInner() {
         <Input
           value={leadData.destination?.state.name}
           disabled
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
       <div className="d-flex justify-between">
@@ -78,7 +78,7 @@ function FeatDestinationInner() {
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={
             isLoading ? <Spin size="small" /> : 'No such zip code'

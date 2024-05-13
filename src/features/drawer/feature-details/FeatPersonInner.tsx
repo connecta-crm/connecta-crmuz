@@ -38,7 +38,7 @@ function FeatPersonInner() {
     setSelectPerson(true);
   };
 
-  const handleChange = (_: number | string, option: Record | Record[]) => {
+  const handleChange = (_: number | string, option: { data: never }) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'customer', value: option.data }));
     }
@@ -62,7 +62,7 @@ function FeatPersonInner() {
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('name', value)}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such name '}
           options={(customers || []).map((d: { id: number; name: string }) => ({
@@ -88,7 +88,7 @@ function FeatPersonInner() {
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('email', value)}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such email'}
           options={(customers || []).map(
@@ -116,7 +116,7 @@ function FeatPersonInner() {
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('phone', value)}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such phone'}
           options={(customers || []).map(
@@ -133,7 +133,7 @@ function FeatPersonInner() {
         <Input
           value={leadData.destination?.state.name}
           disabled
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
       <div className="d-flex justify-between">
@@ -149,7 +149,7 @@ function FeatPersonInner() {
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={
             isLoading ? <Spin size="small" /> : 'No such zip code'

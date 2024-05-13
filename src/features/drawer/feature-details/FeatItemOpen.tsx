@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoadingOutlined } from '@ant-design/icons';
-import { useQueryClient } from '@tanstack/react-query';
 import { Button, Popconfirm } from 'antd';
 import { merge } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -26,6 +24,8 @@ export type FeatItemOpenProps = {
   featureItemField: keyof LeadData; // keyof LeadData | QuoteData
   addRemoveBtn?: 'add' | 'remove' | 'none';
   featureItemData?: LeadVehicle;
+  classNames?: string;
+  series?: boolean;
 };
 
 const text = 'Are you sure to delete this vehicle?';
@@ -37,23 +37,18 @@ function FeatItemOpen({
   featureItemField: field,
   addRemoveBtn = 'none',
   featureItemData,
+  series = true,
 }: FeatItemOpenProps) {
   const [popconfirmOpen, setPopconfirmOpen] = useState(false);
   const { isEditDetails, onChangeInnerCollapse } = useDrawerFeature();
 
   const leadData = useAppSelector(getLeadData);
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
 
   const [guid, setGuid] = useState<string | null>(null);
 
-  const { leads, isLoading: isLoadingLeads } = useLeads();
-  const {
-    lead,
-    isLoading: isLoadingLead,
-    isFetchingLead,
-    error: errorLead,
-  } = useLead(guid);
+  const { leads } = useLeads();
+  const { lead, isFetchingLead, error: errorLead } = useLead(guid);
 
   const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
 
@@ -80,12 +75,19 @@ function FeatItemOpen({
     switch (feature) {
       case 'lead':
         if (field === 'leadVehicles') {
-          editLeadVehicle({
-            id: featureItemData?.id,
-            vehicle: featureItemData?.vehicle.id,
-            lead: leadData.id,
-            vehicleYear: featureItemData?.vehicleYear,
-          });
+          if (
+            featureItemData?.id &&
+            featureItemData?.vehicle.id &&
+            featureItemData?.vehicleYear
+          ) {
+            editLeadVehicle({
+              id: featureItemData?.id,
+              vehicle: featureItemData?.vehicle.id,
+              lead: leadData.id,
+              vehicleYear: featureItemData?.vehicleYear,
+            });
+          }
+
           return;
         }
         editLead({ guid: leadData.guid, updateLeadModel });
@@ -121,30 +123,6 @@ function FeatItemOpen({
     if (id) {
       deleteLeadVehicle(id);
     }
-    // queryClient
-    //   .invalidateQueries({
-    //     queryKey: ['lead', null],
-    //     exact: true,
-    //     refetchType: 'active',
-    //   })
-    //   .then(() => {
-    //     setGuid(leadData.guid);
-    //     console.log('SET GUID', leadData.guid);
-    //   });
-
-    // queryClient
-    //   .invalidateQueries({
-    //     queryKey: ['lead', null],
-    //     exact: true,
-    //     refetchType: 'active',
-    //   })
-    //   .then((data) => {
-    //     // setGuid(leadData.guid);
-    //     console.log('INVALIDATE LEAD DATA', data);
-    //   });
-    // setGuid(leadData.guid);
-
-    // queryClient.invalidateQueries({ queryKey: ['lead', null] });
   };
 
   const leadId = leadData.guid;
@@ -187,7 +165,8 @@ function FeatItemOpen({
 
   return (
     <div className="detail__btns d-flex align-center">
-      {!isEditDetails &&
+      {series &&
+        !isEditDetails &&
         !(field === 'price' || field === 'reservationPrice') && (
           <>
             <Button

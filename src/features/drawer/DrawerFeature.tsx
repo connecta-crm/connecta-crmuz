@@ -40,6 +40,7 @@ function DrawerLeft() {
       <Collapse
         activeKey={openMainPanels}
         onChange={onChangeMainCollapse}
+        defaultActiveKey={['100', '200']}
         ghost
         collapsible="header"
         expandIcon={DrawerArrowIcon}
