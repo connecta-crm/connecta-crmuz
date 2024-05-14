@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import toast from 'react-hot-toast';
 import { useModal } from '../../context/ModalContext';
 import { LeadDataType } from '../../models/LeadDataType';
 import Leads from '../../services/leads';
@@ -9,7 +9,7 @@ export function useMake(text: string | undefined) {
   const { data: { results: makes } = {}, isFetching } = useQuery({
     queryKey: ['mark', text],
     queryFn: () => Leads.getMake(text),
-    enabled:!!text,
+    enabled: !!text,
   });
   return { makes, isFetching };
 }
@@ -35,7 +35,7 @@ export function useCity(text: string | null) {
   } = useQuery({
     queryKey: ['city', text],
     queryFn: () => Leads.getCity(text),
-    enabled:!!text,
+    enabled: !!text,
   });
   return { citys, isLoading, isFetching, error };
 }
@@ -50,7 +50,7 @@ export function useSource(enabled: boolean) {
 }
 
 export function usePerson(text: string) {
-  const { data: { results: personData } = {}, isFetching }= useQuery({
+  const { data: { results: personData } = {}, isFetching } = useQuery({
     queryKey: ['person', text],
     queryFn: () => Leads.getPerson(text),
     enabled: !!text,
@@ -67,10 +67,10 @@ export function useCreatePerson() {
     mutationFn: (item: { name: string; email: string; phone: string }) =>
       Leads.createPerson(item),
     onSuccess: () => {
-      toast.success('Customer created');
+      message.success('Customer created');
     },
     onError: (err) => {
-      toast.error(err.message);
+      message.error(err.message);
     },
   });
   return { createPerson, isLoading, isSuccess };
@@ -86,10 +86,10 @@ export function useCreateNumber() {
     mutationFn: (item: { customer: string; phone: string }) =>
       Leads.createNumber(item),
     onSuccess: () => {
-      toast.success('Customer created');
+      message.success('Customer created');
     },
     onError: (err) => {
-      toast.error(err.message);
+      message.error(err.message);
     },
   });
   return { createNumber, isPending, isCreatedSuccess, saveNumber };
@@ -102,11 +102,11 @@ export function useCreateLead() {
     mutationFn: (item: LeadDataType) => Leads.createLead(item),
     onSuccess: () => {
       hideModal();
-      toast.success('Lead created');
+      message.success('Lead created');
       queryClient.invalidateQueries({ queryKey: ['leads'] });
     },
     onError: (err) => {
-      toast.error(err.message);
+      message.error(err.message);
     },
   });
   return { create, isLoading };

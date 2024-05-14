@@ -1,9 +1,12 @@
-import { AxiosError } from 'axios';
-import { EditLeadProps } from '../../features/drawer/useEditLead';
-import { LeadsParamsType } from '../../features/leads/useLeads';
-import apiClient from '../axios';
 import { DefaultOptionType } from 'antd/es/select';
+import { AxiosError } from 'axios';
+import { LeadConvertParams } from '../../features/leads/useLeadConvert';
+import { LeadEditParamsType } from '../../features/leads/useLeadEdit';
+import { LeadCreateVehicleParams } from '../../features/leads/useLeadVehicleCreate';
+import { LeadEditVehicleParamsType } from '../../features/leads/useLeadVehicleEdit';
+import { LeadsParamsType } from '../../features/leads/useLeads';
 import { LeadDataType } from '../../models/LeadDataType';
+import apiClient from '../axios';
 
 type ApiErrorResponse = {
   message: string;
@@ -55,12 +58,103 @@ class Leads {
     }
   }
 
-  // PATCH: /leads/:guid/update/
-  async editLead({ guid, updateLeadData }: EditLeadProps) {
+  // PUT: /leads/:guid/update/
+  async editLead({ guid, updateLeadModel }: LeadEditParamsType) {
     try {
       const { data } = await this.$api.put(`/leads/update/${guid}/`, {
-        ...updateLeadData,
+        ...updateLeadModel,
       });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // PUT: /leads/vehicle/:id/
+  async editLeadVehicle({
+    id,
+    vehicleYear,
+    vehicle,
+    lead,
+  }: LeadEditVehicleParamsType) {
+    try {
+      const { data } = await this.$api.put(`/leads/vehicle/${id}/`, {
+        vehicleYear,
+        vehicle,
+        lead,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // DELETE: /leads/vehicle/:id/
+  async deleteLeadVehicle(id: number | undefined) {
+    try {
+      const { data } = await this.$api.delete(`/leads/vehicle/${id}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /leads/vehicle/add/
+  async addLeadVehicle({
+    vehicleYear,
+    vehicle,
+    lead,
+  }: LeadCreateVehicleParams) {
+    try {
+      const { data } = await this.$api.post(`/leads/vehicle/add/`, {
+        vehicleYear,
+        vehicle,
+        lead,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /leads/convert/:guid/
+  async leadConvert({
+    guid,
+    price,
+    reservationPrice,
+    quote,
+  }: LeadConvertParams) {
+    try {
+      const { data } = await this.$api.post(`/leads/convert/${guid}/`, {
+        price,
+        reservationPrice,
+        quote,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // GET: /leads/attachments/:leadId/
+  async getLeadAttachments(id: number) {
+    try {
+      const { data } = await this.$api.get(`/leads/attachments/${id}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -84,7 +178,9 @@ class Leads {
     }
   }
 
-  async getModel(text: DefaultOptionType| undefined | { mark: string; q: string }) {
+  async getModel(
+    text: DefaultOptionType | undefined | { mark: string; q: string },
+  ) {
     const url = new URLSearchParams(text);
     try {
       const { data } = await this.$api.get(
@@ -161,7 +257,7 @@ class Leads {
     }
   }
 
-  async createLead(lead:LeadDataType) {
+  async createLead(lead: LeadDataType) {
     try {
       const { data } = await this.$api.post('/leads/create/', lead);
       return data;

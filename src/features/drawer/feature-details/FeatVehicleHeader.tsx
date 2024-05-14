@@ -39,8 +39,9 @@ function FeatVehicleHeader({ keyValue }: FeatVehicleProps) {
         {openInnerPanels?.includes(keyValue) ? (
           <FeatItemOpen
             keyValue={keyValue}
-            feature="vehicle"
-            hasAddAction={true}
+            feature="lead"
+            addRemoveBtn="add"
+            featureItemField="leadVehicles"
           />
         ) : (
           <FeatItemClose keyValue={keyValue} label={label} />

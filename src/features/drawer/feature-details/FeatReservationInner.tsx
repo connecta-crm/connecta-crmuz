@@ -18,7 +18,7 @@ function FeatReservationInner() {
       <Input
         value={leadData.reservationPrice}
         onChange={handleChange}
-        style={{ width: 200, float: 'inline-end', height: 24 }}
+        style={{ width: 218, float: 'inline-end', height: 24 }}
       />
     </div>
   );

@@ -1,24 +1,27 @@
+import { Tooltip } from 'antd';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { classNames } from '../../../utils/helpers';
 
 type FeatItemCloseProps = {
   keyValue: string;
-  label: string;
+  label: string | undefined;
   textWithBg?: boolean;
   editable?: boolean;
+  series?: boolean;
 };
 
 function FeatItemClose({
   keyValue,
   textWithBg = false,
   label,
-  editable,
+  editable = true,
+  series = true,
 }: FeatItemCloseProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
   return (
     <div
       className={classNames(
-        !editable ? 'pr-0' : '',
+        !editable || !series ? 'pr-0' : '',
         'detail__right d-flex align-center justify-between',
       )}
     >
@@ -28,9 +31,19 @@ function FeatItemClose({
           'detail__text',
         )}
       >
-        {label}
+        <Tooltip
+          placement="left"
+          color="#ddf2fd"
+          overlayInnerStyle={{ color: '#000' }}
+          title={label}
+        >
+          {label}
+        </Tooltip>
       </div>
-      <div className="detail__right_actions d-flex align-center ml-10">
+      <div
+        className="detail__right_actions d-flex align-center"
+        style={{ right: series && editable ? '20px' : 0 }}
+      >
         {editable && (
           <div
             className="box-header__edit cursor-pointer __inner"

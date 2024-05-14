@@ -1,3 +1,4 @@
+import { App as AntdApp } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -12,8 +13,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.replace('/')}>
-          <App />
+        <ErrorBoundary
+          FallbackComponent={ErrorFallback}
+          onReset={() => window.location.replace('/')}
+        >
+          <AntdApp>
+            <App />
+          </AntdApp>
         </ErrorBoundary>
       </PersistGate>
     </Provider>

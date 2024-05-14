@@ -1,7 +1,7 @@
 import { Dropdown, DropdownProps, MenuProps, Space } from 'antd';
 import { useState } from 'react';
-import user from '../../public/img/dt_table/default_user_image.png';
-import ellipse from '../../public/img/dt_table/ellipse.svg';
+import user from '/img/dt_table/default_user_image.png';
+import ellipse from '/img/dt_table/ellipse.svg';
 
 function TableHeaderUsers() {
   const [open, setOpen] = useState(false);

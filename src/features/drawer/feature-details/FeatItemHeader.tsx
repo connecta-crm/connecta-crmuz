@@ -19,9 +19,10 @@ function FeatItemHeader({
   icon,
   feature,
   featureItemField,
-  hasAddAction = false,
+  addRemoveBtn = 'none',
   editable = true,
   textWithBg = false,
+  featureItemData,
 }: FeatConditionHeaderProps) {
   const { openInnerPanels } = useDrawerFeature();
 
@@ -34,7 +35,8 @@ function FeatItemHeader({
             keyValue={keyValue}
             feature={feature}
             featureItemField={featureItemField}
-            hasAddAction={hasAddAction}
+            addRemoveBtn={addRemoveBtn}
+            featureItemData={featureItemData}
           />
         ) : (
           <FeatItemClose

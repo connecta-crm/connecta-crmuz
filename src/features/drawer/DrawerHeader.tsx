@@ -1,16 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
-import { useAppSelector } from '../../store/hooks';
+import { merge } from 'lodash';
+import { useEffect } from 'react';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { DrawerProps } from '../../ui/Drawer';
 import { classNames } from '../../utils/helpers';
-import { getLeadData } from '../leads/leadSlice';
-import { DrawerControlProps } from './DrawerControl';
+import { getLeadData, setLeadData } from '../leads/leadSlice';
+import { useLeadEdit } from '../leads/useLeadEdit';
+import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
-function DrawerHeader({
-  isFullScreen,
-  onClose,
-  onFullScreen,
-}: DrawerControlProps) {
+function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+  const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
+
   const items: MenuProps['items'] = [
     {
       label: <a href="https://www.antgroup.com">1st menu item</a>,
@@ -38,9 +42,42 @@ function DrawerHeader({
     onClick: handleMenuClick,
   };
 
-  const data = useAppSelector(getLeadData);
-  const { id, customerName } = data;
-  console.log('lead', data);
+  const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
+
+  const leadData = useAppSelector(getLeadData);
+  const dispatch = useAppDispatch();
+
+  const handleArchive = () => {
+    const value = leadData.status === 'leads' ? 'archived' : 'leads';
+    const updateLeadModel = {
+      ...leadData,
+      status: value,
+      customer: leadData.customer?.id,
+      source: leadData.source?.id,
+      origin: leadData.origin?.id,
+      destination: leadData.destination?.id,
+      user: leadData.user?.id,
+      extraUser: leadData?.extraUser,
+    };
+    editLead({ guid: leadData.guid, updateLeadModel });
+  };
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      const merged = merge({}, leadData, updatedLeadData);
+      dispatch(setLeadData(merged));
+    }
+  }, [isLoading, error, dispatch]);
+
+  // PREV-NEXT functions
+  const handlePrevElement = () => {
+    const previousLeadGuid = getPreviousObjectId(leads, leadData.guid);
+    onOpenDrawer(previousLeadGuid);
+  };
+  const handleNextElement = () => {
+    const nextLeadId = getNextObjectId(leads, leadData.guid);
+    onOpenDrawer(nextLeadId);
+  };
 
   return (
     <div className="drawer-header">
@@ -49,19 +86,29 @@ function DrawerHeader({
           {isFullScreen && (
             <>
               <div
-                onClick={onClose}
+                onClick={closeDrawer}
                 className="control__item control__item_close"
               >
                 <img src="./img/drawer/close-x.svg" alt="" />
               </div>
-              <div className="control__item control__item_up-arrow">
+              <button
+                title="prev-element"
+                className="control__item control__item_up-arrow"
+                disabled={isLoadingLead}
+                onClick={handlePrevElement}
+              >
                 <img src="./img/drawer/up-arrow.svg" alt="" />
-              </div>
-              <div className="control__item control__item_down-arrow">
+              </button>
+              <button
+                title="next-element"
+                className="control__item control__item_down-arrow"
+                disabled={isLoadingLead}
+                onClick={handleNextElement}
+              >
                 <img src="./img/drawer/down-arrow.svg" alt="" />
-              </div>
+              </button>
               <div
-                onClick={() => onFullScreen(false)}
+                onClick={() => makeDrawerFull(false)}
                 className="control__item control__item_size"
               >
                 <img src="./img/drawer/resize.svg" alt="" />
@@ -75,8 +122,10 @@ function DrawerHeader({
             )}
           >
             <div className="d-flex">
-              <div className="drawer-header__id id_1">#{id}</div>
-              <div className="drawer-header__username">{customerName}</div>
+              <div className="drawer-header__id id_1">#100{leadData.id}</div>
+              <div className="drawer-header__username">
+                {leadData.customerName}
+              </div>
             </div>
             <div className="drawer-header__id id_2">PD: #110004, #110006</div>
           </div>
@@ -98,7 +147,7 @@ function DrawerHeader({
                 </a>
               </Dropdown>
             </div>
-            <div className="drawer-header__btnitem">
+            <div className="drawer-header__btnitem d-none">
               <Dropdown menu={menuProps} trigger={['click']}>
                 <Button>
                   <Space>
@@ -108,13 +157,20 @@ function DrawerHeader({
                 </Button>
               </Dropdown>
             </div>
-            <div className="drawer-header__btnitem">
-              <Button type="primary">Convert to order</Button>
-              <Button className="ml-10" type="primary" danger>
-                Archive
+            <div className="drawer-header__btnitem ">
+              <Button className="d-none" type="primary">
+                Convert to order
+              </Button>
+              <Button
+                onClick={handleArchive}
+                className="ml-10 mr-10"
+                type="primary"
+                danger
+              >
+                {leadData.status === 'archived' ? 'Back to Leads' : 'Archive'}
               </Button>
             </div>
-            <div className="drawer-header__btnitem">
+            <div className="drawer-header__btnitem d-none">
               <Dropdown menu={menuProps} trigger={['click']}>
                 <Button>
                   <Space>

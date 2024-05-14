@@ -18,7 +18,7 @@ function FeatPersonEmailInner() {
       <Input
         value={leadData.customer.email}
         onChange={handleChange}
-        style={{ width: 200, float: 'inline-end', height: 24 }}
+        style={{ width: 218, float: 'inline-end', height: 24 }}
       />
     </div>
   );

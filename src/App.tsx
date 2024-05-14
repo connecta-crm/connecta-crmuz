@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { Skeleton } from 'antd';
@@ -112,6 +111,28 @@ function App() {
           </DrawerFeatureProvider>
         </ModalProvider>
       </FilterProvider>
+                <Route path="/auth" element={<AuthLayout />}>
+                  <Route
+                    index
+                    element={<Navigate replace to="/auth/login" />}
+                  />
+                  <Route path="/auth/login" element={<Login />} />
+                  <Route
+                    path="/auth/confirm/email"
+                    element={<ConfirmEmail />}
+                  />
+                  <Route path="/auth/confirm/code" element={<ConfirmCode />} />
+                  <Route
+                    path="/auth/confirm/password"
+                    element={<ConfirmPassword />}
+                  />
+                </Route>
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </QueryClientProvider>
+        </DrawerFeatureProvider>
+      </ModalProvider>
     </DarkModeProvider>
   );
 }

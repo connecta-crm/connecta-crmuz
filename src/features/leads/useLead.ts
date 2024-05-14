@@ -5,11 +5,12 @@ export function useLead(guid: string | null) {
   const {
     data: lead,
     isPending: isLoading,
+    isFetching: isFetchingLead,
     error,
   } = useQuery({
     queryKey: ['lead', guid],
     queryFn: () => Leads.getLead(guid),
     enabled: !!guid,
   });
-  return { lead, isLoading, error };
+  return { lead, isLoading, isFetchingLead, error };
 }

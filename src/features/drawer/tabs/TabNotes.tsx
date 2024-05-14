@@ -1,58 +1,73 @@
 import JoditEditor from 'jodit-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useRef } from 'react';
+import { CancelNotesActionType } from './Tabs';
 
-function Notes() {
-  const [content, setContent] = useState('');
-  const [logs, setLogs] = useState([]);
-  const appendLog = useCallback(
-    // @ts-expect-error: Unreachable code error
-    (message) => {
-      console.log('logs = ', logs);
-      const newLogs = [...logs, message];
-      // @ts-expect-error: Unreachable code error
-      setLogs(newLogs);
-    },
-    [logs, setLogs],
-  );
-
+function Notes({
+  type,
+  content,
+  tabIndex,
+  onSetContent,
+}: {
+  type: CancelNotesActionType;
+  content: string;
+  tabIndex: number;
+  onSetContent: (type: CancelNotesActionType, note: string) => void;
+}) {
+  const editor = useRef(null);
   const config = useMemo(
     () => ({
+      useSearch: false,
+      spellcheck: false,
+      enter: 'P',
+      defaultMode: '1',
+      toolbarAdaptive: false,
+      toolbarSticky: false,
+      showCharsCounter: false,
+      showWordsCounter: false,
+      showXPathInStatusbar: false,
+      askBeforePasteHTML: false,
+      askBeforePasteFromWord: false,
+      minHeight: 150,
+      minWidth: null,
+      editorCssClass: 'alic',
+
+      zIndex: 0,
       readonly: false,
+      activeButtonsInReadOnly: ['source', 'fullsize', 'print', 'about'],
+      theme: 'default',
+      enableDragAndDropFileToEditor: true,
+      saveModeInCookie: false,
+      triggerChangeEvent: false, //
+      direction: 'ltr',
+      language: 'pt_BR',
+      debugLanguage: false,
+      i18n: 'en',
+      tabIndex: tabIndex,
+      useSplitMode: false,
+      colorPickerDefaultTab: 'background',
+      imageDefaultWidth: 100,
+      removeButtons: ['about', 'print', 'file'],
+      disablePlugins: ['paste', 'stat'],
+      events: {},
+      textIcons: false,
+      uploader: {
+        insertImageAsBase64URI: true,
+      },
+      placeholder: 'Text..',
+      toolbarButtonSize: 'small',
+      buttons:
+        'bold,italic,underline,ul,ol,indent,outdent,font,fontsize,image,|,link,|,file,align,spellcheck,undo,redo',
     }),
     [],
-  );
-
-  const onChange = useCallback(
-    // @ts-expect-error: Unreachable code error
-    (newContent) => {
-      appendLog(`onChange triggered with ${newContent}`);
-    },
-    [appendLog],
-  );
-
-  // useEffect(() => {
-  //   console.log('onChange = ', onChange);
-  // }, [onChange]);
-
-  const onBlur = useCallback(
-    // @ts-expect-error: Unreachable code error
-    (newContent) => {
-      appendLog(`onBlur triggered with ${newContent}`);
-      setContent(newContent);
-    },
-    [appendLog, setContent],
   );
 
   return (
     <div>
       <JoditEditor
-        value={content}
-        config={config}
-        // @ts-expect-error: Unreachable code error
-        tabIndex={1}
-        statusBar={false}
-        onBlur={onBlur}
-        onChange={onChange}
+        ref={editor}
+        value={content || ''}
+        config={config as unknown as undefined}
+        onChange={(newContent) => onSetContent(type, newContent)}
       />
     </div>
   );

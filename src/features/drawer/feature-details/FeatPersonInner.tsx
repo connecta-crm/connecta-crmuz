@@ -1,4 +1,5 @@
 import { Select, Spin } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useCustomers } from '../../customers/useCostumers';
@@ -38,17 +39,19 @@ function FeatPersonInner() {
     setSelectPerson(true);
   };
 
-  const handleChange = (_: number | string, option: Record | Record[]) => {
+  const handleChange = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'customer', value: option.data }));
-      // dispatch(updateField({ field: 'customer.id', value: id }));
     }
   };
 
   return (
     <>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Name</div>
+        <div className="d-flex">
+          <img src="./img/drawer/user.svg" alt="" />
+          <div className="form-label">Name</div>
+        </div>
         <Select
           size="small"
           showSearch
@@ -60,9 +63,9 @@ function FeatPersonInner() {
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('name', value)}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
-          notFoundContent={isLoading ? <Spin size="small" /> : 'No such name'}
+          notFoundContent={isLoading ? <Spin size="small" /> : 'No such name '}
           options={(customers || []).map((d: { id: number; name: string }) => ({
             value: d.id,
             data: d,
@@ -71,7 +74,10 @@ function FeatPersonInner() {
         />
       </div>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Email</div>
+        <div className="d-flex">
+          <img src="./img/drawer/mail.svg" alt="" />
+          <div className="form-label">Email</div>
+        </div>
         <Select
           size="small"
           showSearch
@@ -83,7 +89,7 @@ function FeatPersonInner() {
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('email', value)}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such email'}
           options={(customers || []).map(
@@ -96,7 +102,10 @@ function FeatPersonInner() {
         />
       </div>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Phone</div>
+        <div className="d-flex">
+          <img src="./img/drawer/phone.svg" alt="" />
+          <div className="form-label">Phone</div>
+        </div>
         <Select
           size="small"
           showSearch
@@ -108,7 +117,7 @@ function FeatPersonInner() {
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('phone', value)}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such phone'}
           options={(customers || []).map(
@@ -125,7 +134,7 @@ function FeatPersonInner() {
         <Input
           value={leadData.destination?.state.name}
           disabled
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
       <div className="d-flex justify-between">
@@ -141,7 +150,7 @@ function FeatPersonInner() {
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={
             isLoading ? <Spin size="small" /> : 'No such zip code'

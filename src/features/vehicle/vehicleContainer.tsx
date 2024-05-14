@@ -1,5 +1,5 @@
+import { message } from 'antd';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import Vehicle from './Vehicle';
 export type CarType = {
   id: number;
@@ -17,7 +17,7 @@ export default function VehicleContainer({
   const vehicleAdd = (a: CarType) => {
     for (let i = 0; i < cars.length; i++) {
       if (!cars[i].vehicle && !cars[i].vehicleYear) {
-        toast.error('Vehicle  required !');
+        message.error('Vehicle  required !');
         return;
       }
     }
@@ -26,7 +26,7 @@ export default function VehicleContainer({
 
   const vehicleRemove = (id: number) => {
     setCar(() => cars.filter((item) => item.id !== id));
-    toast.success("Vehicle deleted!")
+    message.success('Vehicle deleted!');
   };
   const getCarValue = (a: CarType) => {
     if (a.vehicle && a.vehicleYear) {
@@ -38,7 +38,7 @@ export default function VehicleContainer({
         return item;
       });
       setCar(f);
-      toast.success('Vehicle selected');
+      message.success('Vehicle selected');
     }
   };
 
@@ -57,7 +57,7 @@ export default function VehicleContainer({
           vehicleAdd={vehicleAdd}
           vehicleRemove={() => vehicleRemove(item.id)}
           key={item.id}
-          title={'Vehicle' + (item.id == 1 ? '' : ("#"+(index+1)))}
+          title={'Vehicle' + (item.id == 1 ? '' : '#' + (index + 1))}
         />
       ))}
     </>

@@ -2,9 +2,6 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
-import email from '../../../public/img/drawer/mail.svg';
-import phone from '../../../public/img/drawer/phone.svg';
-import user from '../../../public/img/drawer/user.svg';
 import FormControl from '../../ui/Form/FormControl';
 import Input from '../../ui/Form/Input';
 import UpCollapse from '../../ui/Form/UpCollapse';
@@ -13,6 +10,9 @@ import {
   useCreatePerson,
   usePerson,
 } from '../leads/useLeadDetails';
+import email from '/img/drawer/mail.svg';
+import phone from '/img/drawer/phone.svg';
+import user from '/img/drawer/user.svg';
 export default function Person({
   setPersonId,
 }: {

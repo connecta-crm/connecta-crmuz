@@ -1,24 +1,20 @@
-
 import { Flex, Radio, Select } from 'antd';
 import { FormEvent } from 'react';
-import bag from '../../../public/img/drawer/tab/bag.svg';
-import calendar from '../../../public/img/drawer/tab/calendar.svg';
-import list from '../../../public/img/drawer/tab/list.svg';
-import phone from '../../../public/img/drawer/tab/phone.svg';
-import user from '../../../public/img/drawer/tab/user.svg';
-import user2 from '../../../public/img/drawer/tab/user2.svg';
-import email from '../../../public/img/drawer/tab/email.svg';
-import task from '../../../public/img/drawer/tab/notes.svg';
-import payment from '../../../public/img/drawer/tab/payment.svg';
+import Calendar from '../Calendar';
 import UseDatePicker from '../DatePicker/DatePicker';
 import Input from '../Form/Input';
 import Modal from './Modal';
-import UseCalendar from '../calendar/UseCalendar';
-
-
+import bag from '/img/drawer/tab/bag.svg';
+import calendar from '/img/drawer/tab/calendar.svg';
+import email from '/img/drawer/tab/email.svg';
+import list from '/img/drawer/tab/list.svg';
+import task from '/img/drawer/tab/notes.svg';
+import payment from '/img/drawer/tab/payment.svg';
+import phone from '/img/drawer/tab/phone.svg';
+import user from '/img/drawer/tab/user.svg';
+import user2 from '/img/drawer/tab/user2.svg';
 
 export default function TaskModal() {
-  
   // const { hideModal } = useModal()
 
   const getFotmData = (e: FormEvent) => {
@@ -39,7 +35,12 @@ export default function TaskModal() {
         <div className="modal__col">
           <div className="form__control">
             <img src={''} width="17px" height="17px" alt="" />
-            <Input defaultValue="" type="text" placeholder="Title" name="title" />
+            <Input
+              defaultValue=""
+              type="text"
+              placeholder="Title"
+              name="title"
+            />
           </div>
 
           <div className="task__modal__menu form__control">
@@ -167,7 +168,7 @@ export default function TaskModal() {
           </div>
         </div>
         <div className="modal__col">
-        <UseCalendar/>
+          <Calendar />
         </div>
       </div>
     </Modal>

@@ -1,20 +1,16 @@
-import { Select } from 'antd';
+import { Select, message } from 'antd';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
-import dvigatel from '../../../public/img/drawer/dvigatel.svg';
-import date from '../../../public/img/drawer/est-ship-date.svg';
-import trailer from '../../../public/img/drawer/trailer.svg';
-import total from '../../../public/img/drawer/total-tariff.svg';
-import reservation from '../../../public/img/drawer/reservation.svg';
+import Person from '../../features/Person/Person';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import Pickup from '../../features/origin/Pickup';
-import Person from '../../features/person/Person';
+import { useCreateQuote } from '../../features/quotes/useQuote';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/vehicleContainer';
 import { LeadDataType } from '../../models/LeadDataType';
+import { QuoteDataType } from '../../models/QuoteDataType';
 import { useAppSelector } from '../../store/hooks';
 import UseDatePicker from '../DatePicker/DatePicker';
 import FormControl from '../Form/FormControl';
@@ -22,8 +18,11 @@ import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
 import Modal from './Modal';
-import { QuoteDataType } from '../../models/QuoteDataType';
-import { useCreateQuote } from '../../features/quotes/useQuote';
+import dvigatel from '/img/drawer/dvigatel.svg';
+import date from '/img/drawer/est-ship-date.svg';
+import reservation from '/img/drawer/reservation.svg';
+import total from '/img/drawer/total-tariff.svg';
+import trailer from '/img/drawer/trailer.svg';
 export default function QuoteModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
@@ -70,7 +69,7 @@ export default function QuoteModal() {
 
     if (errorText) {
       console.log(data);
-      toast.error(errorText + 'required ! ');
+      message.error(errorText + 'required ! ');
       return;
     }
     create(data);
@@ -119,10 +118,20 @@ export default function QuoteModal() {
             </FormControl>
             <Source setSource={setSource} />
             <FormControl title="Total tariff" img={total}>
-             <Input type="number" placeholder='$0' name='paymentTotalTariff' defaultValue='' />
+              <Input
+                type="number"
+                placeholder="$0"
+                name="paymentTotalTariff"
+                defaultValue=""
+              />
             </FormControl>
             <FormControl title="Reservation" img={reservation}>
-            <Input type="number" placeholder='$0' name='paymentReservation' defaultValue='' />
+              <Input
+                type="number"
+                placeholder="$0"
+                name="paymentReservation"
+                defaultValue=""
+              />
             </FormControl>
 
             <div className="form__footer">

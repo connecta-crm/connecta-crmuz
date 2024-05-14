@@ -1,4 +1,4 @@
-import hamburg from '../../public/img/dt_table/hamburg_menu.svg';
+import hamburg from '/img/dt_table/hamburg_menu.svg';
 import TableHeaderPagination from './TableHeaderPagination';
 import TableHeaderProvider from './TableHeaderProvider';
 import TableHeaderSearch from './TableHeaderSearch';

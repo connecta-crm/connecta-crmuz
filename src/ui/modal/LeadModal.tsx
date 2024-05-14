@@ -1,13 +1,10 @@
-import { Select } from 'antd';
+import { Select, message } from 'antd';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
-import dvigatel from '../../../public/img/drawer/dvigatel.svg';
-import date from '../../../public/img/drawer/est-ship-date.svg';
-import trailer from '../../../public/img/drawer/trailer.svg';
+import Person from '../../features/Person/Person.tsx';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
+import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
-import Person from '../../features/person/Person';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
@@ -20,7 +17,9 @@ import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
 import Modal from './Modal';
-import { useCreateLead } from '../../features/leads/useLeadDetails';
+import dvigatel from '/img/drawer/dvigatel.svg';
+import date from '/img/drawer/est-ship-date.svg';
+import trailer from '/img/drawer/trailer.svg';
 export default function LeadModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
@@ -66,7 +65,7 @@ export default function LeadModal() {
 
     if (errorText) {
       console.log(data);
-      toast.error(errorText + 'required ! ');
+      message.error(errorText + 'required ! ');
       return;
     }
     create(data);

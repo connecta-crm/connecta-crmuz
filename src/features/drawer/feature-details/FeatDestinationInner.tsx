@@ -1,6 +1,8 @@
 import { Input, Select, Spin } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import HighlightedWord from '../../../ui/HighlightedWord';
 import { useCities } from '../../address/useCities';
 import { getLeadData, updateField, type Location } from '../../leads/leadSlice';
 
@@ -12,23 +14,24 @@ function FeatDestinationInner() {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
-  const [isSelectCity, setSelectCity] = useState(false);
+  const [isSelectCity, setSelectCity] = useState(true);
   const [searchCity, setSearchCity] = useState<string | null>(null);
 
-  const { cities, isLoading } = useCities(isSelectCity, searchCity);
+  const { cities, isLoading } = useCities(searchCity);
 
   // CITY
   const handleFocusCity = () => {
     setSelectCity(true);
   };
 
-  const handleChangeCity = (id: number | string, option: Record | Record[]) => {
+  const handleChangeCity = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'destination', value: option?.data }));
     }
   };
 
   const handleSearchCity = (value: string) => {
+    setSelectCity(false);
     setSearchCity(value);
   };
 
@@ -37,24 +40,39 @@ function FeatDestinationInner() {
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Delivery city</div>
         <Select
-          size="small"
           showSearch
-          optionFilterProp="children"
+          defaultActiveFirstOption={false}
+          suffixIcon={null}
           filterOption={false}
+          size="small"
+          optionFilterProp="children"
           placeholder="Search city"
           defaultValue={leadData.destination.name}
           value={leadData.destination.name}
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
-          notFoundContent={isLoading ? <Spin size="small" /> : 'No such city'}
-          options={(cities || []).map((d: { id: number; name: string }) => ({
-            value: d.id,
-            data: d,
-            label: d.name,
-          }))}
+          notFoundContent={
+            isSelectCity || !searchCity ? null : isLoading ? (
+              <Spin size="small" />
+            ) : (
+              'No such city'
+            )
+          }
+          options={(cities || []).map(
+            (d: {
+              id: number;
+              name: string;
+              zip: string;
+              state: { code: string };
+            }) => ({
+              value: d.id,
+              data: d,
+              label: `${d.name}, ${d.state.code}, ${d.zip}`,
+            }),
+          )}
         />
       </div>
       <div className="d-flex justify-between mb-5">
@@ -62,7 +80,7 @@ function FeatDestinationInner() {
         <Input
           value={leadData.destination?.state.name}
           disabled
-          style={{ width: 200, float: 'inline-end', height: 24 }}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
       <div className="d-flex justify-between">
@@ -78,17 +96,30 @@ function FeatDestinationInner() {
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
-          style={{ width: 200 }}
+          style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={
-            isLoading ? <Spin size="small" /> : 'No such zip code'
+            isSelectCity || !searchCity ? null : isLoading ? (
+              <Spin size="small" />
+            ) : (
+              'No such zip code'
+            )
           }
-          options={(cities || []).map((d: { id: number; zip: string }) => ({
-            value: d.id,
-            data: d,
-            label: d.zip,
-          }))}
-        />
+        >
+          {(cities || []).map(
+            (d: {
+              id: number;
+              name: string;
+              zip: string;
+              state: { code: string };
+            }) => (
+              <Select.Option key={d.id} value={d.id} data={d}>
+                {`${d.name}, ${d.state.code}, `}
+                {<HighlightedWord value={d.zip} searchCity={searchCity} />}
+              </Select.Option>
+            ),
+          )}
+        </Select>
       </div>
     </>
   );

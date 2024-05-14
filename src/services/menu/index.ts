@@ -2,18 +2,18 @@ import { ComponentType, LazyExoticComponent, lazy } from 'react';
 
 import Leads from '../../pages/Leads';
 
-import firstImg from '../../../public/img/sidebar/01.svg';
-import firstImgActive from '../../../public/img/sidebar/01_active.svg';
-import secondImg from '../../../public/img/sidebar/02.svg';
-import secondImgActive from '../../../public/img/sidebar/02_active.svg';
-import thirdImg from '../../../public/img/sidebar/03.svg';
-import thirdImgActive from '../../../public/img/sidebar/03_active.svg';
-import fifthImg from '../../../public/img/sidebar/05.svg';
-import fifthImgActive from '../../../public/img/sidebar/05_active.svg';
-import sixthImg from '../../../public/img/sidebar/06.svg';
-import sixthImgActive from '../../../public/img/sidebar/06_active.svg';
-import ninthImg from '../../../public/img/sidebar/09.svg';
-import ninthImgActive from '../../../public/img/sidebar/09_active.svg';
+import firstImg from '/img/sidebar/01.svg';
+import firstImgActive from '/img/sidebar/01_active.svg';
+import secondImg from '/img/sidebar/02.svg';
+import secondImgActive from '/img/sidebar/02_active.svg';
+import thirdImg from '/img/sidebar/03.svg';
+import thirdImgActive from '/img/sidebar/03_active.svg';
+import fifthImg from '/img/sidebar/05.svg';
+import fifthImgActive from '/img/sidebar/05_active.svg';
+import sixthImg from '/img/sidebar/06.svg';
+import sixthImgActive from '/img/sidebar/06_active.svg';
+import ninthImg from '/img/sidebar/09.svg';
+import ninthImgActive from '/img/sidebar/09_active.svg';
 
 import { MenuNestedData, elements } from './nestedElements';
 

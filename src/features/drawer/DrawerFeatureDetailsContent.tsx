@@ -2,15 +2,18 @@ import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
+import { CONDITION_TYPES, TRAILER_TYPES } from '../../utils/constants';
 import { formatDate } from '../../utils/helpers';
 import { getLeadData } from '../leads/leadSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
+import ArrowIcon from './feature-details/ArrowIcon';
 import FeatConditionInner from './feature-details/FeatConditionInner';
 import FeatDestinationInner from './feature-details/FeatDestinationInner';
 import FeatEstShipDateInner from './feature-details/FeatEstShipDateInner';
-import FeatItemHeader from './feature-details/FeatItemHeader';
+import FeatItemClose from './feature-details/FeatItemClose';
+import FeatItemLabel from './feature-details/FeatItemLabel';
+import FeatItemOpen from './feature-details/FeatItemOpen';
 import FeatOriginInner from './feature-details/FeatOriginInner';
-import FeatReservationInner from './feature-details/FeatReservationInner';
 import FeatSourceInner from './feature-details/FeatSourceInner';
 import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
@@ -28,60 +31,100 @@ function DrawerFeatureDetailsContent() {
     source: { name: sourceName },
     price: totalTariff,
     reservationPrice,
+    leadVehicles,
   } = useAppSelector(getLeadData);
+
+  const renderLeadVehicles = (): CollapseProps['items'] => {
+    return leadVehicles.map((vehicle, index) => ({
+      key: String(index + 20),
+      label: (
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel
+              label={index === 0 ? 'Vehicle' : `Vehicle #${index + 1}`}
+              icon="car"
+            />
+            {openInnerPanels?.includes(String(index + 20)) ? (
+              <FeatItemOpen
+                keyValue={String(index + 20)}
+                feature="lead"
+                featureItemField="leadVehicles"
+                addRemoveBtn={index === 0 ? 'add' : 'remove'}
+                featureItemData={vehicle}
+              />
+            ) : (
+              <FeatItemClose
+                keyValue={String(index + 20)}
+                label={`${vehicle.vehicleYear} ${vehicle.vehicle?.mark.name || ''} ${vehicle.vehicle?.name || ''}`}
+              />
+            )}
+            <ArrowIcon keyValue={String(index + 20)} />
+          </div>
+        </div>
+      ),
+      children: (
+        <DrawerFeatureRow>
+          <FeatVehicleInner vehicleIndex={index} vehicleItem={vehicle} />
+        </DrawerFeatureRow>
+      ),
+      showArrow: false,
+    }));
+  };
 
   const items: CollapseProps['items'] = [
     {
-      key: '1',
-      label: (
-        <FeatItemHeader
-          keyValue={'1'}
-          itemCloseLabel={condition}
-          itemLabel="Vehicle"
-          featureItemField="condition"
-          icon="car"
-          feature="lead"
-          hasAddAction={true}
-        />
-      ),
-      children: (
-        <DrawerFeatureRow>
-          <FeatVehicleInner />
-        </DrawerFeatureRow>
-      ),
-      showArrow: false,
-    },
-    {
       key: '2',
       label: (
-        <FeatItemHeader
-          keyValue={'2'}
-          itemCloseLabel={condition}
-          itemLabel="Condition"
-          icon="dvigatel"
-          feature="lead"
-          featureItemField="condition"
-          textWithBg={true}
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Condition" icon="dvigatel" />
+            {openInnerPanels?.includes('2') ? (
+              <FeatItemOpen
+                keyValue="2"
+                feature="lead"
+                featureItemField="condition"
+                series={false}
+              />
+            ) : (
+              <FeatItemClose
+                keyValue="2"
+                textWithBg={true}
+                label={
+                  CONDITION_TYPES.find((type) => type.value === condition)
+                    ?.label || undefined
+                }
+                series={false}
+              />
+            )}
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatConditionInner />
+          <FeatConditionInner feature="lead" keyValue="2" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
+      className: 'mb-12',
     },
     {
       key: '3',
       label: (
-        <FeatItemHeader
-          keyValue={'3'}
-          itemCloseLabel={originName}
-          itemLabel="Origin"
-          icon="origin"
-          feature="lead"
-          featureItemField="origin"
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Origin" icon="origin" />
+            {openInnerPanels?.includes('3') ? (
+              <FeatItemOpen
+                keyValue={'3'}
+                feature="lead"
+                featureItemField="origin"
+              />
+            ) : (
+              <FeatItemClose keyValue={'3'} label={originName} />
+            )}
+            <ArrowIcon keyValue={'3'} />
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
@@ -93,14 +136,21 @@ function DrawerFeatureDetailsContent() {
     {
       key: '4',
       label: (
-        <FeatItemHeader
-          keyValue={'4'}
-          itemCloseLabel={destinationName}
-          itemLabel="Destination"
-          icon="destination"
-          feature="lead"
-          featureItemField="destination"
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Destination" icon="destination" />
+            {openInnerPanels?.includes('4') ? (
+              <FeatItemOpen
+                keyValue="4"
+                feature="lead"
+                featureItemField="destination"
+              />
+            ) : (
+              <FeatItemClose keyValue="4" label={destinationName} />
+            )}
+            <ArrowIcon keyValue={'4'} />
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
@@ -108,23 +158,38 @@ function DrawerFeatureDetailsContent() {
         </DrawerFeatureRow>
       ),
       showArrow: false,
+      className: 'mb-12',
     },
     {
       key: '5',
       label: (
-        <FeatItemHeader
-          keyValue={'5'}
-          itemCloseLabel={trailerType}
-          itemLabel="Trailer Type"
-          icon="trailer"
-          feature="lead"
-          featureItemField="trailerType"
-          textWithBg={true}
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Trailer Type" icon="trailer" />
+            {openInnerPanels?.includes('5') ? (
+              <FeatItemOpen
+                keyValue="5"
+                feature="lead"
+                featureItemField="trailerType"
+                series={false}
+              />
+            ) : (
+              <FeatItemClose
+                keyValue="5"
+                label={
+                  TRAILER_TYPES.find((type) => type.value === trailerType)
+                    ?.label
+                }
+                textWithBg={true}
+                series={false}
+              />
+            )}
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTrailertypeInner />
+          <FeatTrailertypeInner feature="lead" keyValue="5" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -132,38 +197,61 @@ function DrawerFeatureDetailsContent() {
     {
       key: '6',
       label: (
-        <FeatItemHeader
-          keyValue={'6'}
-          itemCloseLabel={formatDate(dateEstShip)}
-          itemLabel="Est. ship date"
-          icon="date"
-          feature="lead"
-          featureItemField="dateEstShip"
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Est. ship date" icon="date" />
+            {openInnerPanels?.includes('6') ? (
+              <FeatItemOpen
+                keyValue="6"
+                feature="lead"
+                featureItemField="dateEstShip"
+                series={false}
+              />
+            ) : (
+              <FeatItemClose
+                keyValue="6"
+                label={formatDate(dateEstShip ? dateEstShip : '')}
+                series={false}
+              />
+            )}
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatEstShipDateInner />
+          <FeatEstShipDateInner feature="lead" keyValue="6" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
+      className: 'mb-12',
     },
     {
       key: '7',
       label: (
-        <FeatItemHeader
-          keyValue={'7'}
-          itemCloseLabel={sourceName}
-          itemLabel="Source"
-          icon="source"
-          feature="lead"
-          featureItemField="source"
-          textWithBg={true}
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Source" icon="source" />
+            {openInnerPanels?.includes('7') ? (
+              <FeatItemOpen
+                keyValue="7"
+                feature="lead"
+                featureItemField="source"
+                series={false}
+              />
+            ) : (
+              <FeatItemClose
+                keyValue="7"
+                label={sourceName}
+                textWithBg={true}
+                series={false}
+              />
+            )}
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatSourceInner />
+          <FeatSourceInner feature="lead" keyValue="7" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -171,18 +259,25 @@ function DrawerFeatureDetailsContent() {
     {
       key: '8',
       label: (
-        <FeatItemHeader
-          keyValue="8"
-          itemCloseLabel={'$' + String(totalTariff)}
-          itemLabel="Total tariff"
-          icon="total-tariff"
-          feature="lead"
-          featureItemField="price"
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Total tariff" icon="total-tariff" />
+            {openInnerPanels?.includes('8') ? (
+              <FeatItemOpen
+                keyValue="8"
+                feature="lead"
+                featureItemField="price"
+              />
+            ) : (
+              <FeatItemClose keyValue="8" label={'$' + String(totalTariff)} />
+            )}
+            <ArrowIcon keyValue={'8'} />
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTotalTariffInner />
+          <FeatTotalTariffInner keyValue="8" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -190,31 +285,36 @@ function DrawerFeatureDetailsContent() {
     {
       key: '9',
       label: (
-        <FeatItemHeader
-          keyValue="9"
-          itemCloseLabel={'$' + String(reservationPrice)}
-          itemLabel="Reservation"
-          icon="reservation"
-          feature="lead"
-          featureItemField="reservationPrice"
-        />
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Reservation" icon="reservation" />
+            {openInnerPanels?.includes('9') ? (
+              <FeatItemOpen
+                keyValue="9"
+                feature="lead"
+                featureItemField="reservationPrice"
+              />
+            ) : (
+              <FeatItemClose
+                keyValue="9"
+                label={'$' + String(reservationPrice)}
+              />
+            )}
+            <ArrowIcon keyValue={'9'} />
+          </div>
+        </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatReservationInner />
+          <FeatTotalTariffInner keyValue="9" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
     },
   ];
 
-  // Agar condition yoki boshqa null bolsa, uni hide qilish!
-  const updatedItems = items.filter((item) => {
-    if (!condition) {
-      return item.key !== '2';
-    }
-    return item;
-  });
+  const vehicleItems = renderLeadVehicles();
+  const mergeItems = vehicleItems?.concat(items);
 
   return (
     <div className="box-header-inner">
@@ -223,7 +323,7 @@ function DrawerFeatureDetailsContent() {
         ghost
         collapsible="icon"
         onChange={onChangeInnerCollapse}
-        items={updatedItems}
+        items={mergeItems}
       />
     </div>
   );

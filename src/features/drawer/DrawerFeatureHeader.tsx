@@ -1,5 +1,15 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { merge } from 'lodash';
+import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {
+  getLeadData,
+  resetField as resetLeadField,
+  setLeadData,
+} from '../leads/leadSlice';
+import { useLeadEdit } from '../leads/useLeadEdit';
 
 type DrawerFeatureHeaderProps = {
   keyValue: string;
@@ -17,12 +27,39 @@ function DrawerFeatureHeader({
     isEditDetails,
     onEditDetails,
     isEditPerson,
+    isEditNotes,
     onEditPerson,
+    onEditNotes,
     onChangeMainCollapse,
     onChangeInnerCollapse,
   } = useDrawerFeature();
 
-  // ?DETAILS
+  const leadData = useAppSelector(getLeadData);
+  const dispatch = useAppDispatch();
+  const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
+
+  const updateLeadModel = {
+    ...leadData,
+    customer: leadData.customer?.id,
+    source: leadData.source?.id,
+    origin: leadData.origin?.id,
+    destination: leadData.destination?.id,
+    user: leadData.user?.id,
+    extraUser: leadData?.extraUser,
+  };
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      const merged = merge({}, leadData, updatedLeadData);
+      dispatch(setLeadData(merged));
+      // onChangeInnerCollapse(keyValue);
+      onEditPerson(false);
+      onEditNotes(false);
+    }
+  }, [isLoading, keyValue, error]);
+
+  // * DETAILS
+
   const handleEditDetails = (keyValue: string) => {
     onEditDetails(true);
     if (!openMainPanels.includes(keyValue)) {
@@ -39,7 +76,9 @@ function DrawerFeatureHeader({
     onEditDetails(false);
     onChangeInnerCollapse([]);
   };
-  // ?PERSON
+
+  // * PERSON
+
   const handleEditPerson = (keyValue: string) => {
     onEditPerson(true);
     if (!openMainPanels.includes(keyValue)) {
@@ -47,11 +86,26 @@ function DrawerFeatureHeader({
     }
   };
   const handleSavePerson = () => {
-    // some locig to save the data in DB and update UI
-    onEditPerson(false);
+    editLead({ guid: leadData.guid, updateLeadModel });
   };
   const handleCancelPerson = () => {
+    dispatch(resetLeadField({ field: 'customer' }));
+    // dispatch(resetQuoteField({ field }));
     onEditPerson(false);
+  };
+
+  // * NOTES
+
+  const handleEditNotes = () => {
+    onEditNotes(true);
+    console.log(keyValue);
+  };
+  const handleSaveNotes = () => {
+    editLead({ guid: leadData.guid, updateLeadModel });
+  };
+  const handleCancelNotes = () => {
+    dispatch(resetLeadField({ field: 'notes' }));
+    onEditNotes(false);
   };
 
   function Content() {
@@ -116,6 +170,7 @@ function DrawerFeatureHeader({
               }}
               block
               size="small"
+              disabled={isLoading}
             >
               Cancel
             </Button>
@@ -123,12 +178,13 @@ function DrawerFeatureHeader({
               className="ml-10"
               type="primary"
               size="small"
+              disabled={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 handleSavePerson();
               }}
             >
-              Save
+              {isLoading ? <LoadingOutlined /> : 'Save'}
             </Button>
           </div>
         ) : (
@@ -151,8 +207,46 @@ function DrawerFeatureHeader({
           </>
         );
         break;
-      case 'other':
-        element = 'other';
+      case 'notes':
+        element = isEditNotes ? (
+          <div className="detail__btns d-flex align-center pr-0">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelNotes();
+              }}
+              block
+              size="small"
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="ml-10"
+              type="primary"
+              size="small"
+              disabled={isLoading}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSaveNotes();
+              }}
+            >
+              {isLoading ? <LoadingOutlined /> : 'Save'}
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div
+              className="box-header__edit ml-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditNotes();
+              }}
+            >
+              <img src="./img/drawer/pen.svg" alt="" />
+            </div>
+          </>
+        );
         break;
     }
 

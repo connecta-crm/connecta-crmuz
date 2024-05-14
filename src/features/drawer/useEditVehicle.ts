@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import Leads from '../../services/leads';
 import { VehicleFormData } from './vehicleSlice';
 
@@ -9,10 +9,12 @@ export function useEditVehicle() {
     mutationFn: (formData: VehicleFormData) =>
       Leads['vehicleEditFake'](formData),
     onSuccess: () => {
-      toast.success('Vehicle successfully edited');
+      message.success('Vehicle successfully edited');
+      // const success = () => {
+      // };
       // queryClient.invalidateQueries({ queryKey: ["vehicles"] });
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => message.error(err.message),
   });
 
   return { isLoading, editVehicle };
