@@ -8,7 +8,7 @@ type Breadcrumb = {
   path: string;
 };
 
-function HeaderMenu() {
+function HeaderMenu({search}:{search:string|undefined}) {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const isActive = searchParams.get('status') || '';
@@ -59,37 +59,46 @@ function HeaderMenu() {
 
   return (
     <div className="header__menu menu">
-      <ul className="menu__list">
-        {currentPath?.['status'] ? (
-          currentPath['status'].map((item) => (
-            <li key={item.id}>
-              <Link
-                to={handleLink(item)}
-                className={classNames(
-                  isActive === item.value ? '_active' : '',
-                  'menu__link',
-                )}
-              >
-                {item.title}
-              </Link>
-            </li>
-          ))
-        ) : (
-          <>
-            {breadcrumbs.length &&
-              breadcrumbs
-                .map((crumb: Breadcrumb, index) => (
-                  <li
-                    key={index}
-                    className={`menu__item_breadcrumb menu__item_breadcrumb_${index + 1}`}
-                  >
-                    <a className="menu__link">{crumb.title}</a>
-                  </li>
-                ))
-                .reverse()}
-          </>
-        )}
-      </ul>
+     {
+      !search? <ul className="menu__list">
+      {currentPath?.['status'] ? (
+        currentPath['status'].map((item) => (
+          <li key={item.id}>
+            <Link
+              to={handleLink(item)}
+              className={classNames(
+                isActive === item.value ? '_active' : '',
+                'menu__link',
+              )}
+            >
+              {item.title}
+            </Link>
+          </li>
+        ))
+      ) : (
+        <>
+          {breadcrumbs.length &&
+            breadcrumbs
+              .map((crumb: Breadcrumb, index) => (
+                <li
+                  key={index}
+                  className={`menu__item_breadcrumb menu__item_breadcrumb_${index + 1}`}
+                >
+                  <a className="menu__link">{crumb.title}</a>
+                </li>
+              ))
+              .reverse()}
+        </>
+      )}
+    </ul>
+    :
+    <Link
+    to={""}
+    className="menu__link _active"
+  >
+    Global search
+  </Link>
+     }
     </div>
   );
 }

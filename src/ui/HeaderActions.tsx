@@ -1,4 +1,6 @@
 import { Dropdown, MenuProps, Space } from 'antd';
+import { useState } from 'react';
+import { useFilter } from '../context/FilterContext';
 
 const itemsCreate: MenuProps['items'] = [
   {
@@ -37,11 +39,38 @@ const itemsUser: MenuProps['items'] = [
     key: '4',
   },
 ];
-function HeaderActions() {
+function HeaderActions({
+  searchHandler,
+}: {
+  searchHandler: (text: string) => void;
+}) {
+  const [value, setValue] = useState('');
+  const { showFilter, hideFilter } = useFilter();
+
+  const getSearchValue = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    searchHandler(value);
+    showFilter();
+  };
+
   return (
     <div className="header__actions">
       <div className="header__search">
-        <input type="text" placeholder="Search" className="input-search-big" />
+        <form onSubmit={getSearchValue}>
+          <input
+            value={value}
+            onChange={(e) => {
+              if (!e.target.value) {
+                searchHandler('');
+                hideFilter();
+              }
+              setValue(e.target.value);
+            }}
+            type="search"
+            placeholder="Search"
+            className="input-search-big"
+          />
+        </form>
       </div>
       <Dropdown
         menu={{

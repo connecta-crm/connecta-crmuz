@@ -3,6 +3,7 @@ import { useState } from 'react';
 import LeadTable from '../features/leads/LeadTable';
 import DrawerApp from '../ui/Drawer';
 import LeadModal from '../ui/modal/LeadModal';
+import Filter from '../ui/filter/Filter';
 
 function Leads() {
   const [open, setOpen] = useState(false);
@@ -33,6 +34,7 @@ function Leads() {
         onClose={closeDrawer}
         onFullScreen={makeDrawerFull}
       />
+      <Filter/>
     </div>
   );
 }

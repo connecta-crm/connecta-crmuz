@@ -1,7 +1,6 @@
 import { Table } from 'antd';
 import { QuotesTableColumns } from './QuotesTableColumn';
 import { QuotesTableDataType } from './QuotesTableColumnType';
-// import { useQuotes } from './useQuotes';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { useQuotes } from './useQuotes';

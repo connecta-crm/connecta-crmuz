@@ -41,18 +41,18 @@ export default function QuoteModal() {
     const data: QuoteDataType = {
       vehicles: carData,
       status: 'quote',
-      price: 2147483647,
+      price: items.paymentTotalTariff,
       condition: conditionValue,
       trailerType: trailerType,
       notes: items.cm_note,
-      reservationPrice: 2147483647,
+      reservationPrice: items.paymentReservation,
       dateEstShip: dateEstShip,
       customer: personId,
       source: source,
       origin: origin,
       destination: delivery,
-      paymentTotalTariff:items.paymentTotalTariff,
-      paymentReservation:items.paymentReservation,
+      // paymentTotalTariff:items.paymentTotalTariff,
+      // paymentReservation:items.paymentReservation,
       user: user?.id,
       // extraUser: 0,
     };
@@ -74,6 +74,8 @@ export default function QuoteModal() {
       return;
     }
     create(data);
+    console.log(data);
+    
   };
 
   return (
