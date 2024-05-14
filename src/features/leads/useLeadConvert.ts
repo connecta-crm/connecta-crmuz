@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import Leads from '../../services/leads';
 
 export type LeadConvertParams = {
@@ -23,9 +23,9 @@ export function useLeadConvert() {
       queryClient.setQueryData(['leadConvert'], data);
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       queryClient.invalidateQueries({ queryKey: ['lead'] });
-      toast.success('Lead Convert successfully changed');
+      message.success('Lead Convert successfully changed');
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => message.error(err.message),
   });
 
   return { isLoading, leadConvert, isSuccess, error };

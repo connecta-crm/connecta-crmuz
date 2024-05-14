@@ -27,6 +27,7 @@ $left-60px: -60px;
     width: $spacing-12;
     height: $spacing-12;
     transition-duration: $transition-duration-200;
+    background-color: transparent;
     cursor: pointer;
     &:hover {
       background-color: $color-gray-200;

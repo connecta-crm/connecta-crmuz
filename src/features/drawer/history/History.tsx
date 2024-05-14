@@ -16,8 +16,7 @@ export type NoteItemType = {
 };
 
 function History() {
-  const { leadAttachments, count } = useLeadAttachments();
-  console.log(leadAttachments, count);
+  const { leadAttachments } = useLeadAttachments();
 
   const notes =
     leadAttachments?.filter(({ type }: { type: string }) => type === 'note') ??

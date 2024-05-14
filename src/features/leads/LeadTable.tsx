@@ -1,14 +1,9 @@
 import { Table } from 'antd';
-import { useEffect, useState } from 'react';
-import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { useAppDispatch } from '../../store/hooks';
+import { DrawerProps } from '../../ui/Drawer';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
-import { setLeadData } from './leadSlice';
-import { useLead } from './useLead';
-import { useLeads } from './useLeads';
 
 const rowSelection = {
   onChange: (
@@ -26,33 +21,20 @@ const rowSelection = {
   }),
 };
 
-function LeadTable() {
-  const [guid, setGuid] = useState<string | null>(null);
-  const { leads, count, isLoading: isLoadingLeads } = useLeads();
-  const { lead, isLoading: isLoadingLead, error } = useLead(guid);
+type LeadTableProps = {
+  isLoadingLeads: boolean;
+  guid: string;
+  count: number;
+} & DrawerProps;
 
-  const { openDrawer } = useDrawerFeature();
-
-  const dispatch = useAppDispatch();
-
-  const handleOpenDrawer = (guid: string) => {
-    setGuid(null);
-    setTimeout(() => setGuid(guid), 0);
-  };
-
-  useEffect(() => {
-    if (!isLoadingLead && !error) {
-      dispatch(setLeadData(lead));
-      openDrawer();
-    }
-  }, [isLoadingLead, error, dispatch]);
-
-  useEffect(() => {
-    if (!isLoadingLeads && leads.length && lead && Object.keys(lead)?.length) {
-      dispatch(setLeadData(lead));
-    }
-  }, [leads, lead, dispatch, isLoadingLeads]);
-
+function LeadTable({
+  leads,
+  isLoadingLeads,
+  isLoadingLead,
+  guid,
+  count,
+  onOpenDrawer,
+}: LeadTableProps) {
   return (
     <>
       <div className="dt-header">
@@ -65,14 +47,13 @@ function LeadTable() {
             rowKey="id"
             rowSelection={{ ...rowSelection }}
             columns={LeadTableColumns}
-            dataSource={leads}
-            pagination={{ pageSize: leads?.length }}
+            dataSource={leads as unknown as LeadTableDataType[] | undefined}
             loading={isLoadingLeads || (isLoadingLead && !!guid)}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;
                 const element = target.className;
-                element == 'table__id' && handleOpenDrawer(data.guid);
+                element == 'table__id' && onOpenDrawer(data.guid);
               },
             })}
           />

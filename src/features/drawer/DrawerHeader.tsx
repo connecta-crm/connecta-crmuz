@@ -3,17 +3,21 @@ import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import { merge } from 'lodash';
 import { useEffect } from 'react';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { DrawerProps } from '../../ui/Drawer';
 import { classNames } from '../../utils/helpers';
-import { getLeadData, setLeadData, updateField } from '../leads/leadSlice';
+import {
+  LeadData,
+  getLeadData,
+  setLeadData,
+  updateField,
+} from '../leads/leadSlice';
 import { useLeadEdit } from '../leads/useLeadEdit';
-import { DrawerControlProps } from './DrawerControl';
 
-function DrawerHeader({
-  isFullScreen,
-  onClose,
-  onFullScreen,
-}: DrawerControlProps) {
+function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+  const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
+
   const items: MenuProps['items'] = [
     {
       label: <a href="https://www.antgroup.com">1st menu item</a>,
@@ -71,6 +75,40 @@ function DrawerHeader({
     }
   }, [isLoading, error, dispatch]);
 
+  // PREV-NEXT functions
+
+  const currentLeadGuid = leadData.guid;
+  function getNextLeadGuid() {
+    if (Array.isArray(leads)) {
+      const currentIndex = leads.findIndex(
+        (lead: LeadData) => lead.guid === currentLeadGuid,
+      );
+      const nextIndex =
+        currentIndex === leads.length - 1 ? 0 : currentIndex + 1;
+      return leads[nextIndex].guid;
+    }
+  }
+
+  function getPreviousObjectId() {
+    if (Array.isArray(leads)) {
+      const currentIndex = leads.findIndex(
+        (lead: LeadData) => lead.guid === currentLeadGuid,
+      );
+      const previousIndex =
+        currentIndex === 0 ? leads.length - 1 : currentIndex - 1;
+      return leads[previousIndex].guid;
+    }
+  }
+
+  const handlePrevElement = () => {
+    const previousLeadGuid = getPreviousObjectId();
+    onOpenDrawer(previousLeadGuid);
+  };
+  const handleNextElement = () => {
+    const nextLeadId = getNextLeadGuid();
+    onOpenDrawer(nextLeadId);
+  };
+
   return (
     <div className="drawer-header">
       <div className="drawer-header__container">
@@ -78,19 +116,29 @@ function DrawerHeader({
           {isFullScreen && (
             <>
               <div
-                onClick={onClose}
+                onClick={closeDrawer}
                 className="control__item control__item_close"
               >
                 <img src="./img/drawer/close-x.svg" alt="" />
               </div>
-              <div className="control__item control__item_up-arrow">
+              <button
+                title="prev-element"
+                className="control__item control__item_up-arrow"
+                disabled={isLoadingLead}
+                onClick={handlePrevElement}
+              >
                 <img src="./img/drawer/up-arrow.svg" alt="" />
-              </div>
-              <div className="control__item control__item_down-arrow">
+              </button>
+              <button
+                title="next-element"
+                className="control__item control__item_down-arrow"
+                disabled={isLoadingLead}
+                onClick={handleNextElement}
+              >
                 <img src="./img/drawer/down-arrow.svg" alt="" />
-              </div>
+              </button>
               <div
-                onClick={() => onFullScreen(false)}
+                onClick={() => makeDrawerFull(false)}
                 className="control__item control__item_size"
               >
                 <img src="./img/drawer/resize.svg" alt="" />

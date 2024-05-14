@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Profile from '../../services/profile';
 import { useAppDispatch } from '../../store/hooks';
@@ -12,13 +12,13 @@ export function useConfirmPassword() {
     mutationFn: ({ password }: { password: string }) =>
       Profile.confirmPassword(password),
     onSuccess: (data) => {
-      toast.success(data.message);
+      message.success(data.message);
       dispatch(logout());
       navigate('/auth/login/', { replace: true });
     },
     onError: (err) => {
       console.log(err);
-      toast.error(err.message);
+      message.error(err.message);
     },
   });
 

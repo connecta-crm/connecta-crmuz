@@ -53,11 +53,18 @@ export default function Pickup({
               value,
               record: DefaultOptionType | DefaultOptionType[],
             ) => onChangeHandler(value, record)}
-            options={(citys || []).map((d: { id: number; name: string,zip:string,state:{code:string} }) => ({
-              value: d.id,
-              data: d,
-              label: d.name+ ", " + d.state.code + " " +  d.zip,
-            }))}
+            options={(citys || []).map(
+              (d: {
+                id: number;
+                name: string;
+                zip: string;
+                state: { code: string };
+              }) => ({
+                value: d.id,
+                data: d,
+                label: d.name + ', ' + d.state.code + ' ' + d.zip,
+              }),
+            )}
           />
         </InputCol>
       </InputRow>
@@ -97,11 +104,18 @@ export default function Pickup({
               value,
               record: DefaultOptionType | DefaultOptionType[],
             ) => onChangeHandler(value, record)}
-            options={(citys || []).map((d: { id: number; name: string,zip:string,state:{code:string} }) => ({
-              value: d.id,
-              data: d,
-              label: d.name+ ", " + d.state.code + " " +  d.zip,
-            }))}
+            options={(citys || []).map(
+              (d: {
+                id: number;
+                name: string;
+                zip: string;
+                state: { code: string };
+              }) => ({
+                value: d.id,
+                data: d,
+                label: d.name + ', ' + d.state.code + ' ' + d.zip,
+              }),
+            )}
           />
         </InputCol>
       </InputRow>

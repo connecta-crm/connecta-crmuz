@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import { message } from 'antd';
 import { FormEvent, useState } from 'react';
-import toast from 'react-hot-toast';
 import eyeIcon from '../../../public/img/login/eye.svg';
 import { useConfirmPassword } from './useConfirmPassword';
 
@@ -17,7 +17,7 @@ function ConfirmPasswordForm() {
     if (!password.trim()) return;
 
     if (password !== confirmPassword) {
-      toast.error('The confirm password is wrong!');
+      message.error('The confirm password is wrong!');
       return;
     }
 

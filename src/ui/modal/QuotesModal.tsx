@@ -1,6 +1,5 @@
-import { Select } from 'antd';
+import { Select, message } from 'antd';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import dvigatel from '../../../public/img/drawer/dvigatel.svg';
 import date from '../../../public/img/drawer/est-ship-date.svg';
 import reservation from '../../../public/img/drawer/reservation.svg';
@@ -70,7 +69,7 @@ export default function QuoteModal() {
 
     if (errorText) {
       console.log(data);
-      toast.error(errorText + 'required ! ');
+      message.error(errorText + 'required ! ');
       return;
     }
     create(data);

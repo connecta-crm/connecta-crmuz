@@ -1,23 +1,7 @@
-import { useDrawerFeature } from '../context/DrawerFeatureContext';
-import LeadTable from '../features/leads/LeadTable';
-import DrawerApp from '../ui/Drawer';
-import LeadModal from '../ui/modal/LeadModal';
+import LeadsApp from '../features/leads/Leads';
 
 function Leads() {
-  const { closeDrawer, isFullScreen, makeDrawerFull, isOpenDrawer } =
-    useDrawerFeature();
-  return (
-    <div className="leads">
-      <LeadTable />
-      <LeadModal />
-      <DrawerApp
-        open={isOpenDrawer}
-        isFullScreen={isFullScreen}
-        onClose={closeDrawer}
-        onFullScreen={makeDrawerFull}
-      />
-    </div>
-  );
+  return <LeadsApp />;
 }
 
 export default Leads;

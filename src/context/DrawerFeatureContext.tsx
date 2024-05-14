@@ -28,6 +28,8 @@ type DrawerFeatureContextType = {
   onEditDetails: (e: boolean) => void;
   onEditPerson: (e: boolean) => void;
   onEditNotes: (e: boolean) => void;
+  onNextElement: (e: boolean) => void;
+  onPrevElement: (e: boolean) => void;
   onChangeMainCollapse: (e: string[] | string) => void;
   onChangeInnerCollapse: (e: string | string[]) => void;
 };
@@ -71,6 +73,12 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
     setEditPerson(value);
   };
   const onEditNotes = (value: boolean) => {
+    setEditNote(value);
+  };
+  const onNextElement = (value: boolean) => {
+    setEditNote(value);
+  };
+  const onPrevElement = (value: boolean) => {
     setEditNote(value);
   };
 
@@ -136,6 +144,8 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         openDrawer,
         closeDrawer,
         makeDrawerFull,
+        onNextElement,
+        onPrevElement,
       }}
     >
       {children}

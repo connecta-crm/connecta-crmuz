@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import Leads from '../../services/leads';
 
 export function useLeadVehicleDelete() {
@@ -16,9 +16,9 @@ export function useLeadVehicleDelete() {
       queryClient.setQueryData(['leadDelete'], data);
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       queryClient.invalidateQueries({ queryKey: ['lead'] });
-      toast.success('Lead Vehicle successfully deleted');
+      message.success('Lead Vehicle successfully deleted');
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => message.error(err.message),
   });
 
   return {

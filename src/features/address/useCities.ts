@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Address from '../../services/address';
 
-export function useCities(enabled: boolean, q: string | null) {
+export function useCities(q: string | null) {
   const {
     isFetching: isLoading,
     data: { results: cities } = {},
@@ -9,7 +9,7 @@ export function useCities(enabled: boolean, q: string | null) {
   } = useQuery({
     queryKey: ['cities', q],
     queryFn: () => Address.getCities(q),
-    enabled,
+    enabled: !!q,
   });
 
   return { isLoading, cities, error: isError };

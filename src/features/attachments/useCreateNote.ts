@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import Attachments from '../../services/attachments';
 
 export type CreateNoteParams = {
@@ -18,11 +18,11 @@ export function useCreateNote() {
     onSuccess: (data: unknown) => {
       queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
       console.log('NOTE', data);
-      toast.success('Lead note created!');
+      message.success('Lead note created!');
     },
     onError: (err: string) => {
       console.log('ERROR', err);
-      toast.error(err);
+      message.error(err);
     },
   });
 

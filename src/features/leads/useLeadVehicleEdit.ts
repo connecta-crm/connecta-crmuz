@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import Leads from '../../services/leads';
 
 export type LeadEditVehicleParamsType = {
@@ -26,9 +26,9 @@ export function useLeadVehicleEdit() {
       Leads.editLeadVehicle({ id, lead, vehicle, vehicleYear }),
     onSuccess: (data) => {
       queryClient.setQueryData(['leadEditVehicle'], data);
-      toast.success('Lead Vehicle successfully edited');
+      message.success('Lead Vehicle successfully edited');
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => message.error(err.message),
   });
 
   return { isLoading, updatedLeadVehicleData, editLeadVehicle, error };

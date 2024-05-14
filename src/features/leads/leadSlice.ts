@@ -60,6 +60,7 @@ export type SourceState = {
 };
 
 export type LeadData = {
+  length: number;
   id: number;
   customerName: string;
   customerPhone: string;

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import Leads from '../../services/leads';
 
 export type LeadEditParamsType = {
@@ -9,6 +9,7 @@ export type LeadEditParamsType = {
 
 export function useLeadEdit() {
   const queryClient = useQueryClient();
+
   const {
     mutate: editLead,
     isPending: isLoading,
@@ -19,9 +20,9 @@ export function useLeadEdit() {
       Leads.editLead({ guid, updateLeadModel }),
     onSuccess: (data) => {
       queryClient.setQueryData(['leadEdit'], data);
-      toast.success('Lead successfully edited');
+      message.success('Lead successfully edited');
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => message.error(err.message),
   });
 
   return { isLoading, updatedLeadData, editLead, error };

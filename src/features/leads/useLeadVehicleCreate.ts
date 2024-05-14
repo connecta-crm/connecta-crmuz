@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import Leads from '../../services/leads';
 
 export type LeadCreateVehicleParams = {
@@ -22,9 +22,10 @@ export function useLeadVehicleCreate() {
       queryClient.setQueryData(['leadCreateVehicle'], data);
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       queryClient.invalidateQueries({ queryKey: ['lead'] });
-      toast.success('Lead Vehicle successfully created');
+
+      message.success('Lead Vehicle successfully created');
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => message.error(err.message),
   });
 
   return { isLoading, createdLeadVehicleData, createLeadVehicle, error };
