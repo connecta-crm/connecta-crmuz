@@ -86,53 +86,10 @@ function App() {
                   <Route path="*" element={<PageNotFound />} />
                 </Routes>
               </BrowserRouter>
-
-              <Toaster
-                position="top-center"
-                gutter={12}
-                containerStyle={{ margin: '8px' }}
-                toastOptions={{
-                  success: {
-                    duration: 3000,
-                  },
-                  error: {
-                    duration: 5000,
-                  },
-                  style: {
-                    fontSize: '16px',
-                    maxWidth: '500px',
-                    padding: '16px 24px',
-                    backgroundColor: 'var(--color-grey-0)',
-                    color: 'var(--color-grey-700)',
-                  },
-                }}
-              />
             </QueryClientProvider>
           </DrawerFeatureProvider>
         </ModalProvider>
       </FilterProvider>
-                <Route path="/auth" element={<AuthLayout />}>
-                  <Route
-                    index
-                    element={<Navigate replace to="/auth/login" />}
-                  />
-                  <Route path="/auth/login" element={<Login />} />
-                  <Route
-                    path="/auth/confirm/email"
-                    element={<ConfirmEmail />}
-                  />
-                  <Route path="/auth/confirm/code" element={<ConfirmCode />} />
-                  <Route
-                    path="/auth/confirm/password"
-                    element={<ConfirmPassword />}
-                  />
-                </Route>
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </QueryClientProvider>
-        </DrawerFeatureProvider>
-      </ModalProvider>
     </DarkModeProvider>
   );
 }

@@ -1,6 +1,6 @@
 import { Select, message } from 'antd';
 import { useState } from 'react';
-import Person from '../../features/Person/Person';
+import Person from '../../features/person/Person';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import Pickup from '../../features/origin/Pickup';
