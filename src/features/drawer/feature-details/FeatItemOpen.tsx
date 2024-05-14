@@ -134,7 +134,7 @@ function FeatItemOpen({
   }, [isLoadingLeadVehicleDelete, leadId]);
 
   useEffect(() => {
-    if (!isFetchingLead && !errorLead && leads.length) {
+    if (!isFetchingLead && !errorLead && leads?.length) {
       dispatch(setLeadData(lead));
     }
   }, [isFetchingLead, errorLead, leads, dispatch]);
@@ -150,6 +150,7 @@ function FeatItemOpen({
       const merged = merge({}, leadData, updatedLeadData);
       dispatch(setLeadData(merged));
       onChangeInnerCollapse(keyValue);
+      console.log('MERGE FeatItemOpen');
     }
   }, [
     isLoading,

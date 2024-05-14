@@ -1,5 +1,4 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { useQueryClient } from '@tanstack/react-query';
 import type { RadioChangeEvent, TabsProps, TimePickerProps } from 'antd';
 import {
   Button,
@@ -43,8 +42,8 @@ function TabsApp() {
   const { id: leadId } = useAppSelector(getLeadData);
   const userData = useAppSelector(getUser);
 
-  const queryClient = useQueryClient();
-  queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
+  // const queryClient = useQueryClient();
+  // queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
 
   const handleEventType = (e: RadioChangeEvent) => {
     setEventType(e.target.value);

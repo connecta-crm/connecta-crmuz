@@ -19,7 +19,7 @@ function HistoryCard({ type, item }: HistoryCardProps) {
       deleteLeadAttachments(item.id);
     }
   };
-  console.log('item', item);
+  // console.log('item', item);
   return (
     <div className="card mb-10">
       <div className="card__row">
