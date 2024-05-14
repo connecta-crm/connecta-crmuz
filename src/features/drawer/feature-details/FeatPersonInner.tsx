@@ -1,4 +1,5 @@
 import { Select, Spin } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useCustomers } from '../../customers/useCostumers';
@@ -38,7 +39,7 @@ function FeatPersonInner() {
     setSelectPerson(true);
   };
 
-  const handleChange = (_: number | string, option: { data: never }) => {
+  const handleChange = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'customer', value: option.data }));
     }

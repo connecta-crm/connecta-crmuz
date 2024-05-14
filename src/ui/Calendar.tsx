@@ -3,7 +3,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 function Calendar() {
-  const handleDateClick = (arg) => {
+  const handleDateClick = (arg: { dateStr: string }) => {
     alert(arg.dateStr);
   };
   return (

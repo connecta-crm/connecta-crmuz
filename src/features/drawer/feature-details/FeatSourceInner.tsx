@@ -1,5 +1,5 @@
 import { Button, Select, Spin } from 'antd';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getLeadData, updateField } from '../../leads/leadSlice';
 import { useProviders } from '../../providers/useProviders';
@@ -8,6 +8,7 @@ import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { setLeadData } from '../../leads/leadSlice';
 
 import { LoadingOutlined } from '@ant-design/icons';
+import { DefaultOptionType } from 'antd/es/select';
 import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { resetField as resetLeadField } from '../../leads/leadSlice';
@@ -26,7 +27,7 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
 
   const { providers, isFetching: isLoading } = useProviders(select);
 
-  const handleChange = (_: number | string, option: ReactNode) => {
+  const handleChange = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'source', value: option?.data }));
     }

@@ -34,6 +34,10 @@ export type Customer = {
   updatedAt: string;
 };
 
+export type CustomerData = {
+  customer: Customer;
+};
+
 type State = {
   id: number;
   name: string;
@@ -146,6 +150,7 @@ const initialState: LeadState = {
     notes: '',
     reservationPrice: 0,
     dateEstShip: null,
+    length: 0,
   },
   initialLeadData: {
     id: 0,
@@ -170,6 +175,7 @@ const initialState: LeadState = {
     notes: '',
     reservationPrice: 0,
     dateEstShip: null,
+    length: 0,
   },
   status: 'idle',
 };
@@ -178,6 +184,7 @@ const initialState: LeadState = {
 //   field: T | keyof T;
 //   value: LeadData[T] | T[keyof T];
 // };
+
 type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> = {
   field: T extends keyof LeadData
     ? LeadData[T]
@@ -199,18 +206,83 @@ type RevertFieldAction<T extends keyof LeadData> = {
   field: T;
 };
 
-function setNestedObjectValue(obj, path, value) {
-  // Split the path into an array of keys
-  const keys = path.split('.');
-  // Get the last key
-  const lastKey = keys.pop();
-  // Reduce the keys array to navigate to the nested object
-  const lastObj = keys.reduce((acc, key) => {
-    if (acc[key] === undefined) acc[key] = {}; // Create nested object if it does not exist
-    return acc[key];
-  }, obj);
-  // Set the value to the last key
-  lastObj[lastKey] = value;
+// function setNestedObjectValue(obj, path, value) {
+//   // Split the path into an array of keys
+//   const keys = path.split('.');
+//   // Get the last key
+//   const lastKey = keys.pop();
+//   // Reduce the keys array to navigate to the nested object
+//   const lastObj = keys.reduce((acc, key) => {
+//     if (acc[key] === undefined) acc[key] = {}; // Create nested object if it does not exist
+//     return acc[key];
+//   }, obj);
+//   // Set the value to the last key
+//   lastObj[lastKey] = value;
+// }
+
+// type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> = {
+//   field: T;
+//   value: T extends keyof (LeadData & Customer & Source)
+//     ? (LeadData & Customer & Source)[T]
+//     : never;
+// };
+
+type NestedObjectValue =
+  | string
+  | number
+  | null
+  | Vehicle
+  | User
+  | Customer
+  | Location
+  | Source
+  | LeadVehicle[]
+  | LeadData
+  | LeadData[]
+  | LeadState
+  | Customer
+  | Source;
+
+type NestedObject = {
+  [key: string]:
+    | NestedObject
+    | NestedObjectValue
+    | LeadData
+    | LeadVehicle
+    | LeadVehicle[];
+};
+
+function setNestedObjectValue(
+  obj: NestedObject,
+  path:
+    | string
+    | number
+    | Vehicle
+    | null
+    | User
+    | Customer
+    | Location
+    | Source
+    | LeadVehicle[],
+  value: LeadData[keyof (LeadData | Source | Customer)],
+) {
+  if (typeof path === 'string') {
+    const keys = path.split('.');
+    let currentObj: NestedObject = obj;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      const key = keys[i];
+      if (!(key in currentObj)) {
+        currentObj[key] = {};
+      }
+      currentObj = currentObj[key] as NestedObject;
+    }
+
+    const lastKey = keys[keys.length - 1];
+    if (lastKey) {
+      currentObj[lastKey] = value;
+    }
+  }
 }
 
 export const leadSlice = createSlice({
@@ -221,12 +293,12 @@ export const leadSlice = createSlice({
       state.leadData = action.payload;
       state.initialLeadData = action.payload;
     },
-    updateField: <T extends keyof (LeadData & Customer)>(
+    updateField: <T extends keyof (LeadData & Customer & CustomerData)>(
       state: LeadState,
       action: PayloadAction<UpdateFieldAction<T>>,
     ) => {
       const { field, value } = action.payload;
-      setNestedObjectValue(state.leadData, field, value);
+      setNestedObjectValue(state.leadData, field, value as keyof undefined);
       // state.leadData[field] = value;
     },
     updateVehicleField: <T extends keyof LeadVehicle>(
@@ -236,7 +308,7 @@ export const leadSlice = createSlice({
       const { vehicleIndex, field, value } = action.payload;
       const vehicles = [...state.leadData.leadVehicles];
       const vehicle = vehicles[vehicleIndex];
-      setNestedObjectValue(vehicle, field, value); // vehicle[field] = value;
+      setNestedObjectValue(vehicle, field, value as keyof undefined); // vehicle[field] = value;
       vehicles[vehicleIndex] = vehicle;
       state.leadData.leadVehicles = vehicles;
     },

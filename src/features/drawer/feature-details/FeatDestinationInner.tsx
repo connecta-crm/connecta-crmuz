@@ -1,4 +1,5 @@
 import { Input, Select, Spin } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import HighlightedWord from '../../../ui/HighlightedWord';
@@ -23,7 +24,7 @@ function FeatDestinationInner() {
     setSelectCity(true);
   };
 
-  const handleChangeCity = (_: number | string, option: { data: string }) => {
+  const handleChangeCity = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
       dispatch(updateField({ field: 'destination', value: option?.data }));
     }

@@ -23,7 +23,7 @@ const rowSelection = {
 
 type LeadTableProps = {
   isLoadingLeads: boolean;
-  guid: string;
+  guid: string | null;
   count: number;
 } & DrawerProps;
 

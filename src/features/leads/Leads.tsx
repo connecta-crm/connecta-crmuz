@@ -17,7 +17,7 @@ function Leads() {
 
   const dispatch = useAppDispatch();
 
-  const handleOpenDrawer = (guid: string) => {
+  const handleOpenDrawer = (guid: string | null) => {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
   };

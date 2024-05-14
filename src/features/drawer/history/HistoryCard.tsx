@@ -6,7 +6,7 @@ import { NoteItemType } from './History';
 
 export type HistoryCardProps = {
   type: 'note' | 'task' | 'phone';
-  item: NoteItemType;
+  item?: NoteItemType;
 };
 function HistoryCard({ type, item }: HistoryCardProps) {
   const [popconfirmOpen, setPopconfirmOpen] = useState(false);
@@ -15,7 +15,9 @@ function HistoryCard({ type, item }: HistoryCardProps) {
     useDeleteLeadAttachments();
 
   const handleDeleteAttachment = () => {
-    deleteLeadAttachments(item.id);
+    if (item) {
+      deleteLeadAttachments(item.id);
+    }
   };
   console.log('item', item);
   return (
@@ -32,7 +34,9 @@ function HistoryCard({ type, item }: HistoryCardProps) {
               <div className="card__texts d-flex align-center mb-5">
                 <div className="card__text">
                   <Radio>
-                    <div dangerouslySetInnerHTML={{ __html: item?.title }} />
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item?.title || '' }}
+                    />
                   </Radio>
                 </div>
               </div>
