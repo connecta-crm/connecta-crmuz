@@ -1,6 +1,5 @@
 import { Select, message } from 'antd';
 import { useState } from 'react';
-import Person from '../../features/Person/Person.tsx';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
@@ -20,6 +19,7 @@ import Modal from './Modal';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import trailer from '/img/drawer/trailer.svg';
+import Person from '../../features/person/Person';
 export default function LeadModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);

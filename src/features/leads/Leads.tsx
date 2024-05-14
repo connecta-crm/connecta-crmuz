@@ -7,6 +7,7 @@ import LeadTable from './LeadTable';
 import { setLeadData } from './leadSlice';
 import { useLead } from './useLead';
 import { useLeads } from './useLeads';
+import Filter from '../../ui/filter/Filter';
 
 function Leads() {
   const [guid, setGuid] = useState<string | null>(null);
@@ -51,6 +52,7 @@ function Leads() {
         isLoadingLead={isLoadingLead}
         onOpenDrawer={handleOpenDrawer}
       />
+      <Filter/>
     </div>
   );
 }

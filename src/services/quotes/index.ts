@@ -14,12 +14,13 @@ class Quotes {
     this.$api = apiClient;
   }
 
-  async getQuotes({ limit, offset, source, q }: QuotesParamsType) {
+  async getQuotes({ limit, offset, source, q ,status}: QuotesParamsType) {
     try {
       const params: Record<string, unknown> = {
         limit,
         offset,
         q,
+        status
       };
 
       if (source) {
