@@ -15,15 +15,19 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import { ChangeEvent, useState } from 'react';
 import StickyBox from 'react-sticky-box';
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../../store/hooks';
 import Calendar from '../../../ui/Calendar';
+import { classNames } from '../../../utils/helpers';
 import { useCreateNote } from '../../attachments/useCreateNote';
 import { getUser } from '../../authentication/authSlice';
 import { getLeadData } from '../../leads/leadSlice';
-import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
 import TabEmail from './TabEmail';
 import TabFiles from './TabFiles';
 import Notes from './TabNotes';
+import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
+
+export type CancelNotesActionType = 'main' | 'phone' | 'task' | 'email';
 
 function TabsApp() {
   const [eventType, setEventType] = useState('call');
@@ -33,6 +37,8 @@ function TabsApp() {
     phoneNote: '',
     emailNote: '',
   });
+
+  const { isFullScreen } = useDrawerFeature();
 
   const { id: leadId } = useAppSelector(getLeadData);
   const userData = useAppSelector(getUser);
@@ -64,9 +70,7 @@ function TabsApp() {
     setTaskNote(value);
   };
 
-  type CancelActionType = 'main' | 'phone' | 'task' | 'email';
-
-  const handleSetNotes = (type: CancelActionType, note: string) => {
+  const handleSetNotes = (type: CancelNotesActionType, note: string) => {
     switch (type) {
       case 'main':
         setNotes({ ...notes, mainNote: note });
@@ -81,15 +85,13 @@ function TabsApp() {
   };
 
   const feature = 'lead';
-  // const isLoading = false;
-
   const { createNote, isLoading } = useCreateNote();
 
-  const handleSave = (type: string) => {
+  const handleSave = (type: 'main' | 'task' | 'phone') => {
     const user = userData?.id ? +userData?.id : undefined;
     switch (feature) {
       case 'lead':
-        if (type === 'notes') {
+        if (type === 'main') {
           createNote({
             rel: leadId,
             endpointType: 'lead',
@@ -105,7 +107,7 @@ function TabsApp() {
     }
   };
 
-  const handleCancel = (type: CancelActionType) => {
+  const handleCancel = (type: CancelNotesActionType) => {
     switch (feature) {
       case 'lead':
         switch (type) {
@@ -158,6 +160,7 @@ function TabsApp() {
         <div>
           <Notes
             type="main"
+            tabIndex={1}
             content={notes.mainNote}
             onSetContent={handleSetNotes}
           />
@@ -209,7 +212,12 @@ function TabsApp() {
         <div className="task">
           <div className="task__row">
             <div className="task__col">
-              <div className="task__feature feature-task">
+              <div
+                className={classNames(
+                  !isFullScreen ? 'pr-5 small-screen' : '',
+                  'task__feature feature-task',
+                )}
+              >
                 <Input
                   value={eventType}
                   placeholder="Call"
@@ -259,28 +267,32 @@ function TabsApp() {
                 <div className="feature-task__dates feature-task--group mb-10">
                   <div className="feature-task__date feature-task__date--1">
                     <DatePicker
-                      style={{ width: 175 }}
+                      style={{ width: isFullScreen ? 175 : 110 }}
                       allowClear={false}
                       onChange={handleChangeDate}
                     />
                     <TimePicker
                       className="ml-10"
-                      style={{ width: 100 }}
+                      style={{ width: isFullScreen ? 100 : 92 }}
                       use12Hours
                       format="hh:mm A"
                       onChange={handleChangeTime}
                     />
                   </div>
-                  <span className="mx-15">-</span>
+                  {isFullScreen ? (
+                    <span className="mx-15">-</span>
+                  ) : (
+                    <span className="mx-5">-</span>
+                  )}
                   <div className="feature-task__date feature-task__date--2">
                     <DatePicker
                       allowClear={false}
-                      style={{ width: 175 }}
+                      style={{ width: isFullScreen ? 175 : 110 }}
                       onChange={handleChangeDate}
                     />
                     <TimePicker
                       className="ml-10"
-                      style={{ width: 100 }}
+                      style={{ width: isFullScreen ? 100 : 92 }}
                       use12Hours
                       format="hh:mm A"
                       onChange={handleChangeTime}
@@ -386,7 +398,12 @@ function TabsApp() {
                   />
                 </div>
               </div>
-              <div className="task__bottom">
+              <div
+                className={classNames(
+                  !isFullScreen ? 'pr-5' : '',
+                  'task__bottom',
+                )}
+              >
                 <Flex className="p-0" gap="small" wrap="wrap">
                   <Button
                     size="small"
@@ -507,6 +524,7 @@ function TabsApp() {
               <div className="w-100">
                 <Notes
                   type="phone"
+                  tabIndex={2}
                   content={notes.phoneNote}
                   onSetContent={handleSetNotes}
                 />

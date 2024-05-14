@@ -1,7 +1,8 @@
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerProps } from '../../ui/Drawer';
-import { LeadData, getLeadData } from '../leads/leadSlice';
+import { getLeadData } from '../leads/leadSlice';
+import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
 export type DrawerControlProps = {
   isFullScreen: boolean;
@@ -19,34 +20,12 @@ function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
     return null;
   }
 
-  function getNextLeadGuid() {
-    if (Array.isArray(leads)) {
-      const currentIndex = leads.findIndex(
-        (lead: LeadData) => lead.guid === currentLeadGuid,
-      );
-      const nextIndex =
-        currentIndex === leads.length - 1 ? 0 : currentIndex + 1;
-      return leads[nextIndex].guid;
-    }
-  }
-
-  function getPreviousObjectId() {
-    if (Array.isArray(leads)) {
-      const currentIndex = leads.findIndex(
-        (lead: LeadData) => lead.guid === currentLeadGuid,
-      );
-      const previousIndex =
-        currentIndex === 0 ? leads.length - 1 : currentIndex - 1;
-      return leads[previousIndex].guid;
-    }
-  }
-
   const handlePrevElement = () => {
-    const previousLeadGuid = getPreviousObjectId();
+    const previousLeadGuid = getPreviousObjectId(leads, currentLeadGuid);
     onOpenDrawer(previousLeadGuid);
   };
   const handleNextElement = () => {
-    const nextLeadId = getNextLeadGuid();
+    const nextLeadId = getNextObjectId(leads, currentLeadGuid);
     onOpenDrawer(nextLeadId);
   };
 

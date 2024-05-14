@@ -33,20 +33,20 @@ function History() {
       children:
         leadAttachments?.length &&
         leadAttachments.map((item: NoteItemType) => (
-          <HistoryCard key={item.id} type={'notes'} item={item} />
+          <HistoryCard key={item.id} type={'note'} item={item} />
         )),
     },
     {
       key: '2',
       label: `Notes (${notes.length})`,
       children: notes.map((item: NoteItemType) => (
-        <HistoryCard key={item.id} type={'notes'} item={item} />
+        <HistoryCard key={item.id} type={'note'} item={item} />
       )),
     },
     {
       key: '3',
       label: 'Tasks (1)',
-      children: <HistoryCard type={'task'} text="hello" />,
+      children: <HistoryCard type={'task'} />,
     },
   ];
   return (

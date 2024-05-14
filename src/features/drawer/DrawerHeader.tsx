@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
@@ -7,13 +8,9 @@ import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { DrawerProps } from '../../ui/Drawer';
 import { classNames } from '../../utils/helpers';
-import {
-  LeadData,
-  getLeadData,
-  setLeadData,
-  updateField,
-} from '../leads/leadSlice';
+import { getLeadData, setLeadData } from '../leads/leadSlice';
 import { useLeadEdit } from '../leads/useLeadEdit';
+import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
 function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
@@ -46,66 +43,39 @@ function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
   };
 
   const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
+
   const leadData = useAppSelector(getLeadData);
   const dispatch = useAppDispatch();
 
-  const updateLeadModel = {
-    ...leadData,
-    customer: leadData.customer?.id,
-    source: leadData.source?.id,
-    origin: leadData.origin?.id,
-    destination: leadData.destination?.id,
-    user: leadData.user?.id,
-    extraUser: leadData?.extraUser,
-  };
-
   const handleArchive = () => {
-    const value = leadData.status === 'leads' ? 'archive' : 'leads';
-    console.log(value);
-    dispatch(updateField({ field: 'status', value }));
-    console.log(updateLeadModel);
+    const value = leadData.status === 'leads' ? 'archived' : 'leads';
+    const updateLeadModel = {
+      ...leadData,
+      status: value,
+      customer: leadData.customer?.id,
+      source: leadData.source?.id,
+      origin: leadData.origin?.id,
+      destination: leadData.destination?.id,
+      user: leadData.user?.id,
+      extraUser: leadData?.extraUser,
+    };
     editLead({ guid: leadData.guid, updateLeadModel });
   };
 
   useEffect(() => {
     if (!isLoading && !error) {
-      console.log(updatedLeadData);
       const merged = merge({}, leadData, updatedLeadData);
       dispatch(setLeadData(merged));
     }
   }, [isLoading, error, dispatch]);
 
   // PREV-NEXT functions
-
-  const currentLeadGuid = leadData.guid;
-  function getNextLeadGuid() {
-    if (Array.isArray(leads)) {
-      const currentIndex = leads.findIndex(
-        (lead: LeadData) => lead.guid === currentLeadGuid,
-      );
-      const nextIndex =
-        currentIndex === leads.length - 1 ? 0 : currentIndex + 1;
-      return leads[nextIndex].guid;
-    }
-  }
-
-  function getPreviousObjectId() {
-    if (Array.isArray(leads)) {
-      const currentIndex = leads.findIndex(
-        (lead: LeadData) => lead.guid === currentLeadGuid,
-      );
-      const previousIndex =
-        currentIndex === 0 ? leads.length - 1 : currentIndex - 1;
-      return leads[previousIndex].guid;
-    }
-  }
-
   const handlePrevElement = () => {
-    const previousLeadGuid = getPreviousObjectId();
+    const previousLeadGuid = getPreviousObjectId(leads, leadData.guid);
     onOpenDrawer(previousLeadGuid);
   };
   const handleNextElement = () => {
-    const nextLeadId = getNextLeadGuid();
+    const nextLeadId = getNextObjectId(leads, leadData.guid);
     onOpenDrawer(nextLeadId);
   };
 
@@ -197,7 +167,7 @@ function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
                 type="primary"
                 danger
               >
-                {leadData.status === 'archive' ? 'Leads' : 'Archive'}
+                {leadData.status === 'archived' ? 'Back to Leads' : 'Archive'}
               </Button>
             </div>
             <div className="drawer-header__btnitem d-none">

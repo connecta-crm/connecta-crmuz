@@ -1,11 +1,23 @@
-import { Radio } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Popconfirm, Radio } from 'antd';
+import { useState } from 'react';
+import { useDeleteLeadAttachments } from '../../attachments/useDeleteLeadAttachments';
 import { NoteItemType } from './History';
 
 export type HistoryCardProps = {
-  type: string;
+  type: 'note' | 'task' | 'phone';
   item: NoteItemType;
 };
 function HistoryCard({ type, item }: HistoryCardProps) {
+  const [popconfirmOpen, setPopconfirmOpen] = useState(false);
+
+  const { deleteLeadAttachments, isLoading: isLoadingDelete } =
+    useDeleteLeadAttachments();
+
+  const handleDeleteAttachment = () => {
+    deleteLeadAttachments(item.id);
+  };
+  console.log('item', item);
   return (
     <div className="card mb-10">
       <div className="card__row">
@@ -37,9 +49,25 @@ function HistoryCard({ type, item }: HistoryCardProps) {
               <p className="card__action">
                 <img src="./img/drawer/pen.svg" alt="" />
               </p>
-              <p className="card__action">
-                <img src="./img/drawer/delete-icon.svg" alt="" />
-              </p>
+              <Popconfirm
+                placement="top"
+                title={`Delete this ${type} from the history?`}
+                description={`Delete this ${type}`}
+                okText={isLoadingDelete ? <LoadingOutlined /> : 'Yes'}
+                cancelText="No"
+                open={popconfirmOpen}
+                onConfirm={handleDeleteAttachment}
+                onCancel={() => setPopconfirmOpen(false)}
+              >
+                <button
+                  title="delete"
+                  className="card__action"
+                  disabled={isLoadingDelete}
+                  onClick={() => setPopconfirmOpen(true)}
+                >
+                  <img src="./img/drawer/delete-icon.svg" alt="" />
+                </button>
+              </Popconfirm>
             </div>
           </div>
         </div>

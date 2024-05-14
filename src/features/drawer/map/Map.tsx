@@ -1,8 +1,16 @@
+import { useAppSelector } from '../../../store/hooks';
+import { getLeadData } from '../../leads/leadSlice';
+
 function Map() {
+  const { origin, destination } = useAppSelector(getLeadData);
+
+  const API_KEY = 'AIzaSyDiWOQ9Y4Xh28n71iK_SnLmRCzrQAk638k';
+  const mapsUrl = `https://www.google.com/maps/embed/v1/directions?key=${API_KEY}&origin=${origin?.lat},${origin?.long}&destination=${destination?.lat},${destination?.long}&mode=driving`;
+
   return (
     <div className="map">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d440730.03321172483!2d-82.01276720139975!3d30.34516921437771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e5b716f1ceafeb%3A0xc4cd7d3896fcc7e2!2sJeksonvill%2C%20Florida%2C%20Amerika%20Qo%E2%80%98shma%20Shtatlari!5e0!3m2!1suz!2s!4v1710663286379!5m2!1suz!2s"
+        src={mapsUrl}
         className="map__frame"
         style={{ border: 0 }}
         allowFullScreen={true}

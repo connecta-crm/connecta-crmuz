@@ -232,6 +232,11 @@
 }
 
 .feature-task {
+  &.small-screen {
+    :where(.css-dev-only-do-not-override-1qfezbu).ant-radio-button-wrapper {
+      padding-inline: 11px !important;
+    }
+  }
   &--group {
     position: relative;
     .task-icon {
