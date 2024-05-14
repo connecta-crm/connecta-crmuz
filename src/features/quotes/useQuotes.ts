@@ -6,6 +6,7 @@ import Quotes from '../../services/quotes';
 export type QuotesParamsType = {
   limit: number;
   offset: number;
+  status:string
   q: string;
   source?: string[];
 };
@@ -23,6 +24,7 @@ export function useQuotes() {
   // const calculatedOffset = offset - 1;
 
   const q = searchParams.get('q') || '';
+  const status = searchParams.get('status') || '';
   const sources = searchParams.getAll('source');
 
   const {
@@ -30,8 +32,8 @@ export function useQuotes() {
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: ['quotes', limit, offset, sources, q],
-    queryFn: () => Quotes.getQuotes({ limit, offset, source: sources, q }),
+    queryKey: ['quotes', limit, offset, sources, q,status],
+    queryFn: () => Quotes.getQuotes({ limit, offset, source: sources, q ,status}),
   });
   return { quotes, count, sumPrice, isLoading, error };
 }

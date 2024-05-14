@@ -67,7 +67,7 @@ export const getMenuData: MenuData[] = [
     component: lazyLoad(() => import('../../pages/Quotes')),
     roles: ['admin', 'user'],
     status: [
-      { id: 3, value: 'quotes', title: 'Quotes' },
+      { id: 3, value: 'quote', title: 'Quotes' },
       { id: 4, value: 'follow_up', title: 'Follow up' },
       { id: 5, value: 'warm', title: 'Warm' },
       { id: 6, value: 'ongoing', title: 'Ongoing' },
