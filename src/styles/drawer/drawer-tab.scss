@@ -12,13 +12,8 @@
       display: none;
     }
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-top
-    > .ant-tabs-nav
-    .ant-tabs-tab-active,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-top
-    > div
-    > .ant-tabs-nav
-    .ant-tabs-tab-active {
+  .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active,
+  .ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active {
     .default-icon {
       display: none;
     }
@@ -26,13 +21,8 @@
       display: inline-block;
     }
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card
-    > .ant-tabs-nav
-    .ant-tabs-tab,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card
-    > div
-    > .ant-tabs-nav
-    .ant-tabs-tab {
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab,
+  .ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab {
     border-bottom: 2px solid transparent;
     border-radius: 0;
     &:hover {
@@ -42,18 +32,13 @@
       }
     }
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs .ant-tabs-tab {
+  .ant-tabs .ant-tabs-tab {
     color: $color-gray;
     font-size: 15px;
     font-weight: 400;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-top
-    > .ant-tabs-nav
-    .ant-tabs-tab-active,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-top
-    > div
-    > .ant-tabs-nav
-    .ant-tabs-tab-active {
+  .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active,
+  .ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active {
     border-bottom-color: #086ed6;
     background: linear-gradient(0deg, #ddf2fd 0%, #ddf2fd 100%), #f1f1f1;
     &:hover {
@@ -62,80 +47,50 @@
       }
     }
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs
-    .ant-tabs-tab-btn
-    .ant-tabs-tab-icon:not(:last-child) {
+  .ant-tabs .ant-tabs-tab-btn .ant-tabs-tab-icon:not(:last-child) {
     margin-inline-end: 10px;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card
-    > .ant-tabs-nav
-    .ant-tabs-tab,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card
-    > div
-    > .ant-tabs-nav
-    .ant-tabs-tab {
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab,
+  .ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab {
     // border: none;
     padding: 7px 14px;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs
-    .ant-tabs-content-holder {
+  .ant-tabs .ant-tabs-content-holder {
     padding: 0;
     margin-top: -17px;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-flex {
+  .ant-flex {
     padding: 7px;
     justify-content: flex-end;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-top
-    > .ant-tabs-nav
-    .ant-tabs-tab
-    + .ant-tabs-tab,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-bottom
-    > .ant-tabs-nav
-    .ant-tabs-tab
-    + .ant-tabs-tab,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-top
+  .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab,
+  .ant-tabs-card.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab,
+  .ant-tabs-card.ant-tabs-top
     > div
     > .ant-tabs-nav
     .ant-tabs-tab
     + .ant-tabs-tab,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-card.ant-tabs-bottom
+  .ant-tabs-card.ant-tabs-bottom
     > div
     > .ant-tabs-nav
     .ant-tabs-tab
     + .ant-tabs-tab {
     margin-left: 0;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-upload-wrapper
-    .ant-upload-list {
+  .ant-upload-wrapper .ant-upload-list {
     display: none;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-top
-    > .ant-tabs-nav::before,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-bottom
-    > .ant-tabs-nav::before,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-top
-    > div
-    > .ant-tabs-nav::before,
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-bottom
-    > div
-    > .ant-tabs-nav::before {
+  .ant-tabs-top > .ant-tabs-nav::before,
+  .ant-tabs-bottom > .ant-tabs-nav::before,
+  .ant-tabs-top > div > .ant-tabs-nav::before,
+  .ant-tabs-bottom > div > .ant-tabs-nav::before {
     border-color: #d1d1d1;
   }
-  :where(
-      .css-dev-only-do-not-override-1qfezbu
-    ).ant-select-single.ant-select-show-arrow
-    .ant-select-selection-item,
-  :where(
-      .css-dev-only-do-not-override-1qfezbu
-    ).ant-select-single.ant-select-show-arrow
-    .ant-select-selection-placeholder {
+  .ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+  .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
     color: #666666;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-select-filled:not(
-      .ant-select-customize-input
-    )
-    .ant-select-selector {
+  .ant-select-filled:not(.ant-select-customize-input) .ant-select-selector {
     background: rgba(234, 234, 234, 1);
   }
 }
@@ -233,7 +188,7 @@
 
 .feature-task {
   &.small-screen {
-    :where(.css-dev-only-do-not-override-1qfezbu).ant-radio-button-wrapper {
+    .ant-radio-button-wrapper {
       padding-inline: 11px !important;
     }
   }

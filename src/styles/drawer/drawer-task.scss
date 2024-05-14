@@ -98,7 +98,7 @@
 /* ==================================================================================================================*/
 // history
 .history {
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs .ant-tabs-tab {
+  .ant-tabs .ant-tabs-tab {
     font-size: 12px;
     font-weight: 400;
     padding: 0;
@@ -111,9 +111,7 @@
       background-color: #ddf2fd;
     }
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs
-    .ant-tabs-tab
-    + .ant-tabs-tab {
+  .ant-tabs .ant-tabs-tab + .ant-tabs-tab {
     margin: 0 0 0 12px;
   }
 }
