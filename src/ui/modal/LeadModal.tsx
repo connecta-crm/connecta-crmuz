@@ -1,8 +1,5 @@
 import { Select, message } from 'antd';
 import { useState } from 'react';
-import dvigatel from '../../../public/img/drawer/dvigatel.svg';
-import date from '../../../public/img/drawer/est-ship-date.svg';
-import trailer from '../../../public/img/drawer/trailer.svg';
 import Person from '../../features/Person/Person.tsx';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
@@ -20,6 +17,9 @@ import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
 import Modal from './Modal';
+import dvigatel from '/img/drawer/dvigatel.svg';
+import date from '/img/drawer/est-ship-date.svg';
+import trailer from '/img/drawer/trailer.svg';
 export default function LeadModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);

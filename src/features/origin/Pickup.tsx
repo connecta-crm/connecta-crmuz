@@ -1,13 +1,13 @@
 import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
-import origin from '../../../public/img/drawer/origin.svg';
 import DownCollapse from '../../ui/Form/DownCollapse';
 import Input from '../../ui/Form/Input';
 import InputCol from '../../ui/Form/InputCol';
 import InputRow from '../../ui/Form/InputRow';
 import Label from '../../ui/Form/Label';
 import { useCity } from '../leads/useLeadDetails';
+import origin from '/img/drawer/origin.svg';
 type CityType = {
   id?: string;
   name?: string;

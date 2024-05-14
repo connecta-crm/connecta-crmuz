@@ -1,8 +1,8 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { message } from 'antd';
 import { FormEvent, useState } from 'react';
-import eyeIcon from '../../../public/img/login/eye.svg';
 import { useConfirmPassword } from './useConfirmPassword';
+import eyeIcon from '/img/login/eye.svg';
 
 function ConfirmPasswordForm() {
   const [inputType, setInputType] = useState(false);
@@ -71,7 +71,7 @@ function ConfirmPasswordForm() {
 
         <div className="login__form__message">
           {/* <div className="login__form__error">
-            <img src="/public/img/login/wrong.svg" alt="" />
+            <img src="/img/login/wrong.svg" alt="" />
             <span>Wrong password</span>
           </div> */}
         </div>

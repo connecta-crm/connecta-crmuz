@@ -2,10 +2,10 @@ import { Dropdown, DropdownProps, Input, MenuProps, Space } from 'antd';
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import openView from '../../public/img/dt_table/full_view.svg';
-import notView from '../../public/img/dt_table/not_full_view.svg';
 import { DEFAULT_LIMIT } from '../utils/constants';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
+import openView from '/img/dt_table/full_view.svg';
+import notView from '/img/dt_table/not_full_view.svg';
 
 type TableHeaderPaginationProps = TableHeaderFiltersProps;
 

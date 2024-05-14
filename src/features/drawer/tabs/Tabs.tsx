@@ -15,12 +15,12 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import { ChangeEvent, useState } from 'react';
 import StickyBox from 'react-sticky-box';
-import ArrowDownIcon from '../../../../public/img/drawer/tab/task/arrow.svg';
 import { useAppSelector } from '../../../store/hooks';
 import Calendar from '../../../ui/Calendar';
 import { useCreateNote } from '../../attachments/useCreateNote';
 import { getUser } from '../../authentication/authSlice';
 import { getLeadData } from '../../leads/leadSlice';
+import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
 import TabEmail from './TabEmail';
 import TabFiles from './TabFiles';
 import Notes from './TabNotes';

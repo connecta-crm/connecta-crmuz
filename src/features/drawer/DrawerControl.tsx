@@ -54,13 +54,13 @@ function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
     <div className="drawer-control">
       <div
         onClick={closeDrawer}
-        className="drawer-control__item drawer-control__item_close"
+        className="drawer-control__item drawer-control__item_close cursor-pointer"
       >
         <img src="./img/drawer/close-arrow.svg" alt="" />
       </div>
       <div
         onClick={() => makeDrawerFull(true)}
-        className="drawer-control__item drawer-control__item_size"
+        className="drawer-control__item drawer-control__item_size cursor-pointer"
       >
         <img src="./img/drawer/resize.svg" alt="" />
       </div>
