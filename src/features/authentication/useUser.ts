@@ -14,10 +14,8 @@ export function useUser() {
   } = useQuery({
     queryKey: ['user', token],
     queryFn: () => Profile.getCurrentUser(),
-    // enabled: !!token,
+    enabled: !!token,
   });
-
-  console.log('userData: ', data);
 
   const userData = data?.user;
   if (userData && !isLoading) {

@@ -1,170 +1,130 @@
-import Modal from './Modal';
-// import { useModal } from '../../context/Modal';
+import { Select, message } from 'antd';
+import { useState } from 'react';
+import Person from '../../features/Person/Person.tsx';
+import { getUser } from '../../features/authentication/authSlice';
+import Delivery from '../../features/destination/Delivery';
+import { useCreateLead } from '../../features/leads/useLeadDetails';
+import Pickup from '../../features/origin/Pickup';
+import Source from '../../features/sourcecom/Source';
+import VehicleContainer, {
+  CarType,
+} from '../../features/vehicle/vehicleContainer';
+import { LeadDataType } from '../../models/LeadDataType';
+import { useAppSelector } from '../../store/hooks';
 import UseDatePicker from '../DatePicker/DatePicker';
-import DownCollapse from '../Form/DownCollapse';
 import FormControl from '../Form/FormControl';
 import Input from '../Form/Input';
-import InputCol from '../Form/InputCol';
-import InputRow from '../Form/InputRow';
 import Label from '../Form/Label';
-import Select from '../Form/Select';
 import UpCollapse from '../Form/UpCollapse';
-import { FormEvent } from 'react';
-
+import Modal from './Modal';
+import dvigatel from '/img/drawer/dvigatel.svg';
+import date from '/img/drawer/est-ship-date.svg';
+import trailer from '/img/drawer/trailer.svg';
 export default function LeadModal() {
-  // const { hideModal } = useModal()
-
-  const getFotmData = (e:FormEvent) => {
+  const [carData, setCarData] = useState<CarType[]>([]);
+  const [conditionValue, setConditionValue] = useState<string | null>(null);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const [trailerType, setTrailerType] = useState<string | null>('');
+  const [origin, setOrigin] = useState<string | null>('');
+  const [delivery, setDelivery] = useState<string | null>('');
+  const [source, setSource] = useState<string | null>('');
+  const [personId, setPersonId] = useState<string | null>('');
+  const [dateEstShip, setDateEstShip] = useState<string>('');
+  const user = useAppSelector((item) => getUser(item));
+  const { create, isLoading } = useCreateLead();
+  const createLead = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const items = Object.fromEntries(new FormData(e.currentTarget));
+    const data: LeadDataType = {
+      vehicles: carData,
+      status: 'leads',
+      price: 2147483647,
+      condition: conditionValue,
+      trailerType: trailerType,
+      notes: items.cm_note,
+      reservationPrice: 2147483647,
+      dateEstShip: dateEstShip,
+      customer: personId,
+      source: source,
+      origin: origin,
+      destination: delivery,
+      user: user?.id,
+      // extraUser: 0,
+    };
+    let errorText = '';
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        if (key === 'vehicles' && data[key].length === 0) {
+          errorText += key + ' , ';
+        }
+        if (!data[key as keyof LeadDataType] && key !== 'notes') {
+          errorText += key + ' , ';
+        }
+      }
+    }
 
-    // const formData = new FormData(e.target);
-    // const formProps = Object.fromEntries(formData);
-    // console.log(formProps);
+    if (errorText) {
+      console.log(data);
+      message.error(errorText + 'required ! ');
+      return;
+    }
+    create(data);
   };
 
   return (
-    <Modal title="New Lead" onSubmit={getFotmData}>
+    <Modal isLoading={isLoading} title="New Lead" onSubmit={createLead}>
       <div className="modal__row">
         <div className="modal__col">
           <UpCollapse title="Details">
-            <DownCollapse title="Vehicle">
-              <InputRow>
-                <InputCol>
-                  <Label>Vehicle year</Label>
-                </InputCol>
-
-                <InputCol>
-                  <UseDatePicker type="year" name="vehicle_year" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Vehicle make</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="vehicle_make" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Vehicle model</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="vehicle_model" />
-                </InputCol>
-              </InputRow>
-            </DownCollapse>
-
-            <FormControl title="Condition">
-              <Select name="condition">
-                <option className="disabled">Select</option>
-              </Select>
+            <VehicleContainer setCarData={setCarData} />
+            <FormControl title="Condition" img={dvigatel}>
+              <Select
+                defaultValue=""
+                style={{ width: '100%' }}
+                onChange={(a) => setConditionValue(a)}
+                placeholder="Select a condition"
+                options={[
+                  { value: 'run', label: 'Run and drives' },
+                  { value: 'rols', label: 'Inop, it rolls' },
+                  { value: 'forklift', label: 'forklift' },
+                ]}
+              />
             </FormControl>
-
-            <FormControl title="Type">
-              <Select name="type">
-                <option className="disabled">Select</option>
-              </Select>
+            <Pickup setPickup={setOrigin} />
+            <Delivery setDelivery={setDelivery} />
+            <FormControl title="Trailer type" img={trailer}>
+              <Select
+                defaultValue=""
+                style={{ width: '100%' }}
+                onChange={(a) => setTrailerType(a)}
+                options={[
+                  { value: 'open', label: 'Open' },
+                  { value: 'enclosed', label: 'Enclosed' },
+                ]}
+              />
             </FormControl>
-
-            <DownCollapse title="Pickup">
-              <InputRow>
-                <InputCol>
-                  <Label>Pickup city</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_city" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Pickup state</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_state" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Pickup zip</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="pickup_zip" />
-                </InputCol>
-              </InputRow>
-            </DownCollapse>
-
-            <DownCollapse title="Delivery">
-              <InputRow>
-                <InputCol>
-                  <Label>Delivery city</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="delivery_city" />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Delivery state</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input
-                    type="text"
-                    placeholder="Empty"
-                    name="delivery_state"
-                  />
-                </InputCol>
-              </InputRow>
-              <InputRow>
-                <InputCol>
-                  <Label>Delivery zip</Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input type="text" placeholder="Empty" name="delivery_zip" />
-                </InputCol>
-              </InputRow>
-            </DownCollapse>
-
-            <FormControl title="Trailer type">
-              <Select name="trailer_type">
-                <option className="disabled">Select</option>
-              </Select>
+            <FormControl title="Est. Ship Date" img={date}>
+              <UseDatePicker
+                getYear={setDateEstShip}
+                type={'date'}
+                name="est_ship_date"
+              />
             </FormControl>
-            <FormControl title="Est. Ship Date">
-              <UseDatePicker type={'date'} name="est_ship_date" />
-            </FormControl>
-            <FormControl title="Source">
-              <Select name="source">
-                <option className="disabled">Select</option>
-              </Select>
-            </FormControl>
+            <Source setSource={setSource} />
 
             <div className="form__footer">
               <Label>CM note</Label>
-              <Input type="text" placeholder="Empty" name="cm_note" />
+              <Input
+                type="text"
+                placeholder="Empty"
+                name="cm_note"
+                defaultValue=""
+              />
             </div>
           </UpCollapse>
         </div>
         <div className="modal__col">
-          <UpCollapse title="Person">
-            <FormControl title="Name">
-              <Input type="text" placeholder="Empty" name="person_name" />
-            </FormControl>
-            <FormControl title="Email">
-              <Input type="text" placeholder="Empty" name="person_email" />
-            </FormControl>
-            <FormControl title="Phone">
-              <Input type="number" placeholder="Empty" name="person_phone" />
-            </FormControl>
-          </UpCollapse>
+          <Person setPersonId={setPersonId} />
         </div>
       </div>
     </Modal>

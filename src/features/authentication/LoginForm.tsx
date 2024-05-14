@@ -67,7 +67,7 @@ function LoginForm() {
 
         <div className="login__form__message">
           <div className="login__form__error">
-            {/* <img src="/public/img/login/wrong.svg" alt="" /> */}
+            {/* <img src="/img/login/wrong.svg" alt="" /> */}
             {/* <span>Wrong password</span> */}
           </div>
           <Link className="login__form__forget" to="/auth/confirm/email">

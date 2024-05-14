@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Profile from '../../services/profile';
 import { useAppDispatch } from '../../store/hooks';
@@ -13,7 +13,7 @@ export function useConfirmOtp() {
     mutationFn: ({ email, code }: { email: string | null; code: string }) =>
       Profile.confirmOtp({ email, code }),
     onSuccess: ({ access, refresh, message }) => {
-      toast.success(message);
+      message.success(message);
       console.log('access, refresh', access, refresh);
       dispatch(setToken({ access_token: access }));
       dispatch(setRefreshToken({ refresh_token: refresh }));
@@ -21,7 +21,7 @@ export function useConfirmOtp() {
     },
     onError: (err) => {
       console.log(err);
-      toast.error(err.message);
+      message.error(err.message);
     },
   });
 

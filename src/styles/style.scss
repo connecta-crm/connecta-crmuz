@@ -58,7 +58,6 @@ $color-white: #ffffff;
 @import '_settings';
 @import '_task';
 
-
 // base layout
 @import 'layout/header';
 @import 'layout/sidebar';
@@ -101,7 +100,7 @@ $color-white: #ffffff;
   background-color: $color4;
   padding: 7px 6px;
   width: 56px;
-  box-shadow: 2px 0px 15px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.15);
   grid-row: 1 / -1;
   display: flex;
   flex-direction: column;
@@ -126,7 +125,9 @@ $color-white: #ffffff;
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 10px), #000 0);
   animation: rotate 1.5s infinite linear;
 }
-
+.rc-virtual-list-scrollbar {
+  width: 5px !important;
+}
 @keyframes rotate {
   to {
     transform: rotate(1turn);

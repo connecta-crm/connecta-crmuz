@@ -1,18 +1,22 @@
 import { Table } from 'antd';
-import { TeamTableColumns, TeamTableData } from '../../utils/table';
 import TableHeader from '../../ui/TableHeader';
+import { TeamTableColumns, TeamTableData } from '../../utils/table';
 
 type DataType = {
-  key: string,
-  name:string,
-  users: string[],
-  status: string,
-  created:string,
+  key: string;
+  name: string;
+  users: string[];
+  status: string;
+  created: string;
 };
 
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      'selectedRows: ',
+      selectedRows,
+    );
   },
   getCheckboxProps: (record: DataType) => ({
     disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -22,9 +26,9 @@ const rowSelection = {
 
 export default function AccessRoles() {
   return (
-    <div className='access'>
-      <TableHeader pageName='Role'/>
-      <div className='table__container'>
+    <div className="access">
+      <TableHeader  />
+      <div className="table__container">
         <Table
           rowSelection={{
             // type: selectionType,
@@ -35,5 +39,5 @@ export default function AccessRoles() {
         />
       </div>
     </div>
-  )
+  );
 }

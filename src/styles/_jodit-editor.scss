@@ -1,3 +1,8 @@
 .jodit-container:not(.jodit_inline) {
   border: none !important;
 }
+.jodit-editor__resize,
+.jodit-status-bar,
+.jodit-add-new-line {
+  display: none !important;
+}

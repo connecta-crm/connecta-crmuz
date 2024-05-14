@@ -1,4 +1,4 @@
-.drawer-content {
+.drawer {
   @include flexbox();
   background: #fafafa;
   .ant-collapse-item {
@@ -27,7 +27,7 @@
     > .ant-collapse-header {
     padding: 12px 10px;
   }
-  &__left {
+  &__feature {
     width: 400px;
     min-width: 400px;
     border-right: 1px solid #d1d1d1;
@@ -40,8 +40,15 @@
     //   cursor: none;
     //   pointer-events: none;
     // }
+    &-notes {
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 144px !important;
+      width: 100%;
+      border-radius: 3px !important;
+    }
   }
-  &__right {
+  &__main {
     padding: 14px;
     width: 100%;
   }
@@ -50,6 +57,9 @@
 
 .box-header {
   &__label {
+    color: #21232c;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   &__more,
@@ -114,6 +124,9 @@
     &:hover,
     &-active {
       background: #eaeaea;
+      .detail__text {
+        max-width: 142px;
+      }
       .detail__right_actions {
         opacity: 1;
         visibility: visible;
@@ -129,6 +142,19 @@
     .ant-collapse-expand-icon {
     padding-inline-start: 0;
   }
+  &-single {
+    padding: 4px 10px;
+    margin-left: 9px;
+    margin-right: 9px;
+    background-color: #eaeaea;
+    border-radius: 4px;
+  }
+}
+:where(
+    .css-dev-only-do-not-override-1qfezbu
+  ).ant-input-outlined.ant-input-disabled,
+:where(.css-dev-only-do-not-override-1qfezbu).ant-input-outlined[disabled] {
+  background-color: #f8f8f8 !important;
 }
 /* ==================================================================================================================*/
 .detail {
@@ -156,12 +182,18 @@
     opacity: 0;
     visibility: hidden;
     z-index: -2;
+    position: absolute;
     @include anim(0.15s, 0s);
   }
   &__text {
     font-size: 15px;
     color: #21232c;
     font-weight: 400;
+    max-width: 191px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // margin-right: 15px;
     &_with-bg {
       border-radius: 4px;
       background-color: #ddf2fd;
@@ -212,5 +244,32 @@
   &__frame {
     width: 100%;
     height: 100%;
+  }
+}
+
+.form-label {
+  position: relative;
+  padding-left: 9px;
+  &.required-label {
+    padding-left: 0;
+    &::before {
+      display: inline-block;
+      margin-inline-end: 4px;
+      color: #ff4d4f;
+      font-size: 14px;
+      font-family: SimSun, sans-serif;
+      line-height: 1;
+      content: '*';
+    }
+  }
+}
+
+/* ==================================================================================================================*/
+.feature-content {
+  position: relative;
+  &__inner {
+    position: absolute;
+    right: 0;
+    bottom: 28px;
   }
 }

@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { LoginParams } from '../../models';
 import Profile from '../../services/profile';
@@ -22,7 +22,7 @@ export function useLogin() {
     },
     onError: (err) => {
       console.log('ERROR', err);
-      toast.error('Provided email or password are incorrect');
+      message.error('Provided email or password are incorrect');
     },
   });
 

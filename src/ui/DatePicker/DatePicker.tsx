@@ -1,15 +1,29 @@
-// import type { DatePickerProps } from 'antd';
+import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
-// const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-//   console.log(date, dateString);
-// };
 
 export default function UseDatePicker({
   type,
   name,
+  getYear,
 }: {
-  type: "year"|"date"|"time";
+  type: 'year' | 'date' | 'time';
   name: string;
+  getYear?: (a: string) => void;
 }) {
-  return <DatePicker picker={type} name={name} required />;
+  const onChange: DatePickerProps['onChange'] = (t, date) => {
+    if (type == 'year') {
+      getYear && getYear(t?.year()?.toString());
+      return;
+    }
+    getYear && getYear(date.toString());
+  };
+
+  return (
+    <DatePicker
+      onChange={onChange}
+      picker={type}
+      name={name}
+      allowClear={false}
+    />
+  );
 }

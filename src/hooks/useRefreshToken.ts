@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { message } from 'antd';
 import { setToken } from '../features/authentication/authSlice';
 import Profile from '../services/profile';
 import { useAppDispatch } from '../store/hooks';
@@ -14,7 +14,7 @@ export function useRefreshToken() {
     },
     onError: (err) => {
       console.log('ERROR', err);
-      toast.error('Error occured getting refresh token');
+      message.error('Error occured getting refresh token');
     },
   });
 

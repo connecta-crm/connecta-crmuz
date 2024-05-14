@@ -1,7 +1,9 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../features/authentication/useUser';
+import { useAutoRefreshToken } from '../hooks/useAutoRefreshToken';
 import { useAppSelector } from '../store/hooks';
+import Spinner from './Spinner';
 
 type ProtectedRouteProps = {
   roles: string[];
@@ -9,6 +11,7 @@ type ProtectedRouteProps = {
 
 function ProtectedRoute({ children }: PropsWithChildren<ProtectedRouteProps>) {
   const { isLoading, userData } = useUser();
+  const { error: refreshError } = useAutoRefreshToken();
   const navigate = useNavigate();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
@@ -20,15 +23,15 @@ function ProtectedRoute({ children }: PropsWithChildren<ProtectedRouteProps>) {
 
   useEffect(() => {
     // if ((!userData && !isLoading) || (error && roles && !roles.some(role => user?.roles.includes(role)))) {
-    if (!isAuthenticated && !userData && !isLoading) {
+    if ((!isAuthenticated && !userData && !isLoading) || refreshError) {
       return navigate('/auth/login');
     }
-  }, [isAuthenticated, userData, navigate, isLoading]);
+  }, [isAuthenticated, userData, navigate, isLoading, refreshError]);
 
   if (isLoading) {
     return (
       <div className="full-page">
-        <div className="spinner"></div>
+        <Spinner />
       </div>
     );
   }

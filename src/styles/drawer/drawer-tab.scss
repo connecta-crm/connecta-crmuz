@@ -110,6 +110,34 @@
     .ant-upload-list {
     display: none;
   }
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-top
+    > .ant-tabs-nav::before,
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-bottom
+    > .ant-tabs-nav::before,
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-top
+    > div
+    > .ant-tabs-nav::before,
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-tabs-bottom
+    > div
+    > .ant-tabs-nav::before {
+    border-color: #d1d1d1;
+  }
+  :where(
+      .css-dev-only-do-not-override-1qfezbu
+    ).ant-select-single.ant-select-show-arrow
+    .ant-select-selection-item,
+  :where(
+      .css-dev-only-do-not-override-1qfezbu
+    ).ant-select-single.ant-select-show-arrow
+    .ant-select-selection-placeholder {
+    color: #666666;
+  }
+  :where(.css-dev-only-do-not-override-1qfezbu).ant-select-filled:not(
+      .ant-select-customize-input
+    )
+    .ant-select-selector {
+    background: rgba(234, 234, 234, 1);
+  }
 }
 
 /* ==================================================================================================================*/
@@ -174,4 +202,100 @@
     }
   }
 }
-/* ==================================================================================================================*/
+/* ================================== TASK styles ================================================================================*/
+.task {
+  &__row {
+    @include flexbox();
+  }
+  &__col {
+    flex: 1 1 auto;
+
+    &:last-child {
+      flex: 0 0 240px;
+    }
+  }
+  &__calendar {
+    border-left: 1px solid #d1d1d1;
+    background-color: #f4f4f4;
+    height: 100%;
+  }
+  &__feature {
+    padding: 10px 35px;
+  }
+  &__bottom {
+    padding: 5px 35px;
+    background-color: #f8f8f8;
+    @include flexbox();
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+.feature-task {
+  &.small-screen {
+    :where(.css-dev-only-do-not-override-1qfezbu).ant-radio-button-wrapper {
+      padding-inline: 11px !important;
+    }
+  }
+  &--group {
+    position: relative;
+    .task-icon {
+      position: absolute;
+      top: 50%;
+      left: -26px;
+      @include tr(0, -50%, 0);
+      width: 17px;
+      height: 17px;
+      z-index: 2;
+      img {
+        width: 100%;
+      }
+    }
+  }
+  &__item {
+    img {
+      width: 15px;
+      height: 15px;
+    }
+    span {
+      color: #666666;
+    }
+  }
+  &__dates {
+    @include flexbox();
+    align-items: center;
+    span.mx-15 {
+      color: #666666;
+    }
+  }
+  &__date {
+    @include flexbox();
+    align-items: center;
+  }
+  &__notes {
+    min-height: 50px !important;
+    width: 390px;
+    border-radius: 3px !important;
+  }
+}
+
+/* =================================== PHONE styles ===============================================================================*/
+.phone {
+  &__body {
+  }
+  &__item {
+    @include flexbox();
+    align-items: center;
+    border-bottom: 1px solid #d1d1d1;
+    padding: 0 10px;
+  }
+}
+
+.item-phone {
+  &__select {
+  }
+  &__text {
+    font-size: 15px;
+    font-weight: 400;
+  }
+}

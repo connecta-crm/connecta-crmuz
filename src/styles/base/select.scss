@@ -6,13 +6,24 @@
   @include flexbox();
   align-items: center;
   padding-left: 4px;
+  position: relative;
   &_icon {
     width: 16px;
+    margin-left: 4px;
   }
   &_avater {
     width: 18px;
     height: 18px;
     margin-left: 5px;
     margin-right: 3px;
+  }
+  &_position {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    cursor: pointer;
   }
 }

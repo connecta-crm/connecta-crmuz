@@ -24,7 +24,7 @@ const rowSelection = {
 export default function Templates() {
     return (
         <div className="templates">
-          <TableHeader pageName='templates'/>
+          <TableHeader />
                <div className='table__container'>
         <Table
           rowSelection={{

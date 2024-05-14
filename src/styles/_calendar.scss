@@ -1,38 +1,68 @@
-.fc-toolbar-title{
-    color: #666;
-font-family: $fontfamily;
-font-size: 15px !important;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+.fc-toolbar-title {
+  color: #666;
+  font-family: $fontfamily;
+  font-size: 15px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
-.fc-toolbar-chunk button{
-    background: none !important;
-    color: #666 !important;
-    border: none !important;
-    padding: 0 !important;
+.fc-toolbar-chunk button {
+  background: none !important;
+  color: #666666 !important;
+  border: none !important;
+  padding: 0 0 2px 0 !important;
+  @include anim(0.3s, 0s);
+  &:hover {
+    background-color: #d1d1d1 !important;
+  }
 }
-.fc-toolbar-chunk button:focus{
-    box-shadow: none !important;
+.fc-toolbar-chunk button:focus {
+  box-shadow: none !important;
 }
 .fc .fc-toolbar.fc-header-toolbar {
-    margin-bottom: 0 !important;
-    padding-bottom: 3px;
+  margin-bottom: 0 !important;
+  padding: 6px 5px;
+  background-color: #ffffff;
 }
- .fc-scrollgrid-section td{
-    color: #666;
-font-family: $fontfamily;
-font-size: 15px !important;
-font-style: normal;
-font-weight: 400;
-line-height: normal; 
- }
- .fc-col-header-cell-cushion{
-    color: #666;
-    font-family: $fontfamily;
-    font-size: 15px !important;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
- }
+.fc-scrollgrid-section td {
+  color: #666;
+  font-family: $fontfamily;
+  font-size: 15px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background-color: #ffffff;
+}
+.fc-col-header-cell-cushion {
+  color: #666;
+  font-family: $fontfamily;
+  font-size: 15px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.fc .fc-timegrid-slot-label-cushion {
+  text-transform: uppercase !important;
+}
+.fc .fc-scroller-harness {
+  background-color: #ffffff;
+}
+.fc-timegrid-event .fc-event-main {
+  background: rgba(8, 110, 214, 1);
+}
+.fc-today-button.fc-button {
+  text-transform: capitalize !important;
+  @include anim(0.3s, 0s);
+  padding: 2px 3px !important;
+  &:hover {
+    background-color: #d1d1d1 !important;
+  }
+}
+.fc .fc-scrollgrid-liquid {
+  border-left: none;
+}
+.fc .fc-scrollgrid-section > * {
+  border: none;
+}

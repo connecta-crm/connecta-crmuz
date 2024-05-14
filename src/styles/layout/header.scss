@@ -46,7 +46,7 @@
     img {
       width: 100%;
     }
-    margin: 0 22px 0 10px;
+    margin: 0 10px 0 10px;
   }
   // .header__lightblub
   &__lightblub {
@@ -55,7 +55,8 @@
     img {
       width: 100%;
     }
-    margin-right: 15px;
+    margin-right: 12px;
+    margin-left: 10px;
   }
   // .header__avatar
   &__avatar {
@@ -64,7 +65,7 @@
     img {
       width: 100%;
     }
-    margin-right: 18px;
+    // margin-right: 18px;
   }
 }
 .input-search-big {

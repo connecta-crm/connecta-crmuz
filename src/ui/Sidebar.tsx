@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import logo from '../../public/img/logo.svg';
 import { getMenuData } from '../services/menu';
+import logo from '/img/logo.svg';
 function Sidebar() {
   const { pathname } = useLocation();
 

@@ -2,18 +2,18 @@ import { ComponentType, LazyExoticComponent, lazy } from 'react';
 
 import Leads from '../../pages/Leads';
 
-import firstImg from '../../../public/img/sidebar/01.svg';
-import firstImgActive from '../../../public/img/sidebar/01_active.svg';
-import secondImg from '../../../public/img/sidebar/02.svg';
-import secondImgActive from '../../../public/img/sidebar/02_active.svg';
-import thirdImg from '../../../public/img/sidebar/03.svg';
-import thirdImgActive from '../../../public/img/sidebar/03_active.svg';
-import fifthImg from '../../../public/img/sidebar/05.svg';
-import fifthImgActive from '../../../public/img/sidebar/05_active.svg';
-import sixthImg from '../../../public/img/sidebar/06.svg';
-import sixthImgActive from '../../../public/img/sidebar/06_active.svg';
-import ninthImg from '../../../public/img/sidebar/09.svg';
-import ninthImgActive from '../../../public/img/sidebar/09_active.svg';
+import firstImg from '/img/sidebar/01.svg';
+import firstImgActive from '/img/sidebar/01_active.svg';
+import secondImg from '/img/sidebar/02.svg';
+import secondImgActive from '/img/sidebar/02_active.svg';
+import thirdImg from '/img/sidebar/03.svg';
+import thirdImgActive from '/img/sidebar/03_active.svg';
+import fifthImg from '/img/sidebar/05.svg';
+import fifthImgActive from '/img/sidebar/05_active.svg';
+import sixthImg from '/img/sidebar/06.svg';
+import sixthImgActive from '/img/sidebar/06_active.svg';
+import ninthImg from '/img/sidebar/09.svg';
+import ninthImgActive from '/img/sidebar/09_active.svg';
 
 import { MenuNestedData, elements } from './nestedElements';
 
@@ -23,7 +23,7 @@ const lazyLoad = (
   return lazy(importFunc);
 };
 
-type FilterByType = {
+export type SortByStatusType = {
   id: number;
   value: string;
   title: string;
@@ -39,7 +39,7 @@ export type MenuData = {
     | ComponentType<unknown>
     | LazyExoticComponent<ComponentType<unknown>>;
   roles: string[];
-  filterBy?: FilterByType[];
+  status?: SortByStatusType[];
   elements?: MenuNestedData[];
 };
 
@@ -52,7 +52,7 @@ export const getMenuData: MenuData[] = [
     iconActive: firstImgActive,
     component: Leads,
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       //!? /leads?filter_by=query -> www.meta.uz/leads?filter_by=quotes
       { id: 1, value: 'leads', title: 'Leads' },
       { id: 2, value: 'archived', title: 'Archived' },
@@ -66,7 +66,7 @@ export const getMenuData: MenuData[] = [
     iconActive: secondImgActive,
     component: lazyLoad(() => import('../../pages/Quotes')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 3, value: 'quotes', title: 'Quotes' },
       { id: 4, value: 'follow_up', title: 'Follow up' },
       { id: 5, value: 'warm', title: 'Warm' },
@@ -85,7 +85,7 @@ export const getMenuData: MenuData[] = [
     iconActive: thirdImgActive,
     component: lazyLoad(() => import('../../pages/Orders')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 11, value: 'orders', title: 'Orders' },
       { id: 12, value: 'booked', title: 'Booked' },
       { id: 13, value: 'posted', title: 'Posted' },
@@ -106,7 +106,7 @@ export const getMenuData: MenuData[] = [
     iconActive: fifthImgActive,
     component: lazyLoad(() => import('../../pages/Task')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 21, value: 'task_list', title: 'Task list' },
       { id: 22, value: 'support', title: 'Support' },
       { id: 23, value: 'completed', title: 'Completed' },
@@ -121,7 +121,7 @@ export const getMenuData: MenuData[] = [
     iconActive: sixthImgActive,
     component: lazyLoad(() => import('../../pages/Contact')),
     roles: ['admin', 'user'],
-    filterBy: [
+    status: [
       { id: 25, value: 'all_customers', title: 'All customers' },
       { id: 26, value: 'active', title: 'Active' },
       { id: 27, value: 'inactive', title: 'Inactive' },
