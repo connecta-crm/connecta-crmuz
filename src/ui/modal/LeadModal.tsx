@@ -4,7 +4,6 @@ import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
-import Person from '../../features/person/Person.tsx';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
@@ -16,6 +15,7 @@ import FormControl from '../Form/FormControl';
 import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
+import Person from '../Person.tsx';
 import Modal from './Modal';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';

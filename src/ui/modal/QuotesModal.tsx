@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import Pickup from '../../features/origin/Pickup';
-import Person from '../../features/person/Person.tsx';
 import { useCreateQuote } from '../../features/quotes/useQuote';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
@@ -17,6 +16,7 @@ import FormControl from '../Form/FormControl';
 import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
+import Person from '../Person.tsx';
 import Modal from './Modal';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';

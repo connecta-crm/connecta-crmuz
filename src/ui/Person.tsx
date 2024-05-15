@@ -2,14 +2,14 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
-import FormControl from '../../ui/Form/FormControl';
-import Input from '../../ui/Form/Input';
-import UpCollapse from '../../ui/Form/UpCollapse';
 import {
   useCreateNumber,
   useCreatePerson,
   usePerson,
-} from '../leads/useLeadDetails';
+} from '../features/leads/useLeadDetails';
+import FormControl from './Form/FormControl';
+import Input from './Form/Input';
+import UpCollapse from './Form/UpCollapse';
 import email from '/img/drawer/mail.svg';
 import phone from '/img/drawer/phone.svg';
 import user from '/img/drawer/user.svg';
