@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import Pickup from '../../features/origin/Pickup';
-import Person from '../../features/person/Person';
+import Person from '../../features/person/Person.tsx';
 import { useCreateQuote } from '../../features/quotes/useQuote';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
