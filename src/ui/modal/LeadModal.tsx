@@ -1,10 +1,10 @@
 import { Select, message } from 'antd';
 import { useState } from 'react';
-import Person from '../../features/Person/Person.tsx';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
+import Person from '../../features/person/Person';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,

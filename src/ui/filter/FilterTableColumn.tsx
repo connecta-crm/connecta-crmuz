@@ -1,19 +1,9 @@
-import TableDropdown from '../../ui/TableDropdown';
-import { QuotesTableDataType } from './QuotesTableColumnType';
-export const QuotesTableColumns = [
+import { FilterTableDataType } from './FilterTableColumnType';
+export const FilterTableColumns = [
   {
     title: 'Id',
     dataIndex: 'id',
     render: (text: string) => <a className="table__id">{text}</a>,
-  },
-  {
-    title: 'Quotes	',
-    dataIndex: 'updatedAt',
-  },
-  {
-    title: 'Note	',
-    dataIndex: 'node',
-    render: (text: string) => <TableDropdown text={text} />,
   },
   {
     title: 'User',
@@ -43,9 +33,13 @@ export const QuotesTableColumns = [
     ),
   },
   {
+    title: 'Status',
+    dataIndex: 'status',
+  },
+  {
     title: 'Vehicle',
     dataIndex: 'quoteVehicles',
-    render: (data: { vehicleName: string }[], record: QuotesTableDataType) => (
+    render: (data: { vehicleName: string }[], record: FilterTableDataType) => (
       <div className="table__vehicle">
         {
           <div className="table__vehicle__imgs">

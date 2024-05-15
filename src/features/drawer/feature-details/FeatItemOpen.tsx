@@ -11,12 +11,10 @@ import {
   resetField as resetLeadField,
   setLeadData,
 } from '../../leads/leadSlice';
-import { useLead } from '../../leads/useLead';
 import { useLeadEdit } from '../../leads/useLeadEdit';
 import { useLeadVehicleCreate } from '../../leads/useLeadVehicleCreate';
 import { useLeadVehicleDelete } from '../../leads/useLeadVehicleDelete';
 import { useLeadVehicleEdit } from '../../leads/useLeadVehicleEdit';
-import { useLeads } from '../../leads/useLeads';
 
 export type FeatItemOpenProps = {
   keyValue: string;
@@ -42,13 +40,14 @@ function FeatItemOpen({
   const [popconfirmOpen, setPopconfirmOpen] = useState(false);
   const { isEditDetails, onChangeInnerCollapse } = useDrawerFeature();
 
+  const [leadUpdated, setLeadUpdated] = useState(false);
+
+  const updateLead = () => {
+    setLeadUpdated(true);
+  };
+
   const leadData = useAppSelector(getLeadData);
   const dispatch = useAppDispatch();
-
-  const [guid, setGuid] = useState<string | null>(null);
-
-  const { leads } = useLeads();
-  const { lead, isFetchingLead, error: errorLead } = useLead(guid);
 
   const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
 
@@ -58,8 +57,7 @@ function FeatItemOpen({
   const { deleteLeadVehicle, isLoading: isLoadingLeadVehicleDelete } =
     useLeadVehicleDelete();
 
-  const { createLeadVehicle, isLoading: isLoadingLeadVehicleCreate } =
-    useLeadVehicleCreate();
+  const { createLeadVehicle } = useLeadVehicleCreate();
 
   const updateLeadModel = {
     ...leadData,
@@ -86,11 +84,12 @@ function FeatItemOpen({
               lead: leadData.id,
               vehicleYear: featureItemData?.vehicleYear,
             });
+            updateLead();
           }
-
           return;
         }
         editLead({ guid: leadData.guid, updateLeadModel });
+        updateLead();
         break;
       case 'quote':
         // editQuote({ guid: leadData.guid, updateLeadData });
@@ -115,50 +114,26 @@ function FeatItemOpen({
     const vehicle = leadData.leadVehicles[0]?.vehicle.id || null;
     const vehicleYear = leadData.leadVehicles[0]?.vehicleYear || '';
     createLeadVehicle({ vehicle, vehicleYear, lead });
+    updateLead();
   };
 
   const handleRemoveVehicle = () => {
     const id = featureItemData?.id;
-    setGuid(null);
     if (id) {
       deleteLeadVehicle(id);
+      updateLead();
     }
   };
 
-  const leadId = leadData.guid;
-
   useEffect(() => {
-    if (!isLoadingLeadVehicleDelete) {
-      setGuid(leadId);
-    }
-  }, [isLoadingLeadVehicleDelete, leadId]);
-
-  useEffect(() => {
-    if (!isFetchingLead && !errorLead && leads.length) {
-      dispatch(setLeadData(lead));
-    }
-  }, [isFetchingLead, errorLead, leads, dispatch]);
-
-  useEffect(() => {
-    if (
-      !isLoading &&
-      !error &&
-      !isLoadingLeadVehicleEdit &&
-      !isLoadingLeadVehicleDelete &&
-      !isLoadingLeadVehicleCreate
-    ) {
+    if (leadUpdated && !isLoading && !error) {
       const merged = merge({}, leadData, updatedLeadData);
       dispatch(setLeadData(merged));
       onChangeInnerCollapse(keyValue);
+      setLeadUpdated(false);
+      console.log('MERGE FeatItemOpen');
     }
-  }, [
-    isLoading,
-    isLoadingLeadVehicleEdit,
-    isLoadingLeadVehicleDelete,
-    isLoadingLeadVehicleCreate,
-    keyValue,
-    error,
-  ]);
+  }, [setLeadUpdated, leadUpdated, isLoading, error, dispatch]);
 
   return (
     <div className="detail__btns d-flex align-center">

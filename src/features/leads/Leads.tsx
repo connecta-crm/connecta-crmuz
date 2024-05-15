@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
+import Filter from '../../ui/filter/Filter';
 import LeadModal from '../../ui/modal/LeadModal';
 import LeadTable from './LeadTable';
 import { setLeadData } from './leadSlice';
@@ -23,17 +24,12 @@ function Leads() {
   };
 
   useEffect(() => {
-    if (!isLoadingLead && !error) {
+    if (!isLoadingLead && !error && guid && lead) {
       dispatch(setLeadData(lead));
       openDrawer();
+      console.log('setLeadData Lead 1');
     }
-  }, [isLoadingLead, error, dispatch]);
-
-  useEffect(() => {
-    if (!isLoadingLeads && leads.length && lead && Object.keys(lead)?.length) {
-      dispatch(setLeadData(lead));
-    }
-  }, [leads, lead, dispatch, isLoadingLeads]);
+  }, [isLoadingLead, error, dispatch, guid, lead]);
 
   return (
     <div className="leads">
@@ -51,6 +47,7 @@ function Leads() {
         isLoadingLead={isLoadingLead}
         onOpenDrawer={handleOpenDrawer}
       />
+      <Filter />
     </div>
   );
 }

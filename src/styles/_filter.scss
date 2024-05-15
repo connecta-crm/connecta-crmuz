@@ -1,0 +1,46 @@
+.filter {
+  background-color: #fff;
+  position: absolute;
+  top: 56px;
+  right: -100%;
+  width: calc(100% - 56px);
+  z-index: 999;
+  transition: 0.3s;
+  &__active{
+   right: 0
+  }
+  &__container {
+    @include flexbox();
+  }
+  &__sidebar {
+    width: 136px;
+    min-width: 136px;
+    border-right: 1px solid #d1d1d1;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    padding: 8px 0;
+    &__item {
+      margin-bottom: 10px;
+      a {
+        padding: 10px 10px 10px 30px;
+        font-family: $fontfamily;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 18.96px;
+        text-align: left;
+        color: #21232c;
+        display: flex;
+      }
+      .active {
+        border-right: 2px solid #086ed6;
+        background-color: #ddf2fd;
+      }
+    }
+  }
+  &__content {
+    width: 100%;
+    padding: 14px 15px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+}

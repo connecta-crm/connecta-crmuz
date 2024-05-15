@@ -32,12 +32,15 @@
 
 .header {
   // .header__actions
+  position: relative;
   &__actions {
     @include flexbox();
     align-items: center;
   }
   // .header__search
   &__search {
+    //  position: absolute;
+
   }
   // .header__add
   &__add {

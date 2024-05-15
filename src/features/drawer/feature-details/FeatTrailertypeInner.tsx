@@ -75,6 +75,7 @@ function FeatTrailertypeInner({
       const merged = merge({}, leadData, updatedLeadData);
       dispatch(setLeadData(merged));
       onChangeInnerCollapse(keyValue);
+      console.log('merge in FeatTrailer');
     }
   }, [isLoadingEditLead, keyValue, errorEditLead]);
 

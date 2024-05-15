@@ -23,7 +23,7 @@ class Leads {
     try {
       const params: Record<string, unknown> = {
         limit,
-        offset,
+          offset,
         q,
         status,
       };
