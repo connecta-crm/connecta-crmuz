@@ -4,6 +4,7 @@ import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
+import Person from '../../features/person/Person';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
@@ -19,7 +20,6 @@ import Modal from './Modal';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import trailer from '/img/drawer/trailer.svg';
-import Person from '../../features/person/Person';
 export default function LeadModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
