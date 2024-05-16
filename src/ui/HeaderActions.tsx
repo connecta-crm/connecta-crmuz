@@ -1,25 +1,8 @@
 import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import { useFilter } from '../context/FilterContext';
+import { useModal } from '../context/ModalContext';
 
-const itemsCreate: MenuProps['items'] = [
-  {
-    label: <p onClick={() => {}}>Create a lead</p>,
-    key: '0',
-  },
-  {
-    label: <p onClick={() => {}}>Create a contact</p>,
-    key: '1',
-  },
-  {
-    label: <p onClick={() => {}}>Create a carrier</p>,
-    key: '3',
-  },
-  {
-    label: <p onClick={() => {}}>Create a task</p>,
-    key: '4',
-  },
-];
 
 const itemsUser: MenuProps['items'] = [
   {
@@ -46,6 +29,26 @@ function HeaderActions({
 }) {
   const [value, setValue] = useState('');
   const { showFilter, hideFilter } = useFilter();
+   const {showModal} =  useModal()
+  
+const itemsCreate: MenuProps['items'] = [
+  {
+    label: <p onClick={() => showModal()}>Create a lead</p>,
+    key: '0',
+  },
+  {
+    label: <p onClick={() => {}}>Create a contact</p>,
+    key: '1',
+  },
+  {
+    label: <p onClick={() => {}}>Create a carrier</p>,
+    key: '3',
+  },
+  {
+    label: <p onClick={() => {}}>Create a task</p>,
+    key: '4',
+  },
+];
 
   const getSearchValue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -13,7 +13,7 @@ export const QuotesTableColumns = [
     {
       title: 'Note	',
       dataIndex: 'node',
-      render: (text: string) => <TableDropdown text={text} />,
+      render: (text: string,record: QuotesTableDataType) => <TableDropdown record={record} text={text} />,
     },
     {
       title: 'User',
@@ -63,8 +63,8 @@ export const QuotesTableColumns = [
           </div>
         }
         <div className="table__vehicle__text">
-          {data.map((item) => (
-            <div key={item.vehicleName}>{item.vehicleName}</div>
+          {data.map((item,index) => (
+            <div key={index}>{item.vehicleName}</div>
           ))}
         </div>
       </div>

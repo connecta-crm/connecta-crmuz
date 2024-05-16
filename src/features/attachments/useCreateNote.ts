@@ -3,7 +3,7 @@ import { message } from 'antd';
 import Attachments from '../../services/attachments';
 
 export type CreateNoteParams = {
-  rel: number;
+  rel: number | undefined;
   endpointType: string;
   text: string;
   user: number | undefined;
@@ -18,11 +18,10 @@ export function useCreateNote() {
     onSuccess: (data: unknown) => {
       queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
       console.log('NOTE', data);
-      message.success('Lead note created!');
+      message.success('Note created!');
     },
-    onError: (err: string) => {
-      console.log('ERROR', err);
-      message.error(err);
+    onError: (err) => {
+      message.error(err.message);
     },
   });
 

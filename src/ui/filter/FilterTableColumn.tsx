@@ -58,8 +58,8 @@ export const FilterTableColumns = [
           </div>
         }
         <div className="table__vehicle__text">
-          {data.map((item) => (
-            <div key={item.vehicleName}>{item.vehicleName}</div>
+          {data.map((item,index) => (
+            <div key={index}>{item.vehicleName}</div>
           ))}
         </div>
       </div>
