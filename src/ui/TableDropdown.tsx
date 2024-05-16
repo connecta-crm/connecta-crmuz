@@ -1,13 +1,36 @@
+import { Spin } from 'antd';
 import { FormEvent, useState } from 'react';
-
-function TableDropdown({ text }: { text: string }) {
+import { useCreateNote } from '../features/attachments/useCreateNote';
+import { getUser } from '../features/authentication/authSlice';
+import { QuotesTableDataType } from '../features/quotes/QuotesTableColumnType';
+import { useAppSelector } from '../store/hooks';
+function TableDropdown({
+  text,
+  record,
+}: {
+  text: string;
+  record: QuotesTableDataType;
+}) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-
+  const userData = useAppSelector(getUser);
+  const { createNote, isLoading } = useCreateNote();
   const getNodeValue = (e: FormEvent) => {
     e.preventDefault();
-    console.log(value);
-    setOpen(false);
+    const user = userData?.id ? +userData?.id : undefined;
+    createNote(
+      {
+        rel: record?.id,
+        endpointType: record.status,
+        text: value,
+        user,
+      },
+      {
+        onSuccess: () => {
+          setOpen(false);
+        },
+      },
+    );
   };
 
   return (
@@ -38,8 +61,16 @@ function TableDropdown({ text }: { text: string }) {
                     >
                       Cancel
                     </button>
-                    <button type="submit" className="table__node__primary">
-                      Save
+                    <button
+                      type="submit"
+                      className="table__node__primary"
+                      style={{ background: isLoading ? 'white' : '' }}
+                    >
+                      {isLoading ? (
+                        <Spin size="small" style={{ color: 'red' }} />
+                      ) : (
+                        'Save'
+                      )}
                     </button>
                   </div>
                 </form>

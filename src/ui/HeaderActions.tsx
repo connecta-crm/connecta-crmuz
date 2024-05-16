@@ -38,6 +38,8 @@ function HeaderActions({
       key: '4',
     },
   ];
+import { useModal } from '../context/ModalContext';
+
 
   const itemsUser: MenuProps['items'] = [
     {
@@ -64,6 +66,56 @@ function HeaderActions({
         // logout();
         break;
     }
+const itemsUser: MenuProps['items'] = [
+  {
+    label: <p onClick={() => {}}>Profile</p>,
+    key: '0',
+  },
+  {
+    label: <p onClick={() => {}}>Calls</p>,
+    key: '1',
+  },
+  {
+    label: <p onClick={() => {}}>SMS</p>,
+    key: '3',
+  },
+  {
+    label: <p onClick={() => {}}>Log out</p>,
+    key: '4',
+  },
+];
+function HeaderActions({
+  searchHandler,
+}: {
+  searchHandler: (text: string) => void;
+}) {
+  const [value, setValue] = useState('');
+  const { showFilter, hideFilter } = useFilter();
+   const {showModal} =  useModal()
+  
+const itemsCreate: MenuProps['items'] = [
+  {
+    label: <p onClick={() => showModal()}>Create a lead</p>,
+    key: '0',
+  },
+  {
+    label: <p onClick={() => {}}>Create a contact</p>,
+    key: '1',
+  },
+  {
+    label: <p onClick={() => {}}>Create a carrier</p>,
+    key: '3',
+  },
+  {
+    label: <p onClick={() => {}}>Create a task</p>,
+    key: '4',
+  },
+];
+
+  const getSearchValue = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    searchHandler(value);
+    showFilter();
   };
 
   return (
