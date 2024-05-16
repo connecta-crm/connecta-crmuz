@@ -1,44 +1,9 @@
 import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import { useFilter } from '../context/FilterContext';
+import { logout } from '../features/authentication/authSlice';
+import { useAppDispatch } from '../store/hooks';
 
-const itemsCreate: MenuProps['items'] = [
-  {
-    label: <p onClick={() => {}}>Create a lead</p>,
-    key: '0',
-  },
-  {
-    label: <p onClick={() => {}}>Create a contact</p>,
-    key: '1',
-  },
-  {
-    label: <p onClick={() => {}}>Create a carrier</p>,
-    key: '3',
-  },
-  {
-    label: <p onClick={() => {}}>Create a task</p>,
-    key: '4',
-  },
-];
-
-const itemsUser: MenuProps['items'] = [
-  {
-    label: <p onClick={() => {}}>Profile</p>,
-    key: '0',
-  },
-  {
-    label: <p onClick={() => {}}>Calls</p>,
-    key: '1',
-  },
-  {
-    label: <p onClick={() => {}}>SMS</p>,
-    key: '3',
-  },
-  {
-    label: <p onClick={() => {}}>Log out</p>,
-    key: '4',
-  },
-];
 function HeaderActions({
   searchHandler,
 }: {
@@ -47,10 +12,58 @@ function HeaderActions({
   const [value, setValue] = useState('');
   const { showFilter, hideFilter } = useFilter();
 
+  const dispatch = useAppDispatch();
+
   const getSearchValue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     searchHandler(value);
     showFilter();
+  };
+
+  const itemsCreate: MenuProps['items'] = [
+    {
+      label: <p onClick={() => {}}>Create a lead</p>,
+      key: '0',
+    },
+    {
+      label: <p onClick={() => {}}>Create a contact</p>,
+      key: '1',
+    },
+    {
+      label: <p onClick={() => {}}>Create a carrier</p>,
+      key: '3',
+    },
+    {
+      label: <p onClick={() => {}}>Create a task</p>,
+      key: '4',
+    },
+  ];
+
+  const itemsUser: MenuProps['items'] = [
+    {
+      label: <p onClick={() => {}}>Profile</p>,
+      key: '0',
+    },
+    {
+      label: <p onClick={() => {}}>Calls</p>,
+      key: '1',
+    },
+    {
+      label: <p onClick={() => {}}>SMS</p>,
+      key: '3',
+    },
+    {
+      label: <p onClick={() => dispatch(logout())}>Log out</p>,
+      key: '4',
+    },
+  ];
+
+  const onClickUser: MenuProps['onClick'] = ({ key }) => {
+    switch (key) {
+      case '4':
+        // logout();
+        break;
+    }
   };
 
   return (
@@ -92,7 +105,6 @@ function HeaderActions({
           </Space>
         </a>
       </Dropdown>
-
       <div className="header__lightblub">
         <img src="./img/lightbulb.svg" alt="" />
       </div>
@@ -101,6 +113,7 @@ function HeaderActions({
           items: itemsUser,
           selectable: false,
           defaultSelectedKeys: [''],
+          onClick: onClickUser,
         }}
         trigger={['click']}
         placement="bottomRight"
