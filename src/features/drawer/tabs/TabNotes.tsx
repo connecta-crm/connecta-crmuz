@@ -2,17 +2,14 @@ import JoditEditor from 'jodit-react';
 import { useMemo, useRef } from 'react';
 import { CancelNotesActionType } from './Tabs';
 
-function Notes({
-  type,
-  content,
-  tabIndex,
-  onSetContent,
-}: {
+type TabNotesProps = {
   type: CancelNotesActionType;
   content: string;
-  tabIndex: number;
+  tabIndex?: number;
   onSetContent: (type: CancelNotesActionType, note: string) => void;
-}) {
+};
+
+function Notes({ type, content, tabIndex, onSetContent }: TabNotesProps) {
   const editor = useRef(null);
   const config = useMemo(
     () => ({
