@@ -53,6 +53,7 @@ function History() {
       children: <HistoryCard type={'task'} />,
     },
   ];
+
   return (
     <div className="history">
       <Tabs defaultActiveKey="1" items={items} onChange={onChange} />

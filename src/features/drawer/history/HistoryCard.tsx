@@ -1,6 +1,8 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Popconfirm, Radio } from 'antd';
 import { useState } from 'react';
+import { useModal } from '../../../context/ModalContext';
+import Modal from '../../../ui/modal/Modal';
 import { useDeleteLeadAttachments } from '../../attachments/useDeleteLeadAttachments';
 import { NoteItemType } from './History';
 
@@ -11,6 +13,8 @@ export type HistoryCardProps = {
 function HistoryCard({ type, item }: HistoryCardProps) {
   const [popconfirmOpen, setPopconfirmOpen] = useState(false);
 
+  const { showModal } = useModal();
+
   const { deleteLeadAttachments, isLoading: isLoadingDelete } =
     useDeleteLeadAttachments();
 
@@ -19,9 +23,17 @@ function HistoryCard({ type, item }: HistoryCardProps) {
       deleteLeadAttachments(item.id);
     }
   };
-  // console.log('item', item);
+
+  const handleEditAttachment = () => {
+    console.log('edit');
+    showModal();
+  };
+
   return (
     <div className="card mb-10">
+      <Modal isLoading={false} onSubmit={() => {}} title="Edit attachment">
+        <h1>Edit modal</h1>
+      </Modal>
       <div className="card__row">
         <div className="card__col">
           <div className="card__icon">
@@ -50,9 +62,13 @@ function HistoryCard({ type, item }: HistoryCardProps) {
               <p className="card__action">
                 <img src="./img/drawer/extract.svg" alt="" />
               </p>
-              <p className="card__action">
+              <button
+                title="edit-attachment"
+                className="card__action"
+                onClick={handleEditAttachment}
+              >
                 <img src="./img/drawer/pen.svg" alt="" />
-              </p>
+              </button>
               <Popconfirm
                 placement="top"
                 title={`Delete this ${type} from the history?`}
