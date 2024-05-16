@@ -27,7 +27,6 @@ function Leads() {
     if (!isLoadingLead && !error && guid && lead) {
       dispatch(setLeadData(lead));
       openDrawer();
-      console.log('setLeadData Lead 1');
     }
   }, [isLoadingLead, error, dispatch, guid, lead]);
 

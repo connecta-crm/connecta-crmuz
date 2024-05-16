@@ -2,18 +2,13 @@ import { Button, Select } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { getLeadData, updateField } from '../../leads/leadSlice';
 
-import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
-import { setLeadData } from '../../leads/leadSlice';
-
 import { LoadingOutlined } from '@ant-design/icons';
-import { merge } from 'lodash';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { TRAILER_TYPES } from '../../../utils/constants';
-import { resetField as resetLeadField } from '../../leads/leadSlice';
-import { useLeadEdit } from '../../leads/useLeadEdit';
+import { useUpdateLeadData } from '../../leads/useUpdateLeadData';
 
 type FeatTrailertypeInnerProps = {
-  feature: string;
+  feature: 'lead' | 'quote' | 'order';
   keyValue: string | string[];
 };
 
@@ -24,60 +19,19 @@ function FeatTrailertypeInner({
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
+  const [isleadUpdated, setLeadUpdated] = useState(false);
+
+  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
+    keyValue,
+    feature,
+    field: 'trailerType',
+    isleadUpdated,
+    setLeadUpdated,
+  });
+
   const handleChange = (value: string) => {
     dispatch(updateField({ field: 'trailerType', value }));
   };
-
-  const { onChangeInnerCollapse } = useDrawerFeature();
-
-  const {
-    editLead,
-    updatedLeadData,
-    error: errorEditLead,
-    isLoading: isLoadingEditLead,
-  } = useLeadEdit();
-
-  const updateLeadModel = {
-    ...leadData,
-    customer: leadData.customer?.id,
-    source: leadData.source?.id,
-    origin: leadData.origin?.id,
-    destination: leadData.destination?.id,
-    user: leadData.user?.id,
-    extraUser: leadData?.extraUser,
-  };
-
-  const handleSave = () => {
-    switch (feature) {
-      case 'lead':
-        editLead({ guid: leadData.guid, updateLeadModel });
-        break;
-      case 'quote':
-        // editQuote({ guid: leadData.guid, updateLeadData });
-        break;
-    }
-  };
-
-  const handleCancel = () => {
-    switch (feature) {
-      case 'lead':
-        dispatch(resetLeadField({ field: 'trailerType' }));
-        break;
-      case 'quote':
-        // dispatch(resetQuoteField({ field }));
-        break;
-    }
-    onChangeInnerCollapse(keyValue);
-  };
-
-  useEffect(() => {
-    if (!isLoadingEditLead && !errorEditLead) {
-      const merged = merge({}, leadData, updatedLeadData);
-      dispatch(setLeadData(merged));
-      onChangeInnerCollapse(keyValue);
-      console.log('merge in FeatTrailer');
-    }
-  }, [isLoadingEditLead, keyValue, errorEditLead]);
 
   return (
     <div className="d-flex justify-end feature-content">
@@ -95,8 +49,8 @@ function FeatTrailertypeInner({
           block
           size="small"
           style={{ width: 'auto' }}
-          disabled={isLoadingEditLead}
-          onClick={handleCancel}
+          disabled={isLoading}
+          onClick={onCancelFeature}
         >
           Cancel
         </Button>
@@ -104,10 +58,10 @@ function FeatTrailertypeInner({
           className="ml-10"
           type="primary"
           size="small"
-          disabled={isLoadingEditLead}
-          onClick={handleSave}
+          disabled={isLoading}
+          onClick={onSaveFeature}
         >
-          {isLoadingEditLead ? <LoadingOutlined /> : 'Save'}
+          {isLoading ? <LoadingOutlined /> : 'Save'}
         </Button>
       </>
     </div>

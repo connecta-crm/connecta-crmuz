@@ -30,11 +30,15 @@ function History() {
     {
       key: '1',
       label: 'All',
-      children:
-        leadAttachments?.length &&
+      children: leadAttachments?.length ? (
         leadAttachments.map((item: NoteItemType) => (
           <HistoryCard key={item.id} type={'note'} item={item} />
-        )),
+        ))
+      ) : (
+        <p className="text-center" style={{ color: '#d1d1d1' }}>
+          Empty history
+        </p>
+      ),
     },
     {
       key: '2',

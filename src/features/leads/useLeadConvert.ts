@@ -22,7 +22,7 @@ export function useLeadConvert() {
     onSuccess: (data) => {
       queryClient.setQueryData(['leadConvert'], data);
       queryClient.invalidateQueries({ queryKey: ['leads'] });
-      queryClient.invalidateQueries({ queryKey: ['lead'] });
+      // queryClient.invalidateQueries({ queryKey: ['lead'] });
       message.success('Lead Convert successfully changed');
     },
     onError: (err) => message.error(err.message),

@@ -1,3 +1,5 @@
+// * WE AIN'T USING IT ANYMORE AS IT SIMILAR TO FeatTotalTariffInner component
+
 import { Input } from 'antd';
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
