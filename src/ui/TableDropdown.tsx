@@ -61,8 +61,16 @@ function TableDropdown({
                     >
                       Cancel
                     </button>
-                    <button type="submit" className="table__node__primary">
-                      {isLoading ? <Spin size="small" /> : 'Save'}
+                    <button
+                      type="submit"
+                      className="table__node__primary"
+                      style={{ background: isLoading ? 'white' : '' }}
+                    >
+                      {isLoading ? (
+                        <Spin size="small" style={{ color: 'red' }} />
+                      ) : (
+                        'Save'
+                      )}
                     </button>
                   </div>
                 </form>
