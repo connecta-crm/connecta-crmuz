@@ -1,10 +1,10 @@
-import { useModal } from '../context/ModalContext';
+// import { useModal } from '../context/ModalContext';
 import calendar from '/img/dt_table/calendar.svg';
 import sell from '/img/dt_table/table_sells.svg';
 import plus from '/img/plus_w.svg';
 
-function TableHeaderActions({ pageName }: { pageName: string }) {
-  const { showModal } = useModal();
+function TableHeaderActions({ pageName,openLeadModal }: { pageName: string,openLeadModal:(a:boolean)=>void }) {
+  // const { showModal } = useModal();
 
   return (
     <div className="dt-header__actions">
@@ -17,7 +17,7 @@ function TableHeaderActions({ pageName }: { pageName: string }) {
       <button
         type="button"
         className="dt-header__add-btn btn--primary"
-        onClick={showModal}
+        onClick={()=>openLeadModal(true)}
       >
         <img src={plus} alt="" />
         <span>New {pageName}</span>

@@ -1,5 +1,5 @@
 import RadioButton from '../ui/Form/RadioButton';
-import TableDropdown from '../ui/TableDropdown';
+// import TableDropdown from '../ui/TableDropdown';
 // =======quotes==========
 
 
@@ -77,7 +77,7 @@ export const OrderTableColumns = [
   {
     title: 'Note	',
     dataIndex: 'node',
-    render: (text: string) => <TableDropdown text={text} />,
+    // render: (text: string) => <TableDropdown  text={text} />,
   },
   {
     title: 'User',

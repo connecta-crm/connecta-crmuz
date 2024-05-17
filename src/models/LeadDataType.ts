@@ -4,9 +4,9 @@ export type LeadDataType = {
     price: number,
     condition: string | null;
     trailerType: string | null;
-    notes: FormDataEntryValue | null;
+    notes: string | undefined;
     reservationPrice: number,
-    dateEstShip: FormDataEntryValue | null;
+    dateEstShip: string | null;
     customer: string | null;
     source: string | null;
     origin: string | null;

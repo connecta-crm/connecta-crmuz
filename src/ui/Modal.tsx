@@ -1,19 +1,21 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Button, Modal as ModalUI } from 'antd';
+import { Button, FormInstance, Modal as ModalUI } from 'antd';
 import { ReactNode } from 'react';
 
 type ModalProps = {
+  form?: FormInstance;
   title: string;
   loading: boolean;
   open: boolean;
   width: 'small' | 'middle' | 'large';
   padding: '0' | '15';
   children: ReactNode;
-  onSave: () => void;
+  onSave?: () => void;
   onCancel: () => void;
 };
 
 function Modal({
+  form,
   title,
   open = false,
   loading,
@@ -26,16 +28,32 @@ function Modal({
   const modalWidth = width === 'small' ? 420 : width === 'middle' ? 840 : 915;
 
   return (
-    <>
-      <ModalUI
-        className="modal"
-        title={
-          <div className="modal__header">
-            <h2>{title}</h2>
-            <div>
-              <Button size="small" onClick={onCancel}>
-                Cancel
+    <ModalUI
+      className="modal"
+      title={
+        <div className="modal__header">
+          <h2>{title}</h2>
+          <div>
+            <Button size="small" onClick={onCancel}>
+              Cancel
+            </Button>
+            {form ? (
+              <Button
+                size="small"
+                type="primary"
+                className="ml-10"
+                disabled={loading}
+                onClick={form.submit}
+              >
+                {!loading ? (
+                  'Save'
+                ) : (
+                  <>
+                    Save <LoadingOutlined />
+                  </>
+                )}
               </Button>
+            ) : (
               <Button
                 size="small"
                 type="primary"
@@ -51,22 +69,21 @@ function Modal({
                   </>
                 )}
               </Button>
-              <button type="submit">submit</button>
-            </div>
+            )}
           </div>
-        }
-        open={open}
-        width={modalWidth}
-        footer={null}
-        closable={false}
-        maskClosable={false}
-        afterClose={() => {}}
-      >
-        <div className="modal__body" style={{ padding: Number(padding) }}>
-          {children}
         </div>
-      </ModalUI>
-    </>
+      }
+      open={open}
+      width={modalWidth}
+      footer={null}
+      closable={false}
+      maskClosable={false}
+      afterClose={() => {}}
+    >
+      <div className="modal__body" style={{ padding: Number(padding) }}>
+        {children}
+      </div>
+    </ModalUI>
   );
 }
 
