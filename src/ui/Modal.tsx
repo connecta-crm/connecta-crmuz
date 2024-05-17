@@ -51,6 +51,7 @@ function Modal({
                   </>
                 )}
               </Button>
+              <button type="submit">submit</button>
             </div>
           </div>
         }
