@@ -141,7 +141,7 @@ function History() {
         }}
         onSave={handleSave}
       >
-        <Notes type="main" content={content} onSetContent={onSetContent} />
+        <Notes type="main" content={content} onSetContent={onSetContent} />-
       </Modal>
     </div>
   );

@@ -13,6 +13,7 @@ function Leads() {
   const [guid, setGuid] = useState<string | null>(null);
   const { leads, count, isLoading: isLoadingLeads } = useLeads();
   const { lead, isLoading: isLoadingLead, error } = useLead(guid);
+  const [openLeadModal,setOpenLeadModal] = useState(false)
 
   const { openDrawer } = useDrawerFeature();
 
@@ -30,9 +31,12 @@ function Leads() {
     }
   }, [isLoadingLead, error, dispatch, guid, lead]);
 
+
+
   return (
     <div className="leads">
       <LeadTable
+        setOpenLeadModal={setOpenLeadModal}
         guid={guid}
         count={count}
         leads={leads}
@@ -40,7 +44,7 @@ function Leads() {
         isLoadingLead={isLoadingLead}
         onOpenDrawer={handleOpenDrawer}
       />
-      <LeadModal />
+      <LeadModal openLeadModal={openLeadModal} setOpenLeadModa={setOpenLeadModal}  />
       <DrawerApp
         leads={leads}
         isLoadingLead={isLoadingLead}
