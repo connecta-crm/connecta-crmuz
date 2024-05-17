@@ -65,7 +65,22 @@ function DrawerFeatureHeader({
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
     }
-    onChangeInnerCollapse(['1', '2', '3']);
+    onChangeInnerCollapse([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '20',
+      '21',
+      '22',
+      '23',
+      '24',
+      '25',
+      '26',
+    ]);
   };
   const handleSaveDetails = () => {
     // some locig to save the data in DB and update UI

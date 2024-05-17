@@ -73,7 +73,7 @@ function History() {
             type={'note'}
             item={item}
             isLoading={isLoadingNote}
-            onEdit={() => {}}
+            onEdit={handleEditNote}
           />
         ))
       ) : (
@@ -95,17 +95,17 @@ function History() {
         />
       )),
     },
-    {
-      key: '3',
-      label: 'Tasks (1)',
-      children: (
-        <HistoryCard
-          type={'task'}
-          onEdit={() => {}}
-          isLoading={isLoadingNote}
-        />
-      ),
-    },
+    // {
+    //   key: '3',
+    //   label: 'Tasks (1)',
+    //   children: (
+    //     <HistoryCard
+    //       type={'task'}
+    //       onEdit={() => {}}
+    //       isLoading={isLoadingNote}
+    //     />
+    //   ),
+    // },
   ];
 
   useEffect(() => {
