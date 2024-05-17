@@ -7,7 +7,6 @@ import { Suspense, createElement } from 'react';
 import { DarkModeProvider } from './context/DarkModeContext';
 import DrawerFeatureProvider from './context/DrawerFeatureContext.tsx';
 import FilterProvider from './context/FilterContext.tsx';
-import LeadModalProvider from './context/LeadModalContext.tsx';
 import ModalProvider from './context/ModalContext.tsx';
 import PageNotFound from './pages/PageNotFound.tsx';
 import ConfirmCode from './pages/authentication/ConfirmCode.tsx';
@@ -31,67 +30,65 @@ function App() {
   return (
     <DarkModeProvider>
       <FilterProvider>
-        <LeadModalProvider>
-          <ModalProvider>
-            <DrawerFeatureProvider>
-              <QueryClientProvider client={queryClient}>
-                <ReactQueryDevtools initialIsOpen={false} />
-                <BrowserRouter>
-                  <Routes>
-                    <Route path="/" element={<AppLayout />}>
-                      <Route index element={<Navigate replace to="leads" />} />
-                      {getMenuData.map((menu) => {
-                        return (
-                          <Route
-                            key={menu.key}
-                            path={menu.path}
-                            element={
-                              <Suspense fallback={<Skeleton active />}>
-                                <ProtectedRoute roles={menu.roles}>
-                                  {createElement(menu.component)}
-                                </ProtectedRoute>
-                              </Suspense>
-                            }
-                          >
-                            {menu.elements &&
-                              menu.elements.map((item) => (
-                                <Route
-                                  key={item.path}
-                                  path={item.path}
-                                  element={createElement(item.el)}
-                                />
-                              ))}
-                          </Route>
-                        );
-                      })}
-                    </Route>
+        <ModalProvider>
+          <DrawerFeatureProvider>
+            <QueryClientProvider client={queryClient}>
+              <ReactQueryDevtools initialIsOpen={false} />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<AppLayout />}>
+                    <Route index element={<Navigate replace to="leads" />} />
+                    {getMenuData.map((menu) => {
+                      return (
+                        <Route
+                          key={menu.key}
+                          path={menu.path}
+                          element={
+                            <Suspense fallback={<Skeleton active />}>
+                              <ProtectedRoute roles={menu.roles}>
+                                {createElement(menu.component)}
+                              </ProtectedRoute>
+                            </Suspense>
+                          }
+                        >
+                          {menu.elements &&
+                            menu.elements.map((item) => (
+                              <Route
+                                key={item.path}
+                                path={item.path}
+                                element={createElement(item.el)}
+                              />
+                            ))}
+                        </Route>
+                      );
+                    })}
+                  </Route>
 
-                    <Route path="/auth" element={<AuthLayout />}>
-                      <Route
-                        index
-                        element={<Navigate replace to="/auth/login" />}
-                      />
-                      <Route path="/auth/login" element={<Login />} />
-                      <Route
-                        path="/auth/confirm/email"
-                        element={<ConfirmEmail />}
-                      />
-                      <Route
-                        path="/auth/confirm/code"
-                        element={<ConfirmCode />}
-                      />
-                      <Route
-                        path="/auth/confirm/password"
-                        element={<ConfirmPassword />}
-                      />
-                    </Route>
-                    <Route path="*" element={<PageNotFound />} />
-                  </Routes>
-                </BrowserRouter>
-              </QueryClientProvider>
-            </DrawerFeatureProvider>
-          </ModalProvider>
-        </LeadModalProvider>
+                  <Route path="/auth" element={<AuthLayout />}>
+                    <Route
+                      index
+                      element={<Navigate replace to="/auth/login" />}
+                    />
+                    <Route path="/auth/login" element={<Login />} />
+                    <Route
+                      path="/auth/confirm/email"
+                      element={<ConfirmEmail />}
+                    />
+                    <Route
+                      path="/auth/confirm/code"
+                      element={<ConfirmCode />}
+                    />
+                    <Route
+                      path="/auth/confirm/password"
+                      element={<ConfirmPassword />}
+                    />
+                  </Route>
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </QueryClientProvider>
+          </DrawerFeatureProvider>
+        </ModalProvider>
       </FilterProvider>
     </DarkModeProvider>
   );
