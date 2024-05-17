@@ -2,7 +2,6 @@ import { Dropdown, DropdownProps, Input, MenuProps, Space } from 'antd';
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { useProviders } from '../features/providers/useProviders';
 import { DEFAULT_LIMIT } from '../utils/constants';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
 import openView from '/img/dt_table/full_view.svg';
@@ -47,7 +46,7 @@ function TableHeaderPagination({
     updateSearchParams(inputOffset);
   };
 
-  const { providers } = useProviders(true);
+  // const { providers } = useProviders(true);
 
   const { pathname } = useLocation();
 
@@ -62,11 +61,11 @@ function TableHeaderPagination({
     newSearchParams.append('limit', String(inputLimit));
     newSearchParams.append('status', String(status));
 
-    if (providers?.length) {
-      providers.forEach((provider: { id: string; name: string }) => {
-        newSearchParams.append('source', provider.id);
-      });
-    }
+    // if (providers?.length) {
+    //   providers.forEach((provider: { id: string; name: string }) => {
+    //     newSearchParams.append('source', provider.id);
+    //   });
+    // }
     setSearchParams(newSearchParams, { replace: true });
   };
 

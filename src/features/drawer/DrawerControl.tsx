@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerProps } from '../../ui/Drawer';
@@ -15,6 +16,7 @@ export type DrawerControlProps = {
 function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { guid: currentLeadGuid } = useAppSelector(getLeadData);
+  const queryClient = useQueryClient();
 
   if (isFullScreen) {
     return null;
@@ -23,10 +25,12 @@ function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
   const handlePrevElement = () => {
     const previousLeadGuid = getPreviousObjectId(leads, currentLeadGuid);
     onOpenDrawer(previousLeadGuid);
+    queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
   };
   const handleNextElement = () => {
     const nextLeadId = getNextObjectId(leads, currentLeadGuid);
     onOpenDrawer(nextLeadId);
+    queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
   };
 
   return (

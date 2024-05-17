@@ -6,6 +6,7 @@ import { useProviders } from '../../providers/useProviders';
 
 import { LoadingOutlined } from '@ant-design/icons';
 import { DefaultOptionType } from 'antd/es/select';
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useUpdateLeadData } from '../../leads/useUpdateLeadData';
 
 type FeatSourceInnerProps = {
@@ -19,6 +20,7 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
 
   const [select, setSelect] = useState(false);
   const [isleadUpdated, setLeadUpdated] = useState(false);
+  const { isEditDetails } = useDrawerFeature();
 
   const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
     keyValue,
@@ -38,7 +40,10 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
 
   return (
     <div className="d-flex justify-end feature-content">
-      <div className="feature-content__inner">
+      <div
+        className="feature-content__inner"
+        style={{ bottom: isEditDetails ? '5px' : '28px' }}
+      >
         <Select
           size="small"
           filterOption={false}
@@ -59,26 +64,28 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
           }))}
         />
       </div>
-      <>
-        <Button
-          block
-          size="small"
-          style={{ width: 'auto' }}
-          disabled={isLoading}
-          onClick={onCancelFeature}
-        >
-          Cancel
-        </Button>
-        <Button
-          className="ml-10"
-          type="primary"
-          size="small"
-          disabled={isLoading}
-          onClick={onSaveFeature}
-        >
-          {isLoading ? <LoadingOutlined /> : 'Save'}
-        </Button>
-      </>
+      {!isEditDetails && (
+        <>
+          <Button
+            block
+            size="small"
+            style={{ width: 'auto' }}
+            disabled={isLoading}
+            onClick={onCancelFeature}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="ml-10"
+            type="primary"
+            size="small"
+            disabled={isLoading}
+            onClick={onSaveFeature}
+          >
+            {isLoading ? <LoadingOutlined /> : 'Save'}
+          </Button>
+        </>
+      )}
     </div>
   );
 }

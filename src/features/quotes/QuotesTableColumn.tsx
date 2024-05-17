@@ -13,7 +13,9 @@ export const QuotesTableColumns = [
   {
     title: 'Note	',
     dataIndex: 'node',
-    render: (text: string) => <TableDropdown text={text} />,
+    render: (text: string, record: QuotesTableDataType) => (
+      <TableDropdown record={record} text={text} />
+    ),
   },
   {
     title: 'User',

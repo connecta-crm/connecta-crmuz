@@ -12,11 +12,7 @@ import FeatPersonPhoneInner from './feature-details/FeatPersonPhoneInner';
 function DrawerFeaturePersonContent() {
   const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
-  const {
-    customerName,
-    customerPhone,
-    customer: { email: customerEmail },
-  } = useAppSelector(getLeadData);
+  const { customerName, customerPhone, customer } = useAppSelector(getLeadData);
 
   const items: CollapseProps['items'] = [
     {
@@ -44,7 +40,7 @@ function DrawerFeaturePersonContent() {
       label: (
         <FeatItemHeader
           keyValue="11"
-          itemCloseLabel={customerEmail}
+          itemCloseLabel={customer?.email}
           itemLabel="Email"
           icon="mail"
           feature="lead"

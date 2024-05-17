@@ -1,28 +1,23 @@
 import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import { useFilter } from '../context/FilterContext';
+// import { useModal } from '../context/ModalContext';
 import { logout } from '../features/authentication/authSlice';
 import { useAppDispatch } from '../store/hooks';
 
-function HeaderActions({
-  searchHandler,
-}: {
+type HeaderActionsProps = {
   searchHandler: (text: string) => void;
-}) {
+};
+
+function HeaderActions({ searchHandler }: HeaderActionsProps) {
   const [value, setValue] = useState('');
   const { showFilter, hideFilter } = useFilter();
-
+  // const { showModal } = useModal();
   const dispatch = useAppDispatch();
-
-  const getSearchValue = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    searchHandler(value);
-    showFilter();
-  };
 
   const itemsCreate: MenuProps['items'] = [
     {
-      label: <p onClick={() => {}}>Create a lead</p>,
+      label: <p onClick={() =>{} }>Create a lead</p>,
       key: '0',
     },
     {
@@ -58,12 +53,10 @@ function HeaderActions({
     },
   ];
 
-  const onClickUser: MenuProps['onClick'] = ({ key }) => {
-    switch (key) {
-      case '4':
-        // logout();
-        break;
-    }
+  const getSearchValue = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    searchHandler(value);
+    showFilter();
   };
 
   return (
@@ -94,7 +87,6 @@ function HeaderActions({
         trigger={['click']}
         placement="bottom"
         arrow={{ pointAtCenter: true }}
-        // open={open}
         destroyPopupOnHide={true}
       >
         <a onClick={(e) => e.preventDefault()}>
@@ -113,7 +105,6 @@ function HeaderActions({
           items: itemsUser,
           selectable: false,
           defaultSelectedKeys: [''],
-          onClick: onClickUser,
         }}
         trigger={['click']}
         placement="bottomRight"
