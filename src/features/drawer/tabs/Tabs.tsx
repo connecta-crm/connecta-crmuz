@@ -146,12 +146,12 @@ function TabsApp() {
         <>
           <img
             className="tab-icon default-icon"
-            src="./img/drawer/tab/notes.svg"
+            src="./img/drawer/tab/note.svg"
             alt=""
           />
           <img
             className="tab-icon active-icon"
-            src="./img/drawer/tab/notes_a.svg"
+            src="./img/drawer/tab/note_a.svg"
             alt=""
           />
         </>

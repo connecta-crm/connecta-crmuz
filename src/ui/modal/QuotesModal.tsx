@@ -1,6 +1,5 @@
 import { Select, message } from 'antd';
 import { useState } from 'react';
-import Person from '../../features/person/Person';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import Pickup from '../../features/origin/Pickup';
@@ -17,6 +16,7 @@ import FormControl from '../Form/FormControl';
 import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
+import Person from '../Person.tsx';
 import Modal from './Modal';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
@@ -74,7 +74,6 @@ export default function QuoteModal() {
     }
     create(data);
     console.log(data);
-    
   };
 
   return (

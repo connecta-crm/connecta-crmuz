@@ -2,53 +2,56 @@ import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import { useFilter } from '../context/FilterContext';
 import { useModal } from '../context/ModalContext';
+import { logout } from '../features/authentication/authSlice';
+import { useAppDispatch } from '../store/hooks';
 
-
-const itemsUser: MenuProps['items'] = [
-  {
-    label: <p onClick={() => {}}>Profile</p>,
-    key: '0',
-  },
-  {
-    label: <p onClick={() => {}}>Calls</p>,
-    key: '1',
-  },
-  {
-    label: <p onClick={() => {}}>SMS</p>,
-    key: '3',
-  },
-  {
-    label: <p onClick={() => {}}>Log out</p>,
-    key: '4',
-  },
-];
-function HeaderActions({
-  searchHandler,
-}: {
+type HeaderActionsProps = {
   searchHandler: (text: string) => void;
-}) {
+};
+
+function HeaderActions({ searchHandler }: HeaderActionsProps) {
   const [value, setValue] = useState('');
   const { showFilter, hideFilter } = useFilter();
-   const {showModal} =  useModal()
-  
-const itemsCreate: MenuProps['items'] = [
-  {
-    label: <p onClick={() => showModal()}>Create a lead</p>,
-    key: '0',
-  },
-  {
-    label: <p onClick={() => {}}>Create a contact</p>,
-    key: '1',
-  },
-  {
-    label: <p onClick={() => {}}>Create a carrier</p>,
-    key: '3',
-  },
-  {
-    label: <p onClick={() => {}}>Create a task</p>,
-    key: '4',
-  },
-];
+  const { showModal } = useModal();
+  const dispatch = useAppDispatch();
+
+  const itemsCreate: MenuProps['items'] = [
+    {
+      label: <p onClick={() => showModal()}>Create a lead</p>,
+      key: '0',
+    },
+    {
+      label: <p onClick={() => {}}>Create a contact</p>,
+      key: '1',
+    },
+    {
+      label: <p onClick={() => {}}>Create a carrier</p>,
+      key: '3',
+    },
+    {
+      label: <p onClick={() => {}}>Create a task</p>,
+      key: '4',
+    },
+  ];
+
+  const itemsUser: MenuProps['items'] = [
+    {
+      label: <p onClick={() => {}}>Profile</p>,
+      key: '0',
+    },
+    {
+      label: <p onClick={() => {}}>Calls</p>,
+      key: '1',
+    },
+    {
+      label: <p onClick={() => {}}>SMS</p>,
+      key: '3',
+    },
+    {
+      label: <p onClick={() => dispatch(logout())}>Log out</p>,
+      key: '4',
+    },
+  ];
 
   const getSearchValue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,7 +87,6 @@ const itemsCreate: MenuProps['items'] = [
         trigger={['click']}
         placement="bottom"
         arrow={{ pointAtCenter: true }}
-        // open={open}
         destroyPopupOnHide={true}
       >
         <a onClick={(e) => e.preventDefault()}>
@@ -95,7 +97,6 @@ const itemsCreate: MenuProps['items'] = [
           </Space>
         </a>
       </Dropdown>
-
       <div className="header__lightblub">
         <img src="./img/lightbulb.svg" alt="" />
       </div>

@@ -12,6 +12,8 @@ type ProtectedRouteProps = {
 function ProtectedRoute({ children }: PropsWithChildren<ProtectedRouteProps>) {
   const { isLoading, userData } = useUser();
   const { error: refreshError } = useAutoRefreshToken();
+  // const { isLoading: isLoadingProviders } = useProviders(true);
+
   const navigate = useNavigate();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 

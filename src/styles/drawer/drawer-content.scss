@@ -17,14 +17,10 @@
     font-size: 16px;
     font-weight: 500;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-collapse
-    .ant-collapse-content
-    > .ant-collapse-content-box {
+  .ant-collapse .ant-collapse-content > .ant-collapse-content-box {
     padding: 0;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-collapse
-    > .ant-collapse-item
-    > .ant-collapse-header {
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     padding: 12px 10px;
   }
   &__feature {
@@ -33,7 +29,7 @@
     border-right: 1px solid #d1d1d1;
     overflow-y: auto;
     min-height: 100vh;
-    // :where(.css-dev-only-do-not-override-1qfezbu).ant-collapse
+    // .ant-collapse
     //   > .ant-collapse-item
     //   .ant-collapse-icon-collapsible-only
     //   .ant-collapse-expand-icon {
@@ -107,17 +103,14 @@
 }
 /* ==================================================================================================================*/
 .box-header-inner {
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-collapse {
+  .ant-collapse {
     padding: 0 9px;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-collapse
-    > .ant-collapse-item
-    > .ant-collapse-header {
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     padding: 0;
   }
 
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-collapse-ghost
-    > .ant-collapse-item {
+  .ant-collapse-ghost > .ant-collapse-item {
     padding: 4px 10px;
     border-radius: 4px;
     @include anim(0.2s, 0s);
@@ -134,9 +127,7 @@
       }
     }
   }
-  :where(
-      .css-dev-only-do-not-override-1qfezbu
-    ).ant-collapse.ant-collapse-icon-position-end
+  .ant-collapse.ant-collapse-icon-position-end
     > .ant-collapse-item
     > .ant-collapse-header
     .ant-collapse-expand-icon {
@@ -150,10 +141,8 @@
     border-radius: 4px;
   }
 }
-:where(
-    .css-dev-only-do-not-override-1qfezbu
-  ).ant-input-outlined.ant-input-disabled,
-:where(.css-dev-only-do-not-override-1qfezbu).ant-input-outlined[disabled] {
+.ant-input-outlined.ant-input-disabled,
+.ant-input-outlined[disabled] {
   background-color: #f8f8f8 !important;
 }
 /* ==================================================================================================================*/
@@ -217,20 +206,13 @@
 /* ==================================================================================================================*/
 .detail-inner {
   padding: 6px 0;
-  :where(.css-dev-only-do-not-override-1qfezbu).ant-form-small
-    .ant-form-item
-    .ant-form-item-label
-    > label {
+  .ant-form-small .ant-form-item .ant-form-item-label > label {
     width: -webkit-fill-available;
   }
-  :where(.css-dev-only-do-not-override-1qfezbu)[class^='ant-form']
-    [class^='ant-form'],
-  :where(.css-dev-only-do-not-override-1qfezbu)[class*=' ant-form']
-    [class^='ant-form'],
-  :where(.css-dev-only-do-not-override-1qfezbu)[class^='ant-form']
-    [class*=' ant-form'],
-  :where(.css-dev-only-do-not-override-1qfezbu)[class*=' ant-form']
-    [class*=' ant-form'] {
+  [class^='ant-form'] [class^='ant-form'],
+  [class*=' ant-form'] [class^='ant-form'],
+  [class^='ant-form'] [class*=' ant-form'],
+  [class*=' ant-form'] [class*=' ant-form'] {
     margin-bottom: 2px;
   }
 }

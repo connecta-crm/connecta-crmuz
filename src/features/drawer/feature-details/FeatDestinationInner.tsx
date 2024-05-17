@@ -61,19 +61,21 @@ function FeatDestinationInner() {
               'No such city'
             )
           }
-          options={(cities || []).map(
+        >
+          {(cities || []).map(
             (d: {
               id: number;
               name: string;
               zip: string;
               state: { code: string };
-            }) => ({
-              value: d.id,
-              data: d,
-              label: `${d.name}, ${d.state.code}, ${d.zip}`,
-            }),
+            }) => (
+              <Select.Option key={d.id} value={d.id} data={d}>
+                {<HighlightedWord value={d.name} searchCity={searchCity} />}
+                {`, ${d.state.code}, ${d.zip}`}
+              </Select.Option>
+            ),
           )}
-        />
+        </Select>
       </div>
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Delivery state</div>

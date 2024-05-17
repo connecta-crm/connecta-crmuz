@@ -15,11 +15,11 @@ import FormControl from '../Form/FormControl';
 import Input from '../Form/Input';
 import Label from '../Form/Label';
 import UpCollapse from '../Form/UpCollapse';
+import Person from '../Person.tsx';
 import Modal from './Modal';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import trailer from '/img/drawer/trailer.svg';
-import Person from '../../features/person/Person';
 export default function LeadModal() {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);

@@ -1,7 +1,8 @@
 import { Dropdown, DropdownProps, Input, MenuProps, Space } from 'antd';
 
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { useProviders } from '../features/providers/useProviders';
 import { DEFAULT_LIMIT } from '../utils/constants';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
 import openView from '/img/dt_table/full_view.svg';
@@ -46,12 +47,26 @@ function TableHeaderPagination({
     updateSearchParams(inputOffset);
   };
 
+  const { providers } = useProviders(true);
+
+  const { pathname } = useLocation();
+
   const updateSearchParams = (offsetValue: number) => {
+    const status = pathname.replace('/', '');
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete('offset');
     newSearchParams.delete('limit');
+    newSearchParams.delete('status');
+    newSearchParams.delete('source');
     newSearchParams.append('offset', String(offsetValue));
     newSearchParams.append('limit', String(inputLimit));
+    newSearchParams.append('status', String(status));
+
+    if (providers?.length) {
+      providers.forEach((provider: { id: string; name: string }) => {
+        newSearchParams.append('source', provider.id);
+      });
+    }
     setSearchParams(newSearchParams, { replace: true });
   };
 
@@ -71,9 +86,17 @@ function TableHeaderPagination({
   }, [defaultOffset, defaultLimit]);
 
   useEffect(() => {
-    const timer = setTimeout(modify, 500);
+    const timer = setTimeout(() => {
+      modify();
+    }, 0);
     return () => clearTimeout(timer);
   }, [inputOffset, inputLimit]);
+
+  // useEffect(() => {
+  //   if (!pathname.includes('limit')) {
+  //     modify();
+  //   }
+  // }, [pathname]);
 
   // DROPDOWN FUNCTION
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {

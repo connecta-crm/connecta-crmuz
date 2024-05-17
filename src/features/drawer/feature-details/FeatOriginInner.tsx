@@ -55,18 +55,6 @@ function FeatOriginInner() {
               'No such city'
             )
           }
-          // options={(cities || []).map(
-          //   (d: {
-          //     id: number;
-          //     name: string;
-          //     zip: string;
-          //     state: { code: string };
-          //   }) => ({
-          //     value: d.id,
-          //     data: d,
-          //     label: `${d.name}, ${d.state.code}, ${d.zip}`,
-          //   }),
-          // )}
         >
           {(cities || []).map(
             (d: {

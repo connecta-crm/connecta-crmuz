@@ -1,16 +1,15 @@
-import { useFilter } from "../../context/FilterContext";
-import FilterSidebar from "./FilterSidebar"
-import FilterTable from "./FilterTable";
-
+import { useFilter } from '../../context/FilterContext';
+import FilterSidebar from './FilterSidebar';
+import FilterTable from './FilterTable';
 
 export default function Filter() {
-  const {show}=useFilter()
+  const { show } = useFilter();
   return (
-    <div className={show?"filter filter__active":"filter"} >
+    <div className={show ? 'filter filter__active' : 'filter'}>
       <div className="filter__container">
-        <FilterSidebar/>
+        <FilterSidebar />
         <div className="filter__content">
-          <FilterTable/>
+          <FilterTable />
         </div>
       </div>
     </div>

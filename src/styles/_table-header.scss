@@ -79,7 +79,7 @@
     margin-left: 12px;
     // .dt-header__showlist_price
     &_price {
-      padding: 3px 6px;
+      padding: 2px 6px;
     }
     // .dt-header__showlist_gutter
     &_gutter {
@@ -214,18 +214,10 @@
 }
 /* ==================================================================================================================*/
 // dropdown style
-:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-item,
-:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown-menu-submenu
-  .ant-dropdown-menu
-  .ant-dropdown-menu-item,
-:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-submenu-title,
-:where(.css-dev-only-do-not-override-1qfezbu).ant-dropdown-menu-submenu
-  .ant-dropdown-menu
-  .ant-dropdown-menu-submenu-title {
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item,
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title,
+.ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title {
   padding: 5px !important;
 }
 .dt-header__dropdown {

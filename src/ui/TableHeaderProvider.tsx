@@ -7,8 +7,12 @@ import ellipse from '/img/dt_table/ellipse.svg';
 function TableHeaderProvider({ ...props }) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams);
 
-  const { providers, isLoading, error } = useProviders(open);
+  const { providers, isLoading, error } = useProviders(true);
+
+  const currentSourcesLength = searchParams.getAll('source')?.length;
+  const isLengthEqual = currentSourcesLength === providers?.length;
 
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
@@ -18,10 +22,6 @@ function TableHeaderProvider({ ...props }) {
 
   const handleChangeProvider = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
-    const newSearchParams = new URLSearchParams(searchParams);
-
-    const currentSources = searchParams.getAll('source');
-    console.log('currentSources', currentSources);
 
     if (checked) {
       newSearchParams.append('source', value);
@@ -36,6 +36,24 @@ function TableHeaderProvider({ ...props }) {
     }
 
     setSearchParams(newSearchParams, { replace: true });
+  };
+
+  const handleClearSelectAll = () => {
+    newSearchParams.delete('source');
+    if (!isLengthEqual) {
+      providers.forEach((provider: { id: string; name: string }) => {
+        newSearchParams.append('source', provider.id);
+      });
+    }
+    setSearchParams(newSearchParams, { replace: true });
+  };
+
+  const handleSourceList = () => {
+    return currentSourcesLength && !isLengthEqual
+      ? `${currentSourcesLength}+ source${currentSourcesLength > 1 ? 's' : ''}`
+      : isLengthEqual
+        ? 'All sources'
+        : 'By source';
   };
 
   const items: MenuProps['items'] = [
@@ -59,7 +77,12 @@ function TableHeaderProvider({ ...props }) {
             <p className="error-color">Error loading</p>
           ) : (
             <div>
-              <p className="dropdown-clear d-inline mr-5 ml-5">Clear all</p>
+              <p
+                onClick={handleClearSelectAll}
+                className="dropdown-clear d-inline mr-5 ml-5 cursor-pointer"
+              >
+                {isLengthEqual ? 'Clear all' : 'Select all'}
+              </p>
               <div className="dropdown-check">
                 {providers?.length &&
                   providers.map((provider: { id: string; name: string }) => {
@@ -114,7 +137,7 @@ function TableHeaderProvider({ ...props }) {
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              <p className="dt-header__showlist_price">All sources</p>
+              <p className="dt-header__showlist_price">{handleSourceList()}</p>
             </Space>
           </a>
         </Dropdown>
