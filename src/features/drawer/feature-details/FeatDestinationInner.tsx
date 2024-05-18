@@ -4,11 +4,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import HighlightedWord from '../../../ui/HighlightedWord';
 import { useCities } from '../../address/useCities';
-import { getLeadData, updateField, type Location } from '../../leads/leadSlice';
-
-export type Record = {
-  data: Location;
-};
+import { getLeadData, updateField } from '../../leads/leadSlice';
 
 function FeatDestinationInner() {
   const dispatch = useAppDispatch();

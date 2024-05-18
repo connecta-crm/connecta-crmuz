@@ -1,9 +1,9 @@
 import { Table } from 'antd';
 import TableHeaderActions from '../../ui/TableHeaderActions';
 import TableHeaderFilters from '../../ui/TableHeaderFilters';
+import { TableProps } from '../leads/LeadTable';
 import { QuotesTableColumns } from './QuotesTableColumn';
 import { QuotesTableDataType } from './QuotesTableColumnType';
-import { useQuotes } from './useQuotes';
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
@@ -19,20 +19,20 @@ const rowSelection = {
     name: record.customerName,
   }),
 };
-type openDrawerType = (data: QuotesTableDataType) => void;
 
 function QuotesTable({
-  openDrawer,
-  setOpenLeadModal,
-}: {
-  openDrawer: openDrawerType;
-  setOpenLeadModal: (a: boolean) => void;
-}) {
-  const { quotes, count, isLoading } = useQuotes();
+  dataSource: quotes,
+  loadingList,
+  loadingItem,
+  guid,
+  count,
+  onOpenModal,
+  onOpenDrawer,
+}: TableProps) {
   return (
     <>
       <div className="dt-header">
-        <TableHeaderActions openLeadModal={setOpenLeadModal} pageName="quote" />
+        <TableHeaderActions onOpenModal={onOpenModal} pageName="quote" />
         <TableHeaderFilters count={count} sumPrice={undefined} />
       </div>
       <div className="quotes-table">
@@ -41,14 +41,13 @@ function QuotesTable({
             rowKey="id"
             rowSelection={{ ...rowSelection }}
             columns={QuotesTableColumns}
-            dataSource={quotes}
-            pagination={{ pageSize: quotes?.length }}
-            loading={isLoading}
+            dataSource={quotes as unknown as QuotesTableDataType[] | undefined}
+            loading={loadingList || (loadingItem && !!guid)}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;
                 const element = target.className;
-                element == 'table__id' && openDrawer(data);
+                element == 'table__id' && onOpenDrawer(data.guid);
               },
             })}
           />

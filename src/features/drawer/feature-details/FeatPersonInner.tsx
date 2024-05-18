@@ -3,11 +3,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useCustomers } from '../../customers/useCostumers';
-import { getLeadData, updateField, type Location } from '../../leads/leadSlice';
-
-export type Record = {
-  data: Location;
-};
+import { getLeadData, updateField } from '../../leads/leadSlice';
 
 type SearchType = 'name' | 'email' | 'phone';
 

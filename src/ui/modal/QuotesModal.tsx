@@ -4,19 +4,19 @@ import { useEffect, useState } from 'react';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import Pickup from '../../features/origin/Pickup';
-import { useCreateQuote } from '../../features/quotes/useQuote.ts';
+import { useCreateQuote } from '../../features/quotes/useCreateQuote.ts';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
-import { LeadDataType } from '../../models/LeadDataType';
 import { QuoteDataType } from '../../models/QuoteDataType.ts';
+import { LeadDataType } from '../../models/index.ts';
 import { useAppSelector } from '../../store/hooks';
-import UseDatePicker from '../DatePicker/DatePicker';
-import FormControl from '../Form/FormControl';
-import UpCollapse from '../Form/UpCollapse';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
+import FormControl from '../form/FormControl';
+import UpCollapse from '../form/UpCollapse';
+import UseDatePicker from '../picker/DatePicker';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import reservation from '/img/drawer/reservation.svg';

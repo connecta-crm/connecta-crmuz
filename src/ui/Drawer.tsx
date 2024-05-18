@@ -4,16 +4,19 @@ import { useDrawerFeature } from '../context/DrawerFeatureContext';
 import DrawerContent from '../features/drawer/Drawer';
 import DrawerControl from '../features/drawer/DrawerControl';
 import DrawerHeader from '../features/drawer/DrawerHeader';
-import { LeadData } from '../features/leads/leadSlice';
 import { LeadTableDataType } from '../features/leads/LeadTableColumnType';
+import { QuotesTableDataType } from '../features/quotes/QuotesTableColumnType';
+import { LeadData } from '../models';
+
+type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;
 
 export type DrawerProps = {
-  data: LeadData | LeadTableDataType;
-  isLoadingLead: boolean;
+  dataSource: DataSourceType;
+  loadingItem: boolean;
   onOpenDrawer: (guid: string) => void;
 };
 
-function DrawerApp({ data, isLoadingLead, onOpenDrawer }: DrawerProps) {
+function DrawerApp({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';
@@ -23,8 +26,8 @@ function DrawerApp({ data, isLoadingLead, onOpenDrawer }: DrawerProps) {
       <Drawer
         title={
           <DrawerHeader
-            data={data}
-            isLoadingLead={isLoadingLead}
+            dataSource={dataSource}
+            loadingItem={loadingItem}
             onOpenDrawer={onOpenDrawer}
           />
         }
@@ -37,8 +40,8 @@ function DrawerApp({ data, isLoadingLead, onOpenDrawer }: DrawerProps) {
         closeIcon={false}
       >
         <DrawerControl
-          data={data}
-          isLoadingLead={isLoadingLead}
+          dataSource={dataSource}
+          loadingItem={loadingItem}
           onOpenDrawer={onOpenDrawer}
         />
         <DrawerContent />

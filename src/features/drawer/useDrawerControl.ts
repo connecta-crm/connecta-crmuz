@@ -1,8 +1,9 @@
+import { LeadData } from '../../models';
 import { LeadTableDataType } from '../leads/LeadTableColumnType';
-import { LeadData } from '../leads/leadSlice';
+import { QuotesTableDataType } from '../quotes/QuotesTableColumnType';
 
 export function getNextObjectId(
-  array: LeadData | LeadTableDataType,
+  array: LeadData | LeadTableDataType | QuotesTableDataType,
   currentItemGuid: string,
 ) {
   if (Array.isArray(array)) {
@@ -15,7 +16,7 @@ export function getNextObjectId(
 }
 
 export function getPreviousObjectId(
-  array: LeadData | LeadTableDataType,
+  array: LeadData | LeadTableDataType | QuotesTableDataType,
   currentItemGuid: string,
 ) {
   if (Array.isArray(array)) {

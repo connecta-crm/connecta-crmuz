@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { QuotesParamsType } from '../../features/quotes/useQuotes';
-import apiClient from '../axios';
 import { QuoteDataType } from '../../models/QuoteDataType';
+import apiClient from '../axios';
 
 type ApiErrorResponse = {
   message: string;
@@ -14,13 +14,13 @@ class Quotes {
     this.$api = apiClient;
   }
 
-  async getQuotes({ limit, offset, source, q ,status}: QuotesParamsType) {
+  async getQuotes({ limit, offset, source, q, status }: QuotesParamsType) {
     try {
       const params: Record<string, unknown> = {
         limit,
         offset,
         q,
-        status
+        status,
       };
 
       if (source) {
@@ -40,8 +40,20 @@ class Quotes {
     }
   }
 
+  // GET: /quote/:guid/detail/
+  async getQuote(guid: string | null) {
+    try {
+      const { data } = await this.$api.get(`/quote/detail/${guid}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
-  async createQuote(quote:QuoteDataType) {
+  async createQuote(quote: QuoteDataType) {
     try {
       const { data } = await this.$api.post('/quote/create/', quote);
       return data;
@@ -52,7 +64,6 @@ class Quotes {
       );
     }
   }
-  
 
   // @ts-expect-error: Unreachable code error
   async vehicleEditFake(formData) {

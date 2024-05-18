@@ -1,10 +1,9 @@
 import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { LeadData, LeadVehicle } from '../../models';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
-  LeadData,
-  LeadVehicle,
   getLeadData,
   resetField as resetLeadField,
   setLeadData,

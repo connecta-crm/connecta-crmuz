@@ -21,22 +21,22 @@ const rowSelection = {
   }),
 };
 
-type LeadTableProps = {
-  isLoadingLeads: boolean;
+export type TableProps = {
+  loadingList: boolean;
   guid: string | null;
   count: number;
-  onOpenModal: (a: boolean) => void;
+  onOpenModal: (a: boolean) => void; // todo
 } & DrawerProps;
 
 function LeadTable({
-  data,
-  isLoadingLeads,
-  isLoadingLead,
+  dataSource: leads,
+  loadingList,
+  loadingItem,
   guid,
   count,
   onOpenModal,
   onOpenDrawer,
-}: LeadTableProps) {
+}: TableProps) {
   return (
     <>
       <div className="dt-header">
@@ -50,7 +50,7 @@ function LeadTable({
             rowSelection={{ ...rowSelection }}
             columns={LeadTableColumns}
             dataSource={leads as unknown as LeadTableDataType[] | undefined}
-            loading={isLoadingLeads || (isLoadingLead && !!guid)}
+            loading={loadingList || (loadingItem && !!guid)}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;

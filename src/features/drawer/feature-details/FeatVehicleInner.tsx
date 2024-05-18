@@ -1,12 +1,9 @@
 import { DatePicker, Input, Select, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { LeadVehicle, Vehicle } from '../../../models';
 import { useAppDispatch } from '../../../store/hooks';
-import {
-  LeadVehicle,
-  updateVehicleField,
-  type Vehicle,
-} from '../../leads/leadSlice';
+import { updateVehicleField } from '../../leads/leadSlice';
 import { useCarMarks } from '../../vehicles/useCarMarks';
 import { useCarModels } from '../../vehicles/useCarModels';
 
@@ -53,7 +50,6 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
   //   },
   const handleChange = (_: number | string, record: Record | Record[]) => {
     if (!Array.isArray(record)) {
-      console.log('mark', record.data);
       dispatch(
         updateVehicleField({
           vehicleIndex,
@@ -63,7 +59,6 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
       );
       if (record.data.id && vehicle.mark?.id) {
         if (record.data.id !== vehicle.mark.id) {
-          console.log('Not apppr');
           const mark = record.data;
           dispatch(
             updateVehicleField({

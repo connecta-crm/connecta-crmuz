@@ -8,7 +8,7 @@ import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
-import { LeadDataType } from '../../models/LeadDataType';
+import { LeadDataType } from '../../models/LeadDataType.ts';
 import { useAppSelector } from '../../store/hooks';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
@@ -129,8 +129,12 @@ export default function LeadModal({
               <Source setSource={setSource} />
 
               <div className="form__footer">
-                <Form.Item label="CM note" name="notes" style={{width:"100%"}}>
-                  <Input style={{width:"100%"}} />
+                <Form.Item
+                  label="CM note"
+                  name="notes"
+                  style={{ width: '100%' }}
+                >
+                  <Input style={{ width: '100%' }} />
                 </Form.Item>
               </div>
             </UpCollapse>

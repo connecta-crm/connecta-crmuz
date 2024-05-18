@@ -13,7 +13,7 @@ export type DrawerControlProps = {
   onFullScreen: (val: boolean) => void;
 };
 
-function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+function DrawerControl({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { guid: currentLeadGuid } = useAppSelector(getLeadData);
   const queryClient = useQueryClient();
@@ -23,12 +23,12 @@ function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
   }
 
   const handlePrevElement = () => {
-    const previousLeadGuid = getPreviousObjectId(leads, currentLeadGuid);
+    const previousLeadGuid = getPreviousObjectId(dataSource, currentLeadGuid);
     onOpenDrawer(previousLeadGuid);
     queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
   };
   const handleNextElement = () => {
-    const nextLeadId = getNextObjectId(leads, currentLeadGuid);
+    const nextLeadId = getNextObjectId(dataSource, currentLeadGuid);
     onOpenDrawer(nextLeadId);
     queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
   };
@@ -49,14 +49,14 @@ function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
       </div>
       <button
         title="prev-element"
-        disabled={isLoadingLead}
+        disabled={loadingItem}
         onClick={handlePrevElement}
         className="drawer-control__item drawer-control__item_up-arrow"
       >
         <img src="./img/drawer/up-arrow.svg" alt="" />
       </button>
       <button
-        disabled={isLoadingLead}
+        disabled={loadingItem}
         title="next-element"
         onClick={handleNextElement}
         className="drawer-control__item drawer-control__item_down-arrow"

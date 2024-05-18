@@ -36,9 +36,9 @@ function Leads() {
       <LeadTable
         guid={guid}
         count={count}
-        data={leads}
-        isLoadingLeads={isLoadingLeads}
-        isLoadingLead={isLoadingLead}
+        dataSource={leads}
+        loadingList={isLoadingLeads}
+        loadingItem={isLoadingLead}
         onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
@@ -47,8 +47,8 @@ function Leads() {
         setOpenLeadModa={setOpenLeadModal}
       />
       <DrawerApp
-        data={leads}
-        isLoadingLead={isLoadingLead}
+        dataSource={leads}
+        loadingItem={isLoadingLead}
         onOpenDrawer={handleOpenDrawer}
       />
       <Filter />

@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useAppDispatch } from '../../store/hooks';
+import DrawerApp from '../../ui/Drawer';
+import { setLeadData } from '../leads/leadSlice';
 import QuotesTable from './QuoteTable';
+import { useQuote } from './useQuote';
 import { useQuotes } from './useQuotes';
 
 function Quotes() {
   const [guid, setGuid] = useState<string | null>(null);
   const { quotes, count, isLoadingQuotes } = useQuotes();
-  const { lead, isLoading: isLoadingLead, error } = useLead(guid);
+  const { quote, isLoading: isLoadingQuote, error } = useQuote(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
+  console.log(openLeadModal);
 
   const { openDrawer } = useDrawerFeature();
 
@@ -18,29 +24,29 @@ function Quotes() {
   };
 
   useEffect(() => {
-    if (!isLoadingLead && !error && guid && lead) {
-      dispatch(setLeadData(lead));
+    if (!isLoadingQuote && !error && guid && quote) {
+      dispatch(setLeadData(quote));
       openDrawer();
     }
-  }, [isLoadingLead, error, dispatch, guid, lead]);
+  }, [isLoadingQuote, error, dispatch, guid, quote]);
 
   return (
     <div className="quotes">
       <QuotesTable
         guid={guid}
         count={count}
-        leads={quotes}
-        isLoadingLeads={isLoadingLeads}
-        isLoadingLead={isLoadingLead}
+        dataSource={quotes}
+        loadingList={isLoadingQuotes}
+        loadingItem={isLoadingQuote}
+        onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
       {/* <QuoteModal openLeadModal={openLeadModal} setOpenLeadModa={setOpenLeadModal}  /> */}
       <DrawerApp
-        leads={leads}
-        isLoadingLead={isLoadingLead}
+        dataSource={quotes}
+        loadingItem={isLoadingQuote}
         onOpenDrawer={handleOpenDrawer}
       />
-      <Filter />
     </div>
   );
 }
