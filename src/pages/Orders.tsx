@@ -1,7 +1,7 @@
 import TableHeader from "../ui/TableHeader"
 import { Table } from 'antd';
 import { OrderTableColumns, OrderTableData } from '../utils/table';
-import OrderModal from "../ui/modal/OrderModal";
+// import OrderModal from "../ui/modal/OrderModal";
 
 type DataType = {
     key: string,
@@ -43,7 +43,7 @@ function Order() {
                     />
                 </div>
             </div>
-            <OrderModal />
+            {/* <OrderModal /> */}
         </div>
     )
 }
