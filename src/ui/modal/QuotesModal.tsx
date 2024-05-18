@@ -7,16 +7,16 @@ import { useCreateQuote } from '../../features/quotes/useQuote';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
-} from '../../features/vehicle/vehicleContainer';
+} from '../../features/vehicle/VehicleContainer.tsx';
 import { LeadDataType } from '../../models/LeadDataType';
 import { QuoteDataType } from '../../models/QuoteDataType';
 import { useAppSelector } from '../../store/hooks';
-import UseDatePicker from '../DatePicker/DatePicker';
-import FormControl from '../Form/FormControl';
-import Input from '../Form/Input';
-import Label from '../Form/Label';
-import UpCollapse from '../Form/UpCollapse';
 import Person from '../Person.tsx';
+import FormControl from '../form/FormControl.tsx';
+import Input from '../form/Input.tsx';
+import Label from '../form/Label.tsx';
+import UpCollapse from '../form/UpCollapse.tsx';
+import UseDatePicker from '../picker/DatePicker.tsx';
 import Modal from './Modal';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';

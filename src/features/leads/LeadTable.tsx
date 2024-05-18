@@ -25,22 +25,22 @@ type LeadTableProps = {
   isLoadingLeads: boolean;
   guid: string | null;
   count: number;
-  setOpenLeadModal:(a:boolean)=>void
+  onOpenModal: (a: boolean) => void;
 } & DrawerProps;
 
 function LeadTable({
-  leads,
+  data,
   isLoadingLeads,
   isLoadingLead,
   guid,
   count,
-  setOpenLeadModal,
+  onOpenModal,
   onOpenDrawer,
 }: LeadTableProps) {
   return (
     <>
       <div className="dt-header">
-        <TableHeaderActions openLeadModal={setOpenLeadModal} pageName="lead" />
+        <TableHeaderActions onOpenModal={onOpenModal} pageName="lead" />
         <TableHeaderFilters count={count} sumPrice={undefined} />
       </div>
       <div className="leads-table">

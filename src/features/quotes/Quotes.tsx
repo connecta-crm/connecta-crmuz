@@ -1,17 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { useAppDispatch } from '../../store/hooks';
-import DrawerApp from '../../ui/Drawer';
-import Filter from '../../ui/filter/Filter';
-import LeadModal from '../../ui/modal/LeadModal';
-import LeadTable from './LeadTable';
-import { setLeadData } from './leadSlice';
-import { useLead } from './useLead';
-import { useLeads } from './useLeads';
+import { useState } from 'react';
+import QuotesTable from './QuoteTable';
+import { useQuotes } from './useQuotes';
 
-function Leads() {
+function Quotes() {
   const [guid, setGuid] = useState<string | null>(null);
-  const { leads, count, isLoading: isLoadingLeads } = useLeads();
+  const { quotes, count, isLoadingQuotes } = useQuotes();
   const { lead, isLoading: isLoadingLead, error } = useLead(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
 
@@ -32,22 +25,18 @@ function Leads() {
   }, [isLoadingLead, error, dispatch, guid, lead]);
 
   return (
-    <div className="leads">
-      <LeadTable
+    <div className="quotes">
+      <QuotesTable
         guid={guid}
         count={count}
-        data={leads}
+        leads={quotes}
         isLoadingLeads={isLoadingLeads}
         isLoadingLead={isLoadingLead}
-        onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
-      <LeadModal
-        openLeadModal={openLeadModal}
-        setOpenLeadModa={setOpenLeadModal}
-      />
+      {/* <QuoteModal openLeadModal={openLeadModal} setOpenLeadModa={setOpenLeadModal}  /> */}
       <DrawerApp
-        data={leads}
+        leads={leads}
         isLoadingLead={isLoadingLead}
         onOpenDrawer={handleOpenDrawer}
       />
@@ -56,4 +45,4 @@ function Leads() {
   );
 }
 
-export default Leads;
+export default Quotes;

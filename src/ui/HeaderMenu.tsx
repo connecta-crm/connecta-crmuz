@@ -16,6 +16,7 @@ function HeaderMenu({ search }: { search: string | undefined }) {
   const currentPath: MenuData | undefined = getMenuData.find((menu) =>
     pathname.includes(menu.path),
   );
+
   const [breadcrumbs, setBreadcrumbs] = useState<MenuData[]>([]);
 
   useEffect(() => {

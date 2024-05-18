@@ -1,89 +1,109 @@
-import Modal from './Modal'
-import UpCollapse from '../Form/UpCollapse';
-import DownCollapse from '../Form/DownCollapse';
-import FormControl from '../Form/FormControl';
-import InputRow from '../Form/InputRow';
-import Label from '../Form/Label';
-import Input from '../Form/Input';
-import InputCol from '../Form/InputCol';
-import Select from '../Form/Select';
-import UseDatePicker from '../DatePicker/DatePicker';
 import { FormEvent } from 'react';
+import DownCollapse from '../form/DownCollapse';
+import FormControl from '../form/FormControl';
+import Input from '../form/Input';
+import InputCol from '../form/InputCol';
+import InputRow from '../form/InputRow';
+import Label from '../form/Label';
+import Select from '../form/Select';
+import UpCollapse from '../form/UpCollapse';
+import UseDatePicker from '../picker/DatePicker';
+import Modal from './Modal';
 export default function OrderModal() {
-
-  const onSubmit = (e:FormEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     // const formData = new FormData(e.target);
     // const formProps = Object.fromEntries(formData);
     // console.log(formProps);
-  }
+  };
 
   return (
-
-
-    <Modal isLoading title='New Order' onSubmit={onSubmit}>
-      <div className='modal__row'>
-        <div className='modal__col'>
+    <Modal isLoading title="New Order" onSubmit={onSubmit}>
+      <div className="modal__row">
+        <div className="modal__col">
           <UpCollapse title="Details">
-            <DownCollapse title='Vehicle'>
+            <DownCollapse title="Vehicle">
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Vehicle year
-                  </Label>
+                  <Label>Vehicle year</Label>
                 </InputCol>
 
                 <InputCol>
-                  <UseDatePicker type='year' name='vehicle_year' />
+                  <UseDatePicker type="year" name="vehicle_year" />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Vehicle make
-                  </Label>
+                  <Label>Vehicle make</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_make' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="vehicle_make"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Vehicle model
-                  </Label>
+                  <Label>Vehicle model</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_model' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="vehicle_model"
+                  />
                 </InputCol>
               </InputRow>
               {/* --------- */}
 
-              <div className='vehicle__details'>
-                <div className='vehicle__details__left'>
-                    <Label>Lot</Label>
-                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_lot' />
+              <div className="vehicle__details">
+                <div className="vehicle__details__left">
+                  <Label>Lot</Label>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="vehicle_lot"
+                  />
                 </div>
-                <div className='vehicle__details__right'>
-                    <Label>VIN</Label>
-                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_vin' />
+                <div className="vehicle__details__right">
+                  <Label>VIN</Label>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="vehicle_vin"
+                  />
                 </div>
               </div>
 
-              <div className='vehicle__details'>
-                <div className='vehicle__details__left'>
-                    <Label>Color</Label>
-                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_color' />
+              <div className="vehicle__details">
+                <div className="vehicle__details__left">
+                  <Label>Color</Label>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="vehicle_color"
+                  />
                 </div>
-                <div className='vehicle__details__right'>
-                    <Label>Plate</Label>
-                    <Input defaultValue="" type='text' placeholder='Empty' name='vehicle_plate' />
+                <div className="vehicle__details__right">
+                  <Label>Plate</Label>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="vehicle_plate"
+                  />
                 </div>
               </div>
-
 
               {/* <InputRow>
                 <InputCol>
@@ -114,267 +134,343 @@ export default function OrderModal() {
               </InputRow> */}
 
               {/* ---------- */}
-
             </DownCollapse>
 
             <FormControl title="Condition">
-              <Select name='condition'>
-                <option className='disabled'>Select</option>
+              <Select name="condition">
+                <option className="disabled">Select</option>
               </Select>
             </FormControl>
 
             <FormControl title="Type">
-              <Select name='type'>
-                <option className='disabled'>Select</option>
+              <Select name="type">
+                <option className="disabled">Select</option>
               </Select>
             </FormControl>
 
-            <DownCollapse title='Pickup'>
+            <DownCollapse title="Pickup">
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Pickup address
-                  </Label>
+                  <Label>Pickup address</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_address' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_address"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Pickup city
-                  </Label>
+                  <Label>Pickup city</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_city' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_city"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Pickup state
-                  </Label>
+                  <Label>Pickup state</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_state' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_state"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Pickup zip
-                  </Label>
+                  <Label>Pickup zip</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_zip' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_zip"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Business name
-                  </Label>
+                  <Label>Business name</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_business_name' />
-                </InputCol>
-              </InputRow>
-
-              <InputRow>
-                <InputCol>
-                  <Label>
-                    Business phone
-                  </Label>
-                </InputCol>
-
-                <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_business_phone' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_business_name"
+                  />
                 </InputCol>
               </InputRow>
 
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Contact person
-                  </Label>
+                  <Label>Business phone</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_contact_person' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_business_phone"
+                  />
                 </InputCol>
               </InputRow>
-              <div className='phone__details'>
-                <div className='phone__details__left'>
+
+              <InputRow>
+                <InputCol>
+                  <Label>Contact person</Label>
+                </InputCol>
+
+                <InputCol>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_contact_person"
+                  />
+                </InputCol>
+              </InputRow>
+              <div className="phone__details">
+                <div className="phone__details__left">
                   <Label>Phone</Label>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_phone__first'/>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_phone__first"
+                  />
                 </div>
-                <div className='phone__details__right'>
+                <div className="phone__details__right">
                   <Label>Second</Label>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_phone__second'/>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_phone__second"
+                  />
                 </div>
               </div>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Buyer number
-                  </Label>
+                  <Label>Buyer number</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='pickup_buyer_number' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="pickup_buyer_number"
+                  />
                 </InputCol>
               </InputRow>
-
-
-
             </DownCollapse>
 
-            <DownCollapse title='Delivery'>
+            <DownCollapse title="Delivery">
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Delivery address
-                  </Label>
+                  <Label>Delivery address</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_address' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_address"
+                  />
                 </InputCol>
               </InputRow>
 
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Delivery city
-                  </Label>
+                  <Label>Delivery city</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_city' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_city"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Delivery state
-                  </Label>
+                  <Label>Delivery state</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_state' />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_state"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Delivery zip
-                  </Label>
+                  <Label>Delivery zip</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_zip" />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_zip"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Business name
-                  </Label>
+                  <Label>Business name</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_business_name" />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_business_name"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Business phone
-                  </Label>
+                  <Label>Business phone</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_business_phone" />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_business_phone"
+                  />
                 </InputCol>
               </InputRow>
               <InputRow>
                 <InputCol>
-                  <Label>
-                    Contact person
-                  </Label>
+                  <Label>Contact person</Label>
                 </InputCol>
 
                 <InputCol>
-                  <Input defaultValue="" type='text' placeholder='Empty' name="delivery_contact_person*" />
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_contact_person*"
+                  />
                 </InputCol>
               </InputRow>
 
-              <div className='phone__details'>
-                <div className='phone__details__left'>
+              <div className="phone__details">
+                <div className="phone__details__left">
                   <Label>Phone</Label>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_phone__first'/>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_phone__first"
+                  />
                 </div>
-                <div className='phone__details__right'>
+                <div className="phone__details__right">
                   <Label>Second</Label>
-                  <Input defaultValue="" type='text' placeholder='Empty' name='delivery_phone__second'/>
+                  <Input
+                    defaultValue=""
+                    type="text"
+                    placeholder="Empty"
+                    name="delivery_phone__second"
+                  />
                 </div>
               </div>
-
-                
-
             </DownCollapse>
-
 
             <FormControl title="Trailer type">
-              <Select name='trailer_type'>
-                <option className='disabled'>Select</option>
+              <Select name="trailer_type">
+                <option className="disabled">Select</option>
               </Select>
             </FormControl>
             <FormControl title="Est. Ship Date">
-              <UseDatePicker type={"date"} name='est_ship_date' />
+              <UseDatePicker type={'date'} name="est_ship_date" />
             </FormControl>
             <FormControl title="Source">
-              <Select name='source'>
-                <option className='disabled'>Select</option>
+              <Select name="source">
+                <option className="disabled">Select</option>
               </Select>
             </FormControl>
 
-            <div className='form__footer'>
-              <Label>
-                Cd note
-              </Label>
-              <Input defaultValue="" type='text' placeholder='Empty' name='cd_note' />
+            <div className="form__footer">
+              <Label>Cd note</Label>
+              <Input
+                defaultValue=""
+                type="text"
+                placeholder="Empty"
+                name="cd_note"
+              />
             </div>
-            <div className='form__footer'>
-              <Label>
-                CM note
-              </Label>
-              <Input defaultValue="" type='text' placeholder='Empty' name='cm_note' />
+            <div className="form__footer">
+              <Label>CM note</Label>
+              <Input
+                defaultValue=""
+                type="text"
+                placeholder="Empty"
+                name="cm_note"
+              />
             </div>
-
           </UpCollapse>
         </div>
-        <div className='modal__col'>
+        <div className="modal__col">
           <UpCollapse title="Person">
             <FormControl title="Name">
-              <Input defaultValue="" type='text' placeholder='Empty' name='person_name' />
+              <Input
+                defaultValue=""
+                type="text"
+                placeholder="Empty"
+                name="person_name"
+              />
             </FormControl>
             <FormControl title="Email">
-              <Input defaultValue="" type='text' placeholder='Empty' name='person_email' />
+              <Input
+                defaultValue=""
+                type="text"
+                placeholder="Empty"
+                name="person_email"
+              />
             </FormControl>
             <FormControl title="Phone">
-              <Input defaultValue="" type='number' placeholder='Empty' name='person_phone' />
+              <Input
+                defaultValue=""
+                type="number"
+                placeholder="Empty"
+                name="person_phone"
+              />
             </FormControl>
           </UpCollapse>
-
         </div>
       </div>
     </Modal>
-  )
+  );
 }

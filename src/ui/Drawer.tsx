@@ -8,12 +8,12 @@ import { LeadData } from '../features/leads/leadSlice';
 import { LeadTableDataType } from '../features/leads/LeadTableColumnType';
 
 export type DrawerProps = {
-  leads: LeadData | LeadTableDataType;
+  data: LeadData | LeadTableDataType;
   isLoadingLead: boolean;
   onOpenDrawer: (guid: string) => void;
 };
 
-function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+function DrawerApp({ data, isLoadingLead, onOpenDrawer }: DrawerProps) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';
@@ -23,7 +23,7 @@ function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
       <Drawer
         title={
           <DrawerHeader
-            leads={leads}
+            data={data}
             isLoadingLead={isLoadingLead}
             onOpenDrawer={onOpenDrawer}
           />
@@ -37,7 +37,7 @@ function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
         closeIcon={false}
       >
         <DrawerControl
-          leads={leads}
+          data={data}
           isLoadingLead={isLoadingLead}
           onOpenDrawer={onOpenDrawer}
         />

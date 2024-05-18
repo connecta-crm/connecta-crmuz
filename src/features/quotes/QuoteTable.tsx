@@ -19,14 +19,17 @@ const rowSelection = {
     name: record.customerName,
   }),
 };
-type openDrawerType = (data:QuotesTableDataType ) => void;
+type openDrawerType = (data: QuotesTableDataType) => void;
 
 function QuotesTable({ openDrawer }: { openDrawer: openDrawerType }) {
   const { quotes, count, isLoading } = useQuotes();
   return (
     <>
       <div className="dt-header">
-        <TableHeaderActions openLeadModal={(s:boolean)=>console.log(s)} pageName="quote" />
+        <TableHeaderActions
+          openLeadModal={(s: boolean) => console.log(s)}
+          pageName="quote"
+        />
         <TableHeaderFilters count={count} sumPrice={undefined} />
       </div>
       <div className="quotes-table">

@@ -7,9 +7,9 @@ import {
   useCreatePerson,
   usePerson,
 } from '../features/leads/useLeadDetails';
-import FormControl from './Form/FormControl';
-import Input from './Form/Input';
-import UpCollapse from './Form/UpCollapse';
+import FormControl from './form/FormControl';
+import Input from './form/Input';
+import UpCollapse from './form/UpCollapse';
 import email from '/img/drawer/mail.svg';
 import phone from '/img/drawer/phone.svg';
 import user from '/img/drawer/user.svg';

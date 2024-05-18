@@ -1,8 +1,8 @@
 import { Flex, Radio, Select } from 'antd';
 import { FormEvent } from 'react';
 import Calendar from '../Calendar';
-import UseDatePicker from '../DatePicker/DatePicker';
-import Input from '../Form/Input';
+import Input from '../form/Input';
+import UseDatePicker from '../picker/DatePicker';
 import Modal from './Modal';
 import bag from '/img/drawer/tab/bag.svg';
 import calendar from '/img/drawer/tab/calendar.svg';

@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { CarType } from '../../features/vehicle/vehicleContainer';
+import { CarType } from '../../features/vehicle/VehicleContainer';
 import add from '/img/add.svg';
 import remove from '/img/remove.svg';
 export default function DownCollapse({

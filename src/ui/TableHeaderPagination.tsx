@@ -51,7 +51,8 @@ function TableHeaderPagination({
   const { pathname } = useLocation();
 
   const updateSearchParams = (offsetValue: number) => {
-    const status = pathname.replace('/', '');
+    let status = 'leads';
+    const path = pathname.replace('/', '');
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete('offset');
     newSearchParams.delete('limit');
@@ -59,13 +60,17 @@ function TableHeaderPagination({
     newSearchParams.delete('source');
     newSearchParams.append('offset', String(offsetValue));
     newSearchParams.append('limit', String(inputLimit));
-    newSearchParams.append('status', String(status));
 
-    // if (providers?.length) {
-    //   providers.forEach((provider: { id: string; name: string }) => {
-    //     newSearchParams.append('source', provider.id);
-    //   });
-    // }
+    switch (path) {
+      case 'leads':
+        status = 'leads';
+        break;
+      case 'quotes':
+        status = 'quote';
+        break;
+    }
+
+    newSearchParams.append('status', String(status));
     setSearchParams(newSearchParams, { replace: true });
   };
 
@@ -85,17 +90,9 @@ function TableHeaderPagination({
   }, [defaultOffset, defaultLimit]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      modify();
-    }, 0);
+    const timer = setTimeout(() => modify(), 0);
     return () => clearTimeout(timer);
   }, [inputOffset, inputLimit]);
-
-  // useEffect(() => {
-  //   if (!pathname.includes('limit')) {
-  //     modify();
-  //   }
-  // }, [pathname]);
 
   // DROPDOWN FUNCTION
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {

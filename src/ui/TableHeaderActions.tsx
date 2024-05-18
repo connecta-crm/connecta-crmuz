@@ -3,9 +3,15 @@ import calendar from '/img/dt_table/calendar.svg';
 import sell from '/img/dt_table/table_sells.svg';
 import plus from '/img/plus_w.svg';
 
-function TableHeaderActions({ pageName,openLeadModal }: { pageName: string,openLeadModal:(a:boolean)=>void }) {
-  // const { showModal } = useModal();
+type TableHeaderActionsProps = {
+  pageName: string;
+  onOpenModal: (a: boolean) => void;
+};
 
+function TableHeaderActions({
+  pageName,
+  onOpenModal,
+}: TableHeaderActionsProps) {
   return (
     <div className="dt-header__actions">
       <div className="dt-header__tableicon cursor-not-allowed">
@@ -17,7 +23,7 @@ function TableHeaderActions({ pageName,openLeadModal }: { pageName: string,openL
       <button
         type="button"
         className="dt-header__add-btn btn--primary"
-        onClick={()=>openLeadModal(true)}
+        onClick={() => onOpenModal(true)}
       >
         <img src={plus} alt="" />
         <span>New {pageName}</span>
