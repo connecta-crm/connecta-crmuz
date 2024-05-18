@@ -6,7 +6,7 @@ import Quote from '../../services/quotes';
 export function useCreateQuote() {
   const { hideModal } = useModal();
   const queryClient = useQueryClient();
-  const { mutate: create, isPending: isLoading } = useMutation({
+  const { mutate: create, isPending: isLoading ,isSuccess} = useMutation({
     mutationFn: (item: QuoteDataType) => Quote.createQuote(item),
     onSuccess: () => {
       hideModal();
@@ -17,5 +17,5 @@ export function useCreateQuote() {
       message.error(err.message);
     },
   });
-  return { create, isLoading };
+  return { create, isLoading,isSuccess };
 }
