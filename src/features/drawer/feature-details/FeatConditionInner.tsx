@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { CONDITION_TYPES } from '../../../utils/constants';
-import { useUpdateLeadData } from '../../leads/useUpdateLeadData';
+import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
 
 type FeatConditionInnerProps = {
   feature: 'lead' | 'quote' | 'order';

@@ -2,22 +2,36 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   Customer,
   CustomerData,
-  LeadData,
-  LeadVehicle,
+  QuoteData,
   QuoteState,
+  QuoteVehicle,
   RevertFieldAction,
-  UpdateFieldAction,
-  UpdateVehicleFieldAction,
+  Source,
+  initialQuoteData,
+  quoteData,
 } from '../../models';
-import {
-  initialLeadData,
-  leadData,
-  setNestedObjectValue,
-} from '../leads/leadSlice';
+import { setNestedObjectValue } from '../leads/leadSlice';
+
+type UpdateVehicleFieldAction<T extends keyof QuoteVehicle> = {
+  vehicleIndex: number;
+  field: T extends keyof QuoteVehicle ? QuoteVehicle[T] : never;
+  value: QuoteVehicle[T];
+};
+
+type UpdateFieldAction<T extends keyof (QuoteData & Customer & Source)> = {
+  field: T extends keyof QuoteData
+    ? QuoteData[T]
+    : T extends keyof Customer
+      ? Customer[T]
+      : T extends keyof Source
+        ? Source[T]
+        : never;
+  value: T[keyof T];
+};
 
 const initialState: QuoteState = {
-  quoteData: leadData,
-  initialQuoteData: initialLeadData,
+  quoteData,
+  initialQuoteData,
   status: 'idle',
 };
 
@@ -25,29 +39,29 @@ export const quoteSlice = createSlice({
   name: 'quote',
   initialState,
   reducers: {
-    setQuoteData: (state, action: PayloadAction<LeadData>) => {
+    setQuoteData: (state, action: PayloadAction<QuoteData>) => {
       state.quoteData = action.payload;
       state.initialQuoteData = action.payload;
     },
-    updateField: <T extends keyof (LeadData & Customer & CustomerData)>(
+    updateField: <T extends keyof (QuoteData & Customer & CustomerData)>(
       state: QuoteState,
       action: PayloadAction<UpdateFieldAction<T>>,
     ) => {
       const { field, value } = action.payload;
       setNestedObjectValue(state.quoteData, field, value as keyof undefined);
     },
-    updateVehicleField: <T extends keyof LeadVehicle>(
+    updateVehicleField: <T extends keyof QuoteVehicle>(
       state: QuoteState,
       action: PayloadAction<UpdateVehicleFieldAction<T>>,
     ) => {
       const { vehicleIndex, field, value } = action.payload;
-      const vehicles = [...state.quoteData.leadVehicles];
-      const vehicle = vehicles[vehicleIndex];
-      setNestedObjectValue(vehicle, field, value as keyof undefined);
-      vehicles[vehicleIndex] = vehicle;
-      state.quoteData.leadVehicles = vehicles;
+      const quotes = [...state.quoteData.quoteVehicles];
+      const quote = quotes[vehicleIndex];
+      setNestedObjectValue(quote, field, value as keyof undefined);
+      quotes[vehicleIndex] = quote;
+      state.quoteData.quoteVehicles = quotes;
     },
-    resetField: <T extends keyof LeadData>(
+    resetField: <T extends keyof QuoteData>(
       state: QuoteState,
       action: PayloadAction<RevertFieldAction<T>>,
     ) => {
@@ -59,8 +73,8 @@ export const quoteSlice = createSlice({
   },
 });
 
-export const getQuoteData = (state: { lead: QuoteState }) =>
-  state.lead.quoteData;
+export const getQuoteData = (state: { quote: QuoteState }) =>
+  state.quote.quoteData;
 
 export const { setQuoteData, updateField, updateVehicleField, resetField } =
   quoteSlice.actions;

@@ -6,66 +6,31 @@ import {
   LeadState,
   LeadVehicle,
   NestedObject,
+  QuoteData,
+  QuoteVehicle,
   RevertFieldAction,
   Source,
-  UpdateFieldAction,
-  UpdateVehicleFieldAction,
   User,
   Vehicle,
-  initialCustomer,
-  initialLocation,
-  initialSource,
-  initialUser,
+  initialLeadData,
+  leadData,
 } from '../../models';
 
-export const leadData = {
-  id: 0,
-  customerName: '',
-  customerPhone: '',
-  originName: '',
-  destinationName: '',
-  leadVehicles: [],
-  user: initialUser,
-  extraUser: null,
-  customer: initialCustomer,
-  origin: initialLocation,
-  destination: initialLocation,
-  source: initialSource,
-  guid: '',
-  createdAt: '',
-  updatedAt: '',
-  status: '',
-  price: 0,
-  condition: '',
-  trailerType: '',
-  notes: '',
-  reservationPrice: 0,
-  dateEstShip: null,
+type UpdateVehicleFieldAction<T extends keyof LeadVehicle> = {
+  vehicleIndex: number;
+  field: T extends keyof LeadVehicle ? LeadVehicle[T] : never;
+  value: LeadVehicle[T];
 };
 
-export const initialLeadData = {
-  id: 0,
-  customerName: '',
-  customerPhone: '',
-  originName: '',
-  destinationName: '',
-  leadVehicles: [],
-  user: initialUser,
-  extraUser: null,
-  customer: initialCustomer,
-  origin: initialLocation,
-  destination: initialLocation,
-  source: initialSource,
-  guid: '',
-  createdAt: '',
-  updatedAt: '',
-  status: '',
-  price: 0,
-  condition: '',
-  trailerType: '',
-  notes: '',
-  reservationPrice: 0,
-  dateEstShip: null,
+type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> = {
+  field: T extends keyof LeadData
+    ? LeadData[T]
+    : T extends keyof Customer
+      ? Customer[T]
+      : T extends keyof Source
+        ? Source[T]
+        : never;
+  value: T[keyof T];
 };
 
 const initialState: LeadState = {
@@ -85,8 +50,11 @@ export const setNestedObjectValue = (
     | Customer
     | Location
     | Source
-    | LeadVehicle[],
-  value: LeadData[keyof (LeadData | Source | Customer)],
+    | LeadVehicle[]
+    | QuoteVehicle[],
+  value:
+    | LeadData[keyof (LeadData | Source | Customer)]
+    | QuoteData[keyof (QuoteData | Source | Customer)],
 ) => {
   if (typeof path === 'string') {
     const keys = path.split('.');

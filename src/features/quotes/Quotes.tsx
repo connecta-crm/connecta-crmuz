@@ -43,6 +43,7 @@ function Quotes() {
       />
       {/* <QuoteModal openLeadModal={openLeadModal} setOpenLeadModa={setOpenLeadModal}  /> */}
       <DrawerApp
+        sourceType="quote"
         dataSource={quotes}
         loadingItem={isLoadingQuote}
         onOpenDrawer={handleOpenDrawer}

@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
+import { DrawerSourceType } from '../../ui/Drawer';
 import { getLeadData } from '../leads/leadSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
 import FeatItemHeader from './feature-details/FeatItemHeader';
@@ -9,7 +11,7 @@ import FeatPersonEmailInner from './feature-details/FeatPersonEmailInner';
 import FeatPersonNameInner from './feature-details/FeatPersonNameInner';
 import FeatPersonPhoneInner from './feature-details/FeatPersonPhoneInner';
 
-function DrawerFeaturePersonContent() {
+function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
   const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
   const { customerName, customerPhone, customer } = useAppSelector(getLeadData);

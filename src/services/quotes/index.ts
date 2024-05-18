@@ -1,4 +1,6 @@
 import { AxiosError } from 'axios';
+import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
+import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
 import { QuotesParamsType } from '../../features/quotes/useQuotes';
 import { QuoteDataType } from '../../models/QuoteDataType';
 import apiClient from '../axios';
@@ -53,6 +55,7 @@ class Quotes {
     }
   }
 
+  // POST: /quote/:guid/create/
   async createQuote(quote: QuoteDataType) {
     try {
       const { data } = await this.$api.post('/quote/create/', quote);
@@ -65,14 +68,41 @@ class Quotes {
     }
   }
 
-  // @ts-expect-error: Unreachable code error
-  async vehicleEditFake(formData) {
-    return await new Promise((res) => {
-      setTimeout(() => {
-        // @ts-expect-error: Unreachable code error
-        res('success', formData);
-      }, 1500);
-    });
+  // PUT: /quote/:guid/update/
+  async editQuote({ guid, updateQuoteModel }: QuoteEditParamsType) {
+    try {
+      const { data } = await this.$api.put(`/quote/update/${guid}/`, {
+        ...updateQuoteModel,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // PUT: /quote/vehicle/:id/
+  async editQuoteVehicle({
+    id,
+    vehicleYear,
+    vehicle,
+    quote,
+  }: QuoteEditVehicleParams) {
+    try {
+      const { data } = await this.$api.put(`/quote/vehicle/${id}/`, {
+        vehicleYear,
+        vehicle,
+        quote,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
   }
 
   throwError(error: unknown) {

@@ -1,4 +1,14 @@
-import { LeadData } from './DataTypes';
+import {
+  Customer,
+  Location,
+  Source,
+  User,
+  Vehicle,
+  initialCustomer,
+  initialLocation,
+  initialSource,
+  initialUser,
+} from './DataTypes';
 
 export type LeadDataType = {
   vehicles: {
@@ -20,9 +30,93 @@ export type LeadDataType = {
   // extraUser: 0,
 };
 
+export type LeadData = {
+  id: number;
+  customerName: string;
+  customerPhone: string;
+  originName: string;
+  destinationName: string;
+  leadVehicles: LeadVehicle[];
+  user: User;
+  extraUser: null;
+  customer: Customer;
+  origin: Location;
+  destination: Location;
+  source: Source;
+  guid: string;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+  price: number;
+  condition: string;
+  trailerType: string;
+  notes: string;
+  reservationPrice: number;
+  dateEstShip: string | null;
+};
+
 export type LeadState = {
   leadData: LeadData;
   initialLeadData: LeadData;
   status?: 'idle' | 'loading' | 'succeeded' | 'failed';
   error?: unknown;
+};
+
+export type LeadVehicle = {
+  id: number | null;
+  vehicle: Vehicle;
+  vehicleYear: string | null;
+  lead: number | null;
+};
+
+// * INITIAL LEAD DATA
+
+export const leadData = {
+  id: 0,
+  customerName: '',
+  customerPhone: '',
+  originName: '',
+  destinationName: '',
+  leadVehicles: [],
+  user: initialUser,
+  extraUser: null,
+  customer: initialCustomer,
+  origin: initialLocation,
+  destination: initialLocation,
+  source: initialSource,
+  guid: '',
+  createdAt: '',
+  updatedAt: '',
+  status: '',
+  price: 0,
+  condition: '',
+  trailerType: '',
+  notes: '',
+  reservationPrice: 0,
+  dateEstShip: null,
+};
+
+export const initialLeadData = {
+  id: 0,
+  customerName: '',
+  customerPhone: '',
+  originName: '',
+  destinationName: '',
+  leadVehicles: [],
+  user: initialUser,
+  extraUser: null,
+  customer: initialCustomer,
+  origin: initialLocation,
+  destination: initialLocation,
+  source: initialSource,
+  guid: '',
+  createdAt: '',
+  updatedAt: '',
+  status: '',
+  price: 0,
+  condition: '',
+  trailerType: '',
+  notes: '',
+  reservationPrice: 0,
+  dateEstShip: null,
 };

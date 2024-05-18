@@ -1,5 +1,4 @@
 import { Drawer } from 'antd';
-
 import { useDrawerFeature } from '../context/DrawerFeatureContext';
 import DrawerContent from '../features/drawer/Drawer';
 import DrawerControl from '../features/drawer/DrawerControl';
@@ -10,13 +9,25 @@ import { LeadData } from '../models';
 
 type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;
 
+export type SourceType = 'lead' | 'quote' | 'order';
+
+export type DrawerSourceType = {
+  sourceType: SourceType;
+};
+
 export type DrawerProps = {
   dataSource: DataSourceType;
   loadingItem: boolean;
+  sourceType: SourceType;
   onOpenDrawer: (guid: string) => void;
 };
 
-function DrawerApp({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
+function DrawerApp({
+  dataSource,
+  loadingItem,
+  sourceType,
+  onOpenDrawer,
+}: DrawerProps) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';
@@ -26,7 +37,8 @@ function DrawerApp({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
       <Drawer
         title={
           <DrawerHeader
-            dataSource={dataSource}
+            sourceType={sourceType}
+            dataSource={dataSource} // todo
             loadingItem={loadingItem}
             onOpenDrawer={onOpenDrawer}
           />
@@ -40,11 +52,12 @@ function DrawerApp({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
         closeIcon={false}
       >
         <DrawerControl
-          dataSource={dataSource}
+          sourceType={sourceType}
+          dataSource={dataSource} // todo
           loadingItem={loadingItem}
           onOpenDrawer={onOpenDrawer}
         />
-        <DrawerContent />
+        <DrawerContent sourceType={sourceType} />
       </Drawer>
     </div>
   );

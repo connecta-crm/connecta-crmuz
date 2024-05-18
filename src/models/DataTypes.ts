@@ -1,4 +1,5 @@
-import { LeadState } from './LeadDataType';
+import { LeadData, LeadState, LeadVehicle } from './LeadDataType';
+import { QuoteData, QuoteState, QuoteVehicle } from './QuoteDataType';
 
 export type Mark = {
   id: number | null;
@@ -10,13 +11,6 @@ export type Vehicle = {
   mark: Mark;
   name: string | null;
   vehicleType: string | null;
-};
-
-export type LeadVehicle = {
-  id: number | null;
-  vehicle: Vehicle;
-  vehicleYear: string | null;
-  lead: number | null;
 };
 
 export type User = {
@@ -63,31 +57,6 @@ export type SourceState = {
   data: Source;
 };
 
-export type LeadData = {
-  id: number;
-  customerName: string;
-  customerPhone: string;
-  originName: string;
-  destinationName: string;
-  leadVehicles: LeadVehicle[];
-  user: User;
-  extraUser: null;
-  customer: Customer;
-  origin: Location;
-  destination: Location;
-  source: Source;
-  guid: string;
-  createdAt: string;
-  updatedAt: string;
-  status: string;
-  price: number;
-  condition: string;
-  trailerType: string;
-  notes: string;
-  reservationPrice: number;
-  dateEstShip: string | null;
-};
-
 export const initialUser: User = {
   id: 0,
   picture: '',
@@ -120,25 +89,7 @@ export const initialSource: Source = {
 
 /* ==================================================================================================================*/
 
-export type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> =
-  {
-    field: T extends keyof LeadData
-      ? LeadData[T]
-      : T extends keyof Customer
-        ? Customer[T]
-        : T extends keyof Source
-          ? Source[T]
-          : never;
-    value: T[keyof T];
-  };
-
-export type UpdateVehicleFieldAction<T extends keyof LeadVehicle> = {
-  vehicleIndex: number;
-  field: T extends keyof LeadVehicle ? LeadVehicle[T] : never;
-  value: LeadVehicle[T];
-};
-
-export type RevertFieldAction<T extends keyof LeadData> = {
+export type RevertFieldAction<T extends keyof (LeadData & QuoteData)> = {
   field: T;
 };
 
@@ -155,6 +106,10 @@ export type NestedObjectValue =
   | LeadData
   | LeadData[]
   | LeadState
+  | QuoteVehicle[]
+  | QuoteData
+  | QuoteData[]
+  | QuoteState
   | Customer
   | Source;
 
@@ -164,5 +119,9 @@ export type NestedObject = {
     | NestedObjectValue
     | LeadData
     | LeadVehicle
-    | LeadVehicle[];
+    | LeadVehicle[]
+    | QuoteData
+    | QuoteVehicle
+    | QuoteVehicle[];
 };
+/* ==================================================================================================================*/

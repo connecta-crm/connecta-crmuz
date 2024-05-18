@@ -112,7 +112,6 @@ function History() {
     if (noteData && Object.keys(noteData).length && noteId && !errorNote) {
       setContent(noteData.text);
       setModalOpen(true);
-      console.log('OPENED');
     }
   }, [noteData, noteId, errorNote]);
 
@@ -122,7 +121,6 @@ function History() {
       setContent('');
       setNoteUpdated(false);
       setNoteId(0);
-      console.log('CLOSED');
     }
   }, [isNoteUpdated, isLoadingUpdateNote, errorUpdateNote]);
 
@@ -141,7 +139,7 @@ function History() {
         }}
         onSave={handleSave}
       >
-        <Notes type="main" content={content} onSetContent={onSetContent} />-
+        <Notes type="main" content={content} onSetContent={onSetContent} />
       </Modal>
     </div>
   );

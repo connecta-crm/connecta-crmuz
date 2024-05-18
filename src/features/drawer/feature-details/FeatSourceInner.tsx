@@ -7,7 +7,7 @@ import { useProviders } from '../../providers/useProviders';
 import { LoadingOutlined } from '@ant-design/icons';
 import { DefaultOptionType } from 'antd/es/select';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
-import { useUpdateLeadData } from '../../leads/useUpdateLeadData';
+import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
 
 type FeatSourceInnerProps = {
   feature: 'lead' | 'order' | 'quote';

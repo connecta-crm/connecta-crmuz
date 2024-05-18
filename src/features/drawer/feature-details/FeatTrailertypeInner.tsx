@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { TRAILER_TYPES } from '../../../utils/constants';
-import { useUpdateLeadData } from '../../leads/useUpdateLeadData';
+import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
 
 type FeatTrailertypeInnerProps = {
   feature: 'lead' | 'quote' | 'order';
