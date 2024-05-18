@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useModal } from '../../context/ModalContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import Filter from '../../ui/filter/Filter';
@@ -14,16 +15,16 @@ function Leads() {
   const { leads, count, isLoading: isLoadingLeads } = useLeads();
   const { lead, isLoading: isLoadingLead, error } = useLead(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
-
+  const { show, status, hideModal } = useModal();
   const { openDrawer } = useDrawerFeature();
-
   const dispatch = useAppDispatch();
-
   const handleOpenDrawer = (guid: string | null) => {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
   };
-
+  useEffect(() => {
+    hideModal();
+  }, []);
   useEffect(() => {
     if (!isLoadingLead && !error && guid && lead) {
       dispatch(setLeadData(lead));
@@ -46,6 +47,9 @@ function Leads() {
         openLeadModal={openLeadModal}
         setOpenLeadModa={setOpenLeadModal}
       />
+      {show && status === 'lead' && (
+        <LeadModal openLeadModal={show} setOpenLeadModa={hideModal} />
+      )}
       <DrawerApp
         dataSource={leads}
         loadingItem={isLoadingLead}
