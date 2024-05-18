@@ -1,12 +1,12 @@
 export type QuoteDataType = {
     vehicles: { vehicle: string | null; vehicleYear: FormDataEntryValue | null }[];
     status: string | null;
-    price: FormDataEntryValue | null,
+    price: number | null,
     condition: string | null;
     trailerType: string | null;
-    notes: FormDataEntryValue | null;
-    reservationPrice: FormDataEntryValue | null,
-    dateEstShip: FormDataEntryValue | null;
+    notes: string | undefined;
+    reservationPrice: number,
+    dateEstShip: string | null;
     customer: string | null;
     source: string | null;
     origin: string | null;

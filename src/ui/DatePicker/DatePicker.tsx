@@ -21,7 +21,7 @@ export default function UseDatePicker({
   return (
     <DatePicker
       onChange={onChange}
-      format={"MM-DD-YYYY"}
+      format={type=="date"?"MM-DD-YYYY":"YYYY"}
       picker={type}
       name={name}
       allowClear={false}

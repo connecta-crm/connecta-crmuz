@@ -21,12 +21,17 @@ const rowSelection = {
 };
 type openDrawerType = (data:QuotesTableDataType ) => void;
 
-function QuotesTable({ openDrawer }: { openDrawer: openDrawerType }) {
+function QuotesTable({ openDrawer,setOpenLeadModal, }: 
+  { 
+    openDrawer: openDrawerType ;
+    setOpenLeadModal:(a:boolean)=>void
+
+  }) {
   const { quotes, count, isLoading } = useQuotes();
   return (
     <>
       <div className="dt-header">
-        <TableHeaderActions openLeadModal={(s:boolean)=>console.log(s)} pageName="quote" />
+        <TableHeaderActions openLeadModal={setOpenLeadModal} pageName="quote" />
         <TableHeaderFilters count={count} sumPrice={undefined} />
       </div>
       <div className="quotes-table">

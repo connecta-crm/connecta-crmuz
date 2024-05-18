@@ -129,8 +129,8 @@ export default function LeadModal({
               <Source setSource={setSource} />
 
               <div className="form__footer">
-                <Form.Item label="CM note" name="notes">
-                  <Input />
+                <Form.Item label="CM note" name="notes" style={{width:"100%"}}>
+                  <Input style={{width:"100%"}} />
                 </Form.Item>
               </div>
             </UpCollapse>
