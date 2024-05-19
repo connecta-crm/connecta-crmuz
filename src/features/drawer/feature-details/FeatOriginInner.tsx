@@ -4,11 +4,33 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import HighlightedWord from '../../../ui/HighlightedWord';
 import { useCities } from '../../address/useCities';
-import { getLeadData, updateField } from '../../leads/leadSlice';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../../leads/leadSlice';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../../quotes/quoteSlice';
+import { FeatItemInnerProps } from './FeatConditionInner';
 
-function FeatOriginInner() {
+function FeatOriginInner({ feature }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+
+  let featureData;
+
+  switch (feature) {
+    case 'lead':
+      featureData = leadData;
+      break;
+    case 'quote':
+      featureData = quoteData;
+      break;
+    default:
+      break;
+  }
 
   const [isSelectCity, setSelectCity] = useState(true);
   const [searchCity, setSearchCity] = useState<string | null>(null);
@@ -22,7 +44,16 @@ function FeatOriginInner() {
 
   const handleChangeCity = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
-      dispatch(updateField({ field: 'origin', value: option?.data }));
+      switch (feature) {
+        case 'lead':
+          dispatch(updateLeadField({ field: 'origin', value: option?.data }));
+          break;
+        case 'quote':
+          dispatch(updateQuoteField({ field: 'origin', value: option?.data }));
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -30,6 +61,10 @@ function FeatOriginInner() {
     setSelectCity(false);
     setSearchCity(value);
   };
+
+  if (!featureData) {
+    return;
+  }
 
   return (
     <>
@@ -41,8 +76,8 @@ function FeatOriginInner() {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search city"
-          defaultValue={leadData.origin.name}
-          value={leadData.origin.name}
+          defaultValue={featureData.origin.name}
+          value={featureData.origin.name}
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
@@ -74,7 +109,7 @@ function FeatOriginInner() {
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup state</div>
         <Input
-          value={leadData.origin?.state.name}
+          value={featureData.origin?.state.name}
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
         />
@@ -87,8 +122,8 @@ function FeatOriginInner() {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search zip"
-          defaultValue={leadData.origin?.zip}
-          value={leadData.origin.zip}
+          defaultValue={featureData.origin?.zip}
+          value={featureData.origin.zip}
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}

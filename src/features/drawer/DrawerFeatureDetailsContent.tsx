@@ -126,6 +126,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                   />
                 ) : (
                   <FeatItemClose
+                    feature={sourceType}
                     keyValue={String(index + 20)}
                     label={`${vehicle.vehicleYear} ${vehicle.vehicle?.mark.name || ''} ${vehicle.vehicle?.name || ''}`}
                   />
@@ -163,6 +164,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 keyValue="2"
                 textWithBg={true}
+                feature={sourceType}
                 label={
                   CONDITION_TYPES.find((type) => type.value === condition)
                     ?.label || undefined
@@ -194,15 +196,19 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 featureItemField="origin"
               />
             ) : (
-              <FeatItemClose keyValue={'3'} label={originName} />
+              <FeatItemClose
+                feature={sourceType}
+                keyValue={'3'}
+                label={originName}
+              />
             )}
-            <ArrowIcon keyValue={'3'} />
+            <ArrowIcon keyValue="3" />
           </div>
         </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatOriginInner />
+          <FeatOriginInner feature={sourceType} keyValue="3" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -220,7 +226,11 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 featureItemField="destination"
               />
             ) : (
-              <FeatItemClose keyValue="4" label={destinationName} />
+              <FeatItemClose
+                feature={sourceType}
+                keyValue="4"
+                label={destinationName}
+              />
             )}
             <ArrowIcon keyValue={'4'} />
           </div>
@@ -228,7 +238,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatDestinationInner />
+          <FeatDestinationInner feature={sourceType} keyValue="4" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -249,6 +259,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="5"
                 label={
                   TRAILER_TYPES.find((type) => type.value === trailerType)
@@ -283,6 +294,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="6"
                 label={formatDate(dateEstShip ? dateEstShip : '')}
                 series={false}
@@ -314,6 +326,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="7"
                 label={sourceName}
                 textWithBg={true}
@@ -343,7 +356,11 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 featureItemField="price"
               />
             ) : (
-              <FeatItemClose keyValue="8" label={'$' + String(totalTariff)} />
+              <FeatItemClose
+                feature={sourceType}
+                keyValue="8"
+                label={'$' + String(totalTariff)}
+              />
             )}
             <ArrowIcon keyValue={'8'} />
           </div>
@@ -351,7 +368,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTotalTariffInner keyValue="8" />
+          <FeatTotalTariffInner keyValue="8" feature={sourceType} />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -370,6 +387,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="9"
                 label={'$' + String(reservationPrice)}
               />
@@ -380,7 +398,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTotalTariffInner keyValue="9" />
+          <FeatTotalTariffInner keyValue="9" feature={sourceType} />
         </DrawerFeatureRow>
       ),
       showArrow: false,

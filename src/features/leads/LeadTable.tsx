@@ -64,4 +64,5 @@ function LeadTable({
     </>
   );
 }
+
 export default LeadTable;

@@ -96,7 +96,7 @@ export const leadData = {
   dateEstShip: null,
 };
 
-export const initialLeadData = {
+const initialLeadData = {
   id: 0,
   customerName: '',
   customerPhone: '',
@@ -120,3 +120,5 @@ export const initialLeadData = {
   reservationPrice: 0,
   dateEstShip: null,
 };
+
+export default initialLeadData;

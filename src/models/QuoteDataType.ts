@@ -96,7 +96,7 @@ export const quoteData = {
   dateEstShip: null,
 };
 
-export const initialQuoteData = {
+const initialQuoteData = {
   id: 0,
   customerName: '',
   customerPhone: '',
@@ -120,3 +120,5 @@ export const initialQuoteData = {
   reservationPrice: 0,
   dateEstShip: null,
 };
+
+export default initialQuoteData;

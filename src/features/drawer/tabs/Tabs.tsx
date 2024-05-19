@@ -98,6 +98,7 @@ function TabsApp() {
             text: notes.mainNote,
             user,
           });
+          setNotes({ ...notes, mainNote: '' });
         }
         // editLead({ guid: leadData.guid, updateLeadModel });
         break;

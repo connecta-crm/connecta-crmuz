@@ -25,6 +25,7 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
         />
       ),
       children: <DrawerFeatureDetailsContent sourceType={sourceType} />,
+      className: 'feature-drawer__item',
     },
     {
       key: '200',

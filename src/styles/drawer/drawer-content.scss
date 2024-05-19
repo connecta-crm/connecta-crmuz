@@ -29,13 +29,7 @@
     border-right: 1px solid #d1d1d1;
     overflow-y: auto;
     min-height: 100vh;
-    // .ant-collapse
-    //   > .ant-collapse-item
-    //   .ant-collapse-icon-collapsible-only
-    //   .ant-collapse-expand-icon {
-    //   cursor: none;
-    //   pointer-events: none;
-    // }
+
     &-notes {
       height: 44px !important;
       min-height: 44px !important;
@@ -47,6 +41,9 @@
   &__main {
     padding: 14px;
     width: 100%;
+  }
+  .feature-drawer__item {
+    border-bottom: 1px solid rgba(209, 209, 209, 1);
   }
 }
 /* ==================================================================================================================*/
@@ -104,7 +101,7 @@
 /* ==================================================================================================================*/
 .box-header-inner {
   .ant-collapse {
-    padding: 0 9px;
+    padding: 0 9px 10px;
   }
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     padding: 0;
