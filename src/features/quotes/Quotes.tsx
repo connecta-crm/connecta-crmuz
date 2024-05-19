@@ -6,6 +6,7 @@ import DrawerApp from '../../ui/Drawer';
 import LeadModal from '../../ui/modal/LeadModal';
 import QuotesModal from '../../ui/modal/QuotesModal';
 import QuotesTable from './QuotesTable';
+import { setQuoteData } from './quoteSlice';
 import { useQuote } from './useQuote';
 import { useQuotes } from './useQuotes';
 function Quotes() {
@@ -36,7 +37,6 @@ function Quotes() {
   return (
     <div className="quotes">
       <QuotesTable
-        sourceType="quote"
         guid={guid}
         count={count}
         sourceType="quote"

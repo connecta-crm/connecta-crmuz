@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { LeadData, LeadVehicle, QuoteData, QuoteVehicle } from '../../models';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getUser } from '../authentication/authSlice';
 import {
   getQuoteData,
   resetField as resetQuoteField,
@@ -37,6 +38,7 @@ export function useUpdateFeatureData({
 }: UpdateLeadDataProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
   const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
@@ -60,6 +62,7 @@ export function useUpdateFeatureData({
     isLoading: isLoadingQuote,
     error: quoteError,
   } = useQuoteEdit();
+
   const { editQuoteVehicle, isLoading: isLoadingQuoteVehicleEdit } =
     useQuoteVehicleEdit();
 
@@ -102,9 +105,11 @@ export function useUpdateFeatureData({
     source: data?.source?.id,
     origin: data?.origin?.id,
     destination: data?.destination?.id,
-    user: data?.user?.id,
+    user: data?.user?.id || user?.id,
     extraUser: data?.extraUser,
   };
+
+  console.log(updateModel);
 
   const onSaveFeature = () => {
     switch (feature) {
