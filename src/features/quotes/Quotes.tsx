@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useModal } from '../../context/ModalContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
+import LeadModal from '../../ui/modal/LeadModal';
+import QuotesModal from '../../ui/modal/QuotesModal';
 import { setLeadData } from '../leads/leadSlice';
-import QuotesTable from './QuoteTable';
+import QuotesTable from './QuotesTable';
 import { useQuote } from './useQuote';
 import { useQuotes } from './useQuotes';
-
 function Quotes() {
   const [guid, setGuid] = useState<string | null>(null);
   const { quotes, count, isLoadingQuotes } = useQuotes();
@@ -30,9 +32,12 @@ function Quotes() {
     }
   }, [isLoadingQuote, error, dispatch, guid, quote]);
 
+  const { show, status, hideModal } = useModal();
+
   return (
     <div className="quotes">
       <QuotesTable
+        sourceType="quote"
         guid={guid}
         count={count}
         dataSource={quotes}
@@ -41,7 +46,14 @@ function Quotes() {
         onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
-      {/* <QuoteModal openLeadModal={openLeadModal} setOpenLeadModa={setOpenLeadModal}  /> */}
+      <QuotesModal
+        openLeadModal={openLeadModal}
+        setOpenLeadModa={setOpenLeadModal}
+      />
+      {show && status === 'lead' && (
+        <LeadModal openLeadModal={show} setOpenLeadModa={hideModal} />
+      )}
+
       <DrawerApp
         sourceType="quote"
         dataSource={quotes}
