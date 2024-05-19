@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { useModal } from '../../context/ModalContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
-import LeadModal from '../../ui/modal/LeadModal';
-import QuotesModal from '../../ui/modal/QuotesModal';
-import QuotesTable from './QuotesTable';
-import { useQuote } from './useQuote';
-import { useQuotes } from './useQuotes';
-function Quotes() {
+import { setLeadData } from '../leads/leadSlice';
+import { useQuote } from '../quotes/useQuote';
+import { useOrders } from './useOrders';
+import OrdersTable from './OrdersTable';
+import OrdersModal from '../../ui/modal/OrderModal';
+function Orders() {
   const [guid, setGuid] = useState<string | null>(null);
-  const { quotes, count, isLoadingQuotes } = useQuotes();
+  const { orders, count, isLoadingOrders } = useOrders();
   const { quote, isLoading: isLoadingQuote, error } = useQuote(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
 
@@ -25,38 +24,31 @@ function Quotes() {
 
   useEffect(() => {
     if (!isLoadingQuote && !error && guid && quote) {
-      dispatch(setQuoteData(quote));
-      console.log('quote: ', quote);
+      dispatch(setLeadData(quote));
       openDrawer();
     }
   }, [isLoadingQuote, error, dispatch, guid, quote]);
 
-  const { show, status, hideModal } = useModal();
-
   return (
-    <div className="quotes">
-      <QuotesTable
-        sourceType="quote"
+    <div className="orders">
+      <OrdersTable
+        sourceType="order"
         guid={guid}
         count={count}
-        sourceType="quote"
-        dataSource={quotes}
-        loadingList={isLoadingQuotes}
+        dataSource={orders}
+        loadingList={isLoadingOrders}
         loadingItem={isLoadingQuote}
         onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
-      <QuotesModal
+      <OrdersModal
         openLeadModal={openLeadModal}
         setOpenLeadModa={setOpenLeadModal}
       />
-      {show && status === 'lead' && (
-        <LeadModal openLeadModal={show} setOpenLeadModa={hideModal} />
-      )}
 
       <DrawerApp
-        sourceType="quote"
-        dataSource={quotes}
+        sourceType="order"
+        dataSource={orders}
         loadingItem={isLoadingQuote}
         onOpenDrawer={handleOpenDrawer}
       />
@@ -64,4 +56,4 @@ function Quotes() {
   );
 }
 
-export default Quotes;
+export default Orders;

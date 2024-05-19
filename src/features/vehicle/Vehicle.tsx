@@ -1,6 +1,6 @@
 import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useMake, useModel } from '../../features/leads/useLeadDetails';
 import DownCollapse from '../../ui/form/DownCollapse';
 import Input from '../../ui/form/Input';
@@ -21,12 +21,14 @@ export default function Vehicle({
   vehicleRemove,
   getCarValue,
   carId,
+  children,
 }: {
   title: string;
   vehicleAdd: (car: CarType) => void;
   vehicleRemove: () => void;
   getCarValue: (a: CarType) => void;
   carId: number;
+  children: ReactNode;
 }) {
   const [carValue, setCarValue] = useState<CarType>({
     id: carId,
@@ -177,6 +179,7 @@ export default function Vehicle({
           />
         </InputCol>
       </InputRow>
+      {children}
     </DownCollapse>
   );
 }

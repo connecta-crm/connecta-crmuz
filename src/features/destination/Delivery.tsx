@@ -1,6 +1,6 @@
 import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import DownCollapse from '../../ui/form/DownCollapse';
 import Input from '../../ui/form/Input';
 import InputCol from '../../ui/form/InputCol';
@@ -17,8 +17,10 @@ type CityType = {
 
 export default function Delivery({
   setDelivery,
+  children
 }: {
   setDelivery: (a: string | null) => void;
+  children?:ReactNode
 }) {
   // const [enabled, setEnabled] = useState(false);
   const [cityValue, setCityValue] = useState<CityType | null>(null);
@@ -119,6 +121,9 @@ export default function Delivery({
           />
         </InputCol>
       </InputRow>
+      {
+        children
+      }
     </DownCollapse>
   );
 }

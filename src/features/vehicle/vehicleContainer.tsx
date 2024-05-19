@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Vehicle from './Vehicle';
 export type CarType = {
   id: number;
@@ -8,8 +8,10 @@ export type CarType = {
 };
 export default function VehicleContainer({
   setCarData,
+  children,
 }: {
   setCarData: (a: CarType[]) => void;
+  children?: ReactNode;
 }) {
   const [cars, setCar] = useState<CarType[]>([
     { id: 1, vehicle: '', vehicleYear: '' },
@@ -58,7 +60,9 @@ export default function VehicleContainer({
           vehicleRemove={() => vehicleRemove(item.id)}
           key={item.id}
           title={'Vehicle' + (item.id == 1 ? '' : '#' + (index + 1))}
-        />
+        >
+          {children}
+        </Vehicle>
       ))}
     </>
   );
