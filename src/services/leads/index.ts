@@ -5,7 +5,7 @@ import { LeadEditParamsType } from '../../features/leads/useLeadEdit';
 import { LeadCreateVehicleParams } from '../../features/leads/useLeadVehicleCreate';
 import { LeadEditVehicleParamsType } from '../../features/leads/useLeadVehicleEdit';
 import { LeadsParamsType } from '../../features/leads/useLeads';
-import { LeadDataType } from '../../models/LeadDataType';
+import { LeadDataType } from '../../models';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -23,7 +23,7 @@ class Leads {
     try {
       const params: Record<string, unknown> = {
         limit,
-          offset,
+        offset,
         q,
         status,
       };

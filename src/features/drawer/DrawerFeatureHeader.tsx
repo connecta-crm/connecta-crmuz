@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoadingOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SourceType } from '../../ui/Drawer';
 import {
   getLeadData,
   resetField as resetLeadField,
@@ -15,9 +17,11 @@ type DrawerFeatureHeaderProps = {
   keyValue: string;
   label: string;
   value: string;
+  sourceType: SourceType;
 };
 
 function DrawerFeatureHeader({
+  sourceType,
   keyValue,
   label,
   value,
@@ -65,7 +69,22 @@ function DrawerFeatureHeader({
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
     }
-    onChangeInnerCollapse(['1', '2', '3']);
+    onChangeInnerCollapse([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '20',
+      '21',
+      '22',
+      '23',
+      '24',
+      '25',
+      '26',
+    ]);
   };
   const handleSaveDetails = () => {
     // some locig to save the data in DB and update UI

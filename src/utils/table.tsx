@@ -1,7 +1,6 @@
-import RadioButton from '../ui/Form/RadioButton';
+import RadioButton from '../ui/form/RadioButton';
 // import TableDropdown from '../ui/TableDropdown';
 // =======quotes==========
-
 
 export const QuotesTableData = [
   {

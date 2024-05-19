@@ -1,28 +1,27 @@
-
 import { Form, Input, Select, message } from 'antd';
+import FormItem from 'antd/es/form/FormItem/index';
 import { useEffect, useState } from 'react';
 import { getUser } from '../../features/authentication/authSlice';
 import Delivery from '../../features/destination/Delivery';
 import Pickup from '../../features/origin/Pickup';
-import { useCreateQuote } from '../../features/quotes/useQuote.ts';
+import { useCreateQuote } from '../../features/quotes/useCreateQuote.ts';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
-} from '../../features/vehicle/vehicleContainer';
-import { LeadDataType } from '../../models/LeadDataType';
+} from '../../features/vehicle/VehicleContainer.tsx';
 import { QuoteDataType } from '../../models/QuoteDataType.ts';
+import { LeadDataType } from '../../models/index.ts';
 import { useAppSelector } from '../../store/hooks';
-import UseDatePicker from '../DatePicker/DatePicker';
-import FormControl from '../Form/FormControl';
-import UpCollapse from '../Form/UpCollapse';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
+import FormControl from '../form/FormControl';
+import UpCollapse from '../form/UpCollapse';
+import UseDatePicker from '../picker/DatePicker';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
-import trailer from '/img/drawer/trailer.svg';
 import reservation from '/img/drawer/reservation.svg';
 import total from '/img/drawer/total-tariff.svg';
-import FormItem from 'antd/es/form/FormItem/index';
+import trailer from '/img/drawer/trailer.svg';
 export default function QuotesModal({
   openLeadModal,
   setOpenLeadModa,
@@ -134,13 +133,16 @@ export default function QuotesModal({
               <Source setSource={setSource} />
 
               <FormControl title="Total tariff" img={total}>
-                <FormItem name="price" style={{margin:"0px",width:"100%"}}>
-                  <Input placeholder='$0' type='number'/>
+                <FormItem name="price" style={{ margin: '0px', width: '100%' }}>
+                  <Input placeholder="$0" type="number" />
                 </FormItem>
               </FormControl>
               <FormControl title="Reservation" img={reservation}>
-                <Form.Item name="reservationPrice" style={{margin:"0px",width:"100%"}}>
-                  <Input type='number' placeholder='$0'/>
+                <Form.Item
+                  name="reservationPrice"
+                  style={{ margin: '0px', width: '100%' }}
+                >
+                  <Input type="number" placeholder="$0" />
                 </Form.Item>
               </FormControl>
 

@@ -1,9 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import TextArea from 'antd/es/input/TextArea';
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SourceType } from '../../ui/Drawer';
 import { getLeadData, updateField } from '../leads/leadSlice';
 
-function DrawerFeatureNotesContent({ isEditNotes }: { isEditNotes: boolean }) {
+type DrawerFeatureNotesContentProps = {
+  isEditNotes: boolean;
+  sourceType: SourceType;
+};
+
+function DrawerFeatureNotesContent({
+  isEditNotes,
+  sourceType,
+}: DrawerFeatureNotesContentProps) {
   const { notes } = useAppSelector(getLeadData);
   const dispatch = useAppDispatch();
 
@@ -12,6 +22,7 @@ function DrawerFeatureNotesContent({ isEditNotes }: { isEditNotes: boolean }) {
     dispatch(updateField({ field: 'notes', value }));
   };
 
+  console.log(sourceType);
   return (
     <TextArea
       value={notes}

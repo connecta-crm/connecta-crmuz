@@ -2,13 +2,13 @@ import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import { useMake, useModel } from '../../features/leads/useLeadDetails';
-import UseDatePicker from '../../ui/DatePicker/DatePicker';
-import DownCollapse from '../../ui/Form/DownCollapse';
-import Input from '../../ui/Form/Input';
-import InputCol from '../../ui/Form/InputCol';
-import InputRow from '../../ui/Form/InputRow';
-import Label from '../../ui/Form/Label';
-import { CarType } from './vehicleContainer';
+import DownCollapse from '../../ui/form/DownCollapse';
+import Input from '../../ui/form/Input';
+import InputCol from '../../ui/form/InputCol';
+import InputRow from '../../ui/form/InputRow';
+import Label from '../../ui/form/Label';
+import UseDatePicker from '../../ui/picker/DatePicker';
+import { CarType } from './VehicleContainer';
 
 type DataType = {
   mark: string;

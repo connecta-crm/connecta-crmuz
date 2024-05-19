@@ -1,19 +1,33 @@
 import { Drawer } from 'antd';
-
 import { useDrawerFeature } from '../context/DrawerFeatureContext';
 import DrawerContent from '../features/drawer/Drawer';
 import DrawerControl from '../features/drawer/DrawerControl';
 import DrawerHeader from '../features/drawer/DrawerHeader';
-import { LeadData } from '../features/leads/leadSlice';
 import { LeadTableDataType } from '../features/leads/LeadTableColumnType';
+import { QuotesTableDataType } from '../features/quotes/QuotesTableColumnType';
+import { LeadData } from '../models';
+
+type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;
+
+export type SourceType = 'lead' | 'quote' | 'order';
+
+export type DrawerSourceType = {
+  sourceType: SourceType;
+};
 
 export type DrawerProps = {
-  leads: LeadData | LeadTableDataType;
-  isLoadingLead: boolean;
+  dataSource: DataSourceType;
+  loadingItem: boolean;
+  sourceType: SourceType;
   onOpenDrawer: (guid: string) => void;
 };
 
-function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+function DrawerApp({
+  dataSource,
+  loadingItem,
+  sourceType,
+  onOpenDrawer,
+}: DrawerProps) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';
@@ -23,8 +37,9 @@ function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
       <Drawer
         title={
           <DrawerHeader
-            leads={leads}
-            isLoadingLead={isLoadingLead}
+            sourceType={sourceType}
+            dataSource={dataSource} // todo
+            loadingItem={loadingItem}
             onOpenDrawer={onOpenDrawer}
           />
         }
@@ -37,11 +52,12 @@ function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
         closeIcon={false}
       >
         <DrawerControl
-          leads={leads}
-          isLoadingLead={isLoadingLead}
+          sourceType={sourceType}
+          dataSource={dataSource} // todo
+          loadingItem={loadingItem}
           onOpenDrawer={onOpenDrawer}
         />
-        <DrawerContent />
+        <DrawerContent sourceType={sourceType} />
       </Drawer>
     </div>
   );

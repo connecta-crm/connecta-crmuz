@@ -19,7 +19,7 @@ const rowSelection = {
 };
 
 function FilterTable() {
-  const { quotes, isLoading } = useQuotes();
+  const { quotes, isLoadingQuotes } = useQuotes();
   return (
     <>
       <div className="table__container">
@@ -29,7 +29,7 @@ function FilterTable() {
           columns={FilterTableColumns}
           dataSource={quotes}
           pagination={{ pageSize: quotes?.length }}
-          loading={isLoading}
+          loading={isLoadingQuotes}
         />
       </div>
     </>

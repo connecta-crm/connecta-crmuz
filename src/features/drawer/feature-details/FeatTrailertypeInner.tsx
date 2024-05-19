@@ -4,8 +4,9 @@ import { getLeadData, updateField } from '../../leads/leadSlice';
 
 import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { TRAILER_TYPES } from '../../../utils/constants';
-import { useUpdateLeadData } from '../../leads/useUpdateLeadData';
+import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
 
 type FeatTrailertypeInnerProps = {
   feature: 'lead' | 'quote' | 'order';
@@ -20,6 +21,7 @@ function FeatTrailertypeInner({
   const leadData = useAppSelector(getLeadData);
 
   const [isleadUpdated, setLeadUpdated] = useState(false);
+  const { isEditDetails } = useDrawerFeature();
 
   const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
     keyValue,
@@ -35,7 +37,10 @@ function FeatTrailertypeInner({
 
   return (
     <div className="d-flex justify-end feature-content">
-      <div className="feature-content__inner">
+      <div
+        className="feature-content__inner"
+        style={{ bottom: isEditDetails ? '5px' : '28px' }}
+      >
         <Select
           value={leadData.trailerType}
           defaultValue={leadData.trailerType}
@@ -44,26 +49,28 @@ function FeatTrailertypeInner({
           options={TRAILER_TYPES}
         />
       </div>
-      <>
-        <Button
-          block
-          size="small"
-          style={{ width: 'auto' }}
-          disabled={isLoading}
-          onClick={onCancelFeature}
-        >
-          Cancel
-        </Button>
-        <Button
-          className="ml-10"
-          type="primary"
-          size="small"
-          disabled={isLoading}
-          onClick={onSaveFeature}
-        >
-          {isLoading ? <LoadingOutlined /> : 'Save'}
-        </Button>
-      </>
+      {!isEditDetails && (
+        <>
+          <Button
+            block
+            size="small"
+            style={{ width: 'auto' }}
+            disabled={isLoading}
+            onClick={onCancelFeature}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="ml-10"
+            type="primary"
+            size="small"
+            disabled={isLoading}
+            onClick={onSaveFeature}
+          >
+            {isLoading ? <LoadingOutlined /> : 'Save'}
+          </Button>
+        </>
+      )}
     </div>
   );
 }

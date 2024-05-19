@@ -1,10 +1,13 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { LeadData, LeadVehicle, QuoteData, QuoteVehicle } from '../../models';
 import { useAppSelector } from '../../store/hooks';
+import { DrawerSourceType } from '../../ui/Drawer';
 import { CONDITION_TYPES, TRAILER_TYPES } from '../../utils/constants';
 import { formatDate } from '../../utils/helpers';
 import { getLeadData } from '../leads/leadSlice';
+import { getQuoteData } from '../quotes/quoteSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
 import ArrowIcon from './feature-details/ArrowIcon';
 import FeatConditionInner from './feature-details/FeatConditionInner';
@@ -19,9 +22,15 @@ import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
-function DrawerFeatureDetailsContent() {
-  const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
+function isLeadData(data: LeadData | QuoteData): data is LeadData {
+  return (data as LeadData).leadVehicles !== undefined;
+}
 
+function isQuoteData(data: LeadData | QuoteData): data is QuoteData {
+  return (data as QuoteData).quoteVehicles !== undefined;
+}
+
+const extractCommonData = (data: QuoteData | LeadData) => {
   const {
     condition,
     originName,
@@ -31,44 +40,116 @@ function DrawerFeatureDetailsContent() {
     source: { name: sourceName },
     price: totalTariff,
     reservationPrice,
-    leadVehicles,
-  } = useAppSelector(getLeadData);
+  } = data;
 
-  const renderLeadVehicles = (): CollapseProps['items'] => {
-    return leadVehicles.map((vehicle, index) => ({
-      key: String(index + 20),
-      label: (
-        <div className="detail detail-origin">
-          <div className="detail__header d-flex align-center justify-between">
-            <FeatItemLabel
-              label={index === 0 ? 'Vehicle' : `Vehicle #${index + 1}`}
-              icon="car"
-            />
-            {openInnerPanels?.includes(String(index + 20)) ? (
-              <FeatItemOpen
-                keyValue={String(index + 20)}
-                feature="lead"
-                featureItemField="leadVehicles"
-                addRemoveBtn={index === 0 ? 'add' : 'remove'}
-                featureItemData={vehicle}
-              />
-            ) : (
-              <FeatItemClose
-                keyValue={String(index + 20)}
-                label={`${vehicle.vehicleYear} ${vehicle.vehicle?.mark.name || ''} ${vehicle.vehicle?.name || ''}`}
-              />
-            )}
-            <ArrowIcon keyValue={String(index + 20)} />
-          </div>
-        </div>
-      ),
-      children: (
-        <DrawerFeatureRow>
-          <FeatVehicleInner vehicleIndex={index} vehicleItem={vehicle} />
-        </DrawerFeatureRow>
-      ),
-      showArrow: false,
-    }));
+  let leadVehicles;
+  let quoteVehicles;
+
+  if (isLeadData(data)) {
+    leadVehicles = data.leadVehicles;
+  }
+
+  if (isQuoteData(data)) {
+    quoteVehicles = data.quoteVehicles;
+  }
+
+  return {
+    condition,
+    originName,
+    destinationName,
+    trailerType,
+    dateEstShip,
+    sourceName,
+    totalTariff,
+    reservationPrice,
+    leadVehicles,
+    quoteVehicles,
+  };
+};
+
+function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
+  const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
+
+  const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+  let selectedData = null;
+
+  switch (sourceType) {
+    case 'lead':
+      selectedData = leadData;
+      break;
+    case 'quote':
+      selectedData = quoteData;
+      break;
+  }
+
+  if (!selectedData) {
+    return;
+  }
+
+  const {
+    condition,
+    originName,
+    destinationName,
+    trailerType,
+    dateEstShip,
+    sourceName,
+    totalTariff,
+    reservationPrice,
+    leadVehicles,
+    quoteVehicles,
+  } = extractCommonData(selectedData);
+
+  let vehiclesList: LeadVehicle[] | QuoteVehicle[] | undefined;
+
+  switch (sourceType) {
+    case 'lead':
+      vehiclesList = leadVehicles;
+      break;
+    case 'quote':
+      vehiclesList = quoteVehicles;
+      break;
+  }
+
+  const renderVehicles = (): CollapseProps['items'] => {
+    if (vehiclesList?.length) {
+      return vehiclesList?.map(
+        (vehicle: LeadVehicle | QuoteVehicle, index: number) => ({
+          key: String(index + 20),
+          label: (
+            <div className="detail detail-origin">
+              <div className="detail__header d-flex align-center justify-between">
+                <FeatItemLabel
+                  label={index === 0 ? 'Vehicle' : `Vehicle #${index + 1}`}
+                  icon="car"
+                />
+                {openInnerPanels?.includes(String(index + 20)) ? (
+                  <FeatItemOpen
+                    keyValue={String(index + 20)}
+                    feature={sourceType}
+                    featureItemField="leadVehicles"
+                    addRemoveBtn={index === 0 ? 'add' : 'remove'}
+                    featureItemData={vehicle}
+                  />
+                ) : (
+                  <FeatItemClose
+                    keyValue={String(index + 20)}
+                    label={`${vehicle.vehicleYear} ${vehicle.vehicle?.mark.name || ''} ${vehicle.vehicle?.name || ''}`}
+                  />
+                )}
+                <ArrowIcon keyValue={String(index + 20)} />
+              </div>
+            </div>
+          ),
+          children: (
+            <DrawerFeatureRow>
+              <FeatVehicleInner vehicleIndex={index} vehicleItem={vehicle} />
+            </DrawerFeatureRow>
+          ),
+          showArrow: false,
+        }),
+      );
+    }
   };
 
   const items: CollapseProps['items'] = [
@@ -81,7 +162,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('2') ? (
               <FeatItemOpen
                 keyValue="2"
-                feature="lead"
+                feature={sourceType}
                 featureItemField="condition"
                 series={false}
               />
@@ -101,7 +182,7 @@ function DrawerFeatureDetailsContent() {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatConditionInner feature="lead" keyValue="2" />
+          <FeatConditionInner feature={sourceType} keyValue="2" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -116,7 +197,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('3') ? (
               <FeatItemOpen
                 keyValue={'3'}
-                feature="lead"
+                feature={sourceType}
                 featureItemField="origin"
               />
             ) : (
@@ -142,7 +223,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('4') ? (
               <FeatItemOpen
                 keyValue="4"
-                feature="lead"
+                feature={sourceType}
                 featureItemField="destination"
               />
             ) : (
@@ -169,7 +250,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('5') ? (
               <FeatItemOpen
                 keyValue="5"
-                feature="lead"
+                feature={sourceType}
                 featureItemField="trailerType"
                 series={false}
               />
@@ -189,7 +270,7 @@ function DrawerFeatureDetailsContent() {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTrailertypeInner feature="lead" keyValue="5" />
+          <FeatTrailertypeInner feature={sourceType} keyValue="5" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -203,7 +284,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('6') ? (
               <FeatItemOpen
                 keyValue="6"
-                feature="lead"
+                feature={sourceType}
                 featureItemField="dateEstShip"
                 series={false}
               />
@@ -219,7 +300,7 @@ function DrawerFeatureDetailsContent() {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatEstShipDateInner feature="lead" keyValue="6" />
+          <FeatEstShipDateInner feature={sourceType} keyValue="6" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -234,7 +315,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('7') ? (
               <FeatItemOpen
                 keyValue="7"
-                feature="lead"
+                feature={sourceType}
                 featureItemField="source"
                 series={false}
               />
@@ -251,7 +332,7 @@ function DrawerFeatureDetailsContent() {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatSourceInner feature="lead" keyValue="7" />
+          <FeatSourceInner feature={sourceType} keyValue="7" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -265,7 +346,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('8') ? (
               <FeatItemOpen
                 keyValue="8"
-                feature="lead"
+                feature={sourceType}
                 featureItemField="price"
               />
             ) : (
@@ -291,7 +372,7 @@ function DrawerFeatureDetailsContent() {
             {openInnerPanels?.includes('9') ? (
               <FeatItemOpen
                 keyValue="9"
-                feature="lead"
+                feature={sourceType}
                 featureItemField="reservationPrice"
               />
             ) : (
@@ -313,7 +394,7 @@ function DrawerFeatureDetailsContent() {
     },
   ];
 
-  const vehicleItems = renderLeadVehicles();
+  const vehicleItems = renderVehicles();
   const mergeItems = vehicleItems?.concat(items);
 
   return (

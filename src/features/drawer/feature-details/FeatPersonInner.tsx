@@ -1,13 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { DrawerSourceType } from '../../../ui/Drawer';
 import { useCustomers } from '../../customers/useCostumers';
-import { getLeadData, updateField, type Location } from '../../leads/leadSlice';
-
-export type Record = {
-  data: Location;
-};
+import { getLeadData, updateField } from '../../leads/leadSlice';
 
 type SearchType = 'name' | 'email' | 'phone';
 
@@ -16,7 +14,7 @@ type SearchInput = {
   value: string;
 };
 
-function FeatPersonInner() {
+function FeatPersonInner({ sourceType }: DrawerSourceType) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
@@ -129,39 +127,6 @@ function FeatPersonInner() {
           )}
         />
       </div>
-      {/* <div className="d-flex justify-between mb-5">
-        <div className="form-label required-label">Delivery state</div>
-        <Input
-          value={leadData.destination?.state.name}
-          disabled
-          style={{ width: 218, float: 'inline-end', height: 24 }}
-        />
-      </div>
-      <div className="d-flex justify-between">
-        <div className="form-label required-label">Delivery zip</div>
-        <Select
-          size="small"
-          showSearch
-          optionFilterProp="children"
-          filterOption={false}
-          placeholder="Search zip"
-          defaultValue={leadData.destination?.zip}
-          value={leadData.destination.zip}
-          onChange={handleChangeCity}
-          onFocus={handleFocusCity}
-          onSearch={handleSearchCity}
-          style={{ width: 218 }}
-          loading={isLoading}
-          notFoundContent={
-            isLoading ? <Spin size="small" /> : 'No such zip code'
-          }
-          options={(cities || []).map((d: { id: number; zip: string }) => ({
-            value: d.id,
-            data: d,
-            label: d.zip,
-          }))}
-        />
-      </div> */}
     </>
   );
 }

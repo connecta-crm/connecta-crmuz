@@ -7,7 +7,7 @@ export function useLeadVehicleDelete() {
 
   const {
     mutate: deleteLeadVehicle,
-    isPending: isLoading,
+    isPending: isLoadingDeleteLeadVehicle,
     isError: error,
     isSuccess: isSuccessDeleteVehicle,
   } = useMutation({
@@ -22,7 +22,7 @@ export function useLeadVehicleDelete() {
   });
 
   return {
-    isLoading,
+    isLoadingDeleteLeadVehicle,
     deleteLeadVehicle,
     isSuccessDeleteVehicle,
     error,

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { LeadDataType } from '../../models/LeadDataType';
+import { LeadDataType } from '../../models';
 import Leads from '../../services/leads';
 
 export function useMake(text: string | undefined) {
@@ -96,7 +96,12 @@ export function useCreateNumber() {
 
 export function useCreateLead() {
   const queryClient = useQueryClient();
-  const { mutate: create, isPending: isLoading,error,isSuccess } = useMutation({
+  const {
+    mutate: create,
+    isPending: isLoading,
+    error,
+    isSuccess,
+  } = useMutation({
     mutationFn: (item: LeadDataType) => Leads.createLead(item),
     onSuccess: () => {
       message.success('Lead created');
@@ -106,5 +111,5 @@ export function useCreateLead() {
       message.error(err.message);
     },
   });
-  return { create, isLoading, error,isSuccess};
+  return { create, isLoading, error, isSuccess };
 }

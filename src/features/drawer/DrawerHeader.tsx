@@ -12,7 +12,7 @@ import { getLeadData, setLeadData } from '../leads/leadSlice';
 import { useLeadEdit } from '../leads/useLeadEdit';
 import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
-function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+function DrawerHeader({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
 
   const items: MenuProps['items'] = [
@@ -71,11 +71,11 @@ function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
 
   // PREV-NEXT functions
   const handlePrevElement = () => {
-    const previousLeadGuid = getPreviousObjectId(leads, leadData.guid);
+    const previousLeadGuid = getPreviousObjectId(dataSource, leadData.guid);
     onOpenDrawer(previousLeadGuid);
   };
   const handleNextElement = () => {
-    const nextLeadId = getNextObjectId(leads, leadData.guid);
+    const nextLeadId = getNextObjectId(dataSource, leadData.guid);
     onOpenDrawer(nextLeadId);
   };
 
@@ -94,7 +94,7 @@ function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
               <button
                 title="prev-element"
                 className="control__item control__item_up-arrow"
-                disabled={isLoadingLead}
+                disabled={loadingItem}
                 onClick={handlePrevElement}
               >
                 <img src="./img/drawer/up-arrow.svg" alt="" />
@@ -102,7 +102,7 @@ function DrawerHeader({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
               <button
                 title="next-element"
                 className="control__item control__item_down-arrow"
-                disabled={isLoadingLead}
+                disabled={loadingItem}
                 onClick={handleNextElement}
               >
                 <img src="./img/drawer/down-arrow.svg" alt="" />

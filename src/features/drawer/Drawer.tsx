@@ -1,14 +1,15 @@
+import { DrawerSourceType } from '../../ui/Drawer.tsx';
 import DrawerFeature from './DrawerFeature.tsx';
 import DrawerMain from './DrawerMain.tsx';
 
-function Drawer() {
+function Drawer({ sourceType }: DrawerSourceType) {
   return (
     <div className="drawer d-flex">
       <div className="drawer__feature feature-drawer">
-        <DrawerFeature />
+        <DrawerFeature sourceType={sourceType} />
       </div>
       <div className="drawer__main main-drawer p-20">
-        <DrawerMain />
+        <DrawerMain sourceType={sourceType} />
       </div>
     </div>
   );

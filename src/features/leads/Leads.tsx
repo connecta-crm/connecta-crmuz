@@ -22,9 +22,11 @@ function Leads() {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
   };
+
   useEffect(() => {
     hideModal();
   }, []);
+
   useEffect(() => {
     if (!isLoadingLead && !error && guid && lead) {
       dispatch(setLeadData(lead));
@@ -35,12 +37,13 @@ function Leads() {
   return (
     <div className="leads">
       <LeadTable
-        setOpenLeadModal={setOpenLeadModal}
         guid={guid}
         count={count}
-        leads={leads}
-        isLoadingLeads={isLoadingLeads}
-        isLoadingLead={isLoadingLead}
+        sourceType="lead"
+        dataSource={leads}
+        loadingList={isLoadingLeads}
+        loadingItem={isLoadingLead}
+        onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
       <LeadModal
@@ -51,8 +54,9 @@ function Leads() {
         <LeadModal openLeadModal={show} setOpenLeadModa={hideModal} />
       )}
       <DrawerApp
-        leads={leads}
-        isLoadingLead={isLoadingLead}
+        sourceType="lead"
+        dataSource={leads}
+        loadingItem={isLoadingLead}
         onOpenDrawer={handleOpenDrawer}
       />
       <Filter />

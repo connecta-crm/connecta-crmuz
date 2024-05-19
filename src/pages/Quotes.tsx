@@ -1,4 +1,6 @@
-import Quote from "../features/quotes/Quote";
-export default function Quotes() {
-  return <Quote />;
+import QuotesApp from '../features/quotes/Quotes';
+
+function Quotes() {
+  return <QuotesApp />;
 }
+export default Quotes;

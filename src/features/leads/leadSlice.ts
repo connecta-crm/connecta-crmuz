@@ -1,189 +1,26 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import {
+  Customer,
+  CustomerData,
+  LeadData,
+  LeadState,
+  LeadVehicle,
+  NestedObject,
+  QuoteData,
+  QuoteVehicle,
+  RevertFieldAction,
+  Source,
+  User,
+  Vehicle,
+  initialLeadData,
+  leadData,
+} from '../../models';
 
-type Mark = {
-  id: number | null;
-  name: string | null;
+type UpdateVehicleFieldAction<T extends keyof LeadVehicle> = {
+  vehicleIndex: number;
+  field: T extends keyof LeadVehicle ? LeadVehicle[T] : never;
+  value: LeadVehicle[T];
 };
-
-export type Vehicle = {
-  id: number | null;
-  mark: Mark;
-  name: string | null;
-  vehicleType: string | null;
-};
-
-export type LeadVehicle = {
-  id: number | null;
-  vehicle: Vehicle;
-  vehicleYear: string | null;
-  lead: number | null;
-};
-
-type User = {
-  id: number;
-  picture: string;
-};
-
-export type Customer = {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  note: string | null;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type CustomerData = {
-  customer: Customer;
-};
-
-type State = {
-  id: number;
-  name: string;
-  code: string;
-};
-
-export type Location = {
-  id: number;
-  state: State;
-  name: string;
-  zip: string;
-  text: string | null;
-  long: number;
-  lat: number;
-};
-
-export type Source = {
-  id: number;
-  name: string;
-};
-
-export type SourceState = {
-  data: Source;
-};
-
-export type LeadData = {
-  length: number;
-  id: number;
-  customerName: string;
-  customerPhone: string;
-  originName: string;
-  destinationName: string;
-  leadVehicles: LeadVehicle[];
-  user: User;
-  extraUser: null;
-  customer: Customer;
-  origin: Location;
-  destination: Location;
-  source: Source;
-  guid: string;
-  createdAt: string;
-  updatedAt: string;
-  status: string;
-  price: number;
-  condition: string;
-  trailerType: string;
-  notes: string;
-  reservationPrice: number;
-  dateEstShip: string | null;
-};
-
-export type LeadState = {
-  leadData: LeadData;
-  initialLeadData: LeadData;
-  status?: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error?: unknown;
-};
-
-const initialUser: User = {
-  id: 0,
-  picture: '',
-};
-
-const initialCustomer: Customer = {
-  id: 0,
-  name: '',
-  email: '',
-  phone: '',
-  note: null,
-  createdAt: '',
-  updatedAt: '',
-};
-
-const initialLocation: Location = {
-  id: 0,
-  state: { id: 0, name: '', code: '' },
-  name: '',
-  zip: '',
-  text: null,
-  long: 0,
-  lat: 0,
-};
-
-const initialSource: Source = {
-  id: 0,
-  name: '',
-};
-
-const initialState: LeadState = {
-  leadData: {
-    id: 0,
-    customerName: '',
-    customerPhone: '',
-    originName: '',
-    destinationName: '',
-    leadVehicles: [],
-    user: initialUser,
-    extraUser: null,
-    customer: initialCustomer,
-    origin: initialLocation,
-    destination: initialLocation,
-    source: initialSource,
-    guid: '',
-    createdAt: '',
-    updatedAt: '',
-    status: '',
-    price: 0,
-    condition: '',
-    trailerType: '',
-    notes: '',
-    reservationPrice: 0,
-    dateEstShip: null,
-    length: 0,
-  },
-  initialLeadData: {
-    id: 0,
-    customerName: '',
-    customerPhone: '',
-    originName: '',
-    destinationName: '',
-    leadVehicles: [],
-    user: initialUser,
-    extraUser: null,
-    customer: initialCustomer,
-    origin: initialLocation,
-    destination: initialLocation,
-    source: initialSource,
-    guid: '',
-    createdAt: '',
-    updatedAt: '',
-    status: '',
-    price: 0,
-    condition: '',
-    trailerType: '',
-    notes: '',
-    reservationPrice: 0,
-    dateEstShip: null,
-    length: 0,
-  },
-  status: 'idle',
-};
-
-// type UpdateFieldAction<T extends keyof LeadData> = {
-//   field: T | keyof T;
-//   value: LeadData[T] | T[keyof T];
-// };
 
 type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> = {
   field: T extends keyof LeadData
@@ -196,63 +33,13 @@ type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> = {
   value: T[keyof T];
 };
 
-type UpdateVehicleFieldAction<T extends keyof LeadVehicle> = {
-  vehicleIndex: number;
-  field: T extends keyof LeadVehicle ? LeadVehicle[T] : never;
-  value: LeadVehicle[T];
+const initialState: LeadState = {
+  leadData,
+  initialLeadData,
+  status: 'idle',
 };
 
-type RevertFieldAction<T extends keyof LeadData> = {
-  field: T;
-};
-
-// function setNestedObjectValue(obj, path, value) {
-//   // Split the path into an array of keys
-//   const keys = path.split('.');
-//   // Get the last key
-//   const lastKey = keys.pop();
-//   // Reduce the keys array to navigate to the nested object
-//   const lastObj = keys.reduce((acc, key) => {
-//     if (acc[key] === undefined) acc[key] = {}; // Create nested object if it does not exist
-//     return acc[key];
-//   }, obj);
-//   // Set the value to the last key
-//   lastObj[lastKey] = value;
-// }
-
-// type UpdateFieldAction<T extends keyof (LeadData & Customer & Source)> = {
-//   field: T;
-//   value: T extends keyof (LeadData & Customer & Source)
-//     ? (LeadData & Customer & Source)[T]
-//     : never;
-// };
-
-type NestedObjectValue =
-  | string
-  | number
-  | null
-  | Vehicle
-  | User
-  | Customer
-  | Location
-  | Source
-  | LeadVehicle[]
-  | LeadData
-  | LeadData[]
-  | LeadState
-  | Customer
-  | Source;
-
-type NestedObject = {
-  [key: string]:
-    | NestedObject
-    | NestedObjectValue
-    | LeadData
-    | LeadVehicle
-    | LeadVehicle[];
-};
-
-function setNestedObjectValue(
+export const setNestedObjectValue = (
   obj: NestedObject,
   path:
     | string
@@ -263,9 +50,12 @@ function setNestedObjectValue(
     | Customer
     | Location
     | Source
-    | LeadVehicle[],
-  value: LeadData[keyof (LeadData | Source | Customer)],
-) {
+    | LeadVehicle[]
+    | QuoteVehicle[],
+  value:
+    | LeadData[keyof (LeadData | Source | Customer)]
+    | QuoteData[keyof (QuoteData | Source | Customer)],
+) => {
   if (typeof path === 'string') {
     const keys = path.split('.');
     let currentObj: NestedObject = obj;
@@ -283,7 +73,7 @@ function setNestedObjectValue(
       currentObj[lastKey] = value;
     }
   }
-}
+};
 
 export const leadSlice = createSlice({
   name: 'lead',
@@ -298,8 +88,7 @@ export const leadSlice = createSlice({
       action: PayloadAction<UpdateFieldAction<T>>,
     ) => {
       const { field, value } = action.payload;
-      setNestedObjectValue(state.leadData, field, value as keyof undefined);
-      // state.leadData[field] = value;
+      setNestedObjectValue(state.leadData, field, value as keyof undefined); // state.leadData[field] = value;
     },
     updateVehicleField: <T extends keyof LeadVehicle>(
       state: LeadState,
