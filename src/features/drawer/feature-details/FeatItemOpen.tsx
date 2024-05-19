@@ -6,6 +6,7 @@ import { LeadData, LeadVehicle, QuoteVehicle } from '../../../models';
 import { useAppSelector } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
 import { getLeadData } from '../../leads/leadSlice';
+import { isLeadData } from '../../leads/useCheckTypeData';
 import { useLeadVehicleCreate } from '../../leads/useLeadVehicleCreate';
 import { useLeadVehicleDelete } from '../../leads/useLeadVehicleDelete';
 import {
@@ -23,6 +24,14 @@ export type FeatItemOpenProps = {
   classNames?: string;
   series?: boolean;
 };
+
+// function isLeadData(data: LeadData | QuoteData): data is LeadData {
+//   return (data as LeadData).leadVehicles !== undefined;
+// }
+
+// function isQuoteData(data: LeadData | QuoteData): data is QuoteData {
+//   return (data as QuoteData).quoteVehicles !== undefined;
+// }
 
 const text = 'Are you sure to delete this vehicle?';
 const description = 'Delete the vehicle';
@@ -115,16 +124,21 @@ function FeatItemOpen({
     updateData;
 
   const handleAddNewVehicle = () => {
-    const lead = data.id;
-    const vehicle = data.leadVehicles[0]?.vehicle.id || null;
-    const vehicleYear = data.leadVehicles[0]?.vehicleYear || '';
-    createVehicle({ vehicle, vehicleYear, lead });
-    setDataUpdated(true);
+    if (isLeadData(data) && data.leadVehicles.length && createVehicle) {
+      const lead = data.id;
+      const vehicle = data.leadVehicles[0]?.vehicle.id || null;
+      const vehicleYear = data.leadVehicles[0]?.vehicleYear || '';
+      createVehicle({ vehicle, vehicleYear, lead });
+      setDataUpdated(true);
+    } else {
+      // Handle case for QuoteData or provide an alternative implementation
+      console.warn('The data is not of type LeadData.');
+    }
   };
 
   const handleRemoveVehicle = () => {
     const id = featureItemData?.id;
-    if (id) {
+    if (id && deleteVehicle) {
       deleteVehicle(id);
       setDataUpdated(true);
     }
@@ -192,22 +206,3 @@ function FeatItemOpen({
 }
 
 export default FeatItemOpen;
-
-// const {
-//   onCancelFeature,
-//   onSaveFeature,
-//   isLoading,
-//   isLoadingLeadVehicleEdit,
-// } = useUpdateLeadData({
-//   keyValue,
-//   feature,
-//   field,
-//   featureItemData,
-//   isleadUpdated,
-//   setLeadUpdated,
-// });
-
-// const { deleteLeadVehicle, isLoading: isLoadingLeadVehicleDelete } =
-//   useLeadVehicleDelete();
-
-// const { createLeadVehicle } = useLeadVehicleCreate();

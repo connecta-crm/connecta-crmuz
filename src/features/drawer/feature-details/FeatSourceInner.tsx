@@ -7,7 +7,7 @@ import { useProviders } from '../../providers/useProviders';
 import { LoadingOutlined } from '@ant-design/icons';
 import { DefaultOptionType } from 'antd/es/select';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
-import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
+import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
 
 type FeatSourceInnerProps = {
   feature: 'lead' | 'order' | 'quote';
@@ -19,15 +19,15 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
   const leadData = useAppSelector(getLeadData);
 
   const [select, setSelect] = useState(false);
-  const [isleadUpdated, setLeadUpdated] = useState(false);
+  const [isDataUpdated, setDataUpdated] = useState(false);
   const { isEditDetails } = useDrawerFeature();
 
-  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
+  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
     field: 'source',
-    isleadUpdated,
-    setLeadUpdated,
+    isDataUpdated,
+    setDataUpdated,
   });
 
   const { providers, isFetching: isLoadingProviders } = useProviders(select);

@@ -221,19 +221,7 @@ export function useUpdateFeatureData({
       setDataUpdated(false);
       console.log('MERGED');
     }
-  }, [
-    isDataUpdated,
-    isLoading,
-    error,
-    data,
-    dispatch,
-    feature,
-    keyValue,
-    setDataUpdated,
-    updatedLeadData,
-    updatedQuoteData,
-    // updatedOrderData,
-  ]);
+  }, [isDataUpdated, isLoading, error, dispatch]);
 
   return {
     onCancelFeature,

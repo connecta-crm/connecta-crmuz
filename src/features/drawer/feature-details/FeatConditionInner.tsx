@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { CONDITION_TYPES } from '../../../utils/constants';
-import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
+import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
 
 type FeatConditionInnerProps = {
   feature: 'lead' | 'quote' | 'order';
@@ -17,15 +17,15 @@ function FeatConditionInner({ feature, keyValue }: FeatConditionInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
-  const [isleadUpdated, setLeadUpdated] = useState(false);
+  const [isDataUpdated, setDataUpdated] = useState(false);
   const { isEditDetails } = useDrawerFeature();
 
-  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
+  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
     field: 'condition',
-    isleadUpdated,
-    setLeadUpdated,
+    isDataUpdated,
+    setDataUpdated,
   });
 
   const handleChange = (value: string) => {
