@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { TRAILER_TYPES } from '../../../utils/constants';
-import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
+import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
 
 type FeatTrailertypeInnerProps = {
   feature: 'lead' | 'quote' | 'order';
@@ -20,15 +20,15 @@ function FeatTrailertypeInner({
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
-  const [isleadUpdated, setLeadUpdated] = useState(false);
+  const [isDataUpdated, setDataUpdated] = useState(false);
   const { isEditDetails } = useDrawerFeature();
 
-  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
+  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
     field: 'trailerType',
-    isleadUpdated,
-    setLeadUpdated,
+    isDataUpdated,
+    setDataUpdated,
   });
 
   const handleChange = (value: string) => {

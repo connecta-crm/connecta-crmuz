@@ -7,6 +7,7 @@ import { DrawerSourceType } from '../../ui/Drawer';
 import { CONDITION_TYPES, TRAILER_TYPES } from '../../utils/constants';
 import { formatDate } from '../../utils/helpers';
 import { getLeadData } from '../leads/leadSlice';
+import { isLeadData, isQuoteData } from '../leads/useCheckTypeData';
 import { getQuoteData } from '../quotes/quoteSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
 import ArrowIcon from './feature-details/ArrowIcon';
@@ -21,14 +22,6 @@ import FeatSourceInner from './feature-details/FeatSourceInner';
 import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
-
-function isLeadData(data: LeadData | QuoteData): data is LeadData {
-  return (data as LeadData).leadVehicles !== undefined;
-}
-
-function isQuoteData(data: LeadData | QuoteData): data is QuoteData {
-  return (data as QuoteData).quoteVehicles !== undefined;
-}
 
 const extractCommonData = (data: QuoteData | LeadData) => {
   const {

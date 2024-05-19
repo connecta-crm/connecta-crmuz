@@ -6,7 +6,7 @@ import { getLeadData, updateField } from '../../leads/leadSlice';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
-import { useUpdateLeadData } from '../../leads/useUpdateFeatureData';
+import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
 
 type FeatEstShipDateInnerProps = {
   feature: 'lead' | 'quote' | 'order';
@@ -20,15 +20,15 @@ function FeatEstShipDateInner({
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
 
-  const [isleadUpdated, setLeadUpdated] = useState(false);
+  const [isDataUpdated, setDataUpdated] = useState(false);
   const { isEditDetails } = useDrawerFeature();
 
-  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
+  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
     field: 'dateEstShip',
-    isleadUpdated,
-    setLeadUpdated,
+    isDataUpdated,
+    setDataUpdated,
   });
 
   const handleChange = (_: string, value: string | string[]) => {
