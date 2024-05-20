@@ -9,6 +9,7 @@ import { getUser } from '../authentication/authSlice';
 import {
   getQuoteData,
   resetField as resetQuoteField,
+  setQuoteData,
 } from '../quotes/quoteSlice';
 import { useQuoteEdit } from '../quotes/useQuoteEdit';
 import { useQuoteVehicleEdit } from '../quotes/useQuoteVehicleEdit';
@@ -53,8 +54,11 @@ export function useUpdateFeatureData({
     error: leadError,
   } = useLeadEdit();
 
-  const { editLeadVehicle, isLoading: isLoadingLeadVehicleEdit } =
-    useLeadVehicleEdit();
+  const {
+    editLeadVehicle,
+    updatedLeadVehicleData,
+    isLoading: isLoadingLeadVehicleEdit,
+  } = useLeadVehicleEdit();
 
   // * QUOTE
   const {
@@ -64,26 +68,31 @@ export function useUpdateFeatureData({
     error: quoteError,
   } = useQuoteEdit();
 
-  const { editQuoteVehicle, isLoading: isLoadingQuoteVehicleEdit } =
-    useQuoteVehicleEdit();
+  const {
+    editQuoteVehicle,
+    updatedQuoteVehicleData,
+    isLoading: isLoadingQuoteVehicleEdit,
+  } = useQuoteVehicleEdit();
 
   // * ORDER
   // const { editOrder, updatedOrderData, isLoading: isLoadingOrder, error: orderError } = useOrderEdit();
   // const { editOrderVehicle, isLoading: isLoadingOrderVehicleEdit } = useOrderVehicleEdit();
 
-  let data, isLoading, error, isLoadingVehicleEdit;
+  let data, isLoading, error, isLoadingVehicleEdit, updatedVehicleData: unknown;
 
   switch (feature) {
     case 'lead':
       data = leadData;
-      isLoading = isLoadingLead;
       error = leadError;
+      isLoading = isLoadingLead;
+      updatedVehicleData = updatedLeadVehicleData;
       isLoadingVehicleEdit = isLoadingLeadVehicleEdit;
       break;
     case 'quote':
       data = quoteData;
-      isLoading = isLoadingQuote;
       error = quoteError;
+      isLoading = isLoadingQuote;
+      updatedVehicleData = updatedQuoteVehicleData;
       isLoadingVehicleEdit = isLoadingQuoteVehicleEdit;
       break;
     // case 'order':
@@ -97,20 +106,21 @@ export function useUpdateFeatureData({
       isLoading = false;
       error = null;
       isLoadingVehicleEdit = false;
+      updatedVehicleData = null;
       break;
   }
 
-  const onSaveFeature = () => {
-    const updateModel = {
-      ...data,
-      customer: data?.customer?.id,
-      source: data?.source?.id,
-      origin: data?.origin?.id,
-      destination: data?.destination?.id,
-      user: data?.user?.id || user?.id,
-      extraUser: data?.extraUser,
-    };
+  const updateModel = {
+    ...data,
+    customer: data?.customer?.id,
+    source: data?.source?.id,
+    origin: data?.origin?.id,
+    destination: data?.destination?.id,
+    user: data?.user?.id || user?.id,
+    extraUser: data?.extraUser,
+  };
 
+  const onSaveFeature = () => {
     switch (feature) {
       case 'lead':
         if (
@@ -125,12 +135,9 @@ export function useUpdateFeatureData({
             lead: data?.id || 0,
             vehicleYear: featureItemData?.vehicleYear,
           });
-          setDataUpdated(true);
-          return;
+        } else {
+          editLead({ guid: data?.guid || '', updateLeadModel: updateModel });
         }
-        console.log('updateModel', updateModel);
-        console.log('status', updateModel.status);
-        editLead({ guid: data?.guid || '', updateLeadModel: updateModel });
         setDataUpdated(true);
         break;
       case 'quote':
@@ -194,40 +201,42 @@ export function useUpdateFeatureData({
   };
 
   useEffect(() => {
-    if (isDataUpdated && !isLoading && !error) {
-      let updatedData = null;
+    if (
+      isDataUpdated &&
+      !isLoading &&
+      !error &&
+      !isLoadingVehicleEdit &&
+      updatedVehicleData
+    ) {
+      let updatedData, merged;
+
       switch (feature) {
         case 'lead':
           updatedData = updatedLeadData;
+          merged = merge({}, data, updatedData);
+          dispatch(setLeadData(merged));
           break;
         case 'quote':
           updatedData = updatedQuoteData;
+          merged = merge({}, data, updatedData);
+          dispatch(setQuoteData(merged));
           break;
-        // case 'order':
-        //   updatedData = updatedOrderData;
-        //   break;
         default:
           throw new Error('Invalid feature type');
-      }
-
-      const merged = merge({}, data, updatedData);
-
-      switch (feature) {
-        case 'lead':
-          dispatch(setLeadData(merged));
-          break;
-        // case 'quote':
-        //   dispatch(setQuoteData(merged));
-        //   break;
-        // case 'order':
-        //   dispatch(setOrderData(merged));
-        //   break;
       }
       onChangeInnerCollapse(keyValue);
       setDataUpdated(false);
       console.log('MERGED', keyValue);
     }
-  }, [isDataUpdated, isLoading, error, dispatch, keyValue]);
+  }, [
+    setDataUpdated,
+    isDataUpdated,
+    isLoading,
+    isLoadingVehicleEdit,
+    error,
+    dispatch,
+    updatedVehicleData,
+  ]);
 
   return {
     onCancelFeature,
