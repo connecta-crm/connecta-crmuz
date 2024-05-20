@@ -2,17 +2,28 @@
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
-import { merge } from 'lodash';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { DrawerProps } from '../../ui/Drawer';
 import { classNames } from '../../utils/helpers';
-import { getLeadData, setLeadData } from '../leads/leadSlice';
-import { useLeadEdit } from '../leads/useLeadEdit';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../leads/leadSlice';
+import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../quotes/quoteSlice';
 import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
-function DrawerHeader({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
+function DrawerHeader({
+  dataSource,
+  sourceType: feature,
+  loadingItem,
+  onOpenDrawer,
+}: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
 
   const items: MenuProps['items'] = [
@@ -42,40 +53,70 @@ function DrawerHeader({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
     onClick: handleMenuClick,
   };
 
-  const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
-
   const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+
+  let featureData;
+
+  switch (feature) {
+    case 'lead':
+      featureData = leadData;
+      break;
+    case 'quote':
+      featureData = quoteData;
+      break;
+    default:
+      break;
+  }
+
   const dispatch = useAppDispatch();
 
+  const [isDataUpdated, setDataUpdated] = useState(false);
+  const [isStatusUpdated, setStatusUpdated] = useState(false);
+  const [statusType, setStatusType] = useState(leadData.status);
+
+  const { onSaveFeature, isLoading } = useUpdateFeatureData({
+    keyValue: '',
+    feature,
+    field: 'status',
+    isDataUpdated,
+    setDataUpdated,
+  });
+
   const handleArchive = () => {
-    const value = leadData.status === 'leads' ? 'archived' : 'leads';
-    const updateLeadModel = {
-      ...leadData,
-      status: value,
-      customer: leadData.customer?.id,
-      source: leadData.source?.id,
-      origin: leadData.origin?.id,
-      destination: leadData.destination?.id,
-      user: leadData.user?.id,
-      extraUser: leadData?.extraUser,
-    };
-    editLead({ guid: leadData.guid, updateLeadModel });
+    const value = statusType === 'leads' ? 'archived' : 'leads';
+    setStatusType(value);
+    switch (feature) {
+      case 'lead':
+        dispatch(updateLeadField({ field: 'status', value }));
+        break;
+      case 'quote':
+        dispatch(updateQuoteField({ field: 'status', value }));
+        break;
+      default:
+        break;
+    }
+
+    setStatusUpdated(true);
   };
 
   useEffect(() => {
-    if (!isLoading && !error) {
-      const merged = merge({}, leadData, updatedLeadData);
-      dispatch(setLeadData(merged));
+    if (isStatusUpdated) {
+      onSaveFeature();
+      setStatusUpdated(false);
     }
-  }, [isLoading, error, dispatch]);
+  }, [isStatusUpdated, statusType, onSaveFeature]);
 
+  if (!featureData) {
+    return;
+  }
   // PREV-NEXT functions
   const handlePrevElement = () => {
-    const previousLeadGuid = getPreviousObjectId(dataSource, leadData.guid);
+    const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
     onOpenDrawer(previousLeadGuid);
   };
   const handleNextElement = () => {
-    const nextLeadId = getNextObjectId(dataSource, leadData.guid);
+    const nextLeadId = getNextObjectId(dataSource, featureData.guid);
     onOpenDrawer(nextLeadId);
   };
 
@@ -94,7 +135,7 @@ function DrawerHeader({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
               <button
                 title="prev-element"
                 className="control__item control__item_up-arrow"
-                disabled={loadingItem}
+                disabled={loadingItem || isLoading}
                 onClick={handlePrevElement}
               >
                 <img src="./img/drawer/up-arrow.svg" alt="" />
@@ -102,7 +143,7 @@ function DrawerHeader({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
               <button
                 title="next-element"
                 className="control__item control__item_down-arrow"
-                disabled={loadingItem}
+                disabled={loadingItem || isLoading}
                 onClick={handleNextElement}
               >
                 <img src="./img/drawer/down-arrow.svg" alt="" />
@@ -122,12 +163,14 @@ function DrawerHeader({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
             )}
           >
             <div className="d-flex">
-              <div className="drawer-header__id id_1">#100{leadData.id}</div>
+              <div className="drawer-header__id id_1">#100{featureData.id}</div>
               <div className="drawer-header__username">
-                {leadData.customerName}
+                {featureData.customerName}
               </div>
             </div>
-            <div className="drawer-header__id id_2">PD: #110004, #110006</div>
+            <div className="drawer-header__id id_2 d-none">
+              PD: #110004, #110006
+            </div>
           </div>
         </div>
         <div className="drawer-header__right">
@@ -167,7 +210,9 @@ function DrawerHeader({ dataSource, loadingItem, onOpenDrawer }: DrawerProps) {
                 type="primary"
                 danger
               >
-                {leadData.status === 'archived' ? 'Back to Leads' : 'Archive'}
+                {featureData.status === 'archived'
+                  ? 'Back to Leads'
+                  : 'Archive'}
               </Button>
             </div>
             <div className="drawer-header__btnitem d-none">

@@ -4,7 +4,7 @@ export const OrdersTableColumn = [
   {
     title: 'Id',
     dataIndex: 'id',
-    render: (text: string) => <a className="table__id">{text}</a>,
+    render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
     title: 'Las edited on',
@@ -47,7 +47,10 @@ export const OrdersTableColumn = [
   {
     title: 'Vehicle',
     dataIndex: 'quoteVehicles',
-    render: (data: { vehicleName: string }[], record: OrdersTableColumnType) => (
+    render: (
+      data: { vehicleName: string }[],
+      record: OrdersTableColumnType,
+    ) => (
       <div className="table__vehicle">
         {
           <div className="table__vehicle__imgs">

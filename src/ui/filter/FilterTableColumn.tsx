@@ -3,7 +3,7 @@ export const FilterTableColumns = [
   {
     title: 'Id',
     dataIndex: 'id',
-    render: (text: string) => <a className="table__id">{text}</a>,
+    render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
     title: 'User',

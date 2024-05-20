@@ -46,6 +46,7 @@ function FeatEstShipDateInner({ feature, keyValue }: FeatItemInnerProps) {
   });
 
   const handleChange = (value: string) => {
+    console.log(value, 'dsdd');
     switch (feature) {
       case 'lead':
         dispatch(updateLeadField({ field: 'dateEstShip', value }));

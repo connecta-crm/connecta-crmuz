@@ -25,14 +25,6 @@ export type FeatItemOpenProps = {
   series?: boolean;
 };
 
-// function isLeadData(data: LeadData | QuoteData): data is LeadData {
-//   return (data as LeadData).leadVehicles !== undefined;
-// }
-
-// function isQuoteData(data: LeadData | QuoteData): data is QuoteData {
-//   return (data as QuoteData).quoteVehicles !== undefined;
-// }
-
 const text = 'Are you sure to delete this vehicle?';
 const description = 'Delete the vehicle';
 

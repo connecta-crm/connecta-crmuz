@@ -7,9 +7,9 @@ import {
   QuoteVehicle,
   RevertFieldAction,
   Source,
+  initialQuoteData,
   quoteData,
 } from '../../models';
-import initialQuoteData from '../../models/QuoteDataType';
 import { setNestedObjectValue } from '../leads/leadSlice';
 
 type UpdateVehicleFieldAction<T extends keyof QuoteVehicle> = {

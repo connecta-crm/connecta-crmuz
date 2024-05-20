@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { LeadData, LeadVehicle, QuoteData, QuoteVehicle } from '../../models';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SourceType } from '../../ui/Drawer';
 import { getUser } from '../authentication/authSlice';
 import {
   getQuoteData,
@@ -21,7 +22,7 @@ import { useLeadVehicleEdit } from './useLeadVehicleEdit';
 
 export type UpdateLeadDataProps = {
   keyValue: string | string[];
-  feature: 'lead' | 'quote' | 'order';
+  feature: SourceType;
   field: keyof LeadData | keyof QuoteData;
   featureItemData?: LeadVehicle | QuoteVehicle;
   isDataUpdated: boolean;
@@ -99,19 +100,17 @@ export function useUpdateFeatureData({
       break;
   }
 
-  const updateModel = {
-    ...data,
-    customer: data?.customer?.id,
-    source: data?.source?.id,
-    origin: data?.origin?.id,
-    destination: data?.destination?.id,
-    user: data?.user?.id || user?.id,
-    extraUser: data?.extraUser,
-  };
-
-  console.log(updateModel);
-
   const onSaveFeature = () => {
+    const updateModel = {
+      ...data,
+      customer: data?.customer?.id,
+      source: data?.source?.id,
+      origin: data?.origin?.id,
+      destination: data?.destination?.id,
+      user: data?.user?.id || user?.id,
+      extraUser: data?.extraUser,
+    };
+
     switch (feature) {
       case 'lead':
         if (
@@ -129,6 +128,8 @@ export function useUpdateFeatureData({
           setDataUpdated(true);
           return;
         }
+        console.log('updateModel', updateModel);
+        console.log('status', updateModel.status);
         editLead({ guid: data?.guid || '', updateLeadModel: updateModel });
         setDataUpdated(true);
         break;
