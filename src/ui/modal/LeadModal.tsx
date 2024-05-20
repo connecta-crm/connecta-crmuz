@@ -102,7 +102,7 @@ export default function LeadModal({
                   options={[
                     { value: 'run', label: 'Run and drives' },
                     { value: 'rols', label: 'Inop, it rolls' },
-                    { value: 'forklift', label: 'forklift' },
+                    { value: 'forklift', label: 'Inop, needs forklift' },
                   ]}
                 />
               </FormControl>

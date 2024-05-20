@@ -1,22 +1,27 @@
 import { Table } from 'antd';
 import { UsersTableColumns, UsersTableData } from '../../utils/table';
-import TableHeader from '../../ui/TableHeader';
+import SettingsTableHeaderActions from '../../ui/SettingsTableHeaderActions';
+import SettingsTableHeaderFilters from '../../ui/SettingsTableHeaderFilters';
 
 type DataType = {
-  key: string,
-  name: string,
-  first_name: string,
-  last_name: string,
-  role: string,
-  team: string,
-  position: string,
-  status: string,
-  created: string,
+  key: string;
+  name: string;
+  first_name: string;
+  last_name: string;
+  role: string;
+  team: string;
+  position: string;
+  status: string;
+  created: string;
 };
 
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      'selectedRows: ',
+      selectedRows,
+    );
   },
   getCheckboxProps: (record: DataType) => ({
     disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -25,18 +30,22 @@ const rowSelection = {
 };
 export default function Users() {
   return (
-    <div className="users">
-      <TableHeader />
-         <div className='table__container'>
+    <>
+      <div className="dt-header">
+        <SettingsTableHeaderActions  pageName='Users'/>
+        <SettingsTableHeaderFilters />
+      </div>
+      <div className="users">
+        <div className="table__container">
           <Table
             rowSelection={{
-              // type: selectionType,
               ...rowSelection,
             }}
             columns={UsersTableColumns}
             dataSource={UsersTableData}
           />
         </div>
-    </div>
-  )
+      </div>
+    </>
+  );
 }

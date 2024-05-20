@@ -40,17 +40,14 @@ export const LeadTableColumns = [
       <div className="table__vehicle">
         {
           <div className="table__vehicle__imgs">
-            {record.condition == 'rols' && (
+            {(record.condition == 'rols' || record.condition == 'forklift') && (
               <img src="./img/dt_table/engine.svg" alt="engine" />
             )}
-            {record.trailerType === 'open' &&
-              data.map((i, index) => (
-                <img
-                  key={index}
-                  src="./img/dt_table/trailer-red.svg"
-                  alt={i + 'trailer-red'}
-                />
-              ))}
+            {
+              record.trailerType === 'enclosed' && (
+                <img src="./img/dt_table/trailer-red.svg" />
+              )
+            }
           </div>
         }
         <div className="table__vehicle__text">

@@ -32,7 +32,7 @@ class Orders {
           params['source'] = source;
         }
       }
-      const { data } = await this.$api.get('/quote/', { params });
+      const { data } = await this.$api.get('/orders/', { params });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
