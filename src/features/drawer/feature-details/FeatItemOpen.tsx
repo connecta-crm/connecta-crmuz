@@ -2,11 +2,16 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
-import { LeadData, LeadVehicle, QuoteVehicle } from '../../../models';
+import {
+  LeadData,
+  LeadVehicle,
+  QuoteData,
+  QuoteVehicle,
+} from '../../../models';
 import { useAppSelector } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
 import { getLeadData } from '../../leads/leadSlice';
-import { isLeadData } from '../../leads/useCheckTypeData';
+import { isLeadData, isQuoteData } from '../../leads/useCheckTypeData';
 import { useLeadVehicleCreate } from '../../leads/useLeadVehicleCreate';
 import { useLeadVehicleDelete } from '../../leads/useLeadVehicleDelete';
 import {
@@ -14,11 +19,13 @@ import {
   useUpdateFeatureData,
 } from '../../leads/useUpdateFeatureData';
 import { getQuoteData } from '../../quotes/quoteSlice';
+import { useQuoteVehicleCreate } from '../../quotes/useQuoteVehicleCreate';
+import { useQuoteVehicleDelete } from '../../quotes/useQuoteVehicleDelete';
 
 export type FeatItemOpenProps = {
   keyValue: string;
   feature: SourceType;
-  featureItemField: keyof LeadData; // keyof LeadData | QuoteData
+  featureItemField: keyof LeadData | QuoteData;
   addRemoveBtn?: 'add' | 'remove' | 'none';
   featureItemData?: LeadVehicle | QuoteVehicle;
   classNames?: string;
@@ -41,12 +48,13 @@ export function useFeatItemOpenData(
   // const updateOrderData = useUpdateFeatureData(params);
 
   const { createLeadVehicle } = useLeadVehicleCreate();
-  // const createQuoteVehicle = useQuoteVehicleCreate();
+  const { createQuoteVehicle } = useQuoteVehicleCreate();
   // const createOrderVehicle = useOrderVehicleCreate();
 
   const { deleteLeadVehicle, isLoadingDeleteLeadVehicle } =
     useLeadVehicleDelete();
-  // const deleteQuoteVehicle = useQuoteVehicleDelete();
+  const { deleteQuoteVehicle, isLoadingDeleteQuoteVehicle } =
+    useQuoteVehicleDelete();
   // const deleteOrderVehicle = useOrderVehicleDelete();
 
   let data, updateData, createVehicle, deleteVehicle, isLoadingVehicleDelete;
@@ -62,9 +70,9 @@ export function useFeatItemOpenData(
     case 'quote':
       data = quoteData;
       updateData = updateQuoteData;
-      // createVehicle = createQuoteVehicle;
-      // deleteVehicle = deleteQuoteVehicle;
-      // isLoadingVehicleDelete = isLoadingDeleteQuotrVehicle
+      createVehicle = createQuoteVehicle;
+      deleteVehicle = deleteQuoteVehicle;
+      isLoadingVehicleDelete = isLoadingDeleteQuoteVehicle;
       break;
     // case 'order':
     //   data = orderData;
@@ -122,9 +130,13 @@ function FeatItemOpen({
       const vehicleYear = data.leadVehicles[0]?.vehicleYear || '';
       createVehicle({ vehicle, vehicleYear, lead });
       setDataUpdated(true);
-    } else {
-      // Handle case for QuoteData or provide an alternative implementation
-      console.warn('The data is not of type LeadData.');
+    }
+    if (isQuoteData(data) && data.quoteVehicles.length && createVehicle) {
+      const quote = data.id;
+      const vehicle = data.quoteVehicles[0]?.vehicle.id || null;
+      const vehicleYear = data.quoteVehicles[0]?.vehicleYear || '';
+      createVehicle({ vehicle, vehicleYear, quote });
+      setDataUpdated(true);
     }
   };
 

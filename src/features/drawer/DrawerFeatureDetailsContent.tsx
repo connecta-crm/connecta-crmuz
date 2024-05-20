@@ -30,7 +30,7 @@ const extractCommonData = (data: QuoteData | LeadData) => {
     destinationName,
     trailerType,
     dateEstShip,
-    source: { name: sourceName },
+    source,
     price: totalTariff,
     reservationPrice,
   } = data;
@@ -52,7 +52,7 @@ const extractCommonData = (data: QuoteData | LeadData) => {
     destinationName,
     trailerType,
     dateEstShip,
-    sourceName,
+    sourceName: source?.name,
     totalTariff,
     reservationPrice,
     leadVehicles,
@@ -93,14 +93,17 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
     quoteVehicles,
   } = extractCommonData(selectedData);
 
-  let vehiclesList: LeadVehicle[] | QuoteVehicle[] | undefined;
+  let vehiclesList: LeadVehicle[] | QuoteVehicle[] | undefined,
+    vehicleFieldType: 'leadVehicles' | 'quoteVehicles';
 
   switch (sourceType) {
     case 'lead':
       vehiclesList = leadVehicles;
+      vehicleFieldType = 'leadVehicles';
       break;
     case 'quote':
       vehiclesList = quoteVehicles;
+      vehicleFieldType = 'quoteVehicles';
       break;
   }
 
@@ -120,7 +123,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                   <FeatItemOpen
                     keyValue={String(index + 20)}
                     feature={sourceType}
-                    featureItemField="leadVehicles"
+                    featureItemField={vehicleFieldType}
                     addRemoveBtn={index === 0 ? 'add' : 'remove'}
                     featureItemData={vehicle}
                   />

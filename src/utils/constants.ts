@@ -9,10 +9,10 @@ export const CONDITION_TYPES = [
     label: 'Inop, it rolls',
     value: 'rols',
   },
-  {
-    label: 'Inop, need forklift',
-    value: 'forklift',
-  },
+  // {
+  //   label: 'Inop, need forklift',
+  //   value: 'forklift',
+  // },
 ];
 
 export const TRAILER_TYPES = [

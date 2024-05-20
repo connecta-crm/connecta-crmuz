@@ -1,11 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { DrawerSourceType } from '../../../ui/Drawer';
 import { useCustomers } from '../../customers/useCostumers';
-import { getLeadData, updateField } from '../../leads/leadSlice';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../../leads/leadSlice';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../../quotes/quoteSlice';
 
 type SearchType = 'name' | 'email' | 'phone';
 
@@ -17,6 +23,19 @@ type SearchInput = {
 function FeatPersonInner({ sourceType }: DrawerSourceType) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+
+  let data;
+  switch (sourceType) {
+    case 'lead':
+      data = leadData;
+      break;
+    case 'quote':
+      data = quoteData;
+      break;
+    default:
+      break;
+  }
 
   const [isSelectPerson, setSelectPerson] = useState(false);
 
@@ -39,9 +58,22 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
 
   const handleChange = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
-      dispatch(updateField({ field: 'customer', value: option.data }));
+      switch (sourceType) {
+        case 'lead':
+          dispatch(updateLeadField({ field: 'customer', value: option.data }));
+          break;
+        case 'quote':
+          dispatch(updateQuoteField({ field: 'customer', value: option.data }));
+          break;
+        default:
+          break;
+      }
     }
   };
+
+  if (!data) {
+    return;
+  }
 
   return (
     <>
@@ -56,8 +88,8 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search name"
-          defaultValue={leadData.customer.name}
-          value={leadData.customer.name}
+          defaultValue={data.customer.name}
+          value={data.customer.name}
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('name', value)}
@@ -82,8 +114,8 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search email"
-          defaultValue={leadData.customer.email}
-          value={leadData.customer.email}
+          defaultValue={data.customer.email}
+          value={data.customer.email}
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('email', value)}
@@ -110,8 +142,8 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search phone"
-          defaultValue={leadData.customer.phone}
-          value={leadData.customer.phone}
+          defaultValue={data.customer.phone}
+          value={data.customer.phone}
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('phone', value)}

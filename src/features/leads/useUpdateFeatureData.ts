@@ -189,6 +189,7 @@ export function useUpdateFeatureData({
         dispatch(resetLeadField({ field }));
         break;
       case 'quote':
+        console.log('field', field);
         dispatch(resetQuoteField({ field }));
         break;
       // case 'order':
@@ -204,26 +205,27 @@ export function useUpdateFeatureData({
     if (
       isDataUpdated &&
       !isLoading &&
-      !error &&
       !isLoadingVehicleEdit &&
-      updatedVehicleData
+      !error &&
+      (updatedVehicleData || updatedLeadData || updatedQuoteData)
     ) {
       let updatedData, merged;
 
       switch (feature) {
         case 'lead':
-          updatedData = updatedLeadData;
+          updatedData = updatedVehicleData || updatedLeadData;
           merged = merge({}, data, updatedData);
           dispatch(setLeadData(merged));
           break;
         case 'quote':
-          updatedData = updatedQuoteData;
+          updatedData = updatedVehicleData || updatedQuoteData;
           merged = merge({}, data, updatedData);
           dispatch(setQuoteData(merged));
           break;
         default:
           throw new Error('Invalid feature type');
       }
+
       onChangeInnerCollapse(keyValue);
       setDataUpdated(false);
       console.log('MERGED', keyValue);
@@ -236,6 +238,8 @@ export function useUpdateFeatureData({
     error,
     dispatch,
     updatedVehicleData,
+    updatedLeadData,
+    updatedQuoteData,
   ]);
 
   return {

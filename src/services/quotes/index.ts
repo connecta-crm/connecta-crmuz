@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
+import { QuoteCreateVehicleParams } from '../../features/quotes/useQuoteVehicleCreate';
 import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
 import { QuotesParamsType } from '../../features/quotes/useQuotes';
 import { QuoteDataType } from '../../models/QuoteDataType';
@@ -92,6 +93,40 @@ class Quotes {
   }: QuoteEditVehicleParams) {
     try {
       const { data } = await this.$api.put(`/quote/vehicle/${id}/`, {
+        vehicleYear,
+        vehicle,
+        quote,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // DELETE: /quote/vehicle/:id/
+  async deleteQuoteVehicle(id: number | undefined) {
+    try {
+      const { data } = await this.$api.delete(`/quote/vehicle/${id}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /quote/vehicle/add/
+  async addQuoteVehicle({
+    vehicleYear,
+    vehicle,
+    quote,
+  }: QuoteCreateVehicleParams) {
+    try {
+      const { data } = await this.$api.post(`/quote/vehicle/add/`, {
         vehicleYear,
         vehicle,
         quote,

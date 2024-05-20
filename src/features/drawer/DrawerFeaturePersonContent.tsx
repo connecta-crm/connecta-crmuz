@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
@@ -25,7 +24,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
           itemCloseLabel={customerName}
           itemLabel="Name"
           icon="user"
-          feature="lead"
+          feature={sourceType}
           featureItemField="customer"
           editable={false}
         />
@@ -45,7 +44,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
           itemCloseLabel={customer?.email}
           itemLabel="Email"
           icon="mail"
-          feature="lead"
+          feature={sourceType}
           featureItemField="customer"
           editable={false}
         />
@@ -65,7 +64,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
           itemCloseLabel={customerPhone}
           itemLabel="Phone"
           icon="phone"
-          feature="lead"
+          feature={sourceType}
           featureItemField="customer"
           editable={false}
         />

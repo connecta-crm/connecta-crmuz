@@ -165,7 +165,7 @@ function DrawerHeader({
             <div className="d-flex">
               <div className="drawer-header__id id_1">#100{featureData.id}</div>
               <div className="drawer-header__username">
-                {featureData.customerName}
+                {featureData.customerName || '-'}
               </div>
             </div>
             <div className="drawer-header__id id_2 d-none">

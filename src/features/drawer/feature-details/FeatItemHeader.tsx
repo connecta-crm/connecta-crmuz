@@ -40,6 +40,7 @@ function FeatItemHeader({
           />
         ) : (
           <FeatItemClose
+            feature={feature}
             keyValue={keyValue}
             textWithBg={textWithBg}
             label={itemCloseLabel}
