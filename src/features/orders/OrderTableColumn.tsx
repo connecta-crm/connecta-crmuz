@@ -1,4 +1,4 @@
-import TableDropdown from '../../ui/TableDropdown';
+import TableDropdown from '../../ui/table/TableDropdown';
 import { QuotesTableDataType } from './OrderTableColumnType';
 export const QuotesTableColumns = [
   {

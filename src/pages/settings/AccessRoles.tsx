@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import TableHeader from '../../ui/TableHeader';
+import TableHeader from '../../ui/table/TableHeader';
 import { TeamTableColumns, TeamTableData } from '../../utils/table';
 
 type DataType = {
@@ -27,7 +27,7 @@ const rowSelection = {
 export default function AccessRoles() {
   return (
     <div className="access">
-      <TableHeader  />
+      <TableHeader />
       <div className="table__container">
         <Table
           rowSelection={{

@@ -1,4 +1,4 @@
-import TableDropdown from '../../ui/TableDropdown';
+import TableDropdown from '../../ui/table/TableDropdown';
 import { OrdersTableColumnType } from './OrdersTableColumnType';
 export const OrdersTableColumn = [
   {

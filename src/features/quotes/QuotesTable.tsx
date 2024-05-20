@@ -1,6 +1,6 @@
 import { Table } from 'antd';
-import TableHeaderActions from '../../ui/TableHeaderActions';
-import TableHeaderFilters from '../../ui/TableHeaderFilters';
+import TableHeaderActions from '../../ui/table/TableHeaderActions';
+import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { TableProps } from '../leads/LeadTable';
 import { QuotesTableColumns } from './QuotesTableColumn';
 import { QuotesTableDataType } from './QuotesTableColumnType';

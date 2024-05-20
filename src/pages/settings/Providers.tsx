@@ -1,20 +1,24 @@
 import { Table } from 'antd';
+import TableHeader from '../../ui/table/TableHeader';
 import { ProvidersTableColumns, ProvidersTableData } from '../../utils/table';
-import TableHeader from '../../ui/TableHeader';
 type DataType = {
-  key: string,
-  name: string,
-  email: string,
-  subject: string,
-  status: string,
-  type: string,
-  created_on: string,
-  created_by: string,
+  key: string;
+  name: string;
+  email: string;
+  subject: string;
+  status: string;
+  type: string;
+  created_on: string;
+  created_by: string;
 };
 
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      'selectedRows: ',
+      selectedRows,
+    );
   },
   getCheckboxProps: (record: DataType) => ({
     disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -23,9 +27,9 @@ const rowSelection = {
 };
 export default function Providers() {
   return (
-    <div className='provider'>
+    <div className="provider">
       <TableHeader />
-      <div className='table__container'>
+      <div className="table__container">
         <Table
           rowSelection={{
             // type: selectionType,
@@ -33,9 +37,8 @@ export default function Providers() {
           }}
           columns={ProvidersTableColumns}
           dataSource={ProvidersTableData}
-
         />
       </div>
     </div>
-  )
+  );
 }

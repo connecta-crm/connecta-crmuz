@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import { useModal } from '../../context/ModalContext';
+import { OrdersDataType } from '../../models/OrdersDataType';
 import Orders from '../../services/orders';
-import { OrdersDataType } from '../../ui/modal/OrdersDataType';
 export function useCreateOrder() {
   const { hideModal } = useModal();
   const queryClient = useQueryClient();

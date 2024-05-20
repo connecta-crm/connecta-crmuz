@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
 import { OrdersParamsType } from '../../features/orders/useOrders';
-import { OrdersDataType } from '../../ui/modal/OrdersDataType';
+import { OrdersDataType } from '../../models/OrdersDataType';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {

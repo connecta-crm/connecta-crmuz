@@ -1,20 +1,24 @@
 import { Table } from 'antd';
+import TableHeader from '../../ui/table/TableHeader';
 import { UsersTableColumns, UsersTableData } from '../../utils/table';
-import TableHeader from '../../ui/TableHeader';
 type DataType = {
-  key: string,
-  name: string,
-  first_name: string,
-  last_name: string,
-  role: string,
-  team: string,
-  position: string,
-  status: string,
-  created: string,
+  key: string;
+  name: string;
+  first_name: string;
+  last_name: string;
+  role: string;
+  team: string;
+  position: string;
+  status: string;
+  created: string;
 };
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      'selectedRows: ',
+      selectedRows,
+    );
   },
   getCheckboxProps: (record: DataType) => ({
     disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -24,8 +28,8 @@ const rowSelection = {
 export default function Ground() {
   return (
     <div className="ground">
-      <TableHeader/>
-          <div className='table__container'>
+      <TableHeader />
+      <div className="table__container">
         <Table
           rowSelection={{
             // type: selectionType,
@@ -36,5 +40,5 @@ export default function Ground() {
         />
       </div>
     </div>
-  )
+  );
 }

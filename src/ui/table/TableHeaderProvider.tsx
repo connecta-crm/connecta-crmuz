@@ -1,7 +1,7 @@
 import { Dropdown, DropdownProps, MenuProps, Space, Spin } from 'antd';
 import { ChangeEvent, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useProviders } from '../features/providers/useProviders';
+import { useProviders } from '../../features/providers/useProviders';
 import ellipse from '/img/dt_table/ellipse.svg';
 
 function TableHeaderProvider({ ...props }) {

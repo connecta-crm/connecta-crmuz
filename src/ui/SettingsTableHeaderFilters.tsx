@@ -1,5 +1,5 @@
 import CheckButton from '../features/settings/CheckButton';
-import TableHeaderProvider from './TableHeaderProvider';
+import TableHeaderProvider from './table/TableHeaderProvider';
 import hamburg from '/img/dt_table/hamburg_menu.svg';
 
 export type TableHeaderFiltersProps = {
@@ -16,8 +16,8 @@ function SettingsTableHeaderFilters({
     <div className="dt-header__filters">
       {hasFilterBtn && (
         <div className="dt-header__filter-btns">
-          <CheckButton title='Standard' />
-          <CheckButton title='Exclusive' />
+          <CheckButton title="Standard" />
+          <CheckButton title="Exclusive" />
         </div>
       )}
       {hasFilterSelect && <TableHeaderProvider />}

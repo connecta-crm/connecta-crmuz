@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import TableHeader from '../ui/TableHeader';
+import TableHeader from '../ui/table/TableHeader';
 import { ContactTableColumns, ContactTableData } from '../utils/table';
 
 type DataType = {
@@ -32,7 +32,7 @@ const rowSelection = {
 function Inbox() {
   return (
     <div className="inbox">
-      <TableHeader  />
+      <TableHeader />
       <div className="quotes-table">
         <div className="table__container">
           <Table

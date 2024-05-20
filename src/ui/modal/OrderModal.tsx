@@ -9,6 +9,7 @@ import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
+import { OrdersDataType } from '../../models/OrdersDataType.ts';
 import { LeadDataType } from '../../models/index.ts';
 import { useAppSelector } from '../../store/hooks';
 import Modal from '../Modal.tsx';
@@ -19,7 +20,6 @@ import InputRow from '../form/InputRow.tsx';
 import Label from '../form/Label.tsx';
 import UpCollapse from '../form/UpCollapse.tsx';
 import UseDatePicker from '../picker/DatePicker';
-import { OrdersDataType } from './OrdersDataType.ts';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import reservation from '/img/drawer/reservation.svg';
@@ -400,8 +400,11 @@ export default function OrdersModal({
             </UpCollapse>
             <br />
             <UpCollapse title="Payment">
-            <FormControl title="Total tariff" img={total}>
-                <FormItem name="paymentTotalTariff" style={{ margin: '0px', width: '100%' }}>
+              <FormControl title="Total tariff" img={total}>
+                <FormItem
+                  name="paymentTotalTariff"
+                  style={{ margin: '0px', width: '100%' }}
+                >
                   <Input placeholder="$0" type="number" />
                 </FormItem>
               </FormControl>

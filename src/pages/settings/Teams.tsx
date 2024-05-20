@@ -1,18 +1,22 @@
 import { Table } from 'antd';
+import TableHeader from '../../ui/table/TableHeader';
 import { TeamTableColumns, TeamTableData } from '../../utils/table';
-import TableHeader from '../../ui/TableHeader';
 
 type DataType = {
-  key: string,
-  name:string,
-  users: string[],
-  status: string,
-  created:string,
+  key: string;
+  name: string;
+  users: string[];
+  status: string;
+  created: string;
 };
 
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      'selectedRows: ',
+      selectedRows,
+    );
   },
   getCheckboxProps: (record: DataType) => ({
     disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -21,18 +25,18 @@ const rowSelection = {
 };
 export default function Teams() {
   return (
-    <div className='team'>
+    <div className="team">
       <TableHeader />
-       <div className='table__container'>
-          <Table
-            rowSelection={{
-              // type: selectionType,
-              ...rowSelection,
-            }}
-            columns={TeamTableColumns}
-            dataSource={TeamTableData}
-          />
-        </div>
+      <div className="table__container">
+        <Table
+          rowSelection={{
+            // type: selectionType,
+            ...rowSelection,
+          }}
+          columns={TeamTableColumns}
+          dataSource={TeamTableData}
+        />
+      </div>
     </div>
-  )
+  );
 }

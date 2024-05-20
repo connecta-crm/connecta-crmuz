@@ -2,7 +2,7 @@ import { Dropdown, DropdownProps, Input, MenuProps, Space } from 'antd';
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { DEFAULT_LIMIT } from '../utils/constants';
+import { DEFAULT_LIMIT } from '../../utils/constants';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
 import openView from '/img/dt_table/full_view.svg';
 import notView from '/img/dt_table/not_full_view.svg';
@@ -68,10 +68,9 @@ function TableHeaderPagination({
       case 'quotes':
         status = 'quote';
         break;
-        case 'orders':
-          status = 'orders';
-          break;
-        
+      case 'orders':
+        status = 'orders';
+        break;
     }
 
     newSearchParams.append('status', String(status));

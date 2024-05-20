@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-export default function CheckButton({ title,data }: { title: string }) {
+function CheckButton({ title, data }: { title: string }) {
   const [active, setActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   console.log(searchParams);
-  
+
   const onChange = () => {
-     setSearchParams(data)
+    setSearchParams(data);
     setActive(!active);
   };
 
@@ -24,3 +24,4 @@ export default function CheckButton({ title,data }: { title: string }) {
     </button>
   );
 }
+export default CheckButton;

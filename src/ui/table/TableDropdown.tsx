@@ -1,9 +1,9 @@
 import { Spin } from 'antd';
 import { FormEvent, useState } from 'react';
-import { useCreateNote } from '../features/attachments/useCreateNote';
-import { getUser } from '../features/authentication/authSlice';
-import { QuotesTableDataType } from '../features/quotes/QuotesTableColumnType';
-import { useAppSelector } from '../store/hooks';
+import { useCreateNote } from '../../features/attachments/useCreateNote';
+import { getUser } from '../../features/authentication/authSlice';
+import { QuotesTableDataType } from '../../features/quotes/QuotesTableColumnType';
+import { useAppSelector } from '../../store/hooks';
 function TableDropdown({
   text,
   record,
