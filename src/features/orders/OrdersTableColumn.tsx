@@ -46,22 +46,20 @@ export const OrdersTableColumn = [
   },
   {
     title: 'Vehicle',
-    dataIndex: 'quoteVehicles',
-    render: (data: { vehicleName: string }[], record: OrdersTableColumnType) => (
+    dataIndex: 'orderVehicles',
+    render: (
+      data: { vehicleName: string }[],
+      record: OrdersTableColumnType,
+    ) => (
       <div className="table__vehicle">
         {
           <div className="table__vehicle__imgs">
-            {record.condition == 'rols' && (
+            {(record.condition == 'rols' || record.condition == 'forklift') && (
               <img src="./img/dt_table/engine.svg" alt="engine" />
             )}
-            {record.trailerType === 'open' &&
-              data.map((i, index) => (
-                <img
-                  key={index}
-                  src="./img/dt_table/trailer-red.svg"
-                  alt={i + 'trailer-red'}
-                />
-              ))}
+            {record.trailerType === 'enclosed' && (
+              <img src="./img/dt_table/trailer-red.svg" />
+            )}
           </div>
         }
         <div className="table__vehicle__text">

@@ -68,6 +68,10 @@ function TableHeaderPagination({
       case 'quotes':
         status = 'quote';
         break;
+        case 'orders':
+          status = 'orders';
+          break;
+        
     }
 
     newSearchParams.append('status', String(status));

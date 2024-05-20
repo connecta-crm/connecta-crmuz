@@ -25,6 +25,18 @@
       font-weight: 600;
     }
   }
+  &--info {
+    display: flex;
+    height: 25px;
+    padding: 3px 10px 3px 7px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border-radius: 4px;
+    color: #666;
+    border: 1px solid #666;
+    // background:  #DDF2FD;
+  }
   &:hover {
   }
   &--white {
