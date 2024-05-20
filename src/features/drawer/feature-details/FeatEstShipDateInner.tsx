@@ -45,17 +45,18 @@ function FeatEstShipDateInner({ feature, keyValue }: FeatItemInnerProps) {
     setDataUpdated,
   });
 
-  const handleChange = (value: string) => {
-    console.log(value, 'dsdd');
-    switch (feature) {
-      case 'lead':
-        dispatch(updateLeadField({ field: 'dateEstShip', value }));
-        break;
-      case 'quote':
-        dispatch(updateQuoteField({ field: 'dateEstShip', value }));
-        break;
-      default:
-        break;
+  const handleChange = (_: string, value: string | string[]) => {
+    if (!Array.isArray(value)) {
+      switch (feature) {
+        case 'lead':
+          dispatch(updateLeadField({ field: 'dateEstShip', value }));
+          break;
+        case 'quote':
+          dispatch(updateQuoteField({ field: 'dateEstShip', value }));
+          break;
+        default:
+          break;
+      }
     }
   };
 

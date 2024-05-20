@@ -137,7 +137,11 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
           ),
           children: (
             <DrawerFeatureRow>
-              <FeatVehicleInner vehicleIndex={index} vehicleItem={vehicle} />
+              <FeatVehicleInner
+                feature={sourceType}
+                vehicleIndex={index}
+                vehicleItem={vehicle}
+              />
             </DrawerFeatureRow>
           ),
           showArrow: false,

@@ -225,9 +225,9 @@ export function useUpdateFeatureData({
       }
       onChangeInnerCollapse(keyValue);
       setDataUpdated(false);
-      console.log('MERGED');
+      console.log('MERGED', keyValue);
     }
-  }, [isDataUpdated, isLoading, error, dispatch]);
+  }, [isDataUpdated, isLoading, error, dispatch, keyValue]);
 
   return {
     onCancelFeature,

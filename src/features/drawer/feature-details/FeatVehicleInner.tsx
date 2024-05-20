@@ -1,9 +1,11 @@
 import { DatePicker, Input, Select, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { LeadVehicle, Vehicle } from '../../../models';
+import { LeadVehicle, QuoteVehicle, Vehicle } from '../../../models';
 import { useAppDispatch } from '../../../store/hooks';
-import { updateVehicleField } from '../../leads/leadSlice';
+import { SourceType } from '../../../ui/Drawer';
+import { updateVehicleField as updateLeadVehicleField } from '../../leads/leadSlice';
+import { updateVehicleField as updateQuoteVehicleField } from '../../quotes/quoteSlice';
 import { useCarMarks } from '../../vehicles/useCarMarks';
 import { useCarModels } from '../../vehicles/useCarModels';
 
@@ -12,11 +14,16 @@ export type Record = {
 };
 
 type VehicleItemType = {
+  feature: SourceType;
   vehicleIndex: number;
-  vehicleItem: LeadVehicle;
+  vehicleItem: LeadVehicle | QuoteVehicle;
 };
 
-function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
+function FeatVehicleInner({
+  feature,
+  vehicleIndex,
+  vehicleItem,
+}: VehicleItemType) {
   const dispatch = useAppDispatch();
 
   const { vehicleYear, vehicle } = vehicleItem;
@@ -34,92 +41,92 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
     vehicle?.mark.id,
   );
 
-  //   {
-  //     id: 91,
-  //     vehicle: {
-  //       id: 80,
-  //       mark: {
-  //         id: 33,
-  //         name: 'Mazda',
-  //       },
-  //       name: 'CX-30',
-  //       vehicleType: 'SUV',
-  //     },
-  //     vehicleYear: 2024,
-  //     lead: 121,
-  //   },
-  const handleChange = (_: number | string, record: Record | Record[]) => {
+  const handleChangeSelect = (field: string, record: Record | Record[]) => {
     if (!Array.isArray(record)) {
-      dispatch(
-        updateVehicleField({
-          vehicleIndex,
-          field: 'vehicle.mark',
-          value: record.data,
-        }),
-      );
-      if (record.data.id && vehicle.mark?.id) {
-        if (record.data.id !== vehicle.mark.id) {
-          const mark = record.data;
+      switch (feature) {
+        case 'lead':
           dispatch(
-            updateVehicleField({
+            updateLeadVehicleField({
               vehicleIndex,
-              field: 'vehicle',
-              value: {
-                mark,
-                id: null,
-                name: null,
-                vehicleType: null,
-              },
+              field,
+              value: record.data,
             }),
           );
+          break;
+        case 'quote':
+          dispatch(
+            updateQuoteVehicleField({
+              vehicleIndex,
+              field,
+              value: record.data,
+            }),
+          );
+          break;
+      }
+
+      if (record.data.id && vehicle.mark?.id && field === 'vehicle.mark') {
+        if (record.data.id !== vehicle.mark.id) {
+          const mark = record.data;
+          switch (feature) {
+            case 'lead':
+              dispatch(
+                updateLeadVehicleField({
+                  vehicleIndex,
+                  field: 'vehicle',
+                  value: {
+                    mark,
+                    id: null,
+                    name: null,
+                    vehicleType: null,
+                  },
+                }),
+              );
+              break;
+            case 'quote':
+              dispatch(
+                updateQuoteVehicleField({
+                  vehicleIndex,
+                  field: 'vehicle',
+                  value: {
+                    mark,
+                    id: null,
+                    name: null,
+                    vehicleType: null,
+                  },
+                }),
+              );
+
+              break;
+          }
         }
       }
     }
   };
-  const handleChangeModel = (_: number | string, record: Record | Record[]) => {
-    if (!Array.isArray(record)) {
-      console.log('model', record.data);
-      dispatch(
-        updateVehicleField({
-          vehicleIndex,
-          field: 'vehicle',
-          value: record.data,
-        }),
-      );
-    }
-  };
 
-  const handleChangeDate = (_: number | string, value: string | string[]) => {
+  const handleChangeDate = (field: string, value: string | string[]) => {
     if (!Array.isArray(value)) {
-      dispatch(
-        updateVehicleField({
-          vehicleIndex,
-          field: 'vehicleYear',
-          value,
-        }),
-      );
+      switch (feature) {
+        case 'lead':
+          dispatch(
+            updateLeadVehicleField({
+              vehicleIndex,
+              field,
+              value,
+            }),
+          );
+          break;
+        case 'quote':
+          dispatch(
+            updateQuoteVehicleField({
+              vehicleIndex,
+              field,
+              value,
+            }),
+          );
+          break;
+      }
     }
   };
-
-  const handleSearchMark = (value: string) => {
-    setSearchMark(value);
-  };
-  const handleSearchModel = (value: string) => {
-    setSearchModel(value);
-  };
-  const handleFocusMark = () => {
-    setSelectMark(true);
-  };
-  const handleFocusModel = () => {
-    setSelectModel(true);
-  };
-
-  // const handleFocusCity = () => {
-  //   // setSelectMark(true);
-  // };
-  // const handleSearchCity = () => {
-  //   // setSelectMark(true);
-  // };
 
   return (
     <>
@@ -135,7 +142,9 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
           value={dayjs(String(vehicleYear), 'YYYY') as unknown as string}
           defaultValue={dayjs(String(vehicleYear), 'YYYY') as unknown as string}
           style={{ width: 218, float: 'inline-end', height: 24 }}
-          onChange={handleChangeDate}
+          onChange={(_, record: string | string[]) =>
+            handleChangeDate('vehicleYear', record)
+          }
         />
       </div>
       <div className="d-flex justify-between mb-5">
@@ -148,9 +157,11 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
           placeholder="Search year"
           defaultValue={vehicle?.mark.name || ''}
           value={vehicle?.mark.name || ''}
-          onChange={handleChange}
-          onFocus={handleFocusMark}
-          onSearch={handleSearchMark}
+          onChange={(_, record: Record | Record[]) =>
+            handleChangeSelect('vehicle.mark', record)
+          }
+          onFocus={() => setSelectMark(true)}
+          onSearch={(value) => setSearchMark(value)}
           style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={isLoading ? <Spin size="small" /> : 'No such make'}
@@ -171,9 +182,11 @@ function FeatVehicleInner({ vehicleIndex, vehicleItem }: VehicleItemType) {
           placeholder="Search modal"
           defaultValue={vehicle?.name || ''}
           value={vehicle?.name || ''}
-          onChange={handleChangeModel}
-          onFocus={handleFocusModel}
-          onSearch={handleSearchModel}
+          onChange={(_, record: Record | Record[]) =>
+            handleChangeSelect('vehicle', record)
+          }
+          onFocus={() => setSelectModel(true)}
+          onSearch={(value) => setSearchModel(value)}
           style={{ width: 218 }}
           loading={isLoadingModel}
           notFoundContent={
