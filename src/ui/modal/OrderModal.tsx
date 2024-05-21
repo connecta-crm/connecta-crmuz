@@ -10,8 +10,8 @@ import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
 import { OrdersDataType } from '../../models/OrdersDataType.ts';
-import { LeadDataType } from '../../models/index.ts';
 import { useAppSelector } from '../../store/hooks';
+import { CONDITION_TYPES } from '../../utils/constants.ts';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
 import FormControl from '../form/FormControl.tsx';
@@ -40,6 +40,8 @@ export default function OrdersModal({
   const [source, setSource] = useState<string | null>('');
   const [personId, setPersonId] = useState<string | null>('');
   const [dateEstShip, setDateEstShip] = useState<string>('');
+  const [dateEstPu, setDateEstPu] = useState<string>('');
+  const [dateEstDel, setDateEstDel] = useState<string>('');
   const user = useAppSelector((item) => getUser(item));
   const { create, isLoading, isSuccess } = useCreateOrder();
   const createOrder = (e: OrdersDataType) => {
@@ -47,17 +49,43 @@ export default function OrdersModal({
     const data: OrdersDataType = {
       vehicles: carData,
       status: 'orders',
-      price: e.price,
       condition: conditionValue,
       trailerType: trailerType,
-      notes: e.notes,
-      reservationPrice: e.reservationPrice,
       dateEstShip: dateEstShip,
+      dateEstPu: dateEstPu,
+      dateEstDel: dateEstDel,
       customer: personId,
       source: source,
       origin: origin,
       destination: delivery,
+      buyerNumber: e.buyerNumber,
+      originBusinessName: e.originBusinessName,
+      originBusinessPhone: e.originBusinessPhone,
+      originContactPerson: e.originContactPerson,
+      originPhone: e.originPhone,
+      originSecondPhone: e.originSecondPhone,
+      originBuyerNumber: e.originBuyerNumber,
+      destinationBusinessName: e.destinationBusinessName,
+      destinationBusinessPhone: e.destinationBusinessPhone,
+      destinationContactPerson: e.destinationContactPerson,
+      destinationPhone: e.destinationPhone,
+      destinationSecondPhone: e.destinationSecondPhone,
+      paymentTotalTariff: e.paymentTotalTariff,
+      paymentReservation: e.paymentReservation,
+      paymentCarrierPay: e.paymentCarrierPay,
+      cdNote: e.cdNote,
+      cmNote: e.cmNote,
       user: user?.id,
+      // price: null,
+      // notes: undefined,
+      // reservationPrice: '',
+      // paymentPaidReservation: 0,
+      // paymentCodToCarrier: 0,
+      // paymentPaidToCarrier: 0,
+      // dateDispatched: null,
+      // datePickedUp: null,
+      // dateDelivered: null,
+      // extraUser: null
     };
     let errorText = '';
     for (const key in data) {
@@ -65,7 +93,7 @@ export default function OrdersModal({
         if (key === 'vehicles' && data[key].length === 0) {
           errorText += key + ' , ';
         }
-        if (!data[key as keyof LeadDataType] && key !== 'notes') {
+        if (!data[key as keyof OrdersDataType] && key !== 'notes') {
           errorText += key + ' , ';
         }
       }
@@ -100,64 +128,14 @@ export default function OrdersModal({
         <div className="modal__row">
           <div className="modal__col">
             <UpCollapse title="Details">
-              <VehicleContainer setCarData={setCarData}>
-                {
-                  <>
-                    <div className="vehicle__details">
-                      <div className="vehicle__details__left">
-                        <Label>Lot</Label>
-                        <FormItem
-                          name="lot"
-                          style={{ margin: '0', minHeight: '0px' }}
-                        >
-                          <Input style={{ padding: '3px 5px' }} />
-                        </FormItem>
-                      </div>
-                      <div className="vehicle__details__right">
-                        <Label>VIN</Label>
-                        <FormItem
-                          name="min"
-                          style={{ margin: '0', minHeight: '0px' }}
-                        >
-                          <Input style={{ padding: '3px 5px' }} />
-                        </FormItem>
-                      </div>
-                    </div>
-
-                    <div className="vehicle__details">
-                      <div className="vehicle__details__left">
-                        <Label>Color</Label>
-                        <FormItem
-                          name="color"
-                          style={{ margin: '0', minHeight: '0px' }}
-                        >
-                          <Input style={{ padding: '3px 5px' }} />
-                        </FormItem>
-                      </div>
-                      <div className="vehicle__details__right">
-                        <Label>Plate</Label>
-                        <FormItem
-                          name="plate"
-                          style={{ margin: '0', minHeight: '0px' }}
-                        >
-                          <Input style={{ padding: '3px 5px' }} />
-                        </FormItem>
-                      </div>
-                    </div>
-                  </>
-                }
-              </VehicleContainer>
+              <VehicleContainer type={true} setCarData={setCarData} />
 
               <FormControl title="Condition" img={dvigatel}>
                 <Select
                   style={{ width: '100%' }}
                   onChange={(a) => setConditionValue(a)}
                   placeholder="Select a condition"
-                  options={[
-                    { value: 'run', label: 'Run and drives' },
-                    { value: 'rols', label: 'Inop, it rolls' },
-                    { value: 'forklift', label: 'Inop, needs forklift' },
-                  ]}
+                  options={CONDITION_TYPES}
                 />
               </FormControl>
               <Pickup setPickup={setOrigin}>
@@ -328,7 +306,7 @@ export default function OrdersModal({
                   </InputCol>
                   <InputCol>
                     <FormItem
-                      name="buyerNumberr"
+                      name="buyerNumber"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
                     >
                       <Input
@@ -375,7 +353,7 @@ export default function OrdersModal({
           <div className="modal__col">
             <Person setPersonId={setPersonId} />
             <br />
-            <UpCollapse title="Date">
+            <UpCollapse hasButton={true} title="Date">
               <FormControl title="Est. Ship Date" img={date}>
                 <UseDatePicker
                   getYear={setDateEstShip}
@@ -385,14 +363,14 @@ export default function OrdersModal({
               </FormControl>
               <FormControl title="Est. PU Date" img={date}>
                 <UseDatePicker
-                  getYear={setDateEstShip}
+                  getYear={setDateEstPu}
                   type={'date'}
                   name="dateEstPu"
                 />
               </FormControl>
               <FormControl title="Est. DEL Date" img={date}>
                 <UseDatePicker
-                  getYear={setDateEstShip}
+                  getYear={setDateEstDel}
                   type={'date'}
                   name="dateEstDel"
                 />
@@ -403,7 +381,7 @@ export default function OrdersModal({
               <FormControl title="Total tariff" img={total}>
                 <FormItem
                   name="paymentTotalTariff"
-                  style={{ margin: '0px', width: '100%' }}
+                  style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
                   <Input placeholder="$0" type="number" />
                 </FormItem>
@@ -411,7 +389,7 @@ export default function OrdersModal({
               <FormControl title="Reservation" img={reservation}>
                 <Form.Item
                   name="paymentReservation"
-                  style={{ margin: '0px', width: '100%' }}
+                  style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
                   <Input type="number" placeholder="$0" />
                 </Form.Item>
@@ -419,7 +397,7 @@ export default function OrdersModal({
               <FormControl title="Carrier pay" img={reservation}>
                 <Form.Item
                   name="paymentCarrierPay"
-                  style={{ margin: '0px', width: '100%' }}
+                  style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
                   <Input type="number" placeholder="$0" />
                 </Form.Item>

@@ -58,7 +58,7 @@ class Orders {
   // POST: /quote/:guid/create/
   async createOrder(quote: OrdersDataType) {
     try {
-      const { data } = await this.$api.post('/quote/create/', quote);
+      const { data } = await this.$api.post('/orders/create/', quote);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

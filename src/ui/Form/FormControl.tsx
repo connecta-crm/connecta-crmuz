@@ -10,8 +10,8 @@ export default function FormControl({
   img?: string;
 }) {
   return (
-    <div className="form__controller ">
-      <div className="form__controller__item input__col">
+    <div className="form__controller m-0">
+      <div className="form__controller__item input__col ">
         <div className="down__collapse__header-item">
           {title !== 'add' ? (
             <>

@@ -22,6 +22,7 @@ import date from '/img/drawer/est-ship-date.svg';
 import reservation from '/img/drawer/reservation.svg';
 import total from '/img/drawer/total-tariff.svg';
 import trailer from '/img/drawer/trailer.svg';
+import { CONDITION_TYPES } from '../../utils/constants.ts';
 export default function QuotesModal({
   openLeadModal,
   setOpenLeadModa,
@@ -103,11 +104,7 @@ export default function QuotesModal({
                   style={{ width: '100%' }}
                   onChange={(a) => setConditionValue(a)}
                   placeholder="Select a condition"
-                  options={[
-                    { value: 'run', label: 'Run and drives' },
-                    { value: 'rols', label: 'Inop, it rolls' },
-                    { value: 'forklift', label: 'Inop, needs forklift' },
-                  ]}
+                  options={CONDITION_TYPES}
                 />
               </FormControl>
               <Pickup setPickup={setOrigin} />

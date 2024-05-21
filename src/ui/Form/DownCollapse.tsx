@@ -18,8 +18,8 @@ export default function DownCollapse({
   const [show, setShow] = useState(false);
 
   return (
-    <div className="down__collapse">
-      <div className="down__collapse__header">
+    <div className="down__collapse ">
+      <div className="down__collapse__header ">
         <div
           className="down__collapse__header-item"
           onClick={() => setShow(!show)}
