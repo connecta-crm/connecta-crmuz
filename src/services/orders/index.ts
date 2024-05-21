@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
 import { OrdersParamsType } from '../../features/orders/useOrders';
-import { OrdersDataType } from '../../ui/modal/OrdersDataType';
+import { OrdersDataType } from '../../models/OrdersDataType';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -58,7 +58,7 @@ class Orders {
   // POST: /quote/:guid/create/
   async createOrder(quote: OrdersDataType) {
     try {
-      const { data } = await this.$api.post('/quote/create/', quote);
+      const { data } = await this.$api.post('/orders/create/', quote);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

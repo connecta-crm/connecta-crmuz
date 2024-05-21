@@ -80,7 +80,7 @@ export const OrdersTableColumn = [
   },
   {
     title: 'Price',
-    dataIndex: 'price',
+    dataIndex: 'paymentTotalTariff',
     render: (price: number) => (
       <div>
         <span className="table__price">$</span>
