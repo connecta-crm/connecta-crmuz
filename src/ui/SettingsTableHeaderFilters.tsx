@@ -16,8 +16,8 @@ function SettingsTableHeaderFilters({
     <div className="dt-header__filters">
       {hasFilterBtn && (
         <div className="dt-header__filter-btns">
-          <CheckButton title='Standard' />
-          <CheckButton title='Exclusive' />
+          <CheckButton type="type" title="Standard" />
+          <CheckButton type="type" title="Exclusive" />
         </div>
       )}
       {hasFilterSelect && <TableHeaderProvider />}

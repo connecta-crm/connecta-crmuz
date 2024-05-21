@@ -383,7 +383,7 @@ export default function OrdersModal({
                   name="paymentTotalTariff"
                   style={{ margin: '0px', width: '100%',minHeight:"0" }}
                 >
-                  <Input placeholder="$0" type="number" />
+                  <Input placeholder="$0" type="number"  style={{padding:"5px 4px"}} />
                 </FormItem>
               </FormControl>
               <FormControl title="Reservation" img={reservation}>
@@ -391,7 +391,7 @@ export default function OrdersModal({
                   name="paymentReservation"
                   style={{ margin: '0px', width: '100%',minHeight:"0" }}
                 >
-                  <Input type="number" placeholder="$0" />
+                  <Input type="number" placeholder="$0"  style={{padding:"5px 4px"}} />
                 </Form.Item>
               </FormControl>
               <FormControl title="Carrier pay" img={reservation}>
@@ -399,7 +399,7 @@ export default function OrdersModal({
                   name="paymentCarrierPay"
                   style={{ margin: '0px', width: '100%',minHeight:"0" }}
                 >
-                  <Input type="number" placeholder="$0" />
+                  <Input type="number" placeholder="$0"  style={{padding:"5px 4px"}} />
                 </Form.Item>
               </FormControl>
             </UpCollapse>
