@@ -1,17 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoadingOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import { merge } from 'lodash';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { LeadData, QuoteData } from '../../models';
 import { SourceType } from '../../ui/Drawer';
-import {
-  getLeadData,
-  resetField as resetLeadField,
-  setLeadData,
-} from '../leads/leadSlice';
-import { useLeadEdit } from '../leads/useLeadEdit';
+import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 
 type DrawerFeatureHeaderProps = {
   keyValue: string;
@@ -21,7 +15,7 @@ type DrawerFeatureHeaderProps = {
 };
 
 function DrawerFeatureHeader({
-  sourceType,
+  sourceType: feature,
   keyValue,
   label,
   value,
@@ -38,31 +32,11 @@ function DrawerFeatureHeader({
     onChangeInnerCollapse,
   } = useDrawerFeature();
 
-  const leadData = useAppSelector(getLeadData);
-  const dispatch = useAppDispatch();
-  const { editLead, updatedLeadData, isLoading, error } = useLeadEdit();
+  const [fieldType, setFieldType] = useState<keyof LeadData | keyof QuoteData>(
+    'customer',
+  );
 
-  const updateLeadModel = {
-    ...leadData,
-    customer: leadData.customer?.id,
-    source: leadData.source?.id,
-    origin: leadData.origin?.id,
-    destination: leadData.destination?.id,
-    user: leadData.user?.id,
-    extraUser: leadData?.extraUser,
-  };
-
-  useEffect(() => {
-    if (!isLoading && !error) {
-      const merged = merge({}, leadData, updatedLeadData);
-      dispatch(setLeadData(merged));
-      // onChangeInnerCollapse(keyValue);
-      onEditPerson(false);
-      onEditNotes(false);
-    }
-  }, [isLoading, keyValue, error]);
-
-  // * DETAILS
+  // * DETAILS (MAIN COLLAPSE)
 
   const handleEditDetails = (keyValue: string) => {
     onEditDetails(true);
@@ -86,48 +60,82 @@ function DrawerFeatureHeader({
       '26',
     ]);
   };
+
   const handleSaveDetails = () => {
-    // some locig to save the data in DB and update UI
+    // ? BULK EDIT SAVE operations. Some logic to save the data in DB and update UI
     onEditDetails(false);
     onChangeInnerCollapse([]);
   };
+
   const handleCancelDetails = () => {
     onEditDetails(false);
     onChangeInnerCollapse([]);
   };
 
-  // * PERSON
+  // * PERSON (MAIN COLLAPSE)
 
   const handleEditPerson = (keyValue: string) => {
+    setFieldType('customer');
     onEditPerson(true);
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
     }
   };
-  const handleSavePerson = () => {
-    editLead({ guid: leadData.guid, updateLeadModel });
-  };
-  const handleCancelPerson = () => {
-    dispatch(resetLeadField({ field: 'customer' }));
-    // dispatch(resetQuoteField({ field }));
-    onEditPerson(false);
-  };
+
+  const [isDataUpdated, setDataUpdated] = useState(false);
+
+  const {
+    onSaveFeature,
+    onCancelFeature,
+    isLoading,
+    error,
+    updatedLeadData,
+    updatedQuoteData,
+  } = useUpdateFeatureData({
+    keyValue,
+    feature,
+    field: fieldType,
+    isDataUpdated,
+    setDataUpdated,
+  });
 
   // * NOTES
 
   const handleEditNotes = () => {
+    setFieldType('notes');
     onEditNotes(true);
-    console.log(keyValue);
   };
   const handleSaveNotes = () => {
-    editLead({ guid: leadData.guid, updateLeadModel });
+    setFieldType('notes');
+    onSaveFeature();
   };
   const handleCancelNotes = () => {
-    dispatch(resetLeadField({ field: 'notes' }));
+    setFieldType('notes');
+    onCancelFeature();
     onEditNotes(false);
   };
 
-  function Content() {
+  useEffect(() => {
+    if (
+      (updatedLeadData || updatedQuoteData) &&
+      isDataUpdated &&
+      !isLoading &&
+      !error
+    ) {
+      console.log('CLOSED');
+      onEditPerson(false);
+      onEditNotes(false);
+    }
+  }, [
+    isDataUpdated,
+    isLoading,
+    keyValue,
+    error,
+    updatedLeadData,
+    updatedQuoteData,
+  ]);
+
+  const Content = () => {
     let element = null;
     switch (value) {
       case 'detail':
@@ -185,7 +193,8 @@ function DrawerFeatureHeader({
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                handleCancelPerson();
+                onCancelFeature();
+                onEditPerson(false);
               }}
               block
               size="small"
@@ -200,7 +209,8 @@ function DrawerFeatureHeader({
               disabled={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
-                handleSavePerson();
+                onSaveFeature();
+                setDataUpdated(true);
               }}
             >
               {isLoading ? <LoadingOutlined /> : 'Save'}
@@ -270,7 +280,7 @@ function DrawerFeatureHeader({
     }
 
     return element;
-  }
+  };
 
   return (
     <div className="box-header d-flex align-center justify-between">

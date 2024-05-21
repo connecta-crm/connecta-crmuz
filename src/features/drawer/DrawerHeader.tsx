@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { DownOutlined } from '@ant-design/icons';
+import { useQueryClient } from '@tanstack/react-query';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import { useEffect, useState } from 'react';
@@ -70,6 +71,7 @@ function DrawerHeader({
   }
 
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const [isDataUpdated, setDataUpdated] = useState(false);
   const [isStatusUpdated, setStatusUpdated] = useState(false);
@@ -113,10 +115,12 @@ function DrawerHeader({
   // PREV-NEXT functions
   const handlePrevElement = () => {
     const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
+    queryClient.invalidateQueries({ queryKey: [`${feature}Attachments`] });
     onOpenDrawer(previousLeadGuid);
   };
   const handleNextElement = () => {
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
+    queryClient.invalidateQueries({ queryKey: [`${feature}Attachments`] });
     onOpenDrawer(nextLeadId);
   };
 

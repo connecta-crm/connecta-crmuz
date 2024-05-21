@@ -3,11 +3,11 @@ import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../store/hooks';
+import { SourceType } from '../../../ui/Drawer';
 import Modal from '../../../ui/Modal';
 import { useNote } from '../../attachments/useNote';
 import { useUpdateNote } from '../../attachments/useUpdateNote';
 import { getUser } from '../../authentication/authSlice';
-import { useLeadAttachments } from '../../leads/useLeadAttachments';
 import Notes from '../tabs/TabNotes';
 import { CancelNotesActionType } from '../tabs/Tabs';
 import HistoryCard from './HistoryCard';
@@ -24,8 +24,12 @@ export type NoteItemType = {
   user: number;
 };
 
-function History() {
-  const { leadAttachments } = useLeadAttachments();
+type HistoryProps = {
+  sourceType: SourceType;
+  attachments: NoteItemType[];
+};
+
+function History({ sourceType, attachments }: HistoryProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [content, setContent] = useState('');
   const [noteId, setNoteId] = useState(0);
@@ -41,8 +45,7 @@ function History() {
   };
 
   const notes =
-    leadAttachments?.filter(({ type }: { type: string }) => type === 'note') ??
-    [];
+    attachments?.filter(({ type }: { type: string }) => type === 'note') ?? [];
 
   const onChange = (key: string) => {
     console.log(key);
@@ -66,12 +69,13 @@ function History() {
     {
       key: '1',
       label: 'All',
-      children: leadAttachments?.length ? (
-        leadAttachments.map((item: NoteItemType) => (
+      children: attachments?.length ? (
+        attachments.map((item: NoteItemType) => (
           <HistoryCard
             key={item.id}
             type={'note'}
             item={item}
+            sourceType={sourceType}
             isLoading={isLoadingNote}
             onEdit={handleEditNote}
           />
@@ -90,6 +94,7 @@ function History() {
           key={item.id}
           type={'note'}
           item={item}
+          sourceType={sourceType}
           isLoading={isLoadingNote}
           onEdit={handleEditNote}
         />
@@ -101,6 +106,7 @@ function History() {
     //   children: (
     //     <HistoryCard
     //       type={'task'}
+    //       sourceType={sourceType}
     //       onEdit={() => {}}
     //       isLoading={isLoadingNote}
     //     />

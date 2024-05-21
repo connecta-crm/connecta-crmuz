@@ -413,7 +413,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
   ];
 
   const vehicleItems = renderVehicles();
-  const mergeItems = vehicleItems?.concat(items);
+  const mergeItems = vehicleItems ? vehicleItems?.concat(items) : items;
 
   return (
     <div className="box-header-inner">

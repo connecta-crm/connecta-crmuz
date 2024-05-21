@@ -20,6 +20,7 @@ export function useQuoteEdit() {
       Quotes.editQuote({ guid, updateQuoteModel }),
     onSuccess: (data) => {
       queryClient.setQueryData(['quoteEdit'], data);
+      queryClient.invalidateQueries({ queryKey: ['quotes'] });
       message.success('Quote successfully edited');
     },
     onError: (err) => message.error(err.message),

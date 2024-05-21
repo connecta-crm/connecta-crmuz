@@ -109,7 +109,7 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup state</div>
         <Input
-          value={featureData.origin?.state.name}
+          value={featureData.origin?.state?.name}
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
         />

@@ -213,12 +213,12 @@ export function useUpdateFeatureData({
 
       switch (feature) {
         case 'lead':
-          updatedData = updatedVehicleData || updatedLeadData;
+          updatedData = updatedLeadData;
           merged = merge({}, data, updatedData);
           dispatch(setLeadData(merged));
           break;
         case 'quote':
-          updatedData = updatedVehicleData || updatedQuoteData;
+          updatedData = updatedQuoteData;
           merged = merge({}, data, updatedData);
           dispatch(setQuoteData(merged));
           break;
@@ -247,5 +247,8 @@ export function useUpdateFeatureData({
     onSaveFeature,
     isLoading,
     isLoadingVehicleEdit,
+    error,
+    updatedLeadData,
+    updatedQuoteData,
   };
 }

@@ -140,6 +140,19 @@ class Quotes {
     }
   }
 
+  // GET: /leads/attachments/:leadId/
+  async getQuoteAttachments(id: number) {
+    try {
+      const { data } = await this.$api.get(`/quote/attachments/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(

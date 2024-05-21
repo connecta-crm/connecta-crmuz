@@ -21,6 +21,7 @@ export function useUpdateNote() {
       Attachments.updateNote({ id, endpointType, text, user }),
     onSuccess: (data: unknown) => {
       queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
+      queryClient.invalidateQueries({ queryKey: ['quoteAttachments'] });
       message.success('Note updated!');
       console.log('UPDATED', data);
     },

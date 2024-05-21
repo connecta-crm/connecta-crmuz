@@ -17,6 +17,7 @@ export function useCreateNote() {
       Attachments.createNote({ rel, endpointType, text, user }),
     onSuccess: (data: unknown) => {
       queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
+      queryClient.invalidateQueries({ queryKey: ['quoteAttachments'] });
       console.log('NOTE', data);
       message.success('Note created!');
     },

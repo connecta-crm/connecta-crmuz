@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { DrawerSourceType } from '../../ui/Drawer.tsx';
@@ -8,8 +7,26 @@ import History from './history/History.tsx';
 import Map from './map/Map.tsx';
 import Tabs from './tabs/Tabs.tsx';
 import Task from './task/Task.tsx';
+import { useLeadAttachments } from '../leads/useLeadAttachments.ts';
+import { useQuoteAttachments } from '../quotes/useQuoteAttachments.ts';
 
 function DrawerMain({ sourceType }: DrawerSourceType) {
+  const { leadAttachments } = useLeadAttachments();
+  const { quoteAttachments } = useQuoteAttachments();
+
+  let attachments;
+  switch (sourceType) {
+    case 'lead':
+      attachments = leadAttachments;
+      break;
+    case 'quote':
+      attachments = quoteAttachments;
+      break;
+
+    default:
+      break;
+  }
+
   const items: CollapseProps['items'] = [
     {
       key: '1',
@@ -24,7 +41,7 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
     {
       key: '3',
       label: <DrawerMainHeader label="History" />,
-      children: <History />,
+      children: <History sourceType={sourceType} attachments={attachments} />,
     },
   ];
   return (
