@@ -1,10 +1,16 @@
 import { DatePicker, Input, Select, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { LeadVehicle, QuoteVehicle, Vehicle } from '../../../models';
+import {
+  LeadVehicle,
+  OrderVehicle,
+  QuoteVehicle,
+  Vehicle,
+} from '../../../models';
 import { useAppDispatch } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
 import { updateVehicleField as updateLeadVehicleField } from '../../leads/leadSlice';
+import { updateVehicleField as updateOrderVehicleField } from '../../orders/orderSlice';
 import { updateVehicleField as updateQuoteVehicleField } from '../../quotes/quoteSlice';
 import { useCarMarks } from '../../vehicles/useCarMarks';
 import { useCarModels } from '../../vehicles/useCarModels';
@@ -16,7 +22,7 @@ export type Record = {
 type VehicleItemType = {
   feature: SourceType;
   vehicleIndex: number;
-  vehicleItem: LeadVehicle | QuoteVehicle;
+  vehicleItem: LeadVehicle | QuoteVehicle | OrderVehicle;
 };
 
 function FeatVehicleInner({
@@ -62,6 +68,15 @@ function FeatVehicleInner({
             }),
           );
           break;
+        case 'order':
+          dispatch(
+            updateOrderVehicleField({
+              vehicleIndex,
+              field,
+              value: record.data,
+            }),
+          );
+          break;
       }
 
       if (record.data.id && vehicle.mark?.id && field === 'vehicle.mark') {
@@ -95,7 +110,21 @@ function FeatVehicleInner({
                   },
                 }),
               );
-
+              break;
+            case 'order':
+              dispatch(
+                updateOrderVehicleField({
+                  vehicleIndex,
+                  field: 'vehicle',
+                  value: {
+                    mark,
+                    id: null,
+                    name: null,
+                    vehicleType: null,
+                    isActive: true,
+                  },
+                }),
+              );
               break;
           }
         }
@@ -118,6 +147,15 @@ function FeatVehicleInner({
         case 'quote':
           dispatch(
             updateQuoteVehicleField({
+              vehicleIndex,
+              field,
+              value,
+            }),
+          );
+          break;
+        case 'order':
+          dispatch(
+            updateOrderVehicleField({
               vehicleIndex,
               field,
               value,
@@ -199,13 +237,48 @@ function FeatVehicleInner({
           }))}
         />
       </div>
-      <div className="d-flex justify-between ">
+      <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Vehicle type</div>
         <Input
           value={vehicle?.vehicleType || ''}
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
         />
+      </div>
+      {/* ORDER features */}
+      <div className="d-flex justify-between">
+        <div className="">
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label mr-5 pl-0">Lot</div>
+            <Input
+              value={vehicleItem?.lot || ''}
+              style={{ width: 86, float: 'inline-end', height: 24 }}
+            />
+          </div>
+          <div className="d-flex justify-between ">
+            <div className="form-label mr-5 pl-0">Color</div>
+            <Input
+              value={vehicleItem?.color || ''}
+              style={{ width: 86, float: 'inline-end', height: 24 }}
+            />
+          </div>
+        </div>
+        <div className="ml-10">
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label mr-5 pl-0">VIN</div>
+            <Input
+              value={vehicleItem?.vin || ''}
+              style={{ width: 178, float: 'inline-end', height: 24 }}
+            />
+          </div>
+          <div className="d-flex justify-between">
+            <div className="form-label mr-5 pl-0">Plate</div>
+            <Input
+              value={vehicleItem?.plate || ''}
+              style={{ width: 178, float: 'inline-end', height: 24 }}
+            />
+          </div>
+        </div>
       </div>
     </>
   );

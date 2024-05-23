@@ -11,6 +11,7 @@ export function useProviders(enabled: boolean) {
     queryKey: ['providers'],
     queryFn: () => Providers.getProviders(),
     enabled,
+    retry: false,
   });
 
   return { isLoading, isFetching, providers, error: isError };

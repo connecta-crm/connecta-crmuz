@@ -82,8 +82,8 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
           size="small"
           filterOption={false}
           placeholder="Search city"
-          defaultValue={leadData.source.name}
-          value={leadData.source.name}
+          defaultValue={featureData.source?.name}
+          value={featureData.source?.name}
           onChange={handleChange}
           onFocus={() => setSelect(true)}
           style={{ width: 218 }}

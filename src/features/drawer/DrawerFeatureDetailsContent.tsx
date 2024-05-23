@@ -1,13 +1,25 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { LeadData, LeadVehicle, QuoteData, QuoteVehicle } from '../../models';
+import {
+  LeadData,
+  LeadVehicle,
+  OrderData,
+  OrderVehicle,
+  QuoteData,
+  QuoteVehicle,
+} from '../../models';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerSourceType } from '../../ui/Drawer';
 import { CONDITION_TYPES, TRAILER_TYPES } from '../../utils/constants';
 import { formatDate } from '../../utils/helpers';
 import { getLeadData } from '../leads/leadSlice';
-import { isLeadData, isQuoteData } from '../leads/useCheckTypeData';
+import {
+  isLeadData,
+  isOrderData,
+  isQuoteData,
+} from '../leads/useCheckTypeData';
+import { getOrderData } from '../orders/orderSlice';
 import { getQuoteData } from '../quotes/quoteSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
 import ArrowIcon from './feature-details/ArrowIcon';
@@ -23,7 +35,7 @@ import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
-const extractCommonData = (data: QuoteData | LeadData) => {
+const extractCommonData = (data: QuoteData | LeadData | OrderData) => {
   const {
     condition,
     originName,
@@ -35,8 +47,7 @@ const extractCommonData = (data: QuoteData | LeadData) => {
     reservationPrice,
   } = data;
 
-  let leadVehicles;
-  let quoteVehicles;
+  let leadVehicles, quoteVehicles, orderVehicles;
 
   if (isLeadData(data)) {
     leadVehicles = data.leadVehicles;
@@ -44,6 +55,10 @@ const extractCommonData = (data: QuoteData | LeadData) => {
 
   if (isQuoteData(data)) {
     quoteVehicles = data.quoteVehicles;
+  }
+
+  if (isOrderData(data)) {
+    orderVehicles = data.orderVehicles;
   }
 
   return {
@@ -57,6 +72,7 @@ const extractCommonData = (data: QuoteData | LeadData) => {
     reservationPrice,
     leadVehicles,
     quoteVehicles,
+    orderVehicles,
   };
 };
 
@@ -65,6 +81,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
   let selectedData = null;
 
   switch (sourceType) {
@@ -73,6 +90,9 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       break;
     case 'quote':
       selectedData = quoteData;
+      break;
+    case 'order':
+      selectedData = orderData;
       break;
   }
 
@@ -91,10 +111,11 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
     reservationPrice,
     leadVehicles,
     quoteVehicles,
+    orderVehicles,
   } = extractCommonData(selectedData);
 
-  let vehiclesList: LeadVehicle[] | QuoteVehicle[] | undefined,
-    vehicleFieldType: 'leadVehicles' | 'quoteVehicles';
+  let vehiclesList: LeadVehicle[] | QuoteVehicle[] | OrderVehicle[] | undefined,
+    vehicleFieldType: 'leadVehicles' | 'quoteVehicles' | 'orderVehicles';
 
   switch (sourceType) {
     case 'lead':
@@ -105,12 +126,19 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       vehiclesList = quoteVehicles;
       vehicleFieldType = 'quoteVehicles';
       break;
+    case 'order':
+      vehiclesList = orderVehicles;
+      vehicleFieldType = 'orderVehicles';
+      break;
   }
 
   const renderVehicles = (): CollapseProps['items'] => {
     if (vehiclesList?.length) {
       return vehiclesList?.map(
-        (vehicle: LeadVehicle | QuoteVehicle, index: number) => ({
+        (
+          vehicle: LeadVehicle | QuoteVehicle | OrderVehicle,
+          index: number,
+        ) => ({
           key: String(index + 20),
           label: (
             <div className="detail detail-origin">

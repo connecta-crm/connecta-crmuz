@@ -5,19 +5,28 @@ import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import {
   LeadData,
   LeadVehicle,
+  OrderData,
+  OrderVehicle,
   QuoteData,
   QuoteVehicle,
 } from '../../../models';
 import { useAppSelector } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
 import { getLeadData } from '../../leads/leadSlice';
-import { isLeadData, isQuoteData } from '../../leads/useCheckTypeData';
+import {
+  isLeadData,
+  isOrderData,
+  isQuoteData,
+} from '../../leads/useCheckTypeData';
 import { useLeadVehicleCreate } from '../../leads/useLeadVehicleCreate';
 import { useLeadVehicleDelete } from '../../leads/useLeadVehicleDelete';
 import {
   UpdateLeadDataProps,
   useUpdateFeatureData,
 } from '../../leads/useUpdateFeatureData';
+import { getOrderData } from '../../orders/orderSlice';
+import { useOrderVehicleCreate } from '../../orders/useOrderVehicleCreate';
+import { useOrderVehicleDelete } from '../../orders/useOrderVehicleDelete';
 import { getQuoteData } from '../../quotes/quoteSlice';
 import { useQuoteVehicleCreate } from '../../quotes/useQuoteVehicleCreate';
 import { useQuoteVehicleDelete } from '../../quotes/useQuoteVehicleDelete';
@@ -25,9 +34,9 @@ import { useQuoteVehicleDelete } from '../../quotes/useQuoteVehicleDelete';
 export type FeatItemOpenProps = {
   keyValue: string;
   feature: SourceType;
-  featureItemField: keyof LeadData | keyof QuoteData;
+  featureItemField: keyof LeadData | keyof QuoteData | keyof OrderData;
   addRemoveBtn?: 'add' | 'remove' | 'none';
-  featureItemData?: LeadVehicle | QuoteVehicle;
+  featureItemData?: LeadVehicle | QuoteVehicle | OrderVehicle;
   classNames?: string;
   series?: boolean;
 };
@@ -41,21 +50,21 @@ export function useFeatItemOpenData(
 ) {
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
-  // const orderData = useAppSelector(getOrderData);
+  const orderData = useAppSelector(getOrderData);
 
   const updateLeadData = useUpdateFeatureData(params);
   const updateQuoteData = useUpdateFeatureData(params);
-  // const updateOrderData = useUpdateFeatureData(params);
+  const updateOrderData = useUpdateFeatureData(params);
 
   const { createLeadVehicle } = useLeadVehicleCreate();
   const { createQuoteVehicle } = useQuoteVehicleCreate();
-  // const createOrderVehicle = useOrderVehicleCreate();
+  const createOrderVehicle = useOrderVehicleCreate();
 
   const { deleteLeadVehicle, isLoadingDeleteLeadVehicle } =
     useLeadVehicleDelete();
   const { deleteQuoteVehicle, isLoadingDeleteQuoteVehicle } =
     useQuoteVehicleDelete();
-  // const deleteOrderVehicle = useOrderVehicleDelete();
+  const deleteOrderVehicle = useOrderVehicleDelete();
 
   let data, updateData, createVehicle, deleteVehicle, isLoadingVehicleDelete;
 
@@ -74,12 +83,12 @@ export function useFeatItemOpenData(
       deleteVehicle = deleteQuoteVehicle;
       isLoadingVehicleDelete = isLoadingDeleteQuoteVehicle;
       break;
-    // case 'order':
-    //   data = orderData;
-    //   updateData = updateOrderData;
-    //   createVehicle = createOrderVehicle;
-    //   deleteVehicle = deleteOrderVehicle;
-    //   break;
+    case 'order':
+      data = orderData;
+      updateData = updateOrderData;
+      createVehicle = createOrderVehicle;
+      deleteVehicle = deleteOrderVehicle;
+      break;
     default:
       throw new Error('Invalid type');
   }
@@ -135,6 +144,13 @@ function FeatItemOpen({
       const quote = data.id;
       const vehicle = data.quoteVehicles[0]?.vehicle.id || null;
       const vehicleYear = data.quoteVehicles[0]?.vehicleYear || '';
+      createVehicle({ vehicle, vehicleYear, quote });
+      setDataUpdated(true);
+    }
+    if (isOrderData(data) && data.orderVehicles.length && createVehicle) {
+      const quote = data.id;
+      const vehicle = data.orderVehicles[0]?.vehicle.id || null;
+      const vehicleYear = data.orderVehicles[0]?.vehicleYear || '';
       createVehicle({ vehicle, vehicleYear, quote });
       setDataUpdated(true);
     }

@@ -1,6 +1,9 @@
 import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
+import { OrderEditParamsType } from '../../features/orders/useOrderEdit';
+import { OrderCreateVehicleParams } from '../../features/orders/useOrderVehicleCreate';
+import { OrderEditVehicleParamsType } from '../../features/orders/useOrderVehicleEdit';
 import { OrdersParamsType } from '../../features/orders/useOrders';
 import { OrdersDataType } from '../../models/OrderDataType';
 import apiClient from '../axios';
@@ -55,7 +58,7 @@ class Orders {
     }
   }
 
-  // POST: /quote/:guid/create/
+  // POST: /orders/:guid/create/
   async createOrder(quote: OrdersDataType) {
     try {
       const { data } = await this.$api.post('/orders/create/', quote);
@@ -68,42 +71,76 @@ class Orders {
     }
   }
 
-  // PUT: /quote/:guid/update/
-  // async editQuote({ guid, updateQuoteModel }: QuoteEditParamsType) {
-  //   try {
-  //     const { data } = await this.$api.put(`/quote/update/${guid}/`, {
-  //       ...updateQuoteModel,
-  //     });
-  //     return data;
-  //   } catch (error) {
-  //     const axiosError = error as AxiosError<ApiErrorResponse>;
-  //     throw new Error(
-  //       axiosError.response?.data?.message || 'An unknown error occurred',
-  //     );
-  //   }
-  // }
+  // PUT: /orders/:guid/update/
+  async editOrder({ guid, updateOrderModel }: OrderEditParamsType) {
+    try {
+      const { data } = await this.$api.put(`/orders/update/${guid}/`, {
+        ...updateOrderModel,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
-  // PUT: /quote/vehicle/:id/
-  // async editQuoteVehicle({
-  //   id,
-  //   vehicleYear,
-  //   vehicle,
-  //   quote,
-  // }: QuoteEditVehicleParams) {
-  //   try {
-  //     const { data } = await this.$api.put(`/quote/vehicle/${id}/`, {
-  //       vehicleYear,
-  //       vehicle,
-  //       quote,
-  //     });
-  //     return data;
-  //   } catch (error) {
-  //     const axiosError = error as AxiosError<ApiErrorResponse>;
-  //     throw new Error(
-  //       axiosError.response?.data?.message || 'An unknown error occurred',
-  //     );
-  //   }
-  // }
+  // PUT: /orders/vehicle/:id/
+  async editOrderVehicle({
+    id,
+    vehicleYear,
+    vehicle,
+    order,
+  }: OrderEditVehicleParamsType) {
+    try {
+      const { data } = await this.$api.put(`/orders/vehicle/${id}/`, {
+        vehicleYear,
+        vehicle,
+        order,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // DELETE: /quote/vehicle/:id/
+  async deleteOrderVehicle(id: number | undefined) {
+    try {
+      const { data } = await this.$api.delete(`/orders/vehicle/${id}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /orders/vehicle/add/
+  async addOrderVehicle({
+    vehicleYear,
+    vehicle,
+    order,
+  }: OrderCreateVehicleParams) {
+    try {
+      const { data } = await this.$api.post(`/orders/vehicle/add/`, {
+        vehicleYear,
+        vehicle,
+        order,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;

@@ -1,11 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { LeadData, LeadVehicle, QuoteData, QuoteVehicle } from '../../models';
+import {
+  LeadData,
+  LeadVehicle,
+  OrderData,
+  OrderVehicle,
+  QuoteData,
+  QuoteVehicle,
+} from '../../models';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { SourceType } from '../../ui/Drawer';
 import { getUser } from '../authentication/authSlice';
+import {
+  getOrderData,
+  resetField as resetOrderField,
+  setOrderData,
+} from '../orders/orderSlice';
+import { useOrderEdit } from '../orders/useOrderEdit';
+import { useOrderVehicleEdit } from '../orders/useOrderVehicleEdit';
 import {
   getQuoteData,
   resetField as resetQuoteField,
@@ -24,8 +37,8 @@ import { useLeadVehicleEdit } from './useLeadVehicleEdit';
 export type UpdateLeadDataProps = {
   keyValue: string | string[];
   feature: SourceType;
-  field: keyof LeadData | keyof QuoteData;
-  featureItemData?: LeadVehicle | QuoteVehicle;
+  field: keyof LeadData | keyof QuoteData | keyof OrderData;
+  featureItemData?: LeadVehicle | QuoteVehicle | OrderVehicle;
   isDataUpdated: boolean;
   setDataUpdated: (val: boolean) => void;
 };
@@ -44,7 +57,7 @@ export function useUpdateFeatureData({
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
-  const orderData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
   // * LEAD
   const {
@@ -75,8 +88,17 @@ export function useUpdateFeatureData({
   } = useQuoteVehicleEdit();
 
   // * ORDER
-  // const { editOrder, updatedOrderData, isLoading: isLoadingOrder, error: orderError } = useOrderEdit();
-  // const { editOrderVehicle, isLoading: isLoadingOrderVehicleEdit } = useOrderVehicleEdit();
+  const {
+    editOrder,
+    updatedOrderData,
+    isLoading: isLoadingOrder,
+    error: orderError,
+  } = useOrderEdit();
+  const {
+    editOrderVehicle,
+    updatedOrderVehicleData,
+    isLoading: isLoadingOrderVehicleEdit,
+  } = useOrderVehicleEdit();
 
   let data, isLoading, error, isLoadingVehicleEdit, updatedVehicleData: unknown;
 
@@ -95,12 +117,13 @@ export function useUpdateFeatureData({
       updatedVehicleData = updatedQuoteVehicleData;
       isLoadingVehicleEdit = isLoadingQuoteVehicleEdit;
       break;
-    // case 'order':
-    //   data = orderData;
-    //   isLoading = isLoadingOrder;
-    //   error = orderError;
-    //   isLoadingVehicleEdit = isLoadingOrderVehicleEdit;
-    //   break;
+    case 'order':
+      data = orderData;
+      error = orderError;
+      isLoading = isLoadingOrder;
+      updatedVehicleData = updatedOrderVehicleData;
+      isLoadingVehicleEdit = isLoadingOrderVehicleEdit;
+      break;
     default:
       data = null;
       isLoading = false;
@@ -153,31 +176,29 @@ export function useUpdateFeatureData({
             quote: data?.id || 0,
             vehicleYear: featureItemData?.vehicleYear,
           });
-          setDataUpdated(true);
-          return;
+        } else {
+          editQuote({ guid: data?.guid || '', updateQuoteModel: updateModel });
         }
-        editQuote({ guid: data?.guid || '', updateQuoteModel: updateModel });
         setDataUpdated(true);
         break;
-      // case 'order':
-      //   if (
-      //     field === 'orderVehicles' &&
-      //     featureItemData?.id &&
-      //     featureItemData?.vehicle.id &&
-      //     featureItemData?.vehicleYear
-      //   ) {
-      //     editOrderVehicle({
-      //       id: featureItemData?.id,
-      //       vehicle: featureItemData?.vehicle.id,
-      //       order: data.id,
-      //       vehicleYear: featureItemData?.vehicleYear,
-      //     });
-      //     setDataUpdated(true);
-      //     return;
-      //   }
-      //   editOrder({ guid: data.guid, updateModel });
-      //   setDataUpdated(true);
-      //   break;
+      case 'order':
+        if (
+          field === 'orderVehicles' &&
+          featureItemData?.id &&
+          featureItemData?.vehicle.id &&
+          featureItemData?.vehicleYear
+        ) {
+          editOrderVehicle({
+            id: featureItemData?.id,
+            vehicle: featureItemData?.vehicle.id,
+            order: data?.id || 0,
+            vehicleYear: featureItemData?.vehicleYear,
+          });
+        } else {
+          editOrder({ guid: data?.guid || '', updateOrderModel: updateModel });
+        }
+        setDataUpdated(true);
+        break;
       default:
         throw new Error('Invalid feature type');
     }
@@ -192,9 +213,9 @@ export function useUpdateFeatureData({
         console.log('field', field);
         dispatch(resetQuoteField({ field }));
         break;
-      // case 'order':
-      //   dispatch(resetOrderField({ field }));
-      //   break;
+      case 'order':
+        dispatch(resetOrderField({ field }));
+        break;
       default:
         throw new Error('Invalid feature type');
     }
@@ -207,7 +228,10 @@ export function useUpdateFeatureData({
       !isLoading &&
       !isLoadingVehicleEdit &&
       !error &&
-      (updatedVehicleData || updatedLeadData || updatedQuoteData)
+      (updatedVehicleData ||
+        updatedLeadData ||
+        updatedQuoteData ||
+        updatedOrderData)
     ) {
       let updatedData, merged;
 
@@ -221,6 +245,11 @@ export function useUpdateFeatureData({
           updatedData = updatedQuoteData;
           merged = merge({}, data, updatedData);
           dispatch(setQuoteData(merged));
+          break;
+        case 'order':
+          updatedData = updatedOrderData;
+          merged = merge({}, data, updatedData);
+          dispatch(setOrderData(merged));
           break;
         default:
           throw new Error('Invalid feature type');
@@ -240,6 +269,7 @@ export function useUpdateFeatureData({
     updatedVehicleData,
     updatedLeadData,
     updatedQuoteData,
+    updatedOrderData,
   ]);
 
   return {
@@ -250,5 +280,6 @@ export function useUpdateFeatureData({
     error,
     updatedLeadData,
     updatedQuoteData,
+    updatedOrderData,
   };
 }

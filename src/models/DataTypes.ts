@@ -90,7 +90,9 @@ export const initialSource: Source = {
 
 /* ==================================================================================================================*/
 
-export type RevertFieldAction<T extends keyof (LeadData & QuoteData)> = {
+export type RevertFieldAction<
+  T extends keyof (LeadData & QuoteData & OrderData),
+> = {
   field: T;
 };
 

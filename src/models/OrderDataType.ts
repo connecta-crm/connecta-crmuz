@@ -116,10 +116,10 @@ export type OrderVehicle = {
 };
 
 export type VehicleForOrder = {
-  id: number;
+  id: number | null;
+  name: string | null;
   mark: Mark & { isActive: boolean };
-  name: string;
-  vehicleType: string;
+  vehicleType: string | null;
   isActive: boolean;
 };
 

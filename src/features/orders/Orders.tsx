@@ -25,6 +25,7 @@ function Orders() {
   useEffect(() => {
     if (!isLoadingOrder && !error && guid && order) {
       dispatch(setOrderData(order));
+      console.log('ORDER', order);
       openDrawer();
     }
   }, [isLoadingOrder, error, dispatch, guid, order]);
