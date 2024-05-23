@@ -25,7 +25,7 @@ import { useQuoteVehicleDelete } from '../../quotes/useQuoteVehicleDelete';
 export type FeatItemOpenProps = {
   keyValue: string;
   feature: SourceType;
-  featureItemField: keyof LeadData | QuoteData;
+  featureItemField: keyof LeadData | keyof QuoteData;
   addRemoveBtn?: 'add' | 'remove' | 'none';
   featureItemData?: LeadVehicle | QuoteVehicle;
   classNames?: string;

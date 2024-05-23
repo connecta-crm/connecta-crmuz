@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
-import { setLeadData } from '../leads/leadSlice';
-import { useQuote } from '../quotes/useQuote';
-import { useOrders } from './useOrders';
-import OrdersTable from './OrdersTable';
 import OrdersModal from '../../ui/modal/OrderModal';
+import OrdersTable from './OrderTable';
+import { setOrderData } from './orderSlice';
+import { useOrder } from './useOrder';
+import { useOrders } from './useOrders';
+
 function Orders() {
   const [guid, setGuid] = useState<string | null>(null);
   const { orders, count, isLoadingOrders } = useOrders();
-  const { quote, isLoading: isLoadingQuote, error } = useQuote(guid);
+  const { order, isLoading: isLoadingOrder, error } = useOrder(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
 
   const { openDrawer } = useDrawerFeature();
-
   const dispatch = useAppDispatch();
 
   const handleOpenDrawer = (guid: string | null) => {
@@ -23,21 +23,21 @@ function Orders() {
   };
 
   useEffect(() => {
-    if (!isLoadingQuote && !error && guid && quote) {
-      dispatch(setLeadData(quote));
+    if (!isLoadingOrder && !error && guid && order) {
+      dispatch(setOrderData(order));
       openDrawer();
     }
-  }, [isLoadingQuote, error, dispatch, guid, quote]);
+  }, [isLoadingOrder, error, dispatch, guid, order]);
 
   return (
     <div className="orders">
       <OrdersTable
-        sourceType="order"
         guid={guid}
         count={count}
+        sourceType="order"
         dataSource={orders}
         loadingList={isLoadingOrders}
-        loadingItem={isLoadingQuote}
+        loadingItem={isLoadingOrder}
         onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
@@ -49,7 +49,7 @@ function Orders() {
       <DrawerApp
         sourceType="order"
         dataSource={orders}
-        loadingItem={isLoadingQuote}
+        loadingItem={isLoadingOrder}
         onOpenDrawer={handleOpenDrawer}
       />
     </div>

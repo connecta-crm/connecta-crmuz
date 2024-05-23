@@ -131,6 +131,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                   <FeatItemClose
                     feature={sourceType}
                     keyValue={String(index + 20)}
+                    tooltip={true}
                     label={`${vehicle.vehicleYear} ${vehicle.vehicle?.mark.name || ''} ${vehicle.vehicle?.name || ''}`}
                   />
                 )}
@@ -206,6 +207,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue={'3'}
+                tooltip={true}
                 label={originName}
               />
             )}
@@ -236,6 +238,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="4"
+                tooltip={true}
                 label={destinationName}
               />
             )}

@@ -62,6 +62,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="10"
+                tooltip={true}
                 label={customerName}
                 editable={false}
               />
@@ -92,6 +93,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="11"
+                tooltip={true}
                 label={customer?.email}
                 editable={false}
               />
@@ -122,6 +124,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="12"
+                tooltip={true}
                 label={customerPhone}
                 editable={false}
               />

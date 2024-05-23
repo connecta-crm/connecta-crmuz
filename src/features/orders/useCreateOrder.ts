@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
-import { OrdersDataType } from '../../models/OrdersDataType';
+import { OrdersDataType } from '../../models/OrderDataType';
 import Orders from '../../services/orders';
 export function useCreateOrder() {
   const queryClient = useQueryClient();

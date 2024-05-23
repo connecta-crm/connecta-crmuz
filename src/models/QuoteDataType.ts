@@ -29,6 +29,7 @@ export type QuoteDataType = {
   user: string | undefined;
   // extraUser: 0,
 };
+/* ==================================================================================================================*/
 
 export type QuoteData = {
   id: number;

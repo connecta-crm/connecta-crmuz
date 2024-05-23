@@ -2,12 +2,12 @@ import { Table } from 'antd';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { TableProps } from '../leads/LeadTable';
-import { OrdersTableColumn } from './OrdersTableColumn';
-import { OrdersTableColumnType } from './OrdersTableColumnType';
+import { OrderTableColumn } from './OrderTableColumn';
+import { OrderTableDataType } from './OrderTableColumnType';
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
-    selectedRows: OrdersTableColumnType[],
+    selectedRows: OrderTableDataType[],
   ) => {
     console.log(
       `selectedRowKeys: ${selectedRowKeys}`,
@@ -15,7 +15,7 @@ const rowSelection = {
       selectedRows,
     );
   },
-  getCheckboxProps: (record: OrdersTableColumnType) => ({
+  getCheckboxProps: (record: OrderTableDataType) => ({
     name: record.customerName,
   }),
 };
@@ -40,10 +40,8 @@ function OrdersTable({
           <Table
             rowKey="id"
             rowSelection={{ ...rowSelection }}
-            columns={OrdersTableColumn}
-            dataSource={
-              quotes as unknown as OrdersTableColumnType[] | undefined
-            }
+            columns={OrderTableColumn}
+            dataSource={quotes as unknown as OrderTableDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
             onRow={(data) => ({
               onClick: (event) => {

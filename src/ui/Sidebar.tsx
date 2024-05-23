@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { getMenuData } from '../services/menu';
 import logo from '/img/logo.svg';
@@ -29,7 +30,7 @@ function Sidebar() {
               <img src={logo} alt="Logo" />
             </NavLink>
           </li>
-          {filteredMenu.map(({ key, path, icon, iconActive }) => {
+          {filteredMenu.map(({ key, path, icon, title, iconActive }) => {
             const $path = path !== '/settings' ? path : '/settings/users';
             return (
               <li key={key}>
@@ -42,14 +43,21 @@ function Sidebar() {
                   }
                 >
                   {({ isActive }) => (
-                    <img
-                      src={
-                        isActive || isSettingsRouteActive(path)
-                          ? iconActive
-                          : icon
-                      }
-                      alt="Icon"
-                    />
+                    <>
+                      <img
+                        src={
+                          isActive || isSettingsRouteActive(path)
+                            ? iconActive
+                            : icon
+                        }
+                        alt="Icon"
+                      />
+                      <Tooltip placement="left" color="#000000" title={title}>
+                        <span style={{ opacity: '0', position: 'absolute' }}>
+                          {title}
+                        </span>
+                      </Tooltip>
+                    </>
                   )}
                 </NavLink>
               </li>

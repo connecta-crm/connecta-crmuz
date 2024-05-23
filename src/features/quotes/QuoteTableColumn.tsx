@@ -1,19 +1,19 @@
 import TableDropdown from '../../ui/table/TableDropdown';
-import { OrdersTableColumnType } from './OrdersTableColumnType';
-export const OrdersTableColumn = [
+import { QuotesTableDataType } from './QuoteTableColumnType';
+export const QuotesTableColumns = [
   {
     title: 'Id',
     dataIndex: 'id',
     render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
-    title: 'Las edited on',
+    title: 'Quoted on',
     dataIndex: 'updatedAt',
   },
   {
     title: 'Note	',
     dataIndex: 'node',
-    render: (text: string, record: OrdersTableColumnType) => (
+    render: (text: string, record: QuotesTableDataType) => (
       <TableDropdown record={record} text={text} />
     ),
   },
@@ -46,11 +46,8 @@ export const OrdersTableColumn = [
   },
   {
     title: 'Vehicle',
-    dataIndex: 'orderVehicles',
-    render: (
-      data: { vehicleName: string }[],
-      record: OrdersTableColumnType,
-    ) => (
+    dataIndex: 'quoteVehicles',
+    render: (data: { vehicleName: string }[], record: QuotesTableDataType) => (
       <div className="table__vehicle">
         {
           <div className="table__vehicle__imgs">
@@ -80,7 +77,7 @@ export const OrdersTableColumn = [
   },
   {
     title: 'Price',
-    dataIndex: 'paymentTotalTariff',
+    dataIndex: 'price',
     render: (price: number) => (
       <div>
         <span className="table__price">$</span>

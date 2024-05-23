@@ -4,7 +4,7 @@ import DrawerContent from '../features/drawer/Drawer';
 import DrawerControl from '../features/drawer/DrawerControl';
 import DrawerHeader from '../features/drawer/DrawerHeader';
 import { LeadTableDataType } from '../features/leads/LeadTableColumnType';
-import { QuotesTableDataType } from '../features/quotes/QuotesTableColumnType';
+import { QuotesTableDataType } from '../features/quotes/QuoteTableColumnType';
 import { LeadData } from '../models';
 
 type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;

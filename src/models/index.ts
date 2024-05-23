@@ -1,5 +1,5 @@
 export * from './DataTypes';
 export * from './LeadDataType';
-export * from './OrdersDataType';
+export * from './OrderDataType';
 export * from './Profile';
 export * from './QuoteDataType';

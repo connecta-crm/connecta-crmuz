@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
 import { OrdersParamsType } from '../../features/orders/useOrders';
-import { OrdersDataType } from '../../models/OrdersDataType';
+import { OrdersDataType } from '../../models/OrderDataType';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -42,18 +42,18 @@ class Orders {
     }
   }
 
-  // GET: /quote/:guid/detail/
-  // async getQuote(guid: string | null) {
-  //   try {
-  //     const { data } = await this.$api.get(`/quote/detail/${guid}/`);
-  //     return data;
-  //   } catch (error) {
-  //     const axiosError = error as AxiosError<ApiErrorResponse>;
-  //     throw new Error(
-  //       axiosError.response?.data?.message || 'An unknown error occurred',
-  //     );
-  //   }
-  // }
+  // GET: /orders/:guid/detail/
+  async getOrder(guid: string | null) {
+    try {
+      const { data } = await this.$api.get(`/orders/detail/${guid}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 
   // POST: /quote/:guid/create/
   async createOrder(quote: OrdersDataType) {

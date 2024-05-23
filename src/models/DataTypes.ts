@@ -1,4 +1,5 @@
 import { LeadData, LeadState, LeadVehicle } from './LeadDataType';
+import { OrderData, OrderState, OrderVehicle } from './OrderDataType';
 import { QuoteData, QuoteState, QuoteVehicle } from './QuoteDataType';
 
 export type Mark = {
@@ -110,6 +111,10 @@ export type NestedObjectValue =
   | QuoteData
   | QuoteData[]
   | QuoteState
+  | OrderVehicle[]
+  | OrderData
+  | OrderData[]
+  | OrderState
   | Customer
   | Source;
 
@@ -122,6 +127,9 @@ export type NestedObject = {
     | LeadVehicle[]
     | QuoteData
     | QuoteVehicle
-    | QuoteVehicle[];
+    | QuoteVehicle[]
+    | OrderData
+    | OrderVehicle
+    | OrderVehicle[];
 };
 /* ==================================================================================================================*/

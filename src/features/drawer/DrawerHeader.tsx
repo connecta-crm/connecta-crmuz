@@ -179,6 +179,18 @@ function DrawerHeader({
         </div>
         <div className="drawer-header__right">
           <div className="drawer-header__actions">
+            {feature === 'quote' && (
+              <div className="drawer-header__btnitem">
+                <Dropdown menu={menuProps} trigger={['click']}>
+                  <Button>
+                    <Space>
+                      12 days old
+                      <DownOutlined />
+                    </Space>
+                  </Button>
+                </Dropdown>
+              </div>
+            )}
             <div className="drawer-header__btnitem __avatar">
               <img
                 src="./img/drawer/avatar.png"
@@ -194,20 +206,25 @@ function DrawerHeader({
                 </a>
               </Dropdown>
             </div>
-            <div className="drawer-header__btnitem d-none">
-              <Dropdown menu={menuProps} trigger={['click']}>
-                <Button>
-                  <Space>
-                    Upcoming
-                    <DownOutlined />
-                  </Space>
-                </Button>
-              </Dropdown>
-            </div>
+
+            {feature === 'quote' && (
+              <div className="drawer-header__btnitem">
+                <Dropdown menu={menuProps} trigger={['click']}>
+                  <Button>
+                    <Space>
+                      Upcoming
+                      <DownOutlined />
+                    </Space>
+                  </Button>
+                </Dropdown>
+              </div>
+            )}
             <div className="drawer-header__btnitem ">
-              <Button className="d-none" type="primary">
-                Convert to order
-              </Button>
+              {feature === 'quote' && (
+                <Button className="" type="primary">
+                  Convert to order
+                </Button>
+              )}
               <Button
                 onClick={handleArchive}
                 className="ml-10 mr-10"
@@ -219,16 +236,18 @@ function DrawerHeader({
                   : 'Archive'}
               </Button>
             </div>
-            <div className="drawer-header__btnitem d-none">
-              <Dropdown menu={menuProps} trigger={['click']}>
-                <Button>
-                  <Space>
-                    Team support
-                    <DownOutlined />
-                  </Space>
-                </Button>
-              </Dropdown>
-            </div>
+            {feature === 'quote' && (
+              <div className="drawer-header__btnitem ml-0">
+                <Dropdown menu={menuProps} trigger={['click']}>
+                  <Button>
+                    <Space>
+                      Team support
+                      <DownOutlined />
+                    </Space>
+                  </Button>
+                </Dropdown>
+              </div>
+            )}
             <div className="drawer-header__more">
               <img src="./img/drawer/more.svg" alt="" />
             </div>

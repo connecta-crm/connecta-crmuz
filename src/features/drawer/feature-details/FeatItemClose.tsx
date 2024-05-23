@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Tooltip } from 'antd';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { classNames } from '../../../utils/helpers';
@@ -10,6 +9,7 @@ type FeatItemCloseProps = {
   textWithBg?: boolean;
   editable?: boolean;
   series?: boolean;
+  tooltip?: boolean;
 };
 
 function FeatItemClose({
@@ -18,7 +18,7 @@ function FeatItemClose({
   label,
   editable = true,
   series = true,
-  feature,
+  tooltip = false,
 }: FeatItemCloseProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
 
@@ -38,7 +38,10 @@ function FeatItemClose({
         <Tooltip
           placement="left"
           color="#ddf2fd"
-          overlayInnerStyle={{ color: '#000' }}
+          overlayInnerStyle={{
+            color: '#000',
+            display: tooltip ? 'inherit' : 'none',
+          }}
           title={label}
         >
           {label}

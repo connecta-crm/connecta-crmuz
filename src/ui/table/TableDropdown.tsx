@@ -2,7 +2,7 @@ import { Spin } from 'antd';
 import { FormEvent, useState } from 'react';
 import { useCreateNote } from '../../features/attachments/useCreateNote';
 import { getUser } from '../../features/authentication/authSlice';
-import { QuotesTableDataType } from '../../features/quotes/QuotesTableColumnType';
+import { QuotesTableDataType } from '../../features/quotes/QuoteTableColumnType';
 import { useAppSelector } from '../../store/hooks';
 function TableDropdown({
   text,

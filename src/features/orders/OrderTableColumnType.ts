@@ -1,5 +1,5 @@
-export interface QuotesTableDataType {
-  id?:number|undefined;
+export interface OrderTableDataType {
+  id?: number | undefined;
   customerName: string;
   customerPhone: string;
   originName: string;

@@ -6,6 +6,8 @@ import {
   LeadState,
   LeadVehicle,
   NestedObject,
+  OrderData,
+  OrderVehicle,
   QuoteData,
   QuoteVehicle,
   RevertFieldAction,
@@ -51,10 +53,12 @@ export const setNestedObjectValue = (
     | Location
     | Source
     | LeadVehicle[]
-    | QuoteVehicle[],
+    | QuoteVehicle[]
+    | OrderVehicle[],
   value:
     | LeadData[keyof (LeadData | Source | Customer)]
-    | QuoteData[keyof (QuoteData | Source | Customer)],
+    | QuoteData[keyof (QuoteData | Source | Customer)]
+    | OrderData[keyof (OrderData | Source | Customer)],
 ) => {
   if (typeof path === 'string') {
     const keys = path.split('.');

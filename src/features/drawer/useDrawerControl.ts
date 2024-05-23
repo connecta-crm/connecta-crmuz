@@ -1,6 +1,6 @@
 import { LeadData } from '../../models';
 import { LeadTableDataType } from '../leads/LeadTableColumnType';
-import { QuotesTableDataType } from '../quotes/QuotesTableColumnType';
+import { QuotesTableDataType } from '../quotes/QuoteTableColumnType';
 
 export function getNextObjectId(
   array: LeadData | LeadTableDataType | QuotesTableDataType,

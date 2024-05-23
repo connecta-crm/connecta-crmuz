@@ -1,6 +1,6 @@
 import TableDropdown from '../../ui/table/TableDropdown';
-import { QuotesTableDataType } from './OrderTableColumnType';
-export const QuotesTableColumns = [
+import { OrderTableDataType } from './OrderTableColumnType';
+export const OrderTableColumn = [
   {
     title: 'Id',
     dataIndex: 'id',
@@ -13,7 +13,7 @@ export const QuotesTableColumns = [
   {
     title: 'Note	',
     dataIndex: 'node',
-    render: (text: string, record: QuotesTableDataType) => (
+    render: (text: string, record: OrderTableDataType) => (
       <TableDropdown record={record} text={text} />
     ),
   },
@@ -47,7 +47,7 @@ export const QuotesTableColumns = [
   {
     title: 'Vehicle',
     dataIndex: 'quoteVehicles',
-    render: (data: { vehicleName: string }[], record: QuotesTableDataType) => (
+    render: (data: { vehicleName: string }[], record: OrderTableDataType) => (
       <div className="table__vehicle">
         {
           <div className="table__vehicle__imgs">
@@ -55,7 +55,7 @@ export const QuotesTableColumns = [
               <img src="./img/dt_table/engine.svg" alt="engine" />
             )}
             {record.trailerType === 'open' &&
-              data.map((i, index) => (
+              (data || []).map((i, index) => (
                 <img
                   key={index}
                   src="./img/dt_table/trailer-red.svg"
@@ -65,7 +65,7 @@ export const QuotesTableColumns = [
           </div>
         }
         <div className="table__vehicle__text">
-          {data.map((item, index) => (
+          {(data || []).map((item, index) => (
             <div key={index}>{item.vehicleName}</div>
           ))}
         </div>
