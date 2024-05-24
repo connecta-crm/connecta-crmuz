@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { UsersTableColumns, UsersTableData } from '../../utils/table';
+import { UsersTableColumns } from '../../utils/table';
 type DataType = {
   key: string,
   name: string,
@@ -32,7 +32,7 @@ export default function PaymentApps() {
             ...rowSelection,
           }}
           columns={UsersTableColumns}
-          dataSource={UsersTableData}
+          dataSource={[]}
         />
       </div>
     </div>

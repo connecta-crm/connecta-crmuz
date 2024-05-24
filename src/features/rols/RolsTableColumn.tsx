@@ -21,7 +21,7 @@ export const RolsTableColumns = [
             if (index < 8) {
               return (
                 <span key={index} className="user__name">
-                  {item?.name}
+                  {item?.accessName}
                 </span>
               );
             }

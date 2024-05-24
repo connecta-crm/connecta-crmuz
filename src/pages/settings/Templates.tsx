@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { UsersTableColumns, UsersTableData } from '../../utils/table';
+import { UsersTableColumns,  } from '../../utils/table';
 import TableHeader from '../../ui/TableHeader';
 type DataType = {
   key: string,
@@ -32,7 +32,7 @@ export default function Templates() {
             ...rowSelection,
           }}
           columns={UsersTableColumns}
-          dataSource={UsersTableData}
+          dataSource={[]}
         />
       </div>
         </div>
