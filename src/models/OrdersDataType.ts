@@ -2,6 +2,7 @@ import { CarType } from '../features/vehicle/VehicleContainer';
 
 export type OrdersDataType = {
   vehicles: CarType[];
+  locationType:string|null
   // price: number | null;
   condition: string | null;
   trailerType: string | null;

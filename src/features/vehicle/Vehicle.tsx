@@ -170,7 +170,7 @@ export default function Vehicle({
               data: d,
               label: d.name,
             }))}
-          />{' '}
+          />
         </InputCol>
       </InputRow>
       <InputRow>
@@ -178,7 +178,10 @@ export default function Vehicle({
           <Label>Type</Label>
         </InputCol>
         <InputCol>
-          <FormItem style={{ margin: '0', width: '100%' }}>
+          <FormItem
+            style={{ margin: '0', width: '100%' }}
+            rules={[{ required: true, message: '' }]}
+          >
             <Input value={vhicleType} style={{ width: '100%' }} />
           </FormItem>
         </InputCol>
@@ -188,7 +191,10 @@ export default function Vehicle({
           <div className="vehicle__details">
             <div className="vehicle__details__left">
               <Label>Lot</Label>
-              <FormItem style={{ margin: '0', minHeight: '0px' }}>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
                 <Input
                   onChange={(e) =>
                     setCarValue({ ...carValue, lot: e.target.value })
@@ -199,7 +205,10 @@ export default function Vehicle({
             </div>
             <div className="vehicle__details__right">
               <Label>VIN</Label>
-              <FormItem style={{ margin: '0', minHeight: '0px' }}>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
                 <Input
                   onChange={(e) =>
                     setCarValue({ ...carValue, vin: e.target.value })
@@ -213,7 +222,10 @@ export default function Vehicle({
           <div className="vehicle__details">
             <div className="vehicle__details__left">
               <Label>Color</Label>
-              <FormItem style={{ margin: '0', minHeight: '0px' }}>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
                 <Input
                   onChange={(e) =>
                     setCarValue({ ...carValue, color: e.target.value })
@@ -224,7 +236,10 @@ export default function Vehicle({
             </div>
             <div className="vehicle__details__right">
               <Label>Plate</Label>
-              <FormItem style={{ margin: '0', minHeight: '0px' }}>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
                 <Input
                   onChange={(e) =>
                     setCarValue({ ...carValue, plate: e.target.value })

@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import React, { useState } from 'react';
-
+import arrow from '../../../public/img/down-arrow.svg'
 export default function UpCollapse({
   children,
   title,
@@ -18,7 +18,7 @@ export default function UpCollapse({
         <div onClick={() => setShow(!show)} className='d-flex align-center' >
           <img
             className={show ? 'active__drop' : ''}
-            src="./img/down-arrow.svg"
+            src={arrow}
             alt=""
           />
           <span style={{marginLeft:"10px"}}>{title}</span>

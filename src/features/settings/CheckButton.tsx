@@ -7,33 +7,28 @@ export default function CheckButton({
   title: string;
   type: string;
 }) {
+  const localTitle = title.toLowerCase();
   const [active, setActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const newSearchParams = new URLSearchParams(searchParams);
 
   const onChange = () => {
-    setActive(!active);
-  };
-  useEffect(() => {
-    if (active) {
-      newSearchParams.append(type, title.toLowerCase());
+    if (newSearchParams.has(type, localTitle)) {
+      newSearchParams.delete(type, localTitle);
+      setActive(false);
     } else {
-      const filteredSources = newSearchParams
-        .getAll(type)
-        .filter((status) => status !== title.toLowerCase());
-      newSearchParams.delete(type);
-      filteredSources.forEach((status) => newSearchParams.append(type, status));
+      newSearchParams.append(type, localTitle);
+      setActive(true);
     }
     setSearchParams(newSearchParams);
-  }, [active]);
+  };
 
   useEffect(() => {
-    if (newSearchParams.has(type, title.toLowerCase())) {
+    if (newSearchParams.has(type, localTitle)) {
       setActive(true);
-    } else {
-      setActive(false);
+      return;
     }
+    setActive(false);
   }, [searchParams]);
 
   return (

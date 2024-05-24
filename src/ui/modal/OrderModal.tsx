@@ -9,7 +9,9 @@ import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
+import { OrdersDataType } from '../../models/OrdersDataType.ts';
 import { useAppSelector } from '../../store/hooks';
+import { CONDITION_TYPES } from '../../utils/constants.ts';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
 import FormControl from '../form/FormControl.tsx';
@@ -18,13 +20,11 @@ import InputRow from '../form/InputRow.tsx';
 import Label from '../form/Label.tsx';
 import UpCollapse from '../form/UpCollapse.tsx';
 import UseDatePicker from '../picker/DatePicker';
-import { OrdersDataType } from '../../models/OrdersDataType.ts';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import reservation from '/img/drawer/reservation.svg';
 import total from '/img/drawer/total-tariff.svg';
 import trailer from '/img/drawer/trailer.svg';
-import { CONDITION_TYPES } from '../../utils/constants.ts';
 export default function OrdersModal({
   openLeadModal,
   setOpenLeadModa,
@@ -73,6 +73,7 @@ export default function OrdersModal({
       paymentTotalTariff: e.paymentTotalTariff,
       paymentReservation: e.paymentReservation,
       paymentCarrierPay: e.paymentCarrierPay,
+      locationType:e.locationType,
       cdNote: e.cdNote,
       cmNote: e.cmNote,
       user: user?.id,
@@ -318,6 +319,22 @@ export default function OrdersModal({
                   </InputCol>
                 </InputRow>
               </Delivery>
+              <FormControl  title="Location type">
+                <FormItem
+                  className="m-0 w-100"
+                  name="locationType"
+                  // rules={[{ required: true, message: '' }]}
+                >
+                  <Select
+                    options={[
+                      { value: 'r2r', label: 'Residential to residential' },
+                      { value: 'r2b', label: 'Residential to business' },
+                      { value: 'b2r', label: 'Business to residential' },
+                      { value: 'b2b', label: 'Business to business' },
+                    ]}
+                  />
+                </FormItem>
+              </FormControl>
               <FormControl title="Trailer type" img={trailer}>
                 <Select
                   defaultValue=""
@@ -378,28 +395,40 @@ export default function OrdersModal({
             </UpCollapse>
             <br />
             <UpCollapse title="Payment">
-              <FormControl title="Total tariff" img={total} >
+              <FormControl title="Total tariff" img={total}>
                 <FormItem
                   name="paymentTotalTariff"
-                  style={{ margin: '0px', width: '100%',minHeight:"0" }}
+                  style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
-                  <Input placeholder="$0" type="number"  style={{padding:"5px 4px"}} />
+                  <Input
+                    placeholder="$0"
+                    type="number"
+                    style={{ padding: '5px 4px' }}
+                  />
                 </FormItem>
               </FormControl>
               <FormControl title="Reservation" img={reservation}>
                 <Form.Item
                   name="paymentReservation"
-                  style={{ margin: '0px', width: '100%',minHeight:"0" }}
+                  style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
-                  <Input type="number" placeholder="$0"  style={{padding:"5px 4px"}} />
+                  <Input
+                    type="number"
+                    placeholder="$0"
+                    style={{ padding: '5px 4px' }}
+                  />
                 </Form.Item>
               </FormControl>
               <FormControl title="Carrier pay" img={reservation}>
                 <Form.Item
                   name="paymentCarrierPay"
-                  style={{ margin: '0px', width: '100%',minHeight:"0" }}
+                  style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
-                  <Input type="number" placeholder="$0"  style={{padding:"5px 4px"}} />
+                  <Input
+                    type="number"
+                    placeholder="$0"
+                    style={{ padding: '5px 4px' }}
+                  />
                 </Form.Item>
               </FormControl>
             </UpCollapse>
