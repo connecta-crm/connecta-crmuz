@@ -58,13 +58,14 @@ export function useFeatItemOpenData(
 
   const { createLeadVehicle } = useLeadVehicleCreate();
   const { createQuoteVehicle } = useQuoteVehicleCreate();
-  const createOrderVehicle = useOrderVehicleCreate();
+  const { createOrderVehicle } = useOrderVehicleCreate();
 
   const { deleteLeadVehicle, isLoadingDeleteLeadVehicle } =
     useLeadVehicleDelete();
   const { deleteQuoteVehicle, isLoadingDeleteQuoteVehicle } =
     useQuoteVehicleDelete();
-  const deleteOrderVehicle = useOrderVehicleDelete();
+  const { deleteOrderVehicle, isLoadingDeleteOrderVehicle } =
+    useOrderVehicleDelete();
 
   let data, updateData, createVehicle, deleteVehicle, isLoadingVehicleDelete;
 
@@ -88,6 +89,7 @@ export function useFeatItemOpenData(
       updateData = updateOrderData;
       createVehicle = createOrderVehicle;
       deleteVehicle = deleteOrderVehicle;
+      isLoadingVehicleDelete = isLoadingDeleteOrderVehicle;
       break;
     default:
       throw new Error('Invalid type');
@@ -148,10 +150,14 @@ function FeatItemOpen({
       setDataUpdated(true);
     }
     if (isOrderData(data) && data.orderVehicles.length && createVehicle) {
-      const quote = data.id;
+      const order = data.id;
       const vehicle = data.orderVehicles[0]?.vehicle.id || null;
       const vehicleYear = data.orderVehicles[0]?.vehicleYear || '';
-      createVehicle({ vehicle, vehicleYear, quote });
+      const lot = data.orderVehicles[0]?.lot;
+      const vin = data.orderVehicles[0]?.vin;
+      const color = data.orderVehicles[0]?.color;
+      const plate = data.orderVehicles[0]?.plate;
+      createVehicle({ vehicle, vehicleYear, order, lot, vin, color, plate });
       setDataUpdated(true);
     }
   };

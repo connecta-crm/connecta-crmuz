@@ -166,6 +166,18 @@ function FeatVehicleInner({
     }
   };
 
+  // ORDER'S INPUTS
+  const handleChangeInput = (field: string, value: string) => {
+    dispatch(
+      updateOrderVehicleField({
+        vehicleIndex,
+        field,
+        value,
+      }),
+    );
+    console.log(field, value);
+  };
+
   return (
     <>
       <div className="d-flex justify-between mb-5">
@@ -246,40 +258,46 @@ function FeatVehicleInner({
         />
       </div>
       {/* ORDER features */}
-      <div className="d-flex justify-between">
-        <div className="">
-          <div className="d-flex justify-between mb-5">
-            <div className="form-label mr-5 pl-0">Lot</div>
-            <Input
-              value={vehicleItem?.lot || ''}
-              style={{ width: 86, float: 'inline-end', height: 24 }}
-            />
+      {feature === 'order' && (
+        <div className="d-flex justify-between">
+          <div className="">
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label mr-5 pl-0">Lot</div>
+              <Input
+                value={vehicleItem?.lot || ''}
+                style={{ width: 86, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChangeInput('lot', e.target.value)}
+              />
+            </div>
+            <div className="d-flex justify-between ">
+              <div className="form-label mr-5 pl-0">Color</div>
+              <Input
+                value={vehicleItem?.color || ''}
+                style={{ width: 86, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChangeInput('color', e.target.value)}
+              />
+            </div>
           </div>
-          <div className="d-flex justify-between ">
-            <div className="form-label mr-5 pl-0">Color</div>
-            <Input
-              value={vehicleItem?.color || ''}
-              style={{ width: 86, float: 'inline-end', height: 24 }}
-            />
+          <div className="ml-10">
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label mr-5 pl-0">VIN</div>
+              <Input
+                value={vehicleItem?.vin || ''}
+                style={{ width: 178, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChangeInput('vin', e.target.value)}
+              />
+            </div>
+            <div className="d-flex justify-between">
+              <div className="form-label mr-5 pl-0">Plate</div>
+              <Input
+                value={vehicleItem?.plate || ''}
+                style={{ width: 178, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChangeInput('plate', e.target.value)}
+              />
+            </div>
           </div>
         </div>
-        <div className="ml-10">
-          <div className="d-flex justify-between mb-5">
-            <div className="form-label mr-5 pl-0">VIN</div>
-            <Input
-              value={vehicleItem?.vin || ''}
-              style={{ width: 178, float: 'inline-end', height: 24 }}
-            />
-          </div>
-          <div className="d-flex justify-between">
-            <div className="form-label mr-5 pl-0">Plate</div>
-            <Input
-              value={vehicleItem?.plate || ''}
-              style={{ width: 178, float: 'inline-end', height: 24 }}
-            />
-          </div>
-        </div>
-      </div>
+      )}
     </>
   );
 }

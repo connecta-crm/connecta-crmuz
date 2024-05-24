@@ -7,6 +7,10 @@ export type OrderEditVehicleParamsType = {
   vehicleYear: number | string;
   vehicle: number;
   order: number;
+  lot: string;
+  vin: string;
+  color: string;
+  plate: string;
 };
 
 export function useOrderVehicleEdit() {
@@ -22,8 +26,21 @@ export function useOrderVehicleEdit() {
       order,
       vehicle,
       vehicleYear,
+      color,
+      vin,
+      plate,
+      lot,
     }: OrderEditVehicleParamsType) =>
-      Orders.editOrderVehicle({ id, order, vehicle, vehicleYear }),
+      Orders.editOrderVehicle({
+        id,
+        order,
+        vehicle,
+        vehicleYear,
+        color,
+        vin,
+        plate,
+        lot,
+      }),
     onSuccess: (data) => {
       queryClient.setQueryData(['orderEditVehicle'], data);
       message.success('Order Vehicle successfully edited');

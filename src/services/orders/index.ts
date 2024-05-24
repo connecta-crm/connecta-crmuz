@@ -92,12 +92,20 @@ class Orders {
     vehicleYear,
     vehicle,
     order,
+    lot,
+    vin,
+    color,
+    plate,
   }: OrderEditVehicleParamsType) {
     try {
       const { data } = await this.$api.put(`/orders/vehicle/${id}/`, {
         vehicleYear,
         vehicle,
         order,
+        lot,
+        vin,
+        color,
+        plate,
       });
       return data;
     } catch (error) {
@@ -123,15 +131,23 @@ class Orders {
 
   // POST: /orders/vehicle/add/
   async addOrderVehicle({
-    vehicleYear,
-    vehicle,
     order,
+    vehicle,
+    vehicleYear,
+    lot,
+    vin,
+    color,
+    plate,
   }: OrderCreateVehicleParams) {
     try {
       const { data } = await this.$api.post(`/orders/vehicle/add/`, {
-        vehicleYear,
-        vehicle,
         order,
+        vehicle,
+        vehicleYear,
+        lot,
+        vin,
+        color,
+        plate,
       });
       return data;
     } catch (error) {

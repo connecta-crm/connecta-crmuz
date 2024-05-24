@@ -193,6 +193,10 @@ export function useUpdateFeatureData({
             vehicle: featureItemData?.vehicle.id,
             order: data?.id || 0,
             vehicleYear: featureItemData?.vehicleYear,
+            color: featureItemData?.color,
+            vin: featureItemData?.vin,
+            plate: featureItemData?.plate,
+            lot: featureItemData?.lot,
           });
         } else {
           editOrder({ guid: data?.guid || '', updateOrderModel: updateModel });

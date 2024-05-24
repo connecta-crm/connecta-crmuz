@@ -14,12 +14,17 @@ import {
   updateField as updateQuoteField,
 } from '../../quotes/quoteSlice';
 
+import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
 import { FeatItemInnerProps } from './FeatConditionInner';
 
 function FeatTrailertypeInner({ feature, keyValue }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
   let featureData;
 
@@ -29,6 +34,9 @@ function FeatTrailertypeInner({ feature, keyValue }: FeatItemInnerProps) {
       break;
     case 'quote':
       featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
       break;
     default:
       break;
@@ -52,6 +60,9 @@ function FeatTrailertypeInner({ feature, keyValue }: FeatItemInnerProps) {
         break;
       case 'quote':
         dispatch(updateQuoteField({ field: 'trailerType', value }));
+        break;
+      case 'order':
+        dispatch(updateOrderField({ field: 'trailerType', value }));
         break;
       default:
         break;

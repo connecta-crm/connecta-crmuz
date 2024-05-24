@@ -1,6 +1,7 @@
 import { Input, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
+import { LeadData, OrderData, QuoteData } from '../../../models';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import HighlightedWord from '../../../ui/HighlightedWord';
 import { useCities } from '../../address/useCities';
@@ -8,18 +9,26 @@ import {
   getLeadData,
   updateField as updateLeadField,
 } from '../../leads/leadSlice';
+import { isOrderData } from '../../leads/useCheckTypeData';
+import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
 import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../../quotes/quoteSlice';
 import { FeatItemInnerProps } from './FeatConditionInner';
 
+type FeatureData = LeadData | QuoteData | OrderData;
+
 function FeatOriginInner({ feature }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
-  let featureData;
+  let featureData: FeatureData | undefined;
 
   switch (feature) {
     case 'lead':
@@ -27,6 +36,9 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
       break;
     case 'quote':
       featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
       break;
     default:
       break;
@@ -51,10 +63,18 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
         case 'quote':
           dispatch(updateQuoteField({ field: 'origin', value: option?.data }));
           break;
+        case 'order':
+          dispatch(updateOrderField({ field: 'origin', value: option?.data }));
+          break;
         default:
           break;
       }
     }
+  };
+
+  // ORDER'S INPUTS
+  const handleChangeInput = (field: string, value: string) => {
+    dispatch(updateOrderField({ field, value }));
   };
 
   const handleSearchCity = (value: string) => {
@@ -114,7 +134,7 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
           style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
-      <div className="d-flex justify-between">
+      <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup zip</div>
         <Select
           size="small"
@@ -152,6 +172,78 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
           )}
         </Select>
       </div>
+      {/* ORDER CONTENTS */}
+      {isOrderData(featureData) && (
+        <>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label">Business name</div>
+            <Input
+              value={featureData.originBusinessName}
+              defaultValue={featureData.originBusinessName}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originBusinessName', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label">Business phone</div>
+            <Input
+              value={featureData.originBusinessPhone}
+              defaultValue={featureData.originBusinessPhone}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originBusinessPhone', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label required-label">Contact person</div>
+            <Input
+              value={featureData.originContactPerson}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originContactPerson', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="d-flex justify-between">
+              <div className="form-label mr-5 required-label">Phone</div>
+              <Input
+                value={featureData.originPhone}
+                defaultValue={featureData.originPhone}
+                style={{ width: 115, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChangeInput('originPhone', e.target.value)
+                }
+              />
+            </div>
+            <div className="d-flex justify-between ">
+              <div className="form-label mr-5 pl-0">Second</div>
+              <Input
+                value={featureData.originSecondPhone}
+                defaultValue={featureData.originSecondPhone}
+                style={{ width: 115, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChangeInput('originSecondPhone', e.target.value)
+                }
+              />
+            </div>
+          </div>
+          <div className="d-flex justify-between ">
+            <div className="form-label required-label">Buyer number</div>
+            <Input
+              value={featureData.originBuyerNumber}
+              defaultValue={featureData.originBuyerNumber}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originBuyerNumber', e.target.value)
+              }
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }

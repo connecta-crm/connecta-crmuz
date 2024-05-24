@@ -11,6 +11,11 @@ import {
 } from '../../leads/leadSlice';
 import { useLeadConvert } from '../../leads/useLeadConvert';
 import {
+  getOrderData,
+  resetField as resetOrderField,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import {
   getQuoteData,
   resetField as resetQuoteField,
   updateField as updateQuoteField,
@@ -25,6 +30,7 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
   let featureData;
 
@@ -34,6 +40,9 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
       break;
     case 'quote':
       featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
       break;
     default:
       break;
@@ -63,6 +72,9 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
       case 'quote':
         dispatch(updateQuoteField({ field, value }));
         break;
+      case 'order':
+        dispatch(updateOrderField({ field, value }));
+        break;
       default:
         break;
     }
@@ -87,6 +99,10 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
       case 'quote':
         dispatch(resetQuoteField({ field: 'price' }));
         dispatch(resetQuoteField({ field: 'reservationPrice' }));
+        break;
+      case 'order':
+        dispatch(resetOrderField({ field: 'price' }));
+        dispatch(resetOrderField({ field: 'reservationPrice' }));
         break;
       default:
         break;

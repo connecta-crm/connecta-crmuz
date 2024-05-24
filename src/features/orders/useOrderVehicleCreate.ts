@@ -6,6 +6,10 @@ export type OrderCreateVehicleParams = {
   vehicleYear: number | string;
   vehicle: number | null;
   order: number;
+  lot: string;
+  vin: string;
+  color: string;
+  plate: string;
 };
 
 export function useOrderVehicleCreate() {
@@ -16,8 +20,24 @@ export function useOrderVehicleCreate() {
     isError: error,
     data: createdOrderVehicleData,
   } = useMutation({
-    mutationFn: ({ order, vehicle, vehicleYear }: OrderCreateVehicleParams) =>
-      Orders.addOrderVehicle({ order, vehicle, vehicleYear }),
+    mutationFn: ({
+      order,
+      vehicle,
+      vehicleYear,
+      lot,
+      vin,
+      color,
+      plate,
+    }: OrderCreateVehicleParams) =>
+      Orders.addOrderVehicle({
+        order,
+        vehicle,
+        vehicleYear,
+        lot,
+        vin,
+        color,
+        plate,
+      }),
     onSuccess: (data) => {
       queryClient.setQueryData(['orderCreateVehicle'], data);
       queryClient.invalidateQueries({ queryKey: ['orders'] });

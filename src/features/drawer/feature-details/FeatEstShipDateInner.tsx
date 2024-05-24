@@ -11,6 +11,10 @@ import {
 } from '../../leads/leadSlice';
 import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
 import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../../quotes/quoteSlice';
@@ -20,6 +24,7 @@ function FeatEstShipDateInner({ feature, keyValue }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
   let featureData;
 
@@ -29,6 +34,9 @@ function FeatEstShipDateInner({ feature, keyValue }: FeatItemInnerProps) {
       break;
     case 'quote':
       featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
       break;
     default:
       break;
@@ -53,6 +61,9 @@ function FeatEstShipDateInner({ feature, keyValue }: FeatItemInnerProps) {
           break;
         case 'quote':
           dispatch(updateQuoteField({ field: 'dateEstShip', value }));
+          break;
+        case 'order':
+          dispatch(updateOrderField({ field: 'dateEstShip', value }));
           break;
         default:
           break;
