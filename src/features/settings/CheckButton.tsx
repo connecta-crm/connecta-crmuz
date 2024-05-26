@@ -1,14 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-function CheckButton({ title, data }: { title: string }) {
+export default function CheckButton({
+  title,
+  type,
+}: {
+  title: string;
+  type: string;
+}) {
+  const localTitle = title.toLowerCase();
   const [active, setActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams);
+  const newSearchParams = new URLSearchParams(searchParams);
 
   const onChange = () => {
-    setSearchParams(data);
-    setActive(!active);
+    if (newSearchParams.has(type, localTitle)) {
+      newSearchParams.delete(type, localTitle);
+      setActive(false);
+    } else {
+      newSearchParams.append(type, localTitle);
+      setActive(true);
+    }
+    setSearchParams(newSearchParams);
   };
+
+  useEffect(() => {
+    if (newSearchParams.has(type, localTitle)) {
+      setActive(true);
+      return;
+    }
+    setActive(false);
+  }, [searchParams]);
 
   return (
     <button

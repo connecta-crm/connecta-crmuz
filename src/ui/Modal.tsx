@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 type ModalProps = {
   form?: FormInstance;
   title: string;
-  loading: boolean;
+  loading?: boolean;
   open: boolean;
   width: 'small' | 'middle' | 'large';
   padding: '0' | '15';

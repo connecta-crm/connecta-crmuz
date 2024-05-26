@@ -9,7 +9,7 @@ import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
-import { OrdersDataType } from '../../models/OrderDataType.ts';
+import { OrdersDataType } from '../../models/OrdersDataType.ts';
 import { useAppSelector } from '../../store/hooks';
 import { CONDITION_TYPES } from '../../utils/constants.ts';
 import Modal from '../Modal.tsx';
@@ -73,6 +73,7 @@ export default function OrdersModal({
       paymentTotalTariff: e.paymentTotalTariff,
       paymentReservation: e.paymentReservation,
       paymentCarrierPay: e.paymentCarrierPay,
+      locationType: e.locationType,
       cdNote: e.cdNote,
       cmNote: e.cmNote,
       user: user?.id,
@@ -318,6 +319,22 @@ export default function OrdersModal({
                   </InputCol>
                 </InputRow>
               </Delivery>
+              <FormControl title="Location type">
+                <FormItem
+                  className="m-0 w-100"
+                  name="locationType"
+                  // rules={[{ required: true, message: '' }]}
+                >
+                  <Select
+                    options={[
+                      { value: 'r2r', label: 'Residential to residential' },
+                      { value: 'r2b', label: 'Residential to business' },
+                      { value: 'b2r', label: 'Business to residential' },
+                      { value: 'b2b', label: 'Business to business' },
+                    ]}
+                  />
+                </FormItem>
+              </FormControl>
               <FormControl title="Trailer type" img={trailer}>
                 <Select
                   defaultValue=""
@@ -383,7 +400,11 @@ export default function OrdersModal({
                   name="paymentTotalTariff"
                   style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
-                  <Input placeholder="$0" type="number" />
+                  <Input
+                    placeholder="$0"
+                    type="number"
+                    style={{ padding: '5px 4px' }}
+                  />
                 </FormItem>
               </FormControl>
               <FormControl title="Reservation" img={reservation}>
@@ -391,7 +412,11 @@ export default function OrdersModal({
                   name="paymentReservation"
                   style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
-                  <Input type="number" placeholder="$0" />
+                  <Input
+                    type="number"
+                    placeholder="$0"
+                    style={{ padding: '5px 4px' }}
+                  />
                 </Form.Item>
               </FormControl>
               <FormControl title="Carrier pay" img={reservation}>
@@ -399,7 +424,11 @@ export default function OrdersModal({
                   name="paymentCarrierPay"
                   style={{ margin: '0px', width: '100%', minHeight: '0' }}
                 >
-                  <Input type="number" placeholder="$0" />
+                  <Input
+                    type="number"
+                    placeholder="$0"
+                    style={{ padding: '5px 4px' }}
+                  />
                 </Form.Item>
               </FormControl>
             </UpCollapse>

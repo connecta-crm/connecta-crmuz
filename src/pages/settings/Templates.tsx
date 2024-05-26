@@ -1,6 +1,6 @@
 import { Table } from 'antd';
-import TableHeader from '../../ui/table/TableHeader';
-import { UsersTableColumns, UsersTableData } from '../../utils/table';
+import TableHeader from '../../ui/TableHeader';
+import { UsersTableColumns } from '../../utils/table';
 type DataType = {
   key: string;
   name: string;
@@ -36,7 +36,7 @@ export default function Templates() {
             ...rowSelection,
           }}
           columns={UsersTableColumns}
-          dataSource={UsersTableData}
+          dataSource={[]}
         />
       </div>
     </div>
