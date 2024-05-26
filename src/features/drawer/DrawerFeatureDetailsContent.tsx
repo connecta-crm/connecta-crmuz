@@ -1,5 +1,6 @@
 import type { CollapseProps } from 'antd';
-import { Collapse } from 'antd';
+import { Collapse, Input } from 'antd';
+import { ChangeEvent } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import {
   LeadData,
@@ -441,10 +442,39 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       showArrow: false,
     },
+    // * CD/CM notes for ORDER
+    {
+      key: '10',
+      label: (
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex flex-column ">
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label required-label">Contact person</div>
+              <Input
+                value={'dsd'}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChange(e, 'originContactPerson')}
+              />
+            </div>
+          </div>
+        </div>
+      ),
+      showArrow: false,
+    },
   ];
 
+  function handleChange(e: ChangeEvent<HTMLInputElement>, arg1: string): void {
+    console.log(e, arg1);
+    throw new Error('Function not implemented.');
+  }
+
   const vehicleItems = renderVehicles();
-  const mergeItems = vehicleItems ? vehicleItems?.concat(items) : items;
+  const filteredItems = items.filter(
+    (item) => !(item.key === '9' && sourceType === 'order'),
+  );
+  const mergeItems = vehicleItems
+    ? vehicleItems?.concat(filteredItems)
+    : filteredItems;
 
   return (
     <div className="box-header-inner">
