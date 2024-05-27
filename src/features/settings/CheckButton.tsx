@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-export default function CheckButton({
-  title,
-  type,
-}: {
-  title: string;
-  type: string;
-}) {
+function CheckButton({ title, type }: { title: string; type: string }) {
   const localTitle = title.toLowerCase();
   const [active, setActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();

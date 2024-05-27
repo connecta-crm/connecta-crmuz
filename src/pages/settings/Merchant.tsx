@@ -1,6 +1,6 @@
 import { Table } from 'antd';
-import TableHeader from '../../ui/TableHeader';
 import { UsersTableColumns } from '../../utils/table';
+import TableHeader from '../../ui/table/TableHeader';
 type DataType = {
   key: string;
   name: string;
