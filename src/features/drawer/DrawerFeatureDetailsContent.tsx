@@ -319,6 +319,41 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       showArrow: false,
     },
     {
+      key: '05',
+      label: (
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Location type" icon="trailer" />
+            {openInnerPanels?.includes('05') ? (
+              <FeatItemOpen
+                keyValue="05"
+                feature={sourceType}
+                featureItemField="trailerType"
+                series={false}
+              />
+            ) : (
+              <FeatItemClose
+                feature={sourceType}
+                keyValue="05"
+                label={
+                  TRAILER_TYPES.find((type) => type.value === trailerType)
+                    ?.label
+                }
+                textWithBg={true}
+                series={false}
+              />
+            )}
+          </div>
+        </div>
+      ),
+      children: (
+        <DrawerFeatureRow>
+          <FeatTrailertypeInner feature={sourceType} keyValue="5" />
+        </DrawerFeatureRow>
+      ),
+      showArrow: false,
+    },
+    {
       key: '6',
       label: (
         <div className="detail detail-origin">
@@ -456,7 +491,8 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
 
   const filteredItems: CollapseProps['items'] = items.filter(
     (item) =>
-      !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order'),
+      !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order') &&
+      !(item.key === '6' && sourceType === 'order'),
   );
 
   const mergeItems = vehicleItems
