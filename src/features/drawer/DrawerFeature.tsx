@@ -8,6 +8,7 @@ import DrawerFeatureHeader from './DrawerFeatureHeader';
 import DrawerFeatureNotesContent from './DrawerFeatureNotesContent';
 import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
 import FeatPersonInner from './feature-details/FeatPersonInner';
+import DrawerFeaturePaymentContent from './DrawerFeaturePaymentContent';
 
 function DrawerLeft({ sourceType }: DrawerSourceType) {
   const { isEditPerson, isEditNotes, openMainPanels, onChangeMainCollapse } =
@@ -44,8 +45,48 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
       ) : (
         <DrawerFeaturePersonContent sourceType={sourceType} />
       ),
+      className: sourceType === 'order' ? 'feature-drawer__item' : '',
+    },
+    {
+      key: '400',
+      label: (
+        <DrawerFeatureHeader
+          keyValue={'400'}
+          sourceType={sourceType}
+          label="Payment"
+          value="payment"
+        />
+      ),
+      children: <DrawerFeaturePaymentContent sourceType={sourceType} />,
+      className: 'feature-drawer__item',
+    },
+    {
+      key: '500',
+      label: (
+        <DrawerFeatureHeader
+          keyValue={'500'}
+          sourceType={sourceType}
+          label="Date"
+          value="date"
+        />
+      ),
+      children: isEditPerson ? (
+        <div className="box-header-inner box-header-inner-single">
+          <FeatPersonInner sourceType={sourceType} />
+        </div>
+      ) : (
+        <DrawerFeaturePersonContent sourceType={sourceType} />
+      ),
+      className: 'feature-drawer__item',
     },
   ];
+
+  const keysToFilterForOrder: string[] = ['400', '500'];
+
+  const filteredItems: CollapseProps['items'] = items.filter(
+    (item) =>
+      !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order'),
+  );
 
   return (
     <>
@@ -56,21 +97,23 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
         ghost
         collapsible="header"
         expandIcon={DrawerArrowIcon}
-        items={items}
+        items={filteredItems}
       />
       <br />
-      <div className="px-10 drawer__feature-notes">
-        <DrawerFeatureHeader
-          keyValue={'300'}
-          sourceType={sourceType}
-          label="Notes from shipper"
-          value="notes"
-        />
-        <DrawerFeatureNotesContent
-          isEditNotes={isEditNotes}
-          sourceType={sourceType}
-        />
-      </div>
+      {sourceType !== 'order' && (
+        <div className="px-10 drawer__feature-notes">
+          <DrawerFeatureHeader
+            keyValue={'300'}
+            sourceType={sourceType}
+            label="Notes from shipper"
+            value="notes"
+          />
+          <DrawerFeatureNotesContent
+            isEditNotes={isEditNotes}
+            sourceType={sourceType}
+          />
+        </div>
+      )}
     </>
   );
 }
