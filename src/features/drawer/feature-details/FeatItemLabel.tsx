@@ -1,3 +1,5 @@
+import { classNames } from '../../../utils/helpers';
+
 type FeatItemLabelProps = {
   label: string;
   icon: string;
@@ -9,7 +11,14 @@ function FeatItemLabel({ label, icon }: FeatItemLabelProps) {
       <div className="detail__icon d-flex">
         <img src={`./img/drawer/${icon}.svg`} alt="" />
       </div>
-      <div className="detail__label ml-10">{label}</div>
+      <div
+        className={classNames(
+          icon !== 'none' ? 'ml-10' : 'ml-0',
+          'detail__label',
+        )}
+      >
+        {label}
+      </div>
     </div>
   );
 }

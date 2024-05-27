@@ -7,10 +7,12 @@ import { LeadData, QuoteData } from '../../models';
 import { SourceType } from '../../ui/Drawer';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 
+type ValueType = 'detail' | 'person' | 'payment' | 'date' | 'notes';
+
 type DrawerFeatureHeaderProps = {
   keyValue: string;
   label: string;
-  value: string;
+  value: ValueType;
   sourceType: SourceType;
 };
 
@@ -26,8 +28,12 @@ function DrawerFeatureHeader({
     onEditDetails,
     isEditPerson,
     isEditNotes,
+    isEditPayment,
+    isEditDate,
     onEditPerson,
     onEditNotes,
+    onEditPayment,
+    onEditDate,
     onChangeMainCollapse,
     onChangeInnerCollapse,
   } = useDrawerFeature();
@@ -82,6 +88,27 @@ function DrawerFeatureHeader({
     }
   };
 
+  // * PAYMENT (MAIN COLLAPSE)
+
+  const handleEditPayment = (keyValue: string) => {
+    // setFieldType('customer');
+    onEditPayment(true);
+    if (!openMainPanels.includes(keyValue)) {
+      onChangeMainCollapse(keyValue);
+    }
+    onChangeInnerCollapse(['30', '31', '32', '33', '34', '35']);
+  };
+
+  // * DATE (MAIN COLLAPSE)
+
+  const handleEditDate = (keyValue: string) => {
+    // setFieldType('customer');
+    onEditDate(true);
+    if (!openMainPanels.includes(keyValue)) {
+      onChangeMainCollapse(keyValue);
+    }
+  };
+
   const [isDataUpdated, setDataUpdated] = useState(false);
 
   const {
@@ -91,6 +118,7 @@ function DrawerFeatureHeader({
     error,
     updatedLeadData,
     updatedQuoteData,
+    updatedOrderData,
   } = useUpdateFeatureData({
     keyValue,
     feature,
@@ -117,13 +145,13 @@ function DrawerFeatureHeader({
 
   useEffect(() => {
     if (
-      (updatedLeadData || updatedQuoteData) &&
+      (updatedLeadData || updatedQuoteData || updatedOrderData) &&
       isDataUpdated &&
       !isLoading &&
       !error
     ) {
-      console.log('CLOSED');
       onEditPerson(false);
+      onEditDate(false);
       onEditNotes(false);
     }
   }, [
@@ -133,6 +161,7 @@ function DrawerFeatureHeader({
     error,
     updatedLeadData,
     updatedQuoteData,
+    updatedOrderData,
   ]);
 
   const Content = () => {
@@ -270,6 +299,111 @@ function DrawerFeatureHeader({
               onClick={(e) => {
                 e.stopPropagation();
                 handleEditNotes();
+              }}
+            >
+              <img src="./img/drawer/pen.svg" alt="" />
+            </div>
+          </>
+        );
+        break;
+      case 'payment':
+        element = isEditPayment ? (
+          <div className="detail__btns d-flex align-center pr-0">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onCancelFeature();
+                onChangeInnerCollapse([]);
+                setTimeout(() => {
+                  onEditPayment(false);
+                }, 300);
+              }}
+              block
+              size="small"
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="ml-10"
+              type="primary"
+              size="small"
+              disabled={isLoading}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSaveFeature();
+                setDataUpdated(true);
+              }}
+            >
+              {isLoading ? <LoadingOutlined /> : 'Save'}
+            </Button>
+          </div>
+        ) : (
+          <>
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              type="primary"
+              size="small"
+              danger
+            >
+              CD Price
+            </Button>
+            <div
+              className="box-header__edit ml-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditPayment(keyValue);
+              }}
+            >
+              <img src="./img/drawer/pen.svg" alt="" />
+            </div>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="box-header__more ml-10"
+            >
+              <img src="./img/drawer/more-2.svg" alt="" />
+            </div>
+          </>
+        );
+        break;
+      case 'date':
+        element = isEditDate ? (
+          <div className="detail__btns d-flex align-center pr-0">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onCancelFeature();
+                onEditDate(false);
+              }}
+              block
+              size="small"
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="ml-10"
+              type="primary"
+              size="small"
+              disabled={isLoading}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSaveFeature();
+                setDataUpdated(true);
+              }}
+            >
+              {isLoading ? <LoadingOutlined /> : 'Save'}
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div
+              className="box-header__edit ml-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditDate(keyValue);
               }}
             >
               <img src="./img/drawer/pen.svg" alt="" />

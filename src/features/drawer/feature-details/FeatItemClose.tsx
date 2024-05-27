@@ -35,17 +35,20 @@ function FeatItemClose({
           'detail__text',
         )}
       >
-        <Tooltip
-          placement="left"
-          color="#ddf2fd"
-          overlayInnerStyle={{
-            color: '#000',
-            display: tooltip ? 'inherit' : 'none',
-          }}
-          title={label}
-        >
-          {label}
-        </Tooltip>
+        {tooltip ? (
+          <Tooltip
+            placement="left"
+            color="#ddf2fd"
+            overlayInnerStyle={{
+              color: '#000',
+            }}
+            title={label}
+          >
+            {label}
+          </Tooltip>
+        ) : (
+          <span>{label}</span>
+        )}
       </div>
       <div
         className="detail__right_actions d-flex align-center"

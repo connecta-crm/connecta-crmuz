@@ -3,16 +3,23 @@ import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { DrawerSourceType } from '../../ui/Drawer';
 import DrawerArrowIcon from './DrawerArrowIcon';
+import DrawerFeatureDateContent from './DrawerFeatureDateContent';
 import DrawerFeatureDetailsContent from './DrawerFeatureDetailsContent';
 import DrawerFeatureHeader from './DrawerFeatureHeader';
 import DrawerFeatureNotesContent from './DrawerFeatureNotesContent';
-import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
-import FeatPersonInner from './feature-details/FeatPersonInner';
 import DrawerFeaturePaymentContent from './DrawerFeaturePaymentContent';
+import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
+import FeatDateInner from './feature-date/FeatDateInner';
+import FeatPersonInner from './feature-details/FeatPersonInner';
 
 function DrawerLeft({ sourceType }: DrawerSourceType) {
-  const { isEditPerson, isEditNotes, openMainPanels, onChangeMainCollapse } =
-    useDrawerFeature();
+  const {
+    isEditPerson,
+    isEditNotes,
+    isEditDate,
+    openMainPanels,
+    onChangeMainCollapse,
+  } = useDrawerFeature();
 
   const items: CollapseProps['items'] = [
     {
@@ -70,12 +77,12 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
           value="date"
         />
       ),
-      children: isEditPerson ? (
+      children: isEditDate ? (
         <div className="box-header-inner box-header-inner-single">
-          <FeatPersonInner sourceType={sourceType} />
+          <FeatDateInner sourceType={sourceType} />
         </div>
       ) : (
-        <DrawerFeaturePersonContent sourceType={sourceType} />
+        <DrawerFeatureDateContent sourceType={sourceType} />
       ),
       className: 'feature-drawer__item',
     },
