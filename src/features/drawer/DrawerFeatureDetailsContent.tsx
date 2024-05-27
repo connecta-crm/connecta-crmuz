@@ -1,6 +1,5 @@
 import type { CollapseProps } from 'antd';
-import { Collapse, Input } from 'antd';
-import { ChangeEvent } from 'react';
+import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import {
   LeadData,
@@ -24,6 +23,7 @@ import { getOrderData } from '../orders/orderSlice';
 import { getQuoteData } from '../quotes/quoteSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
 import ArrowIcon from './feature-details/ArrowIcon';
+import FeatCDCMNotes from './feature-details/FeatCDCMNotes';
 import FeatConditionInner from './feature-details/FeatConditionInner';
 import FeatDestinationInner from './feature-details/FeatDestinationInner';
 import FeatEstShipDateInner from './feature-details/FeatEstShipDateInner';
@@ -444,34 +444,21 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
     },
     // * CD/CM notes for ORDER
     {
-      key: '10',
-      label: (
-        <div className="detail detail-origin">
-          <div className="detail__header d-flex flex-column ">
-            <div className="d-flex justify-between mb-5">
-              <div className="form-label required-label">Contact person</div>
-              <Input
-                value={'dsd'}
-                style={{ width: 218, float: 'inline-end', height: 24 }}
-                onChange={(e) => handleChange(e, 'originContactPerson')}
-              />
-            </div>
-          </div>
-        </div>
-      ),
+      key: '13',
+      label: <FeatCDCMNotes keyValue="13" sourceType={sourceType} />,
       showArrow: false,
+      className: 'detail__cdcm-note',
     },
   ];
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>, arg1: string): void {
-    console.log(e, arg1);
-    throw new Error('Function not implemented.');
-  }
-
   const vehicleItems = renderVehicles();
-  const filteredItems = items.filter(
-    (item) => !(item.key === '9' && sourceType === 'order'),
+  const keysToFilterForOrder: string[] = ['9', '13'];
+
+  const filteredItems: CollapseProps['items'] = items.filter(
+    (item) =>
+      !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order'),
   );
+
   const mergeItems = vehicleItems
     ? vehicleItems?.concat(filteredItems)
     : filteredItems;

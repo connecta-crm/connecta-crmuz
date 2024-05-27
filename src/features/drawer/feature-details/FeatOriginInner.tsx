@@ -1,7 +1,6 @@
 import { Input, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
-import { LeadData, OrderData, QuoteData } from '../../../models';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import HighlightedWord from '../../../ui/HighlightedWord';
 import { useCities } from '../../address/useCities';
@@ -19,8 +18,7 @@ import {
   updateField as updateQuoteField,
 } from '../../quotes/quoteSlice';
 import { FeatItemInnerProps } from './FeatConditionInner';
-
-type FeatureData = LeadData | QuoteData | OrderData;
+import { FeatureData } from './FeatDestinationInner';
 
 function FeatOriginInner({ feature }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();

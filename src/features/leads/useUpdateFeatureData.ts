@@ -214,7 +214,6 @@ export function useUpdateFeatureData({
         dispatch(resetLeadField({ field }));
         break;
       case 'quote':
-        console.log('field', field);
         dispatch(resetQuoteField({ field }));
         break;
       case 'order':

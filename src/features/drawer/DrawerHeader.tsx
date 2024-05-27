@@ -14,6 +14,10 @@ import {
 } from '../leads/leadSlice';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../orders/orderSlice';
+import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../quotes/quoteSlice';
@@ -56,6 +60,7 @@ function DrawerHeader({
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
   let featureData;
 
@@ -65,6 +70,9 @@ function DrawerHeader({
       break;
     case 'quote':
       featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
       break;
     default:
       break;
@@ -94,6 +102,9 @@ function DrawerHeader({
         break;
       case 'quote':
         dispatch(updateQuoteField({ field: 'status', value }));
+        break;
+      case 'order':
+        dispatch(updateOrderField({ field: 'status', value }));
         break;
       default:
         break;

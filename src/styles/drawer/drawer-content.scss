@@ -124,6 +124,9 @@
       }
     }
   }
+  .ant-collapse-ghost > .ant-collapse-item.detail__cdcm-note:hover {
+    background-color: inherit !important;
+  }
   .ant-collapse.ant-collapse-icon-position-end
     > .ant-collapse-item
     > .ant-collapse-header
@@ -229,6 +232,7 @@
 .form-label {
   position: relative;
   padding-left: 9px;
+  font-size: 14px;
   &.required-label {
     padding-left: 0;
     &::before {

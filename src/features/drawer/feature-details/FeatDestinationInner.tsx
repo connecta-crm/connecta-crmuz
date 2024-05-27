@@ -20,7 +20,7 @@ import {
 } from '../../quotes/quoteSlice';
 import { FeatItemInnerProps } from './FeatConditionInner';
 
-type FeatureData = LeadData | QuoteData | OrderData;
+export type FeatureData = LeadData | QuoteData | OrderData;
 
 function FeatDestinationInner({ feature }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();

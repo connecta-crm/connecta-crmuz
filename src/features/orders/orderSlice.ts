@@ -76,6 +76,9 @@ export const orderSlice = createSlice({
 export const getOrderData = (state: { order: OrderState }) =>
   state.order.orderData;
 
+export const getInitialOrderData = (state: { order: OrderState }) =>
+  state.order.initialOrderData;
+
 export const { setOrderData, updateField, updateVehicleField, resetField } =
   orderSlice.actions;
 
