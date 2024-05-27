@@ -4,6 +4,7 @@ import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerSourceType } from '../../ui/Drawer';
 import { getLeadData } from '../leads/leadSlice';
+import { getOrderData } from '../orders/orderSlice';
 import { getQuoteData } from '../quotes/quoteSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
 import FeatItemClose from './feature-details/FeatItemClose';
@@ -26,6 +27,11 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
     customerPhone: customerPhoneQuote,
     customer: customerQuote,
   } = useAppSelector(getQuoteData);
+  const {
+    customerName: customerNameOrder,
+    customerPhone: customerPhoneOrder,
+    customer: customerOrder,
+  } = useAppSelector(getOrderData);
 
   let customerName, customerPhone, customer;
 
@@ -40,7 +46,11 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
       customerPhone = customerPhoneQuote;
       customer = customerQuote;
       break;
-
+    case 'order':
+      customerName = customerNameOrder;
+      customerPhone = customerPhoneOrder;
+      customer = customerOrder;
+      break;
     default:
       break;
   }
@@ -72,7 +82,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatPersonNameInner />
+          <FeatPersonNameInner keyValue="10" feature={sourceType} />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -103,7 +113,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatPersonEmailInner />
+          <FeatPersonEmailInner keyValue="11" feature={sourceType} />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -134,7 +144,7 @@ function DrawerFeaturePersonContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatPersonPhoneInner />
+          <FeatPersonPhoneInner keyValue="12" feature={sourceType} />
         </DrawerFeatureRow>
       ),
       showArrow: false,

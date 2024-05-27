@@ -63,7 +63,6 @@ function FeatCDCMNotes({ keyValue, sourceType }: FeatCDCMNotesProps) {
         cdLoading: false,
         cmLoading: false,
       });
-      console.log('Loaded');
     }
   }, [updatedOrderData, isLoading]);
 

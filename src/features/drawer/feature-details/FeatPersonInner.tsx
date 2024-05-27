@@ -9,6 +9,10 @@ import {
   updateField as updateLeadField,
 } from '../../leads/leadSlice';
 import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../../quotes/quoteSlice';
@@ -22,16 +26,22 @@ type SearchInput = {
 
 function FeatPersonInner({ sourceType }: DrawerSourceType) {
   const dispatch = useAppDispatch();
+
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
   let data;
+
   switch (sourceType) {
     case 'lead':
       data = leadData;
       break;
     case 'quote':
       data = quoteData;
+      break;
+    case 'order':
+      data = orderData;
       break;
     default:
       break;
@@ -64,6 +74,9 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
           break;
         case 'quote':
           dispatch(updateQuoteField({ field: 'customer', value: option.data }));
+          break;
+        case 'order':
+          dispatch(updateOrderField({ field: 'customer', value: option.data }));
           break;
         default:
           break;
