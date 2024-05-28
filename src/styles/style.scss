@@ -136,3 +136,35 @@ $color-white: #ffffff;
 }
 
 /* ========================================= MAIN CONTENT =========================================================================*/
+
+
+// .App {
+//   display: flex;
+//   justify-content: center;
+//   align-items: flex-start;
+//   margin-top: 50px;
+// }
+
+.column {
+  width: 250px;
+  margin: 0 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.task-list {
+  min-height: 100px;
+  padding: 8px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
+
+.task {
+  margin-bottom: 8px;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

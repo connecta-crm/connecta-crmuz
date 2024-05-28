@@ -8,5 +8,7 @@ export interface RolsTableDataType {
   accessName?: string;
   accessStatus?: string;
   includedUsers?:RolsUsersType[]
-  includedFeatures?:RolsUsersType[]
+  firstName?:string
+  // includedFeatures?:RolsUsersType[]
+  includedFeatures:number[]
 }

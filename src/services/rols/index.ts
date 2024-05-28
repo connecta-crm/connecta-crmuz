@@ -28,6 +28,18 @@ class Rols {
     }
   }
 
+  async getFeature() {
+    try {
+      const { data } = await this.$api.get("/users/feature/");
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // POST: /quote/:guid/create/
   async createRols(role: RolsTableDataType) {
     try {

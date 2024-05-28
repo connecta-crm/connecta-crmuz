@@ -5,6 +5,7 @@ export type TeamUsersType = {
   lastName: string;
 };
 export interface TeamsTableDataType {
+  id:number|null
   name: string;
   status?: string;
   createdAt?: string;

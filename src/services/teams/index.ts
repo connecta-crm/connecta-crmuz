@@ -28,10 +28,34 @@ class Team {
     }
   }
 
+  async getTeamDetails(id:number|null) {
+    try {
+      const { data } = await this.$api.get(`users/team/detail/${id}/` );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
 
   async createTeam(team:TeamsTableDataType) {
     try {
       const { data } = await this.$api.post('users/team/create/', team);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async updateTeam(team:TeamsTableDataType) {
+    try {
+      const { data } = await this.$api.put(`users/team/update/${team.id}`, team);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
