@@ -7,9 +7,9 @@ import {
   OrderVehicle,
   RevertFieldAction,
   Source,
-  initialOrderData,
   orderData,
 } from '../../models';
+import initialOrderData from '../../models/OrderDataType';
 import { setNestedObjectValue } from '../leads/leadSlice';
 
 type UpdateVehicleFieldAction<T extends keyof OrderVehicle> = {

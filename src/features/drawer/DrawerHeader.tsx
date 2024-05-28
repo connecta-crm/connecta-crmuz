@@ -28,6 +28,7 @@ function DrawerHeader({
   sourceType: feature,
   loadingItem,
   onOpenDrawer,
+  onOpenCarrier,
 }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
 
@@ -234,6 +235,20 @@ function DrawerHeader({
               {feature === 'quote' && (
                 <Button className="" type="primary">
                   Convert to order
+                </Button>
+              )}
+              {feature === 'order' && (
+                <Button
+                  className=""
+                  style={{ backgroundColor: 'rgba(221, 242, 253, 1)' }}
+                  onClick={onOpenCarrier}
+                >
+                  Ready
+                </Button>
+              )}
+              {feature === 'order' && (
+                <Button className="ml-10" type="primary">
+                  Post to CD
                 </Button>
               )}
               <Button

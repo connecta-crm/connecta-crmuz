@@ -9,6 +9,10 @@ type ModalProps = {
   open: boolean;
   width: 'small' | 'middle' | 'large';
   padding: '0' | '15';
+  saveBtnDanger?: boolean;
+  saveBtnText?: 'Save' | 'Archived' | string;
+  hasSaveBtn?: boolean;
+  extraBtnToHeader?: ReactNode;
   children: ReactNode;
   onSave?: () => void;
   onCancel: () => void;
@@ -23,6 +27,10 @@ function Modal({
   width = 'small',
   onSave,
   onCancel,
+  extraBtnToHeader,
+  saveBtnDanger = false,
+  saveBtnText = 'Save',
+  hasSaveBtn = true,
   children,
 }: ModalProps) {
   const modalWidth = width === 'small' ? 420 : width === 'middle' ? 840 : 915;
@@ -37,19 +45,20 @@ function Modal({
             <Button size="small" onClick={onCancel}>
               Cancel
             </Button>
-            {form ? (
+            {hasSaveBtn && form ? (
               <Button
                 size="small"
                 type="primary"
                 className="ml-10"
                 disabled={loading}
                 onClick={form.submit}
+                danger={saveBtnDanger}
               >
                 {!loading ? (
-                  'Save'
+                  saveBtnText
                 ) : (
                   <>
-                    Save <LoadingOutlined />
+                    saveBtnText <LoadingOutlined />
                   </>
                 )}
               </Button>
@@ -60,16 +69,18 @@ function Modal({
                 className="ml-10"
                 disabled={loading}
                 onClick={onSave}
+                danger={saveBtnDanger}
               >
                 {!loading ? (
-                  'Save'
+                  saveBtnText
                 ) : (
                   <>
-                    Save <LoadingOutlined />
+                    saveBtnText <LoadingOutlined />
                   </>
                 )}
               </Button>
             )}
+            {extraBtnToHeader ? extraBtnToHeader : null}
           </div>
         </div>
       }

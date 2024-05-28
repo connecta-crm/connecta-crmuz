@@ -14,9 +14,9 @@ import {
   Source,
   User,
   Vehicle,
-  initialLeadData,
   leadData,
 } from '../../models';
+import initialLeadData from '../../models/LeadDataType';
 
 type UpdateVehicleFieldAction<T extends keyof LeadVehicle> = {
   vehicleIndex: number;

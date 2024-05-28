@@ -1,17 +1,7 @@
 .drawer {
   @include flexbox();
   background: #fafafa;
-  .ant-collapse-item {
-    .arrow-icon {
-      width: 14px;
-      @include anim(0.3s, 0s);
-    }
-    &.ant-collapse-item-active {
-      .arrow-icon {
-        transform: rotate(180deg);
-      }
-    }
-  }
+
   .ant-collapse-header-text {
     color: #21232c;
     font-size: 16px;
@@ -45,6 +35,18 @@
   .feature-drawer__item {
     border-bottom: 1px solid rgba(209, 209, 209, 1);
     border-radius: 0 !important;
+  }
+}
+// custom arrow-icon for collapse
+.ant-collapse-item {
+  .arrow-icon {
+    width: 14px;
+    @include anim(0.3s, 0s);
+  }
+  &.ant-collapse-item-active {
+    .arrow-icon {
+      transform: rotate(180deg);
+    }
   }
 }
 /* ==================================================================================================================*/

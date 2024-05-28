@@ -3,7 +3,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { DrawerSourceType } from '../../../ui/Drawer';
-import { useCustomers } from '../../customers/useCostumers';
+import { useCarriers } from '../../carriers/useCarriers';
 import {
   getOrderData,
   updateField as updateOrderField,
@@ -25,18 +25,6 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
       break;
   }
 
-  // const handleChange = (field: string, value: string | string[]) => {
-  //   if (!Array.isArray(value)) {
-  //     switch (sourceType) {
-  //       case 'order':
-  //         dispatch(updateOrderField({ field, value }));
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   }
-  // };
-
   const [isSelect, setSelect] = useState(false);
 
   const [searchSelect, setSearchSelect] = useState<SearchInput>({
@@ -44,7 +32,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
     value: '',
   });
 
-  const { customers, isFetching: isLoading } = useCustomers(isSelect, {
+  const { carriers, isFetching: isLoading } = useCarriers(isSelect, {
     [searchSelect.type || 'name']: searchSelect.value,
   });
 
@@ -83,7 +71,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           showSearch
           optionFilterProp="children"
           filterOption={false}
-          placeholder="Search name"
+          placeholder="Search company"
           defaultValue={data.customer.name}
           value={data.customer.name}
           onChange={handleChange}
@@ -94,7 +82,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           notFoundContent={
             isLoading ? <Spin size="small" /> : 'No such company '
           }
-          options={(customers || []).map((d: { id: number; name: string }) => ({
+          options={(carriers || []).map((d: { id: number; name: string }) => ({
             value: d.id,
             data: d,
             label: d.name,

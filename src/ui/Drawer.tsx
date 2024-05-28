@@ -20,6 +20,7 @@ export type DrawerProps = {
   loadingItem: boolean;
   sourceType: SourceType;
   onOpenDrawer: (guid: string) => void;
+  onOpenCarrier?: () => void;
 };
 
 function DrawerApp({
@@ -27,6 +28,7 @@ function DrawerApp({
   loadingItem,
   sourceType,
   onOpenDrawer,
+  onOpenCarrier,
 }: DrawerProps) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
@@ -41,6 +43,7 @@ function DrawerApp({
             dataSource={dataSource} // todo
             loadingItem={loadingItem}
             onOpenDrawer={onOpenDrawer}
+            onOpenCarrier={onOpenCarrier}
           />
         }
         placement="right"

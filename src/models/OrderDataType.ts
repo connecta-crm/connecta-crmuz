@@ -184,7 +184,7 @@ export const orderData = {
   cmNote: '',
 };
 
-export const initialOrderData = {
+const initialOrderData = {
   id: 0,
   carrier: 0,
   customerName: '',
@@ -235,3 +235,5 @@ export const initialOrderData = {
   cdNote: '',
   cmNote: '',
 };
+
+export default initialOrderData;
