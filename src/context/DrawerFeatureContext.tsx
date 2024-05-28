@@ -27,11 +27,13 @@ type DrawerFeatureContextType = {
   isEditNotes: boolean;
   isEditPayment: boolean;
   isEditDate: boolean;
+  isEditCarrierInfo: boolean;
   onEditDetails: (e: boolean) => void;
   onEditPerson: (e: boolean) => void;
   onEditNotes: (e: boolean) => void;
   onEditPayment: (e: boolean) => void;
   onEditDate: (e: boolean) => void;
+  onEditCarrierInfo: (e: boolean) => void;
   onNextElement: (e: boolean) => void;
   onPrevElement: (e: boolean) => void;
   onChangeMainCollapse: (e: string[] | string) => void;
@@ -55,6 +57,7 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const [isEditNotes, setEditNote] = useState(false);
   const [isEditPayment, setEditPayment] = useState(false);
   const [isEditDate, setEditDate] = useState(false);
+  const [isEditCarrierInfo, setEditCarrierInfo] = useState(false);
 
   const [isOpenDrawer, setOpenDrawer] = useState(false);
   const [isFullScreen, setFullScreen] = useState(false);
@@ -88,6 +91,9 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   };
   const onEditDate = (value: boolean) => {
     setEditDate(value);
+  };
+  const onEditCarrierInfo = (value: boolean) => {
+    setEditCarrierInfo(value);
   };
 
   const onNextElement = (value: boolean) => {
@@ -150,10 +156,12 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         onEditNotes,
         onEditPayment,
         onEditDate,
+        onEditCarrierInfo,
         isEditPerson,
         isEditNotes,
         isEditPayment,
         isEditDate,
+        isEditCarrierInfo,
 
         onEditDetails,
         onChangeMainCollapse,

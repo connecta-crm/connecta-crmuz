@@ -25,3 +25,10 @@ export const TRAILER_TYPES = [
     value: 'enclosed',
   },
 ];
+
+export const LOCATION_TYPES = [
+  { value: 'r2r', label: 'Residential to residential' },
+  { value: 'r2b', label: 'Residential to business' },
+  { value: 'b2r', label: 'Business to residential' },
+  { value: 'b2b', label: 'Business to business' },
+];

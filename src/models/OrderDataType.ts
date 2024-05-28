@@ -56,6 +56,7 @@ export type OrdersDataType = {
 
 export type OrderData = {
   id: number;
+  carrier: number;
   customerName: string;
   customerPhone: string;
   originName: string;
@@ -73,6 +74,7 @@ export type OrderData = {
   price: number;
   condition: string;
   trailerType: string;
+  locationType: string;
   notes: string;
   reservationPrice: number;
   dateEstShip: string;
@@ -132,6 +134,7 @@ export type OrderState = {
 
 export const orderData = {
   id: 0,
+  carrier: 0,
   customerName: '',
   customerPhone: '',
   originName: '',
@@ -149,6 +152,7 @@ export const orderData = {
   price: 0,
   condition: '',
   trailerType: '',
+  locationType: '',
   notes: '',
   reservationPrice: 0,
   dateEstShip: '',
@@ -182,6 +186,7 @@ export const orderData = {
 
 export const initialOrderData = {
   id: 0,
+  carrier: 0,
   customerName: '',
   customerPhone: '',
   originName: '',
@@ -199,6 +204,7 @@ export const initialOrderData = {
   price: 0,
   condition: '',
   trailerType: '',
+  locationType: '',
   notes: '',
   reservationPrice: 0,
   dateEstShip: '',

@@ -7,7 +7,13 @@ import { LeadData, QuoteData } from '../../models';
 import { SourceType } from '../../ui/Drawer';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 
-type ValueType = 'detail' | 'person' | 'payment' | 'date' | 'notes';
+type ValueType =
+  | 'detail'
+  | 'person'
+  | 'payment'
+  | 'date'
+  | 'notes'
+  | 'carrier-company';
 
 type DrawerFeatureHeaderProps = {
   keyValue: string;
@@ -30,10 +36,12 @@ function DrawerFeatureHeader({
     isEditNotes,
     isEditPayment,
     isEditDate,
+    isEditCarrierInfo,
     onEditPerson,
     onEditNotes,
     onEditPayment,
     onEditDate,
+    onEditCarrierInfo,
     onChangeMainCollapse,
     onChangeInnerCollapse,
   } = useDrawerFeature();
@@ -104,6 +112,16 @@ function DrawerFeatureHeader({
   const handleEditDate = (keyValue: string) => {
     // setFieldType('customer');
     onEditDate(true);
+    if (!openMainPanels.includes(keyValue)) {
+      onChangeMainCollapse(keyValue);
+    }
+  };
+
+  // * CARRIER INFO (MAIN COLLAPSE)
+
+  const handleEditCarrierInfo = (keyValue: string) => {
+    // setFieldType('customer');
+    onEditCarrierInfo(true);
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
     }
@@ -404,6 +422,49 @@ function DrawerFeatureHeader({
               onClick={(e) => {
                 e.stopPropagation();
                 handleEditDate(keyValue);
+              }}
+            >
+              <img src="./img/drawer/pen.svg" alt="" />
+            </div>
+          </>
+        );
+        break;
+      case 'carrier-company':
+        element = isEditCarrierInfo ? (
+          <div className="detail__btns d-flex align-center pr-0">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onCancelFeature();
+                onEditCarrierInfo(false);
+              }}
+              block
+              size="small"
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="ml-10"
+              type="primary"
+              size="small"
+              disabled={isLoading}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSaveFeature();
+                setDataUpdated(true);
+              }}
+            >
+              {isLoading ? <LoadingOutlined /> : 'Save'}
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div
+              className="box-header__edit ml-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditCarrierInfo(keyValue);
               }}
             >
               <img src="./img/drawer/pen.svg" alt="" />

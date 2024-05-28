@@ -11,12 +11,15 @@ import DrawerFeaturePaymentContent from './DrawerFeaturePaymentContent';
 import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
 import FeatDateInner from './feature-date/FeatDateInner';
 import FeatPersonInner from './feature-details/FeatPersonInner';
+import FeatCarrierInfoInner from './feature-date/FeatCarrierInfoInner';
+import DrawerFeatureCarrierInfoContent from './DrawerFeatureCarrierInfoContent';
 
 function DrawerLeft({ sourceType }: DrawerSourceType) {
   const {
     isEditPerson,
     isEditNotes,
     isEditDate,
+    isEditCarrierInfo,
     openMainPanels,
     onChangeMainCollapse,
   } = useDrawerFeature();
@@ -86,9 +89,28 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
       ),
       className: 'feature-drawer__item',
     },
+    {
+      key: '600',
+      label: (
+        <DrawerFeatureHeader
+          keyValue={'600'}
+          sourceType={sourceType}
+          label="Carrier company info"
+          value="carrier-company"
+        />
+      ),
+      children: isEditCarrierInfo ? (
+        <div className="box-header-inner box-header-inner-single">
+          <FeatCarrierInfoInner sourceType={sourceType} />
+        </div>
+      ) : (
+        <DrawerFeatureCarrierInfoContent sourceType={sourceType} />
+      ),
+      className: 'feature-drawer__item',
+    },
   ];
 
-  const keysToFilterForOrder: string[] = ['400', '500'];
+  const keysToFilterForOrder: string[] = ['400', '500', '600'];
 
   const filteredItems: CollapseProps['items'] = items.filter(
     (item) =>

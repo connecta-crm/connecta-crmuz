@@ -17,9 +17,9 @@ import {
   updateField as updateQuoteField,
 } from '../../quotes/quoteSlice';
 
-type SearchType = 'name' | 'email' | 'phone';
+export type SearchType = 'name' | 'email' | 'phone';
 
-type SearchInput = {
+export type SearchInput = {
   type: SearchType | null;
   value: string;
 };

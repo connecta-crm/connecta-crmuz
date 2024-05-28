@@ -11,7 +11,11 @@ import {
 } from '../../models';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerSourceType } from '../../ui/Drawer';
-import { CONDITION_TYPES, TRAILER_TYPES } from '../../utils/constants';
+import {
+  CONDITION_TYPES,
+  LOCATION_TYPES,
+  TRAILER_TYPES,
+} from '../../utils/constants';
 import { formatDate } from '../../utils/helpers';
 import { getLeadData } from '../leads/leadSlice';
 import {
@@ -35,6 +39,7 @@ import FeatSourceInner from './feature-details/FeatSourceInner';
 import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
+import FeatLocationtypeInner from './feature-details/FeatLocationtypeInner';
 
 const extractCommonData = (data: QuoteData | LeadData | OrderData) => {
   const {
@@ -48,7 +53,7 @@ const extractCommonData = (data: QuoteData | LeadData | OrderData) => {
     reservationPrice,
   } = data;
 
-  let leadVehicles, quoteVehicles, orderVehicles;
+  let leadVehicles, quoteVehicles, orderVehicles, locationType;
 
   if (isLeadData(data)) {
     leadVehicles = data.leadVehicles;
@@ -60,6 +65,7 @@ const extractCommonData = (data: QuoteData | LeadData | OrderData) => {
 
   if (isOrderData(data)) {
     orderVehicles = data.orderVehicles;
+    locationType = data.locationType;
   }
 
   return {
@@ -67,6 +73,7 @@ const extractCommonData = (data: QuoteData | LeadData | OrderData) => {
     originName,
     destinationName,
     trailerType,
+    locationType,
     dateEstShip,
     sourceName: source?.name,
     totalTariff,
@@ -106,6 +113,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
     originName,
     destinationName,
     trailerType,
+    locationType,
     dateEstShip,
     sourceName,
     totalTariff,
@@ -323,7 +331,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       label: (
         <div className="detail detail-origin">
           <div className="detail__header d-flex align-center justify-between">
-            <FeatItemLabel label="Location type" icon="trailer" />
+            <FeatItemLabel label="Location type" icon="origin" />
             {openInnerPanels?.includes('05') ? (
               <FeatItemOpen
                 keyValue="05"
@@ -336,10 +344,11 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 feature={sourceType}
                 keyValue="05"
                 label={
-                  TRAILER_TYPES.find((type) => type.value === trailerType)
+                  LOCATION_TYPES.find((type) => type.value === locationType)
                     ?.label
                 }
-                textWithBg={true}
+                textWithBg
+                tooltip
                 series={false}
               />
             )}
@@ -348,7 +357,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTrailertypeInner feature={sourceType} keyValue="5" />
+          <FeatLocationtypeInner feature={sourceType} keyValue="05" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -487,7 +496,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
   ];
 
   const vehicleItems = renderVehicles();
-  const keysToFilterForOrder: string[] = ['9', '13'];
+  const keysToFilterForOrder: string[] = ['9', '13', '05'];
 
   const filteredItems: CollapseProps['items'] = items.filter(
     (item) =>
