@@ -1,6 +1,7 @@
 import type { TransferProps } from 'antd';
 import { Transfer } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { RolsTableDataType } from './rolsTableDataType';
 import { useFeature } from './useFeature';
 
 interface RecordType {
@@ -10,37 +11,40 @@ interface RecordType {
 
 const RoleDnd = ({
   includedFeatures,
+  role,
+  disabled,
 }: {
   includedFeatures: (a: React.Key[]) => void;
+  role: RolsTableDataType;
+  disabled: boolean;
 }) => {
-  const { features } = useFeature(true);
+  const { features } = useFeature(role ? false : true);
 
   const mockData: RecordType[] = Array.from<{ id: number; name: string }>(
-    features ? features : [],
+    role
+      ? [...role.availableFeatures, ...role.includedFeatures]
+      : features
+        ? features
+        : [],
   ).map((item) => ({
     key: item.id,
     title: item.name,
   }));
 
-  const initialTargetKeys = mockData
-    .filter((item) => Number(item.key) > 10)
-    .map((item) => item.key);
+  const d = role?.includedFeatures.map((item) => item.id as React.Key);
 
-  const [targetKeys, setTargetKeys] =
-    useState<TransferProps['targetKeys']>(initialTargetKeys);
+  const [targetKeys, setTargetKeys] = useState<TransferProps['targetKeys']>(d);
   const [selectedKeys, setSelectedKeys] = useState<TransferProps['targetKeys']>(
     [],
   );
-
-  const onChange: TransferProps['onChange'] = (
-    nextTargetKeys,
-    direction,
-    moveKeys,
-  ) => {
-    console.log('targetKeys:', nextTargetKeys);
-    console.log('direction:', direction);
-    console.log('moveKeys:', moveKeys);
-    includedFeatures(moveKeys);
+  useEffect(() => {
+    if (role) {
+      includedFeatures(d);
+      setTargetKeys(d);
+    }
+  }, [role]);
+  const onChange: TransferProps['onChange'] = (nextTargetKeys) => {
+    includedFeatures(nextTargetKeys);
     setTargetKeys(nextTargetKeys);
   };
 
@@ -48,18 +52,12 @@ const RoleDnd = ({
     sourceSelectedKeys,
     targetSelectedKeys,
   ) => {
-    console.log('sourceSelectedKeys:', sourceSelectedKeys);
-    console.log('targetSelectedKeys:', targetSelectedKeys);
     setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
-  };
-
-  const onScroll: TransferProps['onScroll'] = (direction, e) => {
-    console.log('direction:', direction);
-    console.log('target:', e.target);
   };
 
   return (
     <Transfer
+      disabled={disabled}
       listStyle={{ height: 250 }}
       oneWay={false}
       dataSource={mockData}
@@ -68,7 +66,6 @@ const RoleDnd = ({
       selectedKeys={selectedKeys}
       onChange={onChange}
       onSelectChange={onSelectChange}
-      onScroll={onScroll}
       render={(item) => item.title}
     />
   );

@@ -4,7 +4,7 @@ export const RolsTableColumns = [
   {
     title: 'Name',
     dataIndex: 'accessName',
-    render: (name: string) => <a>{name}</a>,
+    render: (name: string) => <a className="table__id">{name}</a>,
   },
   {
     title: 'Users',

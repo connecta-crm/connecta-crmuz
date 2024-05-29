@@ -9,7 +9,6 @@ export default function Teams() {
 
   const { team, isLoadingTeam } = useTeamsDetails(editId);
   const { teams, isLoading } = useTeams(true);
-  console.log(teams);
 
   useEffect(() => {
     if (team) {

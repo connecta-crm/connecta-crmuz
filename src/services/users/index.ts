@@ -28,6 +28,29 @@ class Users {
     }
   }
 
+  async getUserDetails(id: number | null) {
+    try {
+      const { data } = await this.$api.get(`users/detail/${id}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+  async updateUser(user: UsersTableDataType) {
+    try {
+      const { data } = await this.$api.put(`users/update/${user.id}`, user);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // POST: /quote/:guid/create/
   async createUser(user: UsersTableDataType) {
     try {

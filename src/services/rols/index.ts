@@ -28,6 +28,32 @@ class Rols {
     }
   }
 
+  async getRoleDetails(id:number|null) {
+    try {
+      const { data } = await this.$api.get(`users/role/detail/${id}/` );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+
+  async updateRole(role:RolsTableDataType) {
+    try {
+      const { data } = await this.$api.put(`users/role/update/${role.id}`, role);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+
   async getFeature() {
     try {
       const { data } = await this.$api.get("/users/feature/");

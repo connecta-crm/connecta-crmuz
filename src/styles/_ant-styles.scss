@@ -52,6 +52,9 @@ a.ant-dropdown-trigger {
   font-size: 16px;
   font-weight: 600;
 }
+:where(.css-dev-only-do-not-override-1qfezbu).ant-transfer .ant-transfer-list-header-title{
+  text-align: start !important;
+}
 :where(.css-dev-only-do-not-override-1qfezbu).ant-transfer .ant-transfer-list-content-item-text{
 font-size: 14px;
 font-weight: 400;

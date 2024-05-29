@@ -2,9 +2,9 @@ import { UsersTableDataType } from "./usersTableDataType";
 
 export const UsersTableColumn = [
   {
-    title: 'User name',
-    dataIndex: 'username',
-    render: (name: string,recored:UsersTableDataType) => <a>{name ? name : recored?.id}</a>,
+    title: 'Email',
+    dataIndex: 'email',
+    render: (name: string,recored:UsersTableDataType) => <a className="table__id">{name ? name : recored?.id}</a>,
   },
   {
     title: 'First name',
@@ -18,15 +18,15 @@ export const UsersTableColumn = [
     title: 'Access role',
     dataIndex: 'accessRole',
   },
-  {
-    title: 'Team',
-    dataIndex: 'team',
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: 'Position',
-    dataIndex: 'positionName',
-  },
+  // {
+  //   title: 'Team',
+  //   dataIndex: 'team',
+  //   render: (text: string) => <a>{text}</a>,
+  // },
+  // {
+  //   title: 'Position',
+  //   dataIndex: 'positionName',
+  // },
   {
     title: 'Status',
     dataIndex: 'isActive',
