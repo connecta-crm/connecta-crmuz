@@ -3,6 +3,13 @@ import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { DrawerSourceType } from '../../../ui/Drawer';
+import {
+  DISPATCH_CODE_METHOD,
+  DISPATCH_PAID_BY,
+  DISPATCH_PAYMENT_TERM,
+  DISPATCH_PAYMENT_TYPE,
+  DISPATCH_TERM_BEGINS,
+} from '../../../utils/constants';
 import { useCarriers } from '../../carriers/useCarriers';
 import {
   getOrderData,
@@ -61,6 +68,32 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
     }
   };
 
+  const handleChangeDispatch = (
+    field: string,
+    option:
+      | {
+          value: string;
+          label: string;
+        }
+      | { value: string; label: string }[],
+  ) => {
+    if (!Array.isArray(option)) {
+      const { value } = option;
+      switch (sourceType) {
+        case 'order':
+          dispatch(
+            updateOrderField({
+              field,
+              value,
+            }),
+          );
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   if (!data) {
     return;
   }
@@ -73,6 +106,21 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
     dispatchPaymentType,
     dispatchTermBegins,
   } = data.dispatchData;
+
+  // const handleChangeInput = (field: string, value: string) => {
+  //   switch (sourceType) {
+  //     case 'order':
+  //       dispatch(
+  //         updateOrderField({
+  //           field,
+  //           value,
+  //         }),
+  //       );
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <>
@@ -156,55 +204,70 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
         <div className="d-flex">
           <div className="form-label pl-0">Will be paid by</div>
         </div>
-        <Input
+        <Select
           value={dispatchPaidBy || ''}
-          size="small"
-          disabled
+          defaultValue={dispatchPaidBy || ''}
           style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(_, record) =>
+            handleChangeDispatch('dispatchData.dispatchPaidBy', record)
+          }
+          options={DISPATCH_PAID_BY}
         />
       </div>
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
           <div className="form-label pl-0">Payment Term</div>
         </div>
-        <Input
+        <Select
           value={dispatchPaymentTerm || ''}
-          size="small"
-          disabled
+          defaultValue={dispatchPaymentTerm || ''}
           style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(_, record) =>
+            handleChangeDispatch('dispatchData.dispatchPaymentTerm', record)
+          }
+          options={DISPATCH_PAYMENT_TERM}
         />
       </div>
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
           <div className="form-label pl-0">Term Begins</div>
         </div>
-        <Input
+        <Select
           value={dispatchTermBegins || ''}
-          size="small"
-          disabled
+          defaultValue={dispatchTermBegins || ''}
           style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(_, record) =>
+            handleChangeDispatch('dispatchData.dispatchTermBegins', record)
+          }
+          options={DISPATCH_TERM_BEGINS}
         />
       </div>
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
           <div className="form-label pl-0">COD method</div>
         </div>
-        <Input
+        <Select
           value={dispatchCodMethod || ''}
-          size="small"
-          disabled
+          defaultValue={dispatchCodMethod || ''}
           style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(_, record) =>
+            handleChangeDispatch('dispatchData.dispatchCodMethod', record)
+          }
+          options={DISPATCH_CODE_METHOD}
         />
       </div>
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
           <div className="form-label pl-0">Payment type</div>
         </div>
-        <Input
+        <Select
           value={dispatchPaymentType || ''}
-          size="small"
-          disabled
+          defaultValue={dispatchPaymentType || ''}
           style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(_, record) =>
+            handleChangeDispatch('dispatchData.dispatchPaymentType', record)
+          }
+          options={DISPATCH_PAYMENT_TYPE}
         />
       </div>
     </>

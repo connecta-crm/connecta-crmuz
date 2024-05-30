@@ -4,6 +4,13 @@ import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { DispatchData } from '../../models';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerSourceType } from '../../ui/Drawer';
+import {
+  DISPATCH_CODE_METHOD,
+  DISPATCH_PAID_BY,
+  DISPATCH_PAYMENT_TERM,
+  DISPATCH_PAYMENT_TYPE,
+  DISPATCH_TERM_BEGINS,
+} from '../../utils/constants';
 import { getOrderData } from '../orders/orderSlice';
 import FeatItemClose from './feature-details/FeatItemClose';
 import FeatItemLabel from './feature-details/FeatItemLabel';
@@ -183,7 +190,10 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="614"
-                label={String(dispatchPaidBy || '-')}
+                label={
+                  DISPATCH_PAID_BY.find((item) => item.value === dispatchPaidBy)
+                    ?.label || '-'
+                }
                 editable={false}
               />
             )}
@@ -208,7 +218,11 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="615"
-                label={String(dispatchPaymentTerm || '-')}
+                label={
+                  DISPATCH_PAYMENT_TERM.find(
+                    (item) => item.value === dispatchPaymentTerm,
+                  )?.label || '-'
+                }
                 editable={false}
               />
             )}
@@ -233,7 +247,11 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="616"
-                label={String(dispatchTermBegins || '-')}
+                label={
+                  DISPATCH_TERM_BEGINS.find(
+                    (item) => item.value === dispatchTermBegins,
+                  )?.label || '-'
+                }
                 editable={false}
               />
             )}
@@ -258,7 +276,11 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="617"
-                label={String(dispatchCodMethod || '-')}
+                label={
+                  DISPATCH_CODE_METHOD.find(
+                    (item) => item.value === dispatchCodMethod,
+                  )?.label || '-'
+                }
                 editable={false}
               />
             )}
@@ -283,7 +305,11 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="618"
-                label={String(dispatchPaymentType || '-')}
+                label={
+                  DISPATCH_PAYMENT_TYPE.find(
+                    (item) => item.value === dispatchPaymentType,
+                  )?.label || '-'
+                }
                 editable={false}
               />
             )}

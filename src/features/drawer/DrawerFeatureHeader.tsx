@@ -120,7 +120,7 @@ function DrawerFeatureHeader({
   // * CARRIER INFO (MAIN COLLAPSE)
 
   const handleEditCarrierInfo = (keyValue: string) => {
-    // setFieldType('customer');
+    setFieldType('dispatchData');
     onEditCarrierInfo(true);
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
@@ -171,6 +171,7 @@ function DrawerFeatureHeader({
       onEditPerson(false);
       onEditDate(false);
       onEditNotes(false);
+      onEditCarrierInfo(false);
     }
   }, [
     isDataUpdated,

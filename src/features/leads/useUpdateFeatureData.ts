@@ -149,12 +149,21 @@ export function useUpdateFeatureData({
           dateDispatched: data.dates?.dateDispatched,
           datePickedUp: data.dates?.datePickedUp,
           dateDelivered: data.dates?.dateDelivered,
+
           paymentTotalTariff: data.payments?.paymentTotalTariff,
           paymentReservation: data.payments?.paymentReservation,
           paymentPaidReservation: data.payments?.paymentPaidReservation,
           paymentCarrierPay: data.payments?.paymentCarrierPay,
           paymentCodToCarrier: data.payments?.paymentCodToCarrier,
           paymentPaidToCarrier: data.payments?.paymentPaidToCarrier,
+
+          dispatchPaidBy: data.dispatchData?.dispatchPaidBy,
+          dispatchPaymentTerm: data.dispatchData?.dispatchPaymentTerm,
+          dispatchTermBegins: data.dispatchData?.dispatchTermBegins,
+          dispatchCodMethod: data.dispatchData?.dispatchCodMethod,
+          dispatchPaymentType: data.dispatchData?.dispatchPaymentType,
+
+          carrier: data.dispatchData?.carrierData?.id,
         }
       : {}),
   };

@@ -3,16 +3,16 @@ import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { DrawerSourceType } from '../../ui/Drawer';
 import DrawerArrowIcon from './DrawerArrowIcon';
+import DrawerFeatureCarrierInfoContent from './DrawerFeatureCarrierInfoContent';
 import DrawerFeatureDateContent from './DrawerFeatureDateContent';
 import DrawerFeatureDetailsContent from './DrawerFeatureDetailsContent';
 import DrawerFeatureHeader from './DrawerFeatureHeader';
 import DrawerFeatureNotesContent from './DrawerFeatureNotesContent';
 import DrawerFeaturePaymentContent from './DrawerFeaturePaymentContent';
 import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
+import FeatCarrierInfoInner from './feature-date/FeatCarrierInfoInner';
 import FeatDateInner from './feature-date/FeatDateInner';
 import FeatPersonInner from './feature-details/FeatPersonInner';
-import FeatCarrierInfoInner from './feature-date/FeatCarrierInfoInner';
-import DrawerFeatureCarrierInfoContent from './DrawerFeatureCarrierInfoContent';
 
 function DrawerLeft({ sourceType }: DrawerSourceType) {
   const {
@@ -93,7 +93,7 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
       key: '600',
       label: (
         <DrawerFeatureHeader
-          keyValue={'600'}
+          keyValue="600"
           sourceType={sourceType}
           label="Carrier company info"
           value="carrier-company"
