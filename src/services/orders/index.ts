@@ -158,6 +158,19 @@ class Orders {
     }
   }
 
+  // GET: /order/attachments/:orderId/
+  async getOrderAttachments(id: number) {
+    try {
+      const { data } = await this.$api.get(`/orders/attachments/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(

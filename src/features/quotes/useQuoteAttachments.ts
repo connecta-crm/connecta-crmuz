@@ -7,7 +7,7 @@ export function useQuoteAttachments() {
   const { id } = useAppSelector(getQuoteData);
   const {
     data: { results: quoteAttachments, count } = {},
-    isPending: isLoadingQuoteAttachments,
+    isFetching: isLoadingQuoteAttachments,
     error,
   } = useQuery({
     queryKey: ['quoteAttachments'],

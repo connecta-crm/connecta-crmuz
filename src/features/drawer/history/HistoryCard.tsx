@@ -3,6 +3,7 @@ import { Popconfirm, Radio } from 'antd';
 import { useState } from 'react';
 import { SourceType } from '../../../ui/Drawer';
 import { useDeleteLeadAttachments } from '../../attachments/useDeleteLeadAttachments';
+import { useDeleteOrderAttachments } from '../../attachments/useDeleteOrderAttachments';
 import { useDeleteQuoteAttachments } from '../../attachments/useDeleteQuoteAttachments';
 import { NoteItemType } from './History';
 
@@ -22,26 +23,45 @@ function HistoryCard({
 }: HistoryCardProps) {
   const [popconfirmOpen, setPopconfirmOpen] = useState(false);
 
-  const { deleteLeadAttachments, isLoading: isLoadingDelete1 } =
+  const { deleteLeadAttachments, isLoadingDeleteAttachForLead } =
     useDeleteLeadAttachments();
 
-  const { deleteQuoteAttachments, isLoading: isLoadingDelete2 } =
+  const { deleteQuoteAttachments, isLoadingDeleteAttachForQuote } =
     useDeleteQuoteAttachments();
+
+  const { deleteOrderAttachments, isLoadingDeleteAttachForOrder } =
+    useDeleteOrderAttachments();
+
+  let isLoadingDelete = false;
+
+  switch (sourceType) {
+    case 'lead':
+      isLoadingDelete = isLoadingDeleteAttachForLead;
+      break;
+    case 'quote':
+      isLoadingDelete = isLoadingDeleteAttachForQuote;
+      break;
+    case 'order':
+      isLoadingDelete = isLoadingDeleteAttachForOrder;
+      break;
+    default:
+      break;
+  }
 
   if (!item) {
     return null;
   }
 
-  let isLoadingDelete = false;
   const handleDelete = () => {
     switch (sourceType) {
       case 'lead':
         deleteLeadAttachments(item.id);
-        isLoadingDelete = isLoadingDelete1;
+        break;
+      case 'quote':
+        deleteQuoteAttachments(item.id);
         break;
       case 'order':
-        deleteQuoteAttachments(item.id);
-        isLoadingDelete = isLoadingDelete2;
+        deleteOrderAttachments(item.id);
         break;
       default:
         break;

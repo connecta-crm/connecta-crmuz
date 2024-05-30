@@ -7,7 +7,7 @@ export function useLeadAttachments() {
   const { id } = useAppSelector(getLeadData);
   const {
     data: { results: leadAttachments, count } = {},
-    isPending: isLoadingLeadAttachments,
+    isFetching: isLoadingLeadAttachments,
     error,
   } = useQuery({
     queryKey: ['leadAttachments'],

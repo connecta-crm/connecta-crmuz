@@ -95,7 +95,7 @@ function Orders() {
       key: '1',
       label: (
         <div className="box-header d-flex align-center justify-between">
-          <span className="box-header__label">Date</span>
+          <span className="box-header__label">Payment</span>
         </div>
       ),
       children: <FeatDateInner sourceType="order" />,

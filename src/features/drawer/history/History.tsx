@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { LoadingOutlined } from '@ant-design/icons';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import { useEffect, useState } from 'react';
@@ -27,9 +28,14 @@ export type NoteItemType = {
 type HistoryProps = {
   sourceType: SourceType;
   attachments: NoteItemType[];
+  isLoadingAttachments: boolean;
 };
 
-function History({ sourceType, attachments }: HistoryProps) {
+function History({
+  sourceType,
+  attachments,
+  isLoadingAttachments,
+}: HistoryProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [content, setContent] = useState('');
   const [noteId, setNoteId] = useState(0);
@@ -69,11 +75,15 @@ function History({ sourceType, attachments }: HistoryProps) {
     {
       key: '1',
       label: 'All',
-      children: attachments?.length ? (
+      children: isLoadingAttachments ? (
+        <div className="text-center">
+          <LoadingOutlined style={{ fontSize: 24 }} spin />
+        </div>
+      ) : attachments?.length ? (
         attachments.map((item: NoteItemType) => (
           <HistoryCard
             key={item.id}
-            type={'note'}
+            type="note"
             item={item}
             sourceType={sourceType}
             isLoading={isLoadingNote}

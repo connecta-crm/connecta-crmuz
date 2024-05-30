@@ -5,7 +5,10 @@ import Attachments from '../../services/attachments';
 export function useDeleteQuoteAttachments() {
   const queryClient = useQueryClient();
 
-  const { mutate: deleteQuoteAttachments, isPending: isLoading } = useMutation({
+  const {
+    mutate: deleteQuoteAttachments,
+    isPending: isLoadingDeleteAttachForQuote,
+  } = useMutation({
     mutationFn: (id: number) => Attachments.deleteQuoteAttachments(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['quoteAttachments'] });
@@ -19,6 +22,6 @@ export function useDeleteQuoteAttachments() {
 
   return {
     deleteQuoteAttachments,
-    isLoading,
+    isLoadingDeleteAttachForQuote,
   };
 }

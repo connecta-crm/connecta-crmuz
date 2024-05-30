@@ -5,7 +5,10 @@ import Attachments from '../../services/attachments';
 export function useDeleteLeadAttachments() {
   const queryClient = useQueryClient();
 
-  const { mutate: deleteLeadAttachments, isPending: isLoading } = useMutation({
+  const {
+    mutate: deleteLeadAttachments,
+    isPending: isLoadingDeleteAttachForLead,
+  } = useMutation({
     mutationFn: (id: number) => Attachments.deleteLeadAttachments(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
@@ -19,6 +22,6 @@ export function useDeleteLeadAttachments() {
 
   return {
     deleteLeadAttachments,
-    isLoading,
+    isLoadingDeleteAttachForLead,
   };
 }

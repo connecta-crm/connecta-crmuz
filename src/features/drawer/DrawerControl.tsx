@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQueryClient } from '@tanstack/react-query';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerProps } from '../../ui/Drawer';
 import { getLeadData } from '../leads/leadSlice';
+import { getOrderData } from '../orders/orderSlice';
 import { getQuoteData } from '../quotes/quoteSlice';
 import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
-import { getOrderData } from '../orders/orderSlice';
 
 export type DrawerControlProps = {
   isFullScreen: boolean;

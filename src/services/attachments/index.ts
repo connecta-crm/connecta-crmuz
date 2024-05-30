@@ -91,6 +91,21 @@ class Attachments {
       );
     }
   }
+
+  // DELETE: /orders/attachments/delete/:id
+  async deleteOrderAttachments(id: number) {
+    try {
+      const { data } = await this.$api.delete(
+        `/orders/attachments/delete/${id}`,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
 }
 
 export default new Attachments();
