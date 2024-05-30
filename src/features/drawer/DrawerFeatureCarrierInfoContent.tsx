@@ -1,6 +1,7 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { DispatchData } from '../../models';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerSourceType } from '../../ui/Drawer';
 import { getOrderData } from '../orders/orderSlice';
@@ -11,17 +12,32 @@ import FeatItemOpen from './feature-details/FeatItemOpen';
 function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
   const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
-  const { carrier: carrierOrder } = useAppSelector(getOrderData);
+  const { dispatchData: dispatchDataOrder } = useAppSelector(getOrderData);
 
-  let carrier;
+  let dispatchData: DispatchData | undefined;
 
   switch (sourceType) {
     case 'order':
-      carrier = carrierOrder;
+      dispatchData = dispatchDataOrder;
       break;
     default:
       break;
   }
+
+  if (!dispatchData) {
+    return;
+  }
+
+  const {
+    carrierData,
+    dispatchCodMethod,
+    dispatchPaidBy,
+    dispatchPaymentTerm,
+    dispatchPaymentType,
+    dispatchTermBegins,
+  } = dispatchData;
+
+  const { phone, phone2, email, location, name: companyName } = carrierData;
 
   const items: CollapseProps['items'] = [
     {
@@ -34,13 +50,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="610"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="610"
-                label={String(carrier)}
+                label={String(companyName)}
                 editable={false}
               />
             )}
@@ -59,13 +75,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="611"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="611"
-                label={String(carrier)}
+                label={String(location)}
                 editable={false}
               />
             )}
@@ -84,13 +100,38 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="612"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="612"
-                label={String(carrier)}
+                label={String(phone)}
+                editable={false}
+              />
+            )}
+          </div>
+        </div>
+      ),
+      showArrow: false,
+    },
+    {
+      key: '6012',
+      label: (
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Phone" icon="none" />
+            {openInnerPanels?.includes('6012') ? (
+              <FeatItemOpen
+                keyValue="6012"
+                feature={sourceType}
+                featureItemField="dispatchData"
+              />
+            ) : (
+              <FeatItemClose
+                feature={sourceType}
+                keyValue="6012"
+                label={String(phone2)}
                 editable={false}
               />
             )}
@@ -109,13 +150,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="613"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="613"
-                label={String(carrier)}
+                label={String(email)}
                 editable={false}
               />
             )}
@@ -125,6 +166,7 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
       showArrow: false,
       className: 'mb-12',
     },
+    // * PAYMENT FEATURES
     {
       key: '614',
       label: (
@@ -135,13 +177,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="614"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="614"
-                label={String(carrier)}
+                label={String(dispatchPaidBy || '-')}
                 editable={false}
               />
             )}
@@ -160,13 +202,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="615"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="615"
-                label={String(carrier)}
+                label={String(dispatchPaymentTerm || '-')}
                 editable={false}
               />
             )}
@@ -185,13 +227,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="616"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="616"
-                label={String(carrier)}
+                label={String(dispatchTermBegins || '-')}
                 editable={false}
               />
             )}
@@ -210,13 +252,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="617"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="617"
-                label={String(JSON.stringify(carrier))}
+                label={String(dispatchCodMethod || '-')}
                 editable={false}
               />
             )}
@@ -235,13 +277,13 @@ function DrawerFeatureCarrierInfoContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="618"
                 feature={sourceType}
-                featureItemField="carrier"
+                featureItemField="dispatchData"
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="618"
-                label={String('Cash')}
+                label={String(dispatchPaymentType || '-')}
                 editable={false}
               />
             )}

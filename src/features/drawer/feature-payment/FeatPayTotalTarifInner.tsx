@@ -30,7 +30,7 @@ function FeatPayTotalTarifInner({ feature, keyValue }: FeatItemInnerProps) {
   const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
-    field: 'paymentTotalTariff',
+    field: 'payments',
     isDataUpdated,
     setDataUpdated,
   });
@@ -39,7 +39,9 @@ function FeatPayTotalTarifInner({ feature, keyValue }: FeatItemInnerProps) {
     const value = e.target.value;
     switch (feature) {
       case 'order':
-        dispatch(updateOrderField({ field: 'paymentTotalTariff', value }));
+        dispatch(
+          updateOrderField({ field: 'payments.paymentTotalTariff', value }),
+        );
         break;
       default:
         break;
@@ -57,8 +59,8 @@ function FeatPayTotalTarifInner({ feature, keyValue }: FeatItemInnerProps) {
         style={{ bottom: isEditPayment ? '5px' : '28px' }}
       >
         <Input
-          value={featureData.paymentTotalTariff}
-          defaultValue={featureData.paymentTotalTariff}
+          value={featureData.payments?.paymentTotalTariff}
+          defaultValue={featureData.payments?.paymentTotalTariff}
           style={{ width: 218, float: 'inline-end', height: 24 }}
           onChange={handleChange}
         />

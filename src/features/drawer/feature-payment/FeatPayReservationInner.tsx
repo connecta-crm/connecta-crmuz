@@ -30,7 +30,7 @@ function FeatPayReservationInner({ feature, keyValue }: FeatItemInnerProps) {
   const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
-    field: 'paymentReservation',
+    field: 'payments',
     isDataUpdated,
     setDataUpdated,
   });
@@ -39,7 +39,9 @@ function FeatPayReservationInner({ feature, keyValue }: FeatItemInnerProps) {
     const value = e.target.value;
     switch (feature) {
       case 'order':
-        dispatch(updateOrderField({ field: 'paymentReservation', value }));
+        dispatch(
+          updateOrderField({ field: 'payments.paymentReservation', value }),
+        );
         break;
       default:
         break;
@@ -57,8 +59,8 @@ function FeatPayReservationInner({ feature, keyValue }: FeatItemInnerProps) {
         style={{ bottom: isEditPayment ? '5px' : '28px' }}
       >
         <Input
-          value={featureData.paymentReservation}
-          defaultValue={featureData.paymentReservation}
+          value={featureData.payments?.paymentReservation}
+          defaultValue={featureData.payments?.paymentReservation}
           style={{ width: 218, float: 'inline-end', height: 24 }}
           onChange={handleChange}
         />

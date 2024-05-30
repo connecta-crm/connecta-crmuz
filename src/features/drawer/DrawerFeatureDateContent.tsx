@@ -13,9 +13,9 @@ function DrawerFeatureDateContent({ sourceType }: DrawerSourceType) {
   const { openInnerPanels, onChangeInnerCollapse } = useDrawerFeature();
 
   const {
-    dateEstDel: dateEstDelOrder,
-    dateEstPu: dateEstPuOrder,
-    dateEstShip: dateEstShipOrder,
+    dates: { dateEstDel: dateEstDelOrder },
+    dates: { dateEstPu: dateEstPuOrder },
+    dates: { dateEstShip: dateEstShipOrder },
   } = useAppSelector(getOrderData);
 
   let dateEstDel, dateEstPu, dateEstShip;
@@ -41,7 +41,7 @@ function DrawerFeatureDateContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="510"
                 feature={sourceType}
-                featureItemField="dateEstShip"
+                featureItemField="dates"
               />
             ) : (
               <FeatItemClose
@@ -54,11 +54,6 @@ function DrawerFeatureDateContent({ sourceType }: DrawerSourceType) {
           </div>
         </div>
       ),
-      // children: (
-      //   <DrawerFeatureRow>
-      //     <FeatPersonNameInner keyValue="10" feature={sourceType} />
-      //   </DrawerFeatureRow>
-      // ),
       showArrow: false,
     },
     {
@@ -71,7 +66,7 @@ function DrawerFeatureDateContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="511"
                 feature={sourceType}
-                featureItemField="dateEstPu"
+                featureItemField="dates"
               />
             ) : (
               <FeatItemClose
@@ -84,11 +79,6 @@ function DrawerFeatureDateContent({ sourceType }: DrawerSourceType) {
           </div>
         </div>
       ),
-      // children: (
-      //   <DrawerFeatureRow>
-      //     <FeatPersonEmailInner keyValue="11" feature={sourceType} />
-      //   </DrawerFeatureRow>
-      // ),
       showArrow: false,
     },
     {
@@ -101,7 +91,7 @@ function DrawerFeatureDateContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="512"
                 feature={sourceType}
-                featureItemField="dateEstDel"
+                featureItemField="dates"
               />
             ) : (
               <FeatItemClose
@@ -114,11 +104,6 @@ function DrawerFeatureDateContent({ sourceType }: DrawerSourceType) {
           </div>
         </div>
       ),
-      // children: (
-      //   <DrawerFeatureRow>
-      //     <FeatPersonPhoneInner keyValue="12" feature={sourceType} />
-      //   </DrawerFeatureRow>
-      // ),
       showArrow: false,
     },
   ];

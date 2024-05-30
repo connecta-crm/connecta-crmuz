@@ -31,6 +31,7 @@ import {
   resetField as resetLeadField,
   setLeadData,
 } from './leadSlice';
+import { isOrderData } from './useCheckTypeData';
 import { useLeadEdit } from './useLeadEdit';
 import { useLeadVehicleEdit } from './useLeadVehicleEdit';
 
@@ -141,6 +142,21 @@ export function useUpdateFeatureData({
     destination: data?.destination?.id,
     user: data?.user?.id || user?.id,
     extraUser: data?.extraUser,
+    ...(data && isOrderData(data)
+      ? {
+          dateEstPu: data.dates?.dateEstPu,
+          dateEstDel: data.dates?.dateEstDel,
+          dateDispatched: data.dates?.dateDispatched,
+          datePickedUp: data.dates?.datePickedUp,
+          dateDelivered: data.dates?.dateDelivered,
+          paymentTotalTariff: data.payments?.paymentTotalTariff,
+          paymentReservation: data.payments?.paymentReservation,
+          paymentPaidReservation: data.payments?.paymentPaidReservation,
+          paymentCarrierPay: data.payments?.paymentCarrierPay,
+          paymentCodToCarrier: data.payments?.paymentCodToCarrier,
+          paymentPaidToCarrier: data.payments?.paymentPaidToCarrier,
+        }
+      : {}),
   };
 
   const onSaveFeature = () => {

@@ -3,7 +3,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { LeadData, QuoteData } from '../../models';
+import { LeadData, OrderData, QuoteData } from '../../models';
 import { SourceType } from '../../ui/Drawer';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 
@@ -46,9 +46,9 @@ function DrawerFeatureHeader({
     onChangeInnerCollapse,
   } = useDrawerFeature();
 
-  const [fieldType, setFieldType] = useState<keyof LeadData | keyof QuoteData>(
-    'customer',
-  );
+  const [fieldType, setFieldType] = useState<
+    keyof LeadData | keyof QuoteData | keyof OrderData
+  >('customer');
 
   // * DETAILS (MAIN COLLAPSE)
 
@@ -99,7 +99,7 @@ function DrawerFeatureHeader({
   // * PAYMENT (MAIN COLLAPSE)
 
   const handleEditPayment = (keyValue: string) => {
-    // setFieldType('customer');
+    setFieldType('payments');
     onEditPayment(true);
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
@@ -110,7 +110,7 @@ function DrawerFeatureHeader({
   // * DATE (MAIN COLLAPSE)
 
   const handleEditDate = (keyValue: string) => {
-    // setFieldType('customer');
+    setFieldType('dates');
     onEditDate(true);
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);

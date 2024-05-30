@@ -46,10 +46,11 @@ const DrawerFeatureContext = createContext<DrawerFeatureContextType | null>(
 
 const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const [openMainPanels, setOpenMainPanels] = useState<string[]>([
-    '100', // Details
-    '200', // Person
-    '400', // Payment
-    '500', // Date
+    // '100', // Details
+    // '200', // Person
+    // '400', // Payment
+    // '500', // Date
+    '600', // Carrier
   ]);
   const [openInnerPanels, setOpenInnerPanels] = useState<string[]>([]);
   const [isEditDetails, setEditDetails] = useState(false);

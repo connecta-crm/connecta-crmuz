@@ -48,7 +48,12 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
     if (!Array.isArray(option)) {
       switch (sourceType) {
         case 'order':
-          dispatch(updateOrderField({ field: 'carrier', value: option.data }));
+          dispatch(
+            updateOrderField({
+              field: 'dispatchData.carrierData',
+              value: option.data,
+            }),
+          );
           break;
         default:
           break;
@@ -59,6 +64,15 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
   if (!data) {
     return;
   }
+
+  const {
+    carrierData,
+    dispatchCodMethod,
+    dispatchPaidBy,
+    dispatchPaymentTerm,
+    dispatchPaymentType,
+    dispatchTermBegins,
+  } = data.dispatchData;
 
   return (
     <>
@@ -72,15 +86,15 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search company"
-          defaultValue={data.customer.name}
-          value={data.customer.name}
+          defaultValue={carrierData.name}
+          value={carrierData.name}
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('name', value)}
           style={{ width: 218 }}
           loading={isLoading}
           notFoundContent={
-            isLoading ? <Spin size="small" /> : 'No such company '
+            isLoading ? <Spin size="small" /> : 'No such carrier '
           }
           options={(carriers || []).map((d: { id: number; name: string }) => ({
             value: d.id,
@@ -94,7 +108,8 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Location</div>
         </div>
         <Input
-          value={'5522 Claredon Hills Rd Clarendon Hills IL 60514'}
+          value={carrierData.location}
+          defaultValue={carrierData.location}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
@@ -105,7 +120,20 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Phone</div>
         </div>
         <Input
-          value={'(999) 999-9999'}
+          value={carrierData.phone}
+          defaultValue={carrierData.phone}
+          size="small"
+          disabled
+          style={{ width: 218, float: 'inline-end', height: 24 }}
+        />
+      </div>
+      <div className="d-flex justify-between mb-5">
+        <div className="d-flex">
+          <div className="form-label pl-0">Phone</div>
+        </div>
+        <Input
+          value={carrierData.phone2}
+          defaultValue={carrierData.phone2}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
@@ -116,7 +144,8 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Email</div>
         </div>
         <Input
-          value={'test@mail.io'}
+          value={carrierData.email}
+          defaultValue={carrierData.email}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
@@ -128,7 +157,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Will be paid by</div>
         </div>
         <Input
-          value={'COD to carrier'}
+          value={dispatchPaidBy || ''}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
@@ -139,7 +168,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Payment Term</div>
         </div>
         <Input
-          value={'Immediately'}
+          value={dispatchPaymentTerm || ''}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
@@ -150,7 +179,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Term Begins</div>
         </div>
         <Input
-          value={'After delivery'}
+          value={dispatchTermBegins || ''}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
@@ -161,7 +190,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">COD method</div>
         </div>
         <Input
-          value={'Cash/Certified fund'}
+          value={dispatchCodMethod || ''}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
@@ -172,7 +201,7 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Payment type</div>
         </div>
         <Input
-          value={'Cash'}
+          value={dispatchPaymentType || ''}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}

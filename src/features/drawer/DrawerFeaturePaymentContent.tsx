@@ -33,12 +33,12 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
   }
 
   const {
-    paymentTotalTariff,
-    paymentReservation,
-    paymentPaidReservation,
-    paymentCarrierPay,
-    paymentCodToCarrier,
-    paymentPaidToCarrier,
+    payments: { paymentTotalTariff },
+    payments: { paymentReservation },
+    payments: { paymentPaidReservation },
+    payments: { paymentCarrierPay },
+    payments: { paymentCodToCarrier },
+    payments: { paymentPaidToCarrier },
   } = selectedData;
 
   const items: CollapseProps['items'] = [
@@ -52,7 +52,7 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="30"
                 feature={sourceType}
-                featureItemField="paymentTotalTariff"
+                featureItemField="payments"
                 series={false}
               />
             ) : (
@@ -83,7 +83,7 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="31"
                 feature={sourceType}
-                featureItemField="paymentReservation"
+                featureItemField="payments"
                 series={false}
               />
             ) : (
@@ -114,7 +114,7 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="32"
                 feature={sourceType}
-                featureItemField="paymentPaidReservation"
+                featureItemField="payments"
                 series={false}
               />
             ) : (
@@ -145,7 +145,7 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="33"
                 feature={sourceType}
-                featureItemField="paymentCarrierPay"
+                featureItemField="payments"
                 series={false}
               />
             ) : (
@@ -176,7 +176,7 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="34"
                 feature={sourceType}
-                featureItemField="paymentCodToCarrier"
+                featureItemField="payments"
                 series={false}
               />
             ) : (
@@ -207,7 +207,7 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
               <FeatItemOpen
                 keyValue="35"
                 feature={sourceType}
-                featureItemField="paymentPaidToCarrier"
+                featureItemField="payments"
                 series={false}
               />
             ) : (

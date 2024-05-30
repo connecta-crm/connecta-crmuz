@@ -52,12 +52,14 @@ function FeatDateInner({ sourceType }: DrawerSourceType) {
           allowClear={false}
           type="date"
           name="est_ship_date"
-          value={dayjs(data.dateEstShip, 'MM-DD-YYYY') as unknown as string}
+          value={
+            dayjs(data.dates?.dateEstShip, 'MM-DD-YYYY') as unknown as string
+          }
           defaultValue={
-            dayjs(data.dateEstShip, 'MM-DD-YYYY') as unknown as string
+            dayjs(data.dates?.dateEstShip, 'MM-DD-YYYY') as unknown as string
           }
           style={{ width: 218, float: 'inline-end', height: 24 }}
-          onChange={(_, record) => handleChange('dateEstShip', record)}
+          onChange={(_, record) => handleChange('dates.dateEstShip', record)}
         />
       </div>
       <div className="d-flex justify-between mb-5">
@@ -72,12 +74,14 @@ function FeatDateInner({ sourceType }: DrawerSourceType) {
           allowClear={false}
           type="date"
           name="est_pu_date"
-          value={dayjs(data.dateEstPu, 'MM-DD-YYYY') as unknown as string}
+          value={
+            dayjs(data.dates?.dateEstPu, 'MM-DD-YYYY') as unknown as string
+          }
           defaultValue={
-            dayjs(data.dateEstPu, 'MM-DD-YYYY') as unknown as string
+            dayjs(data.dates?.dateEstPu, 'MM-DD-YYYY') as unknown as string
           }
           style={{ width: 218, float: 'inline-end', height: 24 }}
-          onChange={(_, record) => handleChange('dateEstPu', record)}
+          onChange={(_, record) => handleChange('dates.dateEstPu', record)}
         />
       </div>
       <div className="d-flex justify-between mb-5">
@@ -92,12 +96,14 @@ function FeatDateInner({ sourceType }: DrawerSourceType) {
           allowClear={false}
           type="date"
           name="est_del_date"
-          value={dayjs(data.dateEstDel, 'MM-DD-YYYY') as unknown as string}
+          value={
+            dayjs(data.dates?.dateEstDel, 'MM-DD-YYYY') as unknown as string
+          }
           defaultValue={
-            dayjs(data.dateEstDel, 'MM-DD-YYYY') as unknown as string
+            dayjs(data.dates?.dateEstDel, 'MM-DD-YYYY') as unknown as string
           }
           style={{ width: 218, float: 'inline-end', height: 24 }}
-          onChange={(_, record) => handleChange('dateEstDel', record)}
+          onChange={(_, record) => handleChange('dates.dateEstDel', record)}
         />
       </div>
     </>

@@ -54,6 +54,77 @@ export type OrdersDataType = {
 };
 /* ==================================================================================================================*/
 
+export type DatesOrder = {
+  dateEstShip: string;
+  dateEstPu: string;
+  dateEstDel: string;
+  dateDispatched: string;
+  datePickedUp: string;
+  dateDelivered: string;
+};
+
+export type CarrierData = {
+  id: number;
+  name: string;
+  address: string;
+  mcNumber: string;
+  contactName: string;
+  phone: string;
+  phone2: string;
+  email: string;
+  fax: string;
+  status: string;
+  location: number;
+};
+
+export type DispatchData = {
+  dispatchPaidBy: null;
+  dispatchPaymentTerm: null;
+  dispatchTermBegins: null;
+  dispatchCodMethod: null;
+  dispatchPaymentType: null;
+  carrierData: CarrierData;
+};
+
+export type PaymentsData = {
+  paymentTotalTariff: number;
+  paymentReservation: number;
+  paymentPaidReservation: number;
+  paymentCarrierPay: number;
+  paymentCodToCarrier: number;
+  paymentPaidToCarrier: number;
+};
+
+const dispatchData: DispatchData = {
+  dispatchPaidBy: null,
+  dispatchPaymentTerm: null,
+  dispatchTermBegins: null,
+  dispatchCodMethod: null,
+  dispatchPaymentType: null,
+  carrierData: {
+    id: 0,
+    name: '',
+    address: '',
+    mcNumber: '',
+    contactName: '',
+    phone: '',
+    phone2: '',
+    email: '',
+    fax: '',
+    status: '',
+    location: 0,
+  },
+};
+
+const payments: PaymentsData = {
+  paymentTotalTariff: 0,
+  paymentReservation: 0,
+  paymentPaidReservation: 0,
+  paymentCarrierPay: 0,
+  paymentCodToCarrier: 0,
+  paymentPaidToCarrier: 0,
+};
+
 export type OrderData = {
   id: number;
   carrier: number;
@@ -97,11 +168,20 @@ export type OrderData = {
   paymentCarrierPay: number;
   paymentCodToCarrier: number;
   paymentPaidToCarrier: number;
+  dates: DatesOrder;
+  dispatchData: DispatchData;
+  payments: PaymentsData;
+
   dateEstPu: string;
   dateEstDel: string;
   dateDispatched: string;
   datePickedUp: string;
   dateDelivered: string;
+  dispatchPaidBy: null;
+  dispatchPaymentTerm: null;
+  dispatchTermBegins: null;
+  dispatchCodMethod: null;
+  dispatchPaymentType: null;
   cdNote: string;
   cmNote: string;
 };
@@ -132,7 +212,7 @@ export type OrderState = {
   error?: unknown;
 };
 
-export const orderData = {
+export const orderData: OrderData = {
   id: 0,
   carrier: 0,
   customerName: '',
@@ -175,16 +255,31 @@ export const orderData = {
   paymentCarrierPay: 0,
   paymentCodToCarrier: 0,
   paymentPaidToCarrier: 0,
+  dates: {
+    dateEstShip: '',
+    dateEstPu: '',
+    dateEstDel: '',
+    dateDispatched: '',
+    datePickedUp: '',
+    dateDelivered: '',
+  },
+  payments,
   dateEstPu: '',
   dateEstDel: '',
   dateDispatched: '',
   datePickedUp: '',
   dateDelivered: '',
+  dispatchData: dispatchData,
+  dispatchPaidBy: null,
+  dispatchPaymentTerm: null,
+  dispatchTermBegins: null,
+  dispatchCodMethod: null,
+  dispatchPaymentType: null,
   cdNote: '',
   cmNote: '',
 };
 
-const initialOrderData = {
+const initialOrderData: OrderData = {
   id: 0,
   carrier: 0,
   customerName: '',
@@ -227,11 +322,26 @@ const initialOrderData = {
   paymentCarrierPay: 0,
   paymentCodToCarrier: 0,
   paymentPaidToCarrier: 0,
+  dates: {
+    dateEstShip: '',
+    dateEstPu: '',
+    dateEstDel: '',
+    dateDispatched: '',
+    datePickedUp: '',
+    dateDelivered: '',
+  },
+  payments,
   dateEstPu: '',
   dateEstDel: '',
   dateDispatched: '',
   datePickedUp: '',
   dateDelivered: '',
+  dispatchData: dispatchData,
+  dispatchPaidBy: null,
+  dispatchPaymentTerm: null,
+  dispatchTermBegins: null,
+  dispatchCodMethod: null,
+  dispatchPaymentType: null,
   cdNote: '',
   cmNote: '',
 };

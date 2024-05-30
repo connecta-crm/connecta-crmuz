@@ -73,6 +73,7 @@ class Orders {
 
   // PUT: /orders/:guid/update/
   async editOrder({ guid, updateOrderModel }: OrderEditParamsType) {
+    console.log('updateOrderModel', updateOrderModel);
     try {
       const { data } = await this.$api.put(`/orders/update/${guid}/`, {
         ...updateOrderModel,

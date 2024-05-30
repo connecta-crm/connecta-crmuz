@@ -33,7 +33,7 @@ function FeatPayPaidReservationInner({
   const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
-    field: 'paymentPaidReservation',
+    field: 'payments',
     isDataUpdated,
     setDataUpdated,
   });
@@ -42,7 +42,9 @@ function FeatPayPaidReservationInner({
     const value = e.target.value;
     switch (feature) {
       case 'order':
-        dispatch(updateOrderField({ field: 'paymentPaidReservation', value }));
+        dispatch(
+          updateOrderField({ field: 'payments.paymentPaidReservation', value }),
+        );
         break;
       default:
         break;
@@ -60,8 +62,8 @@ function FeatPayPaidReservationInner({
         style={{ bottom: isEditPayment ? '5px' : '28px' }}
       >
         <Input
-          value={featureData.paymentPaidReservation}
-          defaultValue={featureData.paymentPaidReservation}
+          value={featureData.payments?.paymentPaidReservation}
+          defaultValue={featureData.payments?.paymentPaidReservation}
           style={{ width: 218, float: 'inline-end', height: 24 }}
           onChange={handleChange}
         />

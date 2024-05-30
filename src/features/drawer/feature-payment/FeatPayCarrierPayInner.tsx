@@ -30,7 +30,7 @@ function FeatPayCarrierPayInner({ feature, keyValue }: FeatItemInnerProps) {
   const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
-    field: 'paymentCarrierPay',
+    field: 'payments',
     isDataUpdated,
     setDataUpdated,
   });
@@ -39,7 +39,9 @@ function FeatPayCarrierPayInner({ feature, keyValue }: FeatItemInnerProps) {
     const value = e.target.value;
     switch (feature) {
       case 'order':
-        dispatch(updateOrderField({ field: 'paymentCarrierPay', value }));
+        dispatch(
+          updateOrderField({ field: 'payments.paymentCarrierPay', value }),
+        );
         break;
       default:
         break;
@@ -57,8 +59,8 @@ function FeatPayCarrierPayInner({ feature, keyValue }: FeatItemInnerProps) {
         style={{ bottom: isEditPayment ? '5px' : '28px' }}
       >
         <Input
-          value={featureData.paymentCarrierPay}
-          defaultValue={featureData.paymentCarrierPay}
+          value={featureData.payments?.paymentCarrierPay}
+          defaultValue={featureData.payments?.paymentCarrierPay}
           style={{ width: 218, float: 'inline-end', height: 24 }}
           onChange={handleChange}
         />
