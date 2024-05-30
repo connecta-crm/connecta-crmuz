@@ -1,5 +1,4 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { useQueryClient } from '@tanstack/react-query';
 import type { RadioChangeEvent, TabsProps, TimePickerProps } from 'antd';
 import {
   Button,
@@ -13,7 +12,7 @@ import {
   theme,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import StickyBox from 'react-sticky-box';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../../store/hooks';
@@ -48,12 +47,6 @@ function TabsApp({ sourceType }: DrawerSourceType) {
   const { id: orderId } = useAppSelector(getOrderData);
 
   const userData = useAppSelector(getUser);
-
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: [`${sourceType}Attachments`] });
-  }, [sourceType, queryClient]);
 
   const handleEventType = (e: RadioChangeEvent) => {
     setEventType(e.target.value);
@@ -93,7 +86,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
     }
   };
 
-  const { createNote, isLoading } = useCreateNote();
+  const { createNote, isLoading } = useCreateNote(sourceType);
 
   const handleSave = (type: 'main' | 'task' | 'phone') => {
     const user = userData?.id ? +userData?.id : undefined;
@@ -135,24 +128,24 @@ function TabsApp({ sourceType }: DrawerSourceType) {
   };
 
   const handleCancel = (type: CancelNotesActionType) => {
-    switch (sourceType) {
-      case 'lead':
-        switch (type) {
-          case 'main':
-            setNotes({ ...notes, mainNote: '' });
-            break;
-          case 'phone':
-            setNotes({ ...notes, phoneNote: '' });
-            break;
-          case 'email':
-            setNotes({ ...notes, emailNote: '' });
-            break;
-          case 'task':
-            setTaskNote('');
-            break;
-        }
+    // switch (sourceType) {
+    // case 'lead':
+    switch (type) {
+      case 'main':
+        setNotes({ ...notes, mainNote: '' });
+        break;
+      case 'phone':
+        setNotes({ ...notes, phoneNote: '' });
+        break;
+      case 'email':
+        setNotes({ ...notes, emailNote: '' });
+        break;
+      case 'task':
+        setTaskNote('');
         break;
     }
+    // break;
+    // }
   };
 
   const {

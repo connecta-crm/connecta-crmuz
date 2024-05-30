@@ -44,12 +44,14 @@ function History({
   const user = useAppSelector(getUser);
 
   const { noteData, isLoadingNote, errorNote } = useNote(noteId);
-  const { updateNote, isLoadingUpdateNote, errorUpdateNote } = useUpdateNote();
+  const { updateNote, isLoadingUpdateNote, errorUpdateNote } =
+    useUpdateNote(sourceType);
 
   const onSetContent = (_: CancelNotesActionType, val: string) => {
     setContent(val);
   };
 
+  // * FILTER TO TYPE NOTE
   const notes =
     attachments?.filter(({ type }: { type: string }) => type === 'note') ?? [];
 
@@ -65,7 +67,7 @@ function History({
     updateNote({
       id: noteId,
       user: user?.id,
-      endpointType: 'lead',
+      endpointType: sourceType,
       text: content,
     });
     setNoteUpdated(true);

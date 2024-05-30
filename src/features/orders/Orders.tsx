@@ -1,4 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button, Collapse, CollapseProps, Form } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
@@ -8,11 +9,11 @@ import Modal from '../../ui/Modal';
 import OrdersModal from '../../ui/modal/OrderModal';
 import DrawerArrowIcon from '../drawer/DrawerArrowIcon';
 import FeatCarrierInfoInner from '../drawer/feature-date/FeatCarrierInfoInner';
+import FeatDateInner from '../drawer/feature-date/FeatDateInner';
 import OrdersTable from './OrderTable';
 import { setOrderData } from './orderSlice';
 import { useOrder } from './useOrder';
 import { useOrders } from './useOrders';
-import FeatDateInner from '../drawer/feature-date/FeatDateInner';
 
 function Orders() {
   const [guid, setGuid] = useState<string | null>(null);
@@ -23,6 +24,7 @@ function Orders() {
 
   const { openDrawer } = useDrawerFeature();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const handleOpenDrawer = (guid: string | null) => {
     setGuid(null);
@@ -38,6 +40,10 @@ function Orders() {
       dispatch(setOrderData(order));
       console.log('ORDER', order);
       openDrawer();
+      setTimeout(
+        () => queryClient.invalidateQueries({ queryKey: [`orderAttachments`] }),
+        0,
+      );
     }
   }, [isLoadingOrder, error, dispatch, guid, order]);
 

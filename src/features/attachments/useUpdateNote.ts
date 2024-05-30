@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import Attachments from '../../services/attachments';
@@ -10,26 +11,20 @@ export type UpdateNoteParams = {
   user: string | undefined;
 };
 
-export function useUpdateNote() {
+export function useUpdateNote(sourceType: EndPointType) {
   const queryClient = useQueryClient();
-
-  let attachmentType: EndPointType;
-
   const {
     mutate: updateNote,
     isPending: isLoadingUpdateNote,
     error: errorUpdateNote,
   } = useMutation({
-    mutationFn: ({ id, endpointType, text, user }: UpdateNoteParams) => {
-      attachmentType = endpointType;
-      return Attachments.updateNote({ id, endpointType, text, user });
-    },
-    onSuccess: (data: unknown) => {
+    mutationFn: ({ id, endpointType, text, user }: UpdateNoteParams) =>
+      Attachments.updateNote({ id, endpointType, text, user }),
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [`${attachmentType}Attachments`],
+        queryKey: [`${sourceType}Attachments`],
       });
       message.success('Note updated!');
-      console.log('UPDATED', data);
     },
     onError: (err) => {
       message.error(err.message);

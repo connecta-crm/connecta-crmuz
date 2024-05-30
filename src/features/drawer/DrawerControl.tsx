@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useQueryClient } from '@tanstack/react-query';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerProps } from '../../ui/Drawer';
@@ -27,8 +26,6 @@ function DrawerControl({
   const { guid: currentQuoteGuid } = useAppSelector(getQuoteData);
   const { guid: currentOrderGuid } = useAppSelector(getOrderData);
 
-  const queryClient = useQueryClient();
-
   if (isFullScreen) {
     return null;
   }
@@ -54,14 +51,12 @@ function DrawerControl({
   const handlePrevElement = () => {
     const currentDataGuid = getCurrentDataGuid();
     const previousDataGuid = getPreviousObjectId(dataSource, currentDataGuid);
-    queryClient.invalidateQueries({ queryKey: [`${sourceType}Attachments`] });
     onOpenDrawer(previousDataGuid);
   };
 
   const handleNextElement = () => {
     const currentDataGuid = getCurrentDataGuid();
     const nextDataId = getNextObjectId(dataSource, currentDataGuid);
-    queryClient.invalidateQueries({ queryKey: [`${sourceType}Attachments`] });
     onOpenDrawer(nextDataId);
   };
 

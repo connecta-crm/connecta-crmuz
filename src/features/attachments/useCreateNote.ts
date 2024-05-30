@@ -11,21 +11,16 @@ export type CreateNoteParams = {
   user: number | undefined;
 };
 
-export function useCreateNote() {
+export function useCreateNote(sourceType: EndPointType) {
   const queryClient = useQueryClient();
 
-  let attachmentType: EndPointType;
-
   const { mutate: createNote, isPending: isLoading } = useMutation({
-    mutationFn: ({ rel, endpointType, text, user }: CreateNoteParams) => {
-      attachmentType = endpointType;
-      return Attachments.createNote({ rel, endpointType, text, user });
-    },
-    onSuccess: (data: unknown) => {
+    mutationFn: ({ rel, endpointType, text, user }: CreateNoteParams) =>
+      Attachments.createNote({ rel, endpointType, text, user }),
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [`${attachmentType}Attachments`],
+        queryKey: [`${sourceType}Attachments`],
       });
-      console.log('NOTE', data);
       message.success('Note created!');
     },
     onError: (err) => {

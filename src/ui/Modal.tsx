@@ -58,7 +58,7 @@ function Modal({
                   saveBtnText
                 ) : (
                   <>
-                    saveBtnText <LoadingOutlined />
+                    {saveBtnText} <LoadingOutlined />
                   </>
                 )}
               </Button>
@@ -75,7 +75,7 @@ function Modal({
                   saveBtnText
                 ) : (
                   <>
-                    saveBtnText <LoadingOutlined />
+                    {saveBtnText} <LoadingOutlined />
                   </>
                 )}
               </Button>

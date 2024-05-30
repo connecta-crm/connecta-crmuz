@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useModal } from '../../context/ModalContext';
@@ -20,6 +21,8 @@ function Quotes() {
 
   const dispatch = useAppDispatch();
 
+  const queryClient = useQueryClient();
+
   const handleOpenDrawer = (guid: string | null) => {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
@@ -29,6 +32,10 @@ function Quotes() {
     if (!isLoadingQuote && !error && guid && quote) {
       dispatch(setQuoteData(quote));
       openDrawer();
+      setTimeout(
+        () => queryClient.invalidateQueries({ queryKey: [`quoteAttachments`] }),
+        0,
+      );
     }
   }, [isLoadingQuote, error, dispatch, guid, quote]);
 

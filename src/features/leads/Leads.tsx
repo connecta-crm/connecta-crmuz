@@ -1,9 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useModal } from '../../context/ModalContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
-import Filter from '../../ui/filter/Filter';
 import LeadModal from '../../ui/modal/LeadModal';
 import LeadTable from './LeadTable';
 import { setLeadData } from './leadSlice';
@@ -17,7 +17,10 @@ function Leads() {
   const [openLeadModal, setOpenLeadModal] = useState(false);
   const { show, status, hideModal } = useModal();
   const { openDrawer } = useDrawerFeature();
+
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+
   const handleOpenDrawer = (guid: string | null) => {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
@@ -31,6 +34,10 @@ function Leads() {
     if (!isLoadingLead && !error && guid && lead) {
       dispatch(setLeadData(lead));
       openDrawer();
+      setTimeout(
+        () => queryClient.invalidateQueries({ queryKey: [`leadAttachments`] }),
+        0,
+      );
     }
   }, [isLoadingLead, error, dispatch, guid, lead]);
 
@@ -59,7 +66,7 @@ function Leads() {
         loadingItem={isLoadingLead}
         onOpenDrawer={handleOpenDrawer}
       />
-      <Filter />
+      {/* <Filter /> */}
     </div>
   );
 }
