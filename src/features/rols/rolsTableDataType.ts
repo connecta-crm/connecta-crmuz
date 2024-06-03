@@ -7,7 +7,7 @@ export type RolsUsersType = {
 };
 export interface RolsTableDataType {
   logs?:{ title: string; message: string }[]
-  id: string;
+  id: number;
   name?: string;
   accessName?: string;
   accessStatus?: string;
