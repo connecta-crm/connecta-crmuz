@@ -1,7 +1,7 @@
 import { Button, Collapse, CollapseProps } from 'antd';
 import DrawerArrowIcon from '../drawer/DrawerArrowIcon';
+import FeatCarrierInfoInner from '../drawer/feature-date/FeatCarrierInfoInner';
 import FeatDateInner from '../drawer/feature-date/FeatDateInner';
-import OrderDispatchModalCarrierItem from './OrderDispatchModalCarrierItem';
 
 function OrderDispatchModalContent() {
   const itemsForCarrierInfo: CollapseProps['items'] = [
@@ -19,6 +19,7 @@ function OrderDispatchModalContent() {
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
+                disabled
               >
                 Import from CD
               </Button>
@@ -32,7 +33,8 @@ function OrderDispatchModalContent() {
           </div>
         </div>
       ),
-      children: <OrderDispatchModalCarrierItem />,
+      // children: <OrderDispatchModalCarrierItem />,
+      children: <FeatCarrierInfoInner sourceType="order" />,
     },
   ];
 

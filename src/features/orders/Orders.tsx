@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoadingOutlined } from '@ant-design/icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button, Form } from 'antd';
@@ -16,11 +17,17 @@ import { useOrders } from './useOrders';
 function Orders() {
   const [guid, setGuid] = useState<string | null>(null);
   const { orders, count, isLoadingOrders } = useOrders();
-  const { order, isLoading: isLoadingOrder, error } = useOrder(guid);
+  const {
+    order,
+    isLoading: isLoadingOrder,
+    isFetchingOrder,
+    error,
+  } = useOrder(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
   const [openCarrierModal, setOpenCarrierModal] = useState(false);
 
-  const { openDrawer } = useDrawerFeature();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { openDrawer, closeDrawer } = useDrawerFeature();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 

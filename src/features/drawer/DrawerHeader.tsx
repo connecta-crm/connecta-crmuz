@@ -3,7 +3,9 @@ import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { getMenuData } from '../../services/menu';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { DrawerProps } from '../../ui/Drawer';
 import { classNames } from '../../utils/helpers';
@@ -30,6 +32,10 @@ function DrawerHeader({
   onOpenCarrier,
 }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
+  const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const status = searchParams.get('status') || 'orders';
 
   const items: MenuProps['items'] = [
     {
@@ -130,6 +136,14 @@ function DrawerHeader({
   const handleNextElement = () => {
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
     onOpenDrawer(nextLeadId);
+  };
+
+  const orderStatusName = () => {
+    if (pathname !== '/orders') return;
+
+    return getMenuData
+      .find((menu) => menu.path === pathname)
+      ?.status?.find((statusObj) => statusObj.value === status)?.title;
   };
 
   return (
@@ -233,38 +247,96 @@ function DrawerHeader({
                   Convert to order
                 </Button>
               )}
+
               {feature === 'order' && (
                 <Button
                   className=""
-                  style={{ backgroundColor: 'rgba(221, 242, 253, 1)' }}
+                  style={{
+                    backgroundColor: 'rgba(221, 242, 253, 1)',
+                    cursor: 'initial',
+                  }}
+                  type="text"
                 >
-                  Ready
+                  {orderStatusName()}
                 </Button>
               )}
-              {feature === 'order' && (
-                <Button
-                  className="ml-10"
-                  type="primary"
-                  onClick={onOpenCarrier}
-                >
-                  Dispatch
+              {feature === 'order' &&
+                (status === 'posted' ? ( // posted
+                  <>
+                    <Button
+                      className="ml-10"
+                      type="primary"
+                      onClick={onOpenCarrier}
+                    >
+                      Dispatch
+                    </Button>
+                    <Button className="ml-10" type="primary" ghost>
+                      Repost to CD
+                    </Button>
+                  </>
+                ) : status === 'orders' || status === 'booked' ? (
+                  <Button className="ml-10" type="primary">
+                    Post to CD
+                  </Button>
+                ) : null)}
+
+              {feature === 'lead' ||
+                (feature === 'quote' && (
+                  <Button
+                    onClick={handleArchive}
+                    className="ml-10 mr-10"
+                    type="primary"
+                    danger
+                  >
+                    {featureData.status === 'archived'
+                      ? 'Back to Leads'
+                      : 'Archive'}
+                  </Button>
+                ))}
+
+              {feature === 'order' &&
+                (status === 'issue' ||
+                  status === 'onhold' ||
+                  status === 'archived') && (
+                  <Button className="ml-10" type="primary">
+                    Back to Order
+                  </Button>
+                )}
+              {feature === 'order' &&
+                ['orders', 'booked', 'issue', 'onhold'].includes(status) && (
+                  <Button
+                    onClick={handleArchive}
+                    className="ml-10 mr-10"
+                    type="primary"
+                    danger
+                  >
+                    {featureData.status === 'archived'
+                      ? 'Back to Order'
+                      : 'Archive'}
+                  </Button>
+                )}
+
+              {feature === 'order' && status === 'posted' && (
+                <Button className="ml-10 mr-10" type="primary" danger>
+                  Remove from CD
                 </Button>
               )}
-              {feature === 'order' && (
+
+              {feature === 'order' && status === 'dispatched' && (
                 <Button className="ml-10" type="primary">
-                  Post to CD
+                  Mark as Picked up
                 </Button>
               )}
-              <Button
-                onClick={handleArchive}
-                className="ml-10 mr-10"
-                type="primary"
-                danger
-              >
-                {featureData.status === 'archived'
-                  ? 'Back to Leads'
-                  : 'Archive'}
-              </Button>
+              {feature === 'order' && status === 'pickedup' && (
+                <Button className="ml-10" type="primary">
+                  Mark as Delivered
+                </Button>
+              )}
+              {feature === 'order' && status === 'completed' && (
+                <Button className="ml-10" type="primary">
+                  ⭐️⭐️⭐️⭐️⭐️
+                </Button>
+              )}
             </div>
             {feature === 'quote' && (
               <div className="drawer-header__btnitem ml-0">
