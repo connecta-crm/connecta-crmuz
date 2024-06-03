@@ -7,7 +7,7 @@ export default function CheckButton({
   title: string;
   type: string;
 }) {
-  const localTitle = title.toLowerCase();
+  const localTitle = title;
   const [active, setActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const newSearchParams = new URLSearchParams(searchParams);

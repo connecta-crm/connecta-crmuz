@@ -2,11 +2,13 @@ import { Form, Input, Select, Spin } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useEffect, useState } from 'react';
 import car from '../../../public/img/sports-car.svg';
+import { LogType } from '../../features/dstribution/DistributionDataType';
 import { useRols } from '../../features/rols/useRols';
 import { useTeams } from '../../features/teams/useTeam';
 import { useCreateUser } from '../../features/users/useCreateUser';
 import { useUpdateUser } from '../../features/users/useUpdateUser';
 import { UsersTableDataType } from '../../features/users/usersTableDataType';
+import History from '../History';
 import Modal from '../Modal';
 import FormControl from '../form/FormControl';
 import UpCollapse from '../form/UpCollapse';
@@ -14,12 +16,12 @@ export default function UserModal({
   openModal,
   setModal,
   user,
-  setUser,
+  setUserId,
 }: {
   openModal: boolean;
   setModal: (a: boolean) => void;
   user: UsersTableDataType | null;
-  setUser: (a: UsersTableDataType | null) => void;
+  setUserId: (a: number | null) => void;
 }) {
   const [showInput, setShowInput] = useState<boolean>(false);
   const [userDetails, setUserDetails] = useState({ rols: false, teams: false });
@@ -31,11 +33,11 @@ export default function UserModal({
   const createUser = (e: UsersTableDataType) => {
     if (user) {
       e.id = user?.id;
-      e.newpassword = e.password ? e.password : "";
+      e.newpassword = e.password ? e.password : '';
       update(e, {
         onSuccess: () => {
           setModal(false);
-          setUser(null);
+          setUserId(null);
           form.resetFields();
         },
       });
@@ -63,13 +65,13 @@ export default function UserModal({
   return (
     <Modal
       form={form}
-      title="New user"
+      title={user ? 'User details' : 'New User'}
       width="small"
       padding="15"
       open={openModal}
       onCancel={() => {
         setModal(false);
-        setUser(null);
+        setUserId(null);
       }}
     >
       <Form form={form} onFinish={createUser}>
@@ -208,7 +210,7 @@ export default function UserModal({
               </FormItem>
             ) : (
               <span className="detail__text_with-bg ml-20">
-                {user?.accessRole}
+                {user?.accessName}
               </span>
             )}
           </FormControl>
@@ -238,7 +240,9 @@ export default function UserModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{user?.teamName}</span>
+              <span className="detail__text_with-bg ml-20">
+                {user?.teamName}
+              </span>
             )}
           </FormControl>
 
@@ -259,6 +263,28 @@ export default function UserModal({
             )}
           </FormControl>
         </UpCollapse>
+        {user && (
+          <>
+            <br />
+            <UpCollapse title="History">
+              {user.logs?.length ? (
+                <>
+                  {user?.logs?.map((item: LogType, index: number) => (
+                    <History
+                      key={index}
+                      title={item?.title}
+                      message={item.message}
+                    />
+                  ))}
+                </>
+              ) : (
+                <div className="d-flex justify-center history__message">
+                  Not found history
+                </div>
+              )}
+            </UpCollapse>
+          </>
+        )}
       </Form>
     </Modal>
   );

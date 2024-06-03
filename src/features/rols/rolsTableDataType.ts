@@ -6,6 +6,7 @@ export type RolsUsersType = {
   // method?: string;
 };
 export interface RolsTableDataType {
+  logs?:{ title: string; message: string }[]
   id: string;
   name?: string;
   accessName?: string;

@@ -1,23 +1,23 @@
 import { AxiosError } from 'axios';
 import { UsersParamsType } from '../../features/users/useUsers';
-import { UsersTableDataType } from '../../features/users/usersTableDataType';
 import apiClient from '../axios';
+import { SettingProvidersTableDataType } from '../../features/setting-providers/setttingProviderTableDataType';
 
 type ApiErrorResponse = {
   message: string;
 };
 
-class Users {
+class SettingProviders {
   private $api: typeof apiClient;
 
   constructor() {
     this.$api = apiClient;
   }
 
-  async getUsers({ url }: UsersParamsType) {
+  async getProviders({ url }: UsersParamsType) {
     try {
       const { data } = await this.$api.get(
-        !url ? '/users/list/' : '/users/list?' + url,
+        !url ? '/providers/' : '/providers?' + url,
       );
       return data;
     } catch (error) {
@@ -28,9 +28,9 @@ class Users {
     }
   }
 
-  async getUserDetails(id: number | null) {
+  async getProviderDetails(id: number | null) {
     try {
-      const { data } = await this.$api.get(`/users/detail/${id}/`);
+      const { data } = await this.$api.get(`/providers/detail/${id}/`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -39,9 +39,9 @@ class Users {
       );
     }
   }
-  async updateUser(user: UsersTableDataType) {
+  async updateProvider(item: SettingProvidersTableDataType) {
     try {
-      const { data } = await this.$api.put(`users/update/${user.id}`, user);
+      const { data } = await this.$api.put(`/providers/update/${item.id}`, item);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -52,9 +52,9 @@ class Users {
   }
 
   // POST: /quote/:guid/create/
-  async createUser(user: UsersTableDataType) {
+  async createProvider(item: SettingProvidersTableDataType) {
     try {
-      const { data } = await this.$api.post('/users/create/', user);
+      const { data } = await this.$api.post('/providers/create/', item);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -72,4 +72,4 @@ class Users {
   }
 }
 
-export default new Users();
+export default new SettingProviders();

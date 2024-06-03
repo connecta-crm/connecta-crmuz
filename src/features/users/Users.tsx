@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import UserModal from '../../ui/modal/UserModal';
 import UsersTable from './UsersTable';
+import { useUserDetails } from './useUserDetails';
 import { useUsers } from './useUsers';
-import { UsersTableDataType } from './usersTableDataType';
 export default function Users() {
-  const [user, setUser] = useState<UsersTableDataType | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+  const { user, isLoadingUser } = useUserDetails(userId);
   const [openModal, setOpenModal] = useState(false);
   const { users, isLoading } = useUsers();
 
@@ -21,12 +22,13 @@ export default function Users() {
           setOpenModal={setOpenModal}
           dataSource={users}
           isLoading={isLoading}
+          isLoadingUser={isLoadingUser}
           count={users?.length}
-          setUser={setUser}
+          setUserId={setUserId}
         />
         <UserModal
           user={user}
-          setUser={setUser}
+          setUserId={setUserId}
           openModal={openModal}
           setModal={setOpenModal}
         />

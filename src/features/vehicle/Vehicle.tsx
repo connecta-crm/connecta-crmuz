@@ -31,7 +31,6 @@ export default function Vehicle({
   carId: number;
   type?: boolean;
 }) {
-  console.log(type);
 
   const [carValue, setCarValue] = useState<CarType>({
     id: carId,

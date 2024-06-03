@@ -1,23 +1,23 @@
 import { AxiosError } from 'axios';
 import { UsersParamsType } from '../../features/users/useUsers';
-import { UsersTableDataType } from '../../features/users/usersTableDataType';
 import apiClient from '../axios';
+import { DistributionDataType } from '../../features/dstribution/DistributionDataType';
 
 type ApiErrorResponse = {
   message: string;
 };
 
-class Users {
+class Distribution {
   private $api: typeof apiClient;
 
   constructor() {
     this.$api = apiClient;
   }
 
-  async getUsers({ url }: UsersParamsType) {
+  async getDistributions({ url }: UsersParamsType) {
     try {
       const { data } = await this.$api.get(
-        !url ? '/users/list/' : '/users/list?' + url,
+        !url ? '/providers/distribution/' : '/providers/distribution?' + url,
       );
       return data;
     } catch (error) {
@@ -28,9 +28,9 @@ class Users {
     }
   }
 
-  async getUserDetails(id: number | null) {
+  async getDistributionDetails(id: number | null) {
     try {
-      const { data } = await this.$api.get(`/users/detail/${id}/`);
+      const { data } = await this.$api.get(`/providers/distribution/detail/${id}/`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -39,9 +39,9 @@ class Users {
       );
     }
   }
-  async updateUser(user: UsersTableDataType) {
+  async updateDistribution(item: DistributionDataType) {
     try {
-      const { data } = await this.$api.put(`users/update/${user.id}`, user);
+      const { data } = await this.$api.put(`/providers/distribution/update/${item.id}`, item);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -52,9 +52,9 @@ class Users {
   }
 
   // POST: /quote/:guid/create/
-  async createUser(user: UsersTableDataType) {
+  async createDistribution(item: DistributionDataType) {
     try {
-      const { data } = await this.$api.post('/users/create/', user);
+      const { data } = await this.$api.post('/providers/distribution/create/', item);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -72,4 +72,4 @@ class Users {
   }
 }
 
-export default new Users();
+export default new Distribution();

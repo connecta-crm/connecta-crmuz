@@ -6,6 +6,7 @@ export type DndType = {
   firstName?: string;
   id: string;
   name: string;
+  lastName?: string;
 };
 export interface RecordType {
   id: string;
@@ -20,11 +21,13 @@ const Dnd = ({
   available,
   included,
   disabled,
+  updateable,
 }: {
   setIncludedFeatures: React.Dispatch<React.SetStateAction<string[]>>;
   available?: DndType[];
   included?: DndType[];
   disabled?: boolean;
+  updateable: boolean;
 }) => {
   const { features } = useFeature(available ? false : true);
   const mockData: RecordType[] = (
@@ -37,8 +40,13 @@ const Dnd = ({
   const initialTargetKeys = included ? included.map((item) => item?.id) : [];
 
   useEffect(() => {
-    if (included) {
+    if (available && updateable) {
       setIncludedFeatures(initialTargetKeys);
+      setTargetKeys(initialTargetKeys);
+      return;
+    }
+    if (included) {
+      // setIncludedFeatures(initialTargetKeys);
       setTargetKeys(initialTargetKeys);
     }
   }, [included]);

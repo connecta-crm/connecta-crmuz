@@ -2,9 +2,11 @@ import { Form, Input, Select } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useEffect, useState } from 'react';
 import car from '../../../public/img/sports-car.svg';
+import { LogType } from '../../features/dstribution/DistributionDataType';
 import { TeamsTableDataType } from '../../features/teams/teamsTableDataType';
 import { useCreateTeam } from '../../features/teams/useCreateTeam';
 import { useUpdateTeam } from '../../features/teams/useUpdateTeam';
+import History from '../History';
 import Modal from '../Modal';
 import FormControl from '../form/FormControl';
 import UpCollapse from '../form/UpCollapse';
@@ -58,7 +60,7 @@ export default function TeamModal({
   return (
     <Modal
       form={form}
-      title="New team"
+      title={team ? 'Team' : 'New team'}
       width="small"
       padding="15"
       open={openModal}
@@ -111,6 +113,28 @@ export default function TeamModal({
             )}
           </FormControl>
         </UpCollapse>
+        {team && (
+          <>
+            <br />
+            <UpCollapse title="History">
+              {team.logs?.length ? (
+                <>
+                  {team?.logs?.map((item: LogType, index: number) => (
+                    <History
+                      key={index}
+                      title={item?.title}
+                      message={item.message}
+                    />
+                  ))}
+                </>
+              ) : (
+                <div className="d-flex justify-center history__message">
+                  Not found history
+                </div>
+              )}
+            </UpCollapse>
+          </>
+        )}
       </Form>
     </Modal>
   );

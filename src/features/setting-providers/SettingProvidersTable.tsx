@@ -1,13 +1,13 @@
 import { Table } from 'antd';
 import SettingsTableHeaderActions from '../../ui/SettingsTableHeaderActions';
 import SettingsTableHeaderFilters from '../../ui/SettingsTableHeaderFilters';
-import { UsersTableColumn } from './UsersTableColumn';
-import { UsersTableDataType } from './usersTableDataType';
+import { ProvidersTableColumn } from './SettingProvidersTableColumn';
+import { SettingProvidersTableDataType } from './setttingProviderTableDataType';
 
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
-    selectedRows: UsersTableDataType[],
+    selectedRows: SettingProvidersTableDataType[],
   ) => {
     console.log(
       `selectedRowKeys: ${selectedRowKeys}`,
@@ -15,51 +15,51 @@ const rowSelection = {
       selectedRows,
     );
   },
-  getCheckboxProps: (record: UsersTableDataType) => ({
-    name: record.firstName,
+  getCheckboxProps: (record: SettingProvidersTableDataType) => ({
+    name: record.name,
   }),
 };
-export default function UsersTable({
+export default function SettingProvidersTable({
   count,
   dataSource,
   isLoading,
   setOpenModal,
-  setUserId,
+  setProviderId,
   isLoadingUser,
 }: {
   count: number;
-  dataSource: UsersTableDataType[];
+  dataSource: SettingProvidersTableDataType[];
   isLoading: boolean;
-  isLoadingUser:boolean
+  isLoadingUser: boolean;
   setOpenModal: (a: boolean) => void;
-  setUserId: (a: number | null) => void;
+  setProviderId: (a: number | null) => void;
 }) {
   return (
     <>
       <div className="dt-header">
         <SettingsTableHeaderActions
           onOpenModal={setOpenModal}
-          pageName="Users"
+          pageName="Providers"
         />
         <SettingsTableHeaderFilters
           count={count}
-          hasFilterBtn={false}
+          hasFilterBtn={true}
           hasFilterSelect={false}
-          pagename="users"
+          pagename="providers"
         />
       </div>
       <div className="table__container">
         <Table
-          loading={isLoading||isLoadingUser}
+          loading={isLoading || isLoadingUser}
           rowKey="id"
           rowSelection={{ ...rowSelection }}
-          columns={UsersTableColumn}
+          columns={ProvidersTableColumn}
           dataSource={dataSource}
-          onRow={(data: UsersTableDataType) => ({
+          onRow={(data: SettingProvidersTableDataType) => ({
             onClick: (event) => {
               const target = event.target as HTMLTextAreaElement;
               const element = target.className;
-              element == 'table__id' && setUserId(data.id);
+              element == 'table__id' && setProviderId(data.id);
             },
           })}
         />

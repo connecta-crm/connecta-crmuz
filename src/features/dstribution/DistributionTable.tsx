@@ -1,13 +1,13 @@
 import { Table } from 'antd';
 import SettingsTableHeaderActions from '../../ui/SettingsTableHeaderActions';
 import SettingsTableHeaderFilters from '../../ui/SettingsTableHeaderFilters';
-import { UsersTableColumn } from './UsersTableColumn';
-import { UsersTableDataType } from './usersTableDataType';
+import { DistributionColumn } from './DistributionColumn';
+import { DistributionDataType } from './DistributionDataType';
 
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
-    selectedRows: UsersTableDataType[],
+    selectedRows: DistributionDataType[],
   ) => {
     console.log(
       `selectedRowKeys: ${selectedRowKeys}`,
@@ -15,51 +15,52 @@ const rowSelection = {
       selectedRows,
     );
   },
-  getCheckboxProps: (record: UsersTableDataType) => ({
-    name: record.firstName,
+  getCheckboxProps: (record: DistributionDataType) => ({
+    name: record.finishHour,
   }),
 };
-export default function UsersTable({
+export default function DistributionTable({
   count,
   dataSource,
   isLoading,
   setOpenModal,
-  setUserId,
+  setDistributionId,
   isLoadingUser,
 }: {
   count: number;
-  dataSource: UsersTableDataType[];
+  dataSource: DistributionDataType[];
   isLoading: boolean;
-  isLoadingUser:boolean
+  isLoadingUser: boolean;
   setOpenModal: (a: boolean) => void;
-  setUserId: (a: number | null) => void;
+  setDistributionId: (a: number | null) => void;
 }) {
   return (
     <>
       <div className="dt-header">
         <SettingsTableHeaderActions
+        hasAddBtn={false}
           onOpenModal={setOpenModal}
-          pageName="Users"
+          pageName="Distribution"
         />
         <SettingsTableHeaderFilters
           count={count}
           hasFilterBtn={false}
           hasFilterSelect={false}
-          pagename="users"
+          pagename="distributions"
         />
       </div>
       <div className="table__container">
         <Table
-          loading={isLoading||isLoadingUser}
+          loading={isLoading || isLoadingUser}
           rowKey="id"
           rowSelection={{ ...rowSelection }}
-          columns={UsersTableColumn}
+          columns={DistributionColumn}
           dataSource={dataSource}
-          onRow={(data: UsersTableDataType) => ({
+          onRow={(data: DistributionDataType) => ({
             onClick: (event) => {
               const target = event.target as HTMLTextAreaElement;
               const element = target.className;
-              element == 'table__id' && setUserId(data.id);
+              element == 'table__id' && setDistributionId(data.id);
             },
           })}
         />

@@ -2,9 +2,11 @@ import { Form, Input, Select } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useEffect, useState } from 'react';
 import car from '../../../public/img/sports-car.svg';
+import { LogType } from '../../features/dstribution/DistributionDataType';
 import { RolsTableDataType } from '../../features/rols/rolsTableDataType';
 import { useCreateRole } from '../../features/rols/useCreateRols';
 import { useUpdateRole } from '../../features/rols/useUpdateRole';
+import History from '../History';
 import Modal from '../Modal';
 import Dnd, { DndType } from '../dnd/Dnd';
 import FormControl from '../form/FormControl';
@@ -41,6 +43,8 @@ export default function RoleModal({
       return;
     }
     e.id = role?.id;
+    console.log(e);
+
     update(e, {
       onSuccess: () => {
         setModal(false);
@@ -132,6 +136,7 @@ export default function RoleModal({
             </div>
           </InputRow>
           <Dnd
+            updateable={true}
             disabled={showInput}
             available={role && available}
             included={role && included}
@@ -146,6 +151,7 @@ export default function RoleModal({
                 </div>
               </InputRow>
               <Dnd
+                updateable={false}
                 disabled={true}
                 available={role && accessUsers}
                 included={role && accessUsers}
@@ -154,6 +160,28 @@ export default function RoleModal({
             </>
           )}
         </UpCollapse>
+        {role && (
+          <>
+            <br />
+            <UpCollapse title="History">
+              {role.logs?.length ? (
+                <>
+                  {role?.logs?.map((item: LogType, index: number) => (
+                    <History
+                      key={index}
+                      title={item?.title}
+                      message={item.message}
+                    />
+                  ))}
+                </>
+              ) : (
+                <div className="d-flex justify-center history__message">
+                  Not found history
+                </div>
+              )}
+            </UpCollapse>
+          </>
+        )}
       </Form>
     </Modal>
   );
