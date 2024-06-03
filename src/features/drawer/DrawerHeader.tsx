@@ -280,19 +280,18 @@ function DrawerHeader({
                   </Button>
                 ) : null)}
 
-              {feature === 'lead' ||
-                (feature === 'quote' && (
-                  <Button
-                    onClick={handleArchive}
-                    className="ml-10 mr-10"
-                    type="primary"
-                    danger
-                  >
-                    {featureData.status === 'archived'
-                      ? 'Back to Leads'
-                      : 'Archive'}
-                  </Button>
-                ))}
+              {(feature === 'lead' || feature === 'quote') && (
+                <Button
+                  onClick={handleArchive}
+                  className="ml-10 mr-10"
+                  type="primary"
+                  danger
+                >
+                  {featureData.status === 'archived'
+                    ? 'Back to Leads'
+                    : 'Archive'}
+                </Button>
+              )}
 
               {feature === 'order' &&
                 (status === 'issue' ||

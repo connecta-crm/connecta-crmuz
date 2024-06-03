@@ -151,4 +151,22 @@ $modal-border-color: #d1d1d1;
       justify-content: space-between;
     }
   }
+  &__input-label {
+    color: #164863;
+    font-weight: 600;
+    font-size: 15px;
+  }
+}
+
+/* ==================================================================================================================*/
+
+.dispatch-modal {
+  .form-label {
+    font-weight: 600;
+    font-size: 15px;
+    color: #164863;
+  }
+  .ant-collapse-content-box {
+    padding-top: 0 !important;
+  }
 }

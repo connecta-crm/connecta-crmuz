@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { LoadingOutlined } from '@ant-design/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Form } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
-import Modal from '../../ui/Modal';
 import OrdersModal from '../../ui/modal/OrderModal';
-import OrderDispatchModalContent from './OrderDispatchModalContent';
+import OrderDispatchModal from './OrderDispatchModal';
 import OrdersTable from './OrderTable';
 import { setOrderData } from './orderSlice';
 import { useOrder } from './useOrder';
@@ -17,17 +14,12 @@ import { useOrders } from './useOrders';
 function Orders() {
   const [guid, setGuid] = useState<string | null>(null);
   const { orders, count, isLoadingOrders } = useOrders();
-  const {
-    order,
-    isLoading: isLoadingOrder,
-    isFetchingOrder,
-    error,
-  } = useOrder(guid);
+  const { order, isLoading: isLoadingOrder, error } = useOrder(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
   const [openCarrierModal, setOpenCarrierModal] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { openDrawer, closeDrawer } = useDrawerFeature();
+  const { openDrawer } = useDrawerFeature();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
@@ -54,41 +46,13 @@ function Orders() {
 
   // * CARRIER MODAL FUNCTIONS
 
-  const [form] = Form.useForm();
-
   return (
     <div className="orders">
-      <Modal
-        form={form}
-        title="Dispatching to a carrier"
-        width="middle"
-        padding="0"
-        open={openCarrierModal}
-        onCancel={() => setOpenCarrierModal(false)}
-        extraBtnToHeader={
-          <Button
-            size="small"
-            type="primary"
-            className="ml-10"
-            style={{ backgroundColor: '#427d9d' }}
-            disabled={false}
-            onClick={() => {}}
-          >
-            {isLoadingOrder ? (
-              'Dispatch'
-            ) : (
-              <>
-                Dispatch <LoadingOutlined />
-              </>
-            )}
-          </Button>
-        }
-      >
-        <Form form={form} onFinish={() => {}}>
-          <OrderDispatchModalContent />
-        </Form>
-      </Modal>
-
+      <OrderDispatchModal
+        isLoadingOrder={isLoadingOrder}
+        openCarrierModal={openCarrierModal}
+        setOpenCarrierModal={setOpenCarrierModal}
+      />
       <OrdersTable
         guid={guid}
         count={count}

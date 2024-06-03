@@ -1,9 +1,19 @@
-import { Button, Collapse, CollapseProps } from 'antd';
+import { Button, Collapse, CollapseProps, Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 import DrawerArrowIcon from '../drawer/DrawerArrowIcon';
 import FeatCarrierInfoInner from '../drawer/feature-date/FeatCarrierInfoInner';
 import FeatDateInner from '../drawer/feature-date/FeatDateInner';
+import { getOrderData, updateField as updateOrderField } from './orderSlice';
 
 function OrderDispatchModalContent() {
+  const orderData = useAppSelector(getOrderData);
+  const dispatch = useDispatch();
+
+  const handleChange = (field: string, value: string) => {
+    dispatch(updateOrderField({ field, value }));
+  };
+
   const itemsForCarrierInfo: CollapseProps['items'] = [
     {
       key: '1',
@@ -59,13 +69,61 @@ function OrderDispatchModalContent() {
           <span className="box-header__label">Payment</span>
         </div>
       ),
-      children: <FeatDateInner sourceType="order" />,
+      children: (
+        <>
+          <div className="d-flex align-center justify-between mb-5">
+            <div className="modal__input-label">Total tariff</div>
+            <Input
+              value={orderData.payments?.paymentTotalTariff}
+              defaultValue={orderData.payments?.paymentTotalTariff}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChange('payments.paymentTotalTariff', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex align-center justify-between mb-5">
+            <div className="modal__input-label">Paid Reservation</div>
+            <div style={{ width: 215, float: 'inline-end', height: 24 }}>
+              ${orderData.payments?.paymentPaidReservation}
+            </div>
+          </div>
+          <div className="d-flex align-center justify-between mb-5">
+            <div className="modal__input-label">Reservation</div>
+            <Input
+              value={orderData.payments?.paymentReservation}
+              defaultValue={orderData.payments?.paymentReservation}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChange('payments.paymentReservation', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex align-center justify-between mb-5">
+            <div className="modal__input-label">Carrier pay</div>
+            <Input
+              value={orderData.payments?.paymentCarrierPay}
+              defaultValue={orderData.payments?.paymentCarrierPay}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChange('payments.paymentCarrierPay', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex align-center justify-between mb-5">
+            <div className="modal__input-label">COD to carrier</div>
+            <div style={{ width: 215, float: 'inline-end', height: 24 }}>
+              ${orderData.payments?.paymentCodToCarrier}
+            </div>
+          </div>
+        </>
+      ),
       className: 'feature-drawer__item',
     },
   ];
 
   return (
-    <div className="modal__row">
+    <div className="modal__row dispatch-modal">
       <div className="modal__col p-0">
         <Collapse
           ghost
