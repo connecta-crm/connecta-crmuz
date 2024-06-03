@@ -237,9 +237,17 @@ function DrawerHeader({
                 <Button
                   className=""
                   style={{ backgroundColor: 'rgba(221, 242, 253, 1)' }}
-                  onClick={onOpenCarrier}
                 >
                   Ready
+                </Button>
+              )}
+              {feature === 'order' && (
+                <Button
+                  className="ml-10"
+                  type="primary"
+                  onClick={onOpenCarrier}
+                >
+                  Dispatch
                 </Button>
               )}
               {feature === 'order' && (

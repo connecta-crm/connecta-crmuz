@@ -64,7 +64,7 @@ export type DatesOrder = {
 };
 
 export type CarrierData = {
-  id: number;
+  id?: number;
   name: string;
   address: string;
   mcNumber: string;
@@ -74,7 +74,8 @@ export type CarrierData = {
   email: string;
   fax: string;
   status: string;
-  location: number;
+  location: number | null;
+  locationName: string;
 };
 
 export type DispatchData = {
@@ -113,6 +114,7 @@ const dispatchData: DispatchData = {
     fax: '',
     status: '',
     location: 0,
+    locationName: '',
   },
 };
 

@@ -1,15 +1,13 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Collapse, CollapseProps, Form } from 'antd';
+import { Button, Form } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import Modal from '../../ui/Modal';
 import OrdersModal from '../../ui/modal/OrderModal';
-import DrawerArrowIcon from '../drawer/DrawerArrowIcon';
-import FeatCarrierInfoInner from '../drawer/feature-date/FeatCarrierInfoInner';
-import FeatDateInner from '../drawer/feature-date/FeatDateInner';
+import OrderDispatchModalContent from './OrderDispatchModalContent';
 import OrdersTable from './OrderTable';
 import { setOrderData } from './orderSlice';
 import { useOrder } from './useOrder';
@@ -51,64 +49,6 @@ function Orders() {
 
   const [form] = Form.useForm();
 
-  const itemsForCarrierInfo: CollapseProps['items'] = [
-    {
-      key: '1',
-      label: (
-        <div className="box-header d-flex align-center justify-between">
-          <span className="box-header__label">Carrier company info</span>
-          <div className="d-flex align-center">
-            <div className="detail__btns d-flex align-center pr-0">
-              <Button
-                className="ml-10"
-                type="primary"
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                Import from CD
-              </Button>
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className="box-header__more ml-10"
-              >
-                <img src="./img/drawer/more-2.svg" alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
-      ),
-      children: <FeatCarrierInfoInner sourceType="order" />,
-    },
-  ];
-
-  const itemsForCarrierDate: CollapseProps['items'] = [
-    {
-      key: '1',
-      label: (
-        <div className="box-header d-flex align-center justify-between">
-          <span className="box-header__label">Date</span>
-        </div>
-      ),
-      children: <FeatDateInner sourceType="order" />,
-      className: 'feature-drawer__item',
-    },
-  ];
-
-  const itemsForCarrierPayment: CollapseProps['items'] = [
-    {
-      key: '1',
-      label: (
-        <div className="box-header d-flex align-center justify-between">
-          <span className="box-header__label">Payment</span>
-        </div>
-      ),
-      children: <FeatDateInner sourceType="order" />,
-      className: 'feature-drawer__item',
-    },
-  ];
-
   return (
     <div className="orders">
       <Modal
@@ -138,35 +78,10 @@ function Orders() {
         }
       >
         <Form form={form} onFinish={() => {}}>
-          <div className="modal__row">
-            <div className="modal__col p-0">
-              <Collapse
-                defaultActiveKey={['1']}
-                ghost
-                collapsible="header"
-                expandIcon={DrawerArrowIcon}
-                items={itemsForCarrierInfo}
-              />
-            </div>
-            <div className="modal__col p-0">
-              <Collapse
-                defaultActiveKey={['1']}
-                ghost
-                collapsible="header"
-                expandIcon={DrawerArrowIcon}
-                items={itemsForCarrierDate}
-              />
-              <Collapse
-                defaultActiveKey={['1']}
-                ghost
-                collapsible="header"
-                expandIcon={DrawerArrowIcon}
-                items={itemsForCarrierPayment}
-              />
-            </div>
-          </div>
+          <OrderDispatchModalContent />
         </Form>
       </Modal>
+
       <OrdersTable
         guid={guid}
         count={count}
