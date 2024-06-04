@@ -147,6 +147,38 @@ function DrawerHeader({
       ?.status?.find((statusObj) => statusObj.value === status)?.title;
   };
 
+  const itemsSettingMore: MenuProps['items'] = [
+    ...(feature === 'order'
+      ? [
+          {
+            label: <p onClick={() => {}}>History</p>,
+            key: '0',
+          },
+          {
+            label: <p onClick={() => {}}>Back To Quotes</p>,
+            key: '1',
+          },
+          {
+            label: <p onClick={() => {}}>Direct Dispatch</p>,
+            key: '3',
+          },
+          {
+            label: <p onClick={() => {}}>Team Support</p>,
+            key: '4',
+          },
+        ]
+      : []),
+    ...(feature === 'order' && status === 'dispatched'
+      ? [
+          { type: 'divider' as const },
+          {
+            label: <p onClick={() => {}}>Cancel the order</p>,
+            key: '5',
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div className="drawer-header">
       <div className="drawer-header__container">
@@ -354,9 +386,26 @@ function DrawerHeader({
                 </Dropdown>
               </div>
             )}
-            <div className="drawer-header__more">
-              <img src="./img/drawer/more.svg" alt="" />
-            </div>
+            {/* SETTING MORE */}
+            <Dropdown
+              menu={{
+                items: itemsSettingMore,
+                selectable: false,
+                defaultSelectedKeys: [''],
+              }}
+              trigger={['click']}
+              placement="bottomRight"
+              arrow={{ pointAtCenter: true }}
+              destroyPopupOnHide={true}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <div className="drawer-header__more">
+                    <img src="./img/drawer/more.svg" alt="" />
+                  </div>
+                </Space>
+              </a>
+            </Dropdown>
           </div>
         </div>
       </div>
