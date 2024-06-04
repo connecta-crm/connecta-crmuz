@@ -1,5 +1,5 @@
 import CheckButton from './CheckButton';
-import TableHeaderProvider from './TableHeaderProvider';
+import TableHeaderProvider from './table/TableHeaderProvider';
 import hamburg from '/img/dt_table/hamburg_menu.svg';
 
 export type TableHeaderFiltersProps = {
