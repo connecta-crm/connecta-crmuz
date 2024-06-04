@@ -1,24 +1,36 @@
-import { useState } from 'react';
-import UsersTable from './UsersTable';
-import { useUsers } from './useUsers';
+import { useEffect, useState } from 'react';
 import UserModal from '../../ui/modal/UserModal';
+import UsersTable from './UsersTable';
+import { useUserDetails } from './useUserDetails';
+import { useUsers } from './useUsers';
 export default function Users() {
-    const [openModal,setOpenModal] = useState(false)
-  const {users,isLoading} =   useUsers()
-  console.log(users);
-  
+  const [userId, setUserId] = useState<number | null>(null);
+  const { user, isLoadingUser } = useUserDetails(userId);
+  const [openModal, setOpenModal] = useState(false);
+  const { users, isLoading } = useUsers();
+
+  useEffect(() => {
+    if (user) {
+      setOpenModal(true);
+    }
+  }, [user]);
+
   return (
     <>
       <div className="users">
         <UsersTable
-        setOpenModal={setOpenModal}
-        dataSource={users}
-        isLoading={isLoading}
-        count={users?.length}
+          setOpenModal={setOpenModal}
+          dataSource={users}
+          isLoading={isLoading}
+          isLoadingUser={isLoadingUser}
+          count={users?.length}
+          setUserId={setUserId}
         />
         <UserModal
-         openModal={openModal}
-         setModal={setOpenModal}
+          user={user}
+          setUserId={setUserId}
+          openModal={openModal}
+          setModal={setOpenModal}
         />
       </div>
     </>

@@ -1,7 +1,9 @@
 export interface UsersTableDataType {
-  id?:string
-  isActive?:boolean;
-  username?:string;
+  
+  logs?:{ title: string; message: string }[]
+  id: number | null;
+  isActive?: boolean;
+  username?: string;
   password: string;
   firstName: string;
   lastName: string;
@@ -11,6 +13,10 @@ export interface UsersTableDataType {
   picture: string;
   team: string;
   access: string;
-  position: string|null;
-  status?:string
+  position: string | null;
+  status?: string;
+  accessRole?: string;
+  newpassword?: string | null;
+  teamName?:string|null
+  accessName?:string|null
 }

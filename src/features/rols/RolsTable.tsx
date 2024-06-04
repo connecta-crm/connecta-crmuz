@@ -24,11 +24,15 @@ export default function RolsTable({
   dataSource,
   isLoading,
   setOpenModal,
+  isLoadingRole,
+  setEditId,
 }: {
   count: number;
   dataSource: RolsTableDataType[];
   isLoading: boolean;
   setOpenModal: (a: boolean) => void;
+  isLoadingRole: boolean;
+  setEditId: (a: number | null) => void;
 }) {
   return (
     <>
@@ -41,16 +45,23 @@ export default function RolsTable({
           count={count}
           hasFilterBtn={false}
           hasFilterSelect={false}
-          pagename='roles'
-        />  
+          pagename="roles"
+        />
       </div>
       <div className="table__container">
         <Table
-          loading={isLoading}
+          loading={isLoading || isLoadingRole}
           rowKey="id"
           rowSelection={{ ...rowSelection }}
           columns={RolsTableColumns}
           dataSource={dataSource}
+          onRow={(data: RolsTableDataType) => ({
+            onClick: (event) => {
+              const target = event.target as HTMLTextAreaElement;
+              const element = target.className;
+              element == 'table__id' && setEditId(data?.id);
+            },
+          })}
         />
       </div>
     </>

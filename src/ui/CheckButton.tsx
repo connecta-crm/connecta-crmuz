@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-function CheckButton({ title, type }: { title: string; type: string }) {
-  const localTitle = title.toLowerCase();
+export default function CheckButton({
+  title,
+  type,
+}: {
+  title: string;
+  type: string;
+}) {
+  const localTitle = title;
   const [active, setActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const newSearchParams = new URLSearchParams(searchParams);
@@ -39,4 +45,3 @@ function CheckButton({ title, type }: { title: string; type: string }) {
     </button>
   );
 }
-export default CheckButton;

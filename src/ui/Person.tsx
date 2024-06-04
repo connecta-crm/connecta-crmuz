@@ -22,23 +22,25 @@ export default function Person({
     name: string;
     email: string;
     phone: string;
+    lastName:string
   }>({
     name: '',
     email: '',
     phone: '',
+    lastName:''
   });
   const [addNumber, setAddNumber] = useState(false);
   const [newNumberValue, setNewNumberValue] = useState('');
   const [create, setCreate] = useState(false);
   const [selectPersonValue, setSelectPersonValue] =
     useState<DefaultOptionType | null>(null);
-  const [person, setPerson] = useState({ name: '', phone: '', email: '' });
+  const [person, setPerson] = useState({ name: '', phone: '', email: '',lastName:'' });
   const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
 
   const [url, seturl] = useState('');
   useEffect(() => {
-    if (person.name || person.email || person.phone) {
+    if (person.name || person.email || person.phone||person.lastName) {
       const searchParam = new URLSearchParams(person);
       seturl(searchParam.toString());
     }
@@ -47,26 +49,33 @@ export default function Person({
   const { personData, isFetching } = usePerson(url);
 
   const handleSearchPersonName = (newValue: string) => {
-    setNewCustomer({ name: newValue, email: '', phone: '' });
-    setPerson({ name: '', phone: '', email: '' });
+    setNewCustomer({ name: newValue, email: '', phone: '',lastName:'' });
+    setPerson({ name: '', phone: '', email: '',lastName:'' });
     setSelectPersonValue(null);
     setPerson({ ...person, name: newValue });
   };
+  const handleSearchPersonLastName = (newValue: string) => {
+    
+    setNewCustomer({ name: '', email: '', phone: '',lastName:newValue });
+    setPerson({ name: '', phone: '', email: '' ,lastName:''});
+    setSelectPersonValue(null);
+    setPerson({ ...person,lastName:newValue });
+  };
   const handleSearchPersonEmail = (newValue: string) => {
-    setNewCustomer({ name: '', email: newValue, phone: '' });
-    setPerson({ name: '', phone: '', email: '' });
+    setNewCustomer({ name: '', email: newValue, phone: '',lastName:'' });
+    setPerson({ name: '', phone: '', email: '',lastName:'' });
     setSelectPersonValue(null);
     setPerson({ ...person, email: newValue });
   };
   const handleSearchPersonPhone = (newValue: string) => {
-    setNewCustomer({ name: '', email: '', phone: newValue });
-    setPerson({ name: '', phone: '', email: '' });
+    setNewCustomer({ name: '', email: '', phone: newValue,lastName:'' });
+    setPerson({ name: '', phone: '', email: '' ,lastName:''});
     setSelectPersonValue(null);
     setPerson({ ...person, phone: newValue });
   };
 
   const handleChangePerson = (newValue: string, record: DefaultOptionType) => {
-    setPerson({ name: '', phone: '', email: '' });
+    setPerson({ name: '', phone: '', email: '' ,lastName:''});
     setSelectPersonValue(record.all);
     setCustomer(newValue);
     setPersonId(newValue);
@@ -81,6 +90,7 @@ export default function Person({
     if (create) {
       if (
         newCustomer.name &&
+        newCustomer.lastName &&
         newCustomer.email.match(/^\S+@\S+\.\S+$/) &&
         newCustomer.phone
       ) {
@@ -106,7 +116,7 @@ export default function Person({
   };
 
   useEffect(() => {
-    setPerson({ name: '', phone: '', email: '' });
+    setPerson({ name: '', phone: '', email: '',lastName:'' });
   }, [create]);
 
   const { createNumber, isPending } = useCreateNumber();
@@ -172,6 +182,50 @@ export default function Person({
           />
         )}
       </FormControl>
+
+      <FormControl title="Last name" img={user}>
+        {create ? (
+          <input
+            type="text"
+            placeholder="Enter last name"
+            required
+            name="lastName"
+            value={newCustomer.lastName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChangeInput(e)
+            }
+          />
+        ) : (
+          <Select
+            showSearch
+            value={selectPersonValue?.lastName}
+            placeholder={'Search lastname'}
+            style={{ width: '100%' }}
+            defaultActiveFirstOption={false}
+            filterOption={false}
+            onSearch={handleSearchPersonLastName}
+            onChange={(data, record) => handleChangePerson(data, record)}
+            loading={isFetching}
+            notFoundContent={
+              isFetching ? (
+                <Spin size="small" />
+              ) : (
+                <Button onClick={() => setCreate(true)} size="small">
+                  create
+                </Button>
+              )
+            }
+            options={(personData || []).map(
+              (d: { id: number; lastName: string }) => ({
+                value: d.id,
+                all: d,
+                label: d.lastName,
+              }),
+            )}
+          />
+        )}
+      </FormControl>
+
       <FormControl title="Email" img={email}>
         {create ? (
           <input

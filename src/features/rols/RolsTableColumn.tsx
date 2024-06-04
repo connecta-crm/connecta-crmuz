@@ -4,11 +4,11 @@ export const RolsTableColumns = [
   {
     title: 'Name',
     dataIndex: 'accessName',
-    render: (name: string) => <a>{name}</a>,
+    render: (name: string) => <a className="table__id">{name}</a>,
   },
   {
     title: 'Users',
-    dataIndex: 'includedUsers',
+    dataIndex: 'accessUsers',
     render: (data: RolsTableDataType[]) => (
       <div>
         {data?.length > 0 ? (
@@ -21,7 +21,7 @@ export const RolsTableColumns = [
             if (index < 8) {
               return (
                 <span key={index} className="user__name">
-                  {item?.accessName}
+                  {item?.firstName}
                 </span>
               );
             }

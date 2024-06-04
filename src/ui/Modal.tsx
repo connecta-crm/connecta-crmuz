@@ -16,6 +16,7 @@ type ModalProps = {
   children: ReactNode;
   onSave?: () => void;
   onCancel: () => void;
+  hasEdit?: boolean;
 };
 
 function Modal({
@@ -32,11 +33,13 @@ function Modal({
   saveBtnText = 'Save',
   hasSaveBtn = true,
   children,
+  hasEdit = false,
 }: ModalProps) {
   const modalWidth = width === 'small' ? 420 : width === 'middle' ? 840 : 915;
 
   return (
     <ModalUI
+      destroyOnClose={true}
       className="modal"
       title={
         <div className="modal__header">
@@ -45,40 +48,44 @@ function Modal({
             <Button size="small" onClick={onCancel}>
               Cancel
             </Button>
-            {hasSaveBtn && form ? (
-              <Button
-                size="small"
-                type="primary"
-                className="ml-10"
-                disabled={loading}
-                onClick={form.submit}
-                danger={saveBtnDanger}
-              >
-                {!loading ? (
-                  saveBtnText
+            {!hasEdit && (
+              <>
+                {hasSaveBtn && form ? (
+                  <Button
+                    size="small"
+                    type="primary"
+                    className="ml-10"
+                    disabled={loading}
+                    onClick={form.submit}
+                    danger={saveBtnDanger}
+                  >
+                    {!loading ? (
+                      saveBtnText
+                    ) : (
+                      <>
+                        {saveBtnText} <LoadingOutlined />
+                      </>
+                    )}
+                  </Button>
                 ) : (
-                  <>
-                    {saveBtnText} <LoadingOutlined />
-                  </>
+                  <Button
+                    size="small"
+                    type="primary"
+                    className="ml-10"
+                    disabled={loading}
+                    onClick={onSave}
+                    danger={saveBtnDanger}
+                  >
+                    {!loading ? (
+                      saveBtnText
+                    ) : (
+                      <>
+                        {saveBtnText} <LoadingOutlined />
+                      </>
+                    )}
+                  </Button>
                 )}
-              </Button>
-            ) : (
-              <Button
-                size="small"
-                type="primary"
-                className="ml-10"
-                disabled={loading}
-                onClick={onSave}
-                danger={saveBtnDanger}
-              >
-                {!loading ? (
-                  saveBtnText
-                ) : (
-                  <>
-                    {saveBtnText} <LoadingOutlined />
-                  </>
-                )}
-              </Button>
+              </>
             )}
             {extraBtnToHeader ? extraBtnToHeader : null}
           </div>

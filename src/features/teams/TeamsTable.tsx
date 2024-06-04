@@ -23,12 +23,16 @@ export default function TeamsTable({
   count,
   dataSource,
   isLoading,
+  isLoadingTeam,
   setOpenModal,
+  setEditId,
 }: {
   count: number;
   dataSource: TeamsTableDataType[];
   isLoading: boolean;
+  isLoadingTeam: boolean;
   setOpenModal: (a: boolean) => void;
+  setEditId: (a: number | null) => void;
 }) {
   return (
     <>
@@ -41,16 +45,24 @@ export default function TeamsTable({
           count={count}
           hasFilterBtn={false}
           hasFilterSelect={false}
-          pagename='teams'
+          pagename="teams"
         />
       </div>
       <div className="table__container">
         <Table
-          loading={isLoading}
+          pagination={{ pageSize: count }}
+          loading={isLoading || isLoadingTeam}
           rowKey="id"
           rowSelection={{ ...rowSelection }}
           columns={TeamTableColumns}
           dataSource={dataSource}
+          onRow={(data: TeamsTableDataType) => ({
+            onClick: (event) => {
+              const target = event.target as HTMLTextAreaElement;
+              const element = target.className;
+              element == 'table__id' && setEditId(data?.id);
+            },
+          })}
         />
       </div>
     </>
