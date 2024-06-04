@@ -5,6 +5,7 @@ import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import OrdersModal from '../../ui/modal/OrderModal';
+import OrderDirectDispatchModal from './OrderDirectDispatchModal';
 import OrderDispatchModal from './OrderDispatchModal';
 import OrdersTable from './OrderTable';
 import { setOrderData } from './orderSlice';
@@ -16,7 +17,10 @@ function Orders() {
   const { orders, count, isLoadingOrders } = useOrders();
   const { order, isLoading: isLoadingOrder, error } = useOrder(guid);
   const [openLeadModal, setOpenLeadModal] = useState(false);
-  const [openCarrierModal, setOpenCarrierModal] = useState(false);
+
+  const [isOpenDispatchModal, setOpenDispatchModal] = useState(false);
+  const [isOpenDirectDispatchModal, setOpenDirectDispatchModal] =
+    useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { openDrawer } = useDrawerFeature();
@@ -26,10 +30,6 @@ function Orders() {
   const handleOpenDrawer = (guid: string | null) => {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
-  };
-
-  const handleOpenCarrier = () => {
-    setOpenCarrierModal(true);
   };
 
   useEffect(() => {
@@ -49,9 +49,12 @@ function Orders() {
   return (
     <div className="orders">
       <OrderDispatchModal
-        isLoadingOrder={isLoadingOrder}
-        openCarrierModal={openCarrierModal}
-        setOpenCarrierModal={setOpenCarrierModal}
+        isOpenModal={isOpenDispatchModal}
+        onOpenModal={setOpenDispatchModal}
+      />
+      <OrderDirectDispatchModal
+        isOpenModal={isOpenDirectDispatchModal}
+        onOpenModal={setOpenDirectDispatchModal}
       />
       <OrdersTable
         guid={guid}
@@ -72,7 +75,12 @@ function Orders() {
         dataSource={orders}
         loadingItem={isLoadingOrder}
         onOpenDrawer={handleOpenDrawer}
-        onOpenCarrier={handleOpenCarrier}
+        onOpenDispatch={() => {
+          setOpenDispatchModal(true);
+        }}
+        onOpenDirectDispatch={() => {
+          setOpenDirectDispatchModal(true);
+        }}
       />
     </div>
   );

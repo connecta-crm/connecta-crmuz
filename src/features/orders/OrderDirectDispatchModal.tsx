@@ -5,16 +5,12 @@ import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
 import Modal from '../../ui/Modal';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
-import OrderDispatchModalContent from './OrderDispatchModalContent';
+import OrderDirectDispatchModalContent from './OrderDirectDispatchModalContent';
+import { OrderDispatchModalProps } from './OrderDispatchModal';
 import { getOrderData } from './orderSlice';
 import { useOrderDispatchEdit } from './useOrderDispatchEdit';
 
-export type OrderDispatchModalProps = {
-  isOpenModal: boolean;
-  onOpenModal: (val: boolean) => void;
-};
-
-function OrderDispatchModal({
+function OrderDirectDispatchModal({
   isOpenModal,
   onOpenModal,
 }: OrderDispatchModalProps) {
@@ -76,7 +72,7 @@ function OrderDispatchModal({
 
   return (
     <Modal
-      title="Dispatching to a carrier"
+      title="Direct dispatch to a carrier"
       width="middle"
       padding="0"
       loading={isLoading}
@@ -105,9 +101,9 @@ function OrderDispatchModal({
         </Button>
       }
     >
-      <OrderDispatchModalContent />
+      <OrderDirectDispatchModalContent />
     </Modal>
   );
 }
 
-export default OrderDispatchModal;
+export default OrderDirectDispatchModal;

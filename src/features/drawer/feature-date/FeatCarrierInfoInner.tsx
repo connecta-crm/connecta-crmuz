@@ -156,8 +156,8 @@ function FeatCarrierInfoInner({ sourceType }: DrawerSourceType) {
           <div className="form-label pl-0">Location</div>
         </div>
         <Input
-          value={carrierData.location}
-          defaultValue={carrierData.location}
+          value={carrierData.location || ''}
+          defaultValue={carrierData.location || ''}
           size="small"
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}

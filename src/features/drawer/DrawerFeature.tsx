@@ -1,7 +1,9 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useAppSelector } from '../../store/hooks';
 import { DrawerSourceType } from '../../ui/Drawer';
+import { getOrderData } from '../orders/orderSlice';
 import DrawerArrowIcon from './DrawerArrowIcon';
 import DrawerFeatureCarrierInfoContent from './DrawerFeatureCarrierInfoContent';
 import DrawerFeatureDateContent from './DrawerFeatureDateContent';
@@ -23,6 +25,8 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
     openMainPanels,
     onChangeMainCollapse,
   } = useDrawerFeature();
+
+  const orderData = useAppSelector(getOrderData);
 
   const items: CollapseProps['items'] = [
     {
@@ -110,12 +114,21 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
     },
   ];
 
+  let featureItems = [];
   const keysToFilterForOrder: string[] = ['400', '500', '600'];
 
   const filteredItems: CollapseProps['items'] = items.filter(
     (item) =>
       !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order'),
   );
+
+  const carrierData = orderData?.dispatchData?.carrierData ?? {};
+
+  if (sourceType === 'order' && !Object.keys(carrierData)?.length) {
+    featureItems = filteredItems.filter((item) => item.key !== '600');
+  } else {
+    featureItems = filteredItems;
+  }
 
   return (
     <>
@@ -126,7 +139,7 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
         ghost
         collapsible="header"
         expandIcon={DrawerArrowIcon}
-        items={filteredItems}
+        items={featureItems}
       />
       <br />
       {sourceType !== 'order' && (

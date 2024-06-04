@@ -29,7 +29,8 @@ function DrawerHeader({
   sourceType: feature,
   loadingItem,
   onOpenDrawer,
-  onOpenCarrier,
+  onOpenDispatch,
+  onOpenDirectDispatch,
 }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { pathname } = useLocation();
@@ -266,7 +267,7 @@ function DrawerHeader({
                     <Button
                       className="ml-10"
                       type="primary"
-                      onClick={onOpenCarrier}
+                      onClick={onOpenDispatch}
                     >
                       Dispatch
                     </Button>
@@ -275,7 +276,11 @@ function DrawerHeader({
                     </Button>
                   </>
                 ) : status === 'orders' || status === 'booked' ? (
-                  <Button className="ml-10" type="primary">
+                  <Button
+                    className="ml-10"
+                    type="primary"
+                    onClick={onOpenDirectDispatch}
+                  >
                     Post to CD
                   </Button>
                 ) : null)}
