@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
-import { GroundTableDataType } from './groundTableDataType';
-import Ground from '../../services/ground';
-export function useUpdateGround() {
+import { InternationalTableDataType } from './internationalTableDataType';
+import International from '../../services/international';
+export function useUpdateInternational() {
   const queryClient = useQueryClient();
   const {
     mutate: update,
@@ -10,10 +10,10 @@ export function useUpdateGround() {
     error,
     isSuccess,
   } = useMutation({
-    mutationFn: (item: GroundTableDataType) => Ground.updateGround(item),
+    mutationFn: (item: InternationalTableDataType) => International.updateInternational(item),
     onSuccess: () => {
-      message.success('Ground updated');
-      queryClient.invalidateQueries({ queryKey: ['ground'] });
+      message.success('International updated');
+      queryClient.invalidateQueries({ queryKey: ['internationals'] });
     },
     onError: (err) => {
       message.error(err.message);

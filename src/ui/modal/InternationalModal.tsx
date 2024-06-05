@@ -3,35 +3,35 @@ import FormItem from 'antd/es/form/FormItem';
 import JoditEditor from 'jodit-react';
 import { useEffect, useRef, useState } from 'react';
 import car from '../../../public/img/sports-car.svg';
-import { GroundTableDataType } from '../../features/ground/groundTableDataType';
-import { useCreateRegion } from '../../features/regions/useCreateRegion';
-import { useUpdateRegion } from '../../features/regions/useUpdateRegion';
+import { InternationalTableDataType } from '../../features/international/internationalTableDataType';
+import { useCreateInternational } from '../../features/international/useCreateInternational';
+import { useUpdateInternational } from '../../features/international/useUpdateInternational';
 import Modal from '../Modal';
 import FormControl from '../form/FormControl';
 import UpCollapse from '../form/UpCollapse';
 
-export default function RegionsModal({
+export default function InternationalModal({
   openModal,
   setModal,
   setEditId,
-  region,
+  international,
 }: {
   openModal: boolean;
   setModal: (a: boolean) => void;
-  region: GroundTableDataType;
+  international: InternationalTableDataType;
   setEditId: (a: null | number) => void;
 }) {
   const editor = useRef(null);
   const [content, setContent] = useState('');
   const [showInput, setShowInput] = useState<boolean>(false);
-  const { create } = useCreateRegion();
-  const { update } = useUpdateRegion();
+  const { create } = useCreateInternational();
+  const { update } = useUpdateInternational();
 
-  const createUser = (e: GroundTableDataType) => {
+  const createUser = (e: InternationalTableDataType) => {
     e.body = content;
-    if (region) {
-      e.id = region.id;
-      e.isDefault = region.isDefault;
+    if (international) {
+      e.id = international.id;
+      e.isDefault = international.isDefault;
       update(e, {
         onSuccess: () => {
           setModal(false);
@@ -51,13 +51,13 @@ export default function RegionsModal({
   };
 
   useEffect(() => {
-    if (region) {
+    if (international) {
       setShowInput(true);
-      setContent(region.body);
+      setContent(international.body);
       return;
     }
     setShowInput(false);
-  }, [region]);
+  }, [international]);
 
   const [form] = Form.useForm();
   const showEditAction = () => {
@@ -66,7 +66,7 @@ export default function RegionsModal({
   return (
     <Modal
       form={form}
-      title={'Hawaii and Alaska'}
+      title={'International'}
       width="large"
       padding="15"
       open={openModal}
@@ -79,9 +79,9 @@ export default function RegionsModal({
     >
       <Form form={form} onFinish={createUser}>
         <UpCollapse
-          hasEdit={region ? true : false}
+          hasEdit={international ? true : false}
           showEdit={showEditAction}
-          title="Hawaii and Alaska information"
+          title="International information"
         >
           <FormControl img={car} title="Name">
             {!showInput ? (
@@ -89,13 +89,19 @@ export default function RegionsModal({
                 className="m-0 w-100 "
                 name="name"
                 rules={[{ required: true, message: '' }]}
-                initialValue={region?.name}
+                initialValue={international?.name}
                 preserve={false}
               >
-                <Input value={region?.name} type="text" placeholder="Empty" />
+                <Input
+                  value={international?.name}
+                  type="text"
+                  placeholder="Empty"
+                />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{region?.name}</span>
+              <span className="detail__text_with-bg ml-20">
+                {international?.name}
+              </span>
             )}
           </FormControl>
           <FormControl img={car} title="Status">
@@ -104,11 +110,11 @@ export default function RegionsModal({
                 className="m-0 w-100"
                 name="status"
                 rules={[{ required: true, message: '' }]}
-                initialValue={region?.status}
+                initialValue={international?.status}
                 preserve={false}
               >
                 <Select
-                  value={region?.status}
+                  value={international?.status}
                   options={[
                     { value: 'active', label: 'Active' },
                     { value: 'inactive', label: 'Inactive' },
@@ -117,7 +123,7 @@ export default function RegionsModal({
               </FormItem>
             ) : (
               <span className="detail__text_with-bg ml-20">
-                {region?.status}
+                {international?.status}
               </span>
             )}
           </FormControl>
