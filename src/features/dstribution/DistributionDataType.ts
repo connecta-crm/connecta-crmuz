@@ -10,4 +10,5 @@ export interface DistributionDataType {
   updatedFrom: number;
   receivedToday?: string;
   queueNow?: string;
+  userEmail:string
 }

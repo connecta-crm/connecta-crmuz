@@ -67,7 +67,7 @@ export default function GroundModal({
     <Modal
       form={form}
       title={'Ground 1.2'}
-      width="small"
+      width="large"
       padding="15"
       open={openModal}
       hasEdit={showInput ? true : false}

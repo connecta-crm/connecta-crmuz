@@ -33,7 +33,6 @@ export default function DistributionModal({
       e.id = distribution?.id;
       e.startHour = startHour;
       e.finishHour = finishHour;
-      console.log(e);
 
       update(e, {
         onSuccess: () => {
@@ -49,6 +48,8 @@ export default function DistributionModal({
   useEffect(() => {
     if (distribution) {
       setShowInput(true);
+      setStartHour(distribution?.startHour);
+      setFinishHour(distribution?.finishHour);
       return;
     }
     setShowInput(false);
@@ -79,7 +80,7 @@ export default function DistributionModal({
         >
           <FormControl img={car} title="User">
             <span className="detail__text_with-bg ml-20">
-              {distribution?.user}
+              {distribution?.userEmail}
             </span>
           </FormControl>
           <FormControl img={car} title="Received today">
