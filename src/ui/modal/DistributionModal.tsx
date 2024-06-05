@@ -77,9 +77,9 @@ export default function DistributionModal({
           hasEdit={distribution ? true : false}
           title="Lead distribution information"
         >
-          <FormControl img={car} title="Received today">
+          <FormControl img={car} title="User">
             <span className="detail__text_with-bg ml-20">
-              {distribution?.receivedToday}
+              {distribution?.user}
             </span>
           </FormControl>
           <FormControl img={car} title="Received today">
