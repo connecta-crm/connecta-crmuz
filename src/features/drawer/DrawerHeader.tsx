@@ -31,6 +31,7 @@ function DrawerHeader({
   onOpenDrawer,
   onOpenDispatch,
   onOpenDirectDispatch,
+  onOpenHistory,
 }: DrawerProps) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { pathname } = useLocation();
@@ -151,7 +152,7 @@ function DrawerHeader({
     ...(feature === 'order'
       ? [
           {
-            label: <p onClick={() => {}}>History</p>,
+            label: <p onClick={onOpenHistory}>History</p>,
             key: '0',
           },
           {

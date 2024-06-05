@@ -22,6 +22,7 @@ export type DrawerProps = {
   onOpenDrawer: (guid: string) => void;
   onOpenDispatch?: () => void;
   onOpenDirectDispatch?: () => void;
+  onOpenHistory?: () => void;
 };
 
 function DrawerApp({
@@ -31,6 +32,7 @@ function DrawerApp({
   onOpenDrawer,
   onOpenDispatch,
   onOpenDirectDispatch,
+  onOpenHistory,
 }: DrawerProps) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
@@ -45,6 +47,7 @@ function DrawerApp({
             dataSource={dataSource} // todo
             loadingItem={loadingItem}
             onOpenDrawer={onOpenDrawer}
+            onOpenHistory={onOpenHistory}
             onOpenDispatch={onOpenDispatch}
             onOpenDirectDispatch={onOpenDirectDispatch}
           />

@@ -7,6 +7,7 @@ import DrawerApp from '../../ui/Drawer';
 import OrdersModal from '../../ui/modal/OrderModal';
 import OrderDirectDispatchModal from './OrderDirectDispatchModal';
 import OrderDispatchModal from './OrderDispatchModal';
+import OrderHistoryModal from './OrderHistoryModal';
 import OrdersTable from './OrderTable';
 import { setOrderData } from './orderSlice';
 import { useOrder } from './useOrder';
@@ -21,6 +22,7 @@ function Orders() {
   const [isOpenDispatchModal, setOpenDispatchModal] = useState(false);
   const [isOpenDirectDispatchModal, setOpenDirectDispatchModal] =
     useState(false);
+  const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { openDrawer } = useDrawerFeature();
@@ -56,6 +58,14 @@ function Orders() {
         isOpenModal={isOpenDirectDispatchModal}
         onOpenModal={setOpenDirectDispatchModal}
       />
+      <OrderHistoryModal
+        isOpenModal={isOpenHistoryModal}
+        onOpenModal={setOpenHistoryModal}
+      />
+      <OrdersModal
+        openLeadModal={openLeadModal}
+        setOpenLeadModa={setOpenLeadModal}
+      />
       <OrdersTable
         guid={guid}
         count={count}
@@ -65,10 +75,6 @@ function Orders() {
         loadingItem={isLoadingOrder}
         onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
-      />
-      <OrdersModal
-        openLeadModal={openLeadModal}
-        setOpenLeadModa={setOpenLeadModal}
       />
       <DrawerApp
         sourceType="order"
@@ -80,6 +86,10 @@ function Orders() {
         }}
         onOpenDirectDispatch={() => {
           setOpenDirectDispatchModal(true);
+        }}
+        onOpenHistory={() => {
+          console.log('cls');
+          setOpenHistoryModal(true);
         }}
       />
     </div>

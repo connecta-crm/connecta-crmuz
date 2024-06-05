@@ -1,10 +1,9 @@
-export default function History({
-  title,
-  message,
-}: {
+type HistoryProps = {
   title: string;
-  message: string;
-}) {
+  message?: string;
+};
+
+export default function History({ title, message }: HistoryProps) {
   return (
     <div className="history">
       {message && (
