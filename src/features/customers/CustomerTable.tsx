@@ -17,7 +17,7 @@ const rowSelection = {
     );
   },
   getCheckboxProps: (record: CustomerDataType) => ({
-    name: record.customer,
+    name: record.name,
   }),
 };
 

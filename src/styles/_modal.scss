@@ -28,15 +28,15 @@ $modal-border-color: #d1d1d1;
     border-radius: 4px;
   }
 }
-.edit-btn{
-  border: 1px solid #D1D1D1;
+.edit-btn {
+  border: 1px solid #d1d1d1;
   width: 25px;
   height: 25px;
   @include flexbox();
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  img{
+  img {
     width: 14px;
     height: 14px;
   }
@@ -75,7 +75,6 @@ $modal-border-color: #d1d1d1;
     z-index: 1003;
     border-radius: 4px 4px 4px 4px;
     overflow: hidden;
-    
   }
   &__header {
     height: 50px;
@@ -173,7 +172,8 @@ $modal-border-color: #d1d1d1;
 
 /* ==================================================================================================================*/
 
-.dispatch-modal {
+.dispatch-modal,
+.customer-modal {
   .form-label {
     font-weight: 600;
     font-size: 15px;

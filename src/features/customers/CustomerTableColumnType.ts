@@ -1,6 +1,7 @@
 export type CustomerDataType = {
   key: string;
-  customer: string;
+  name: string;
+  lastName: string;
   phone: string;
   email: string;
   billing: string;

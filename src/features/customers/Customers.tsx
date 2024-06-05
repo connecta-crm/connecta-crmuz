@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useModal } from '../../context/ModalContext';
 import LeadModal from '../../ui/modal/LeadModal';
+import CustomerModal from './CustomerModal';
 import CustomerTable from './CustomerTable';
 import { useCustomers } from './useCostumers';
 
@@ -12,7 +13,7 @@ function Customers() {
     count,
     isLoading: isLoadingLeads,
   } = useCustomers(true, {});
-  const [openLeadModal, setOpenLeadModal] = useState(false);
+  const [openCustomerModal, setOpenCustomerModal] = useState(false);
   const { show, status, hideModal } = useModal();
 
   console.log('CUSTOMERS: ', customers);
@@ -25,7 +26,12 @@ function Customers() {
         dataSource={customers}
         loadingList={isLoadingLeads}
         loadingItem={false}
-        onOpenModal={setOpenLeadModal}
+        onOpenModal={setOpenCustomerModal}
+      />
+
+      <CustomerModal
+        openModal={openCustomerModal}
+        onOpenModal={setOpenCustomerModal}
       />
 
       {show && status === 'lead' && (

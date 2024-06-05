@@ -1,10 +1,12 @@
+import { CustomerDataType } from './CustomerTableColumnType';
+
 export const CustomerTableColumn = [
   {
     title: 'Customer',
     dataIndex: 'name',
-    render: (item: string) => (
+    render: (item: string, row: CustomerDataType) => (
       <div className="font-bold" style={{ color: '#086ed6' }}>
-        {item}
+        {item} {row.lastName}
       </div>
     ),
   },
