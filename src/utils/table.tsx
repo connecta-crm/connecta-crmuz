@@ -3,52 +3,6 @@ import RadioButton from '../ui/form/RadioButton';
 // =======quotes==========
 
 // =======contact==========
-export const ContactTableColumns = [
-  {
-    title: 'Customer',
-    dataIndex: 'customer',
-    render: (item: string) => <a>{item}</a>,
-  },
-  {
-    title: 'Phone',
-    dataIndex: 'phone',
-    render: (text: string) => (
-      <div className="table__phone">
-        <img src="./img/dt_table/call.svg" alt="" />
-        <span>{text}</span>
-      </div>
-    ),
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-  },
-  {
-    title: 'Billing',
-    dataIndex: 'billing',
-  },
-  {
-    title: 'Completed	',
-    dataIndex: 'completed',
-  },
-  {
-    title: 'Ongoing',
-    dataIndex: 'ongoing',
-  },
-
-  {
-    title: 'Stage',
-    dataIndex: 'stage',
-  },
-  {
-    title: 'Source',
-    dataIndex: 'source',
-  },
-  {
-    title: 'Added',
-    dataIndex: 'added',
-  },
-];
 
 export const ContactTableData = [
   {

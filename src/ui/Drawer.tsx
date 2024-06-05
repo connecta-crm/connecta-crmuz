@@ -18,8 +18,8 @@ export type DrawerSourceType = {
 export type DrawerProps = {
   dataSource: DataSourceType;
   loadingItem: boolean;
-  sourceType: SourceType;
-  onOpenDrawer: (guid: string) => void;
+  sourceType?: SourceType;
+  onOpenDrawer?: (guid: string) => void;
   onOpenDispatch?: () => void;
   onOpenDirectDispatch?: () => void;
   onOpenHistory?: () => void;

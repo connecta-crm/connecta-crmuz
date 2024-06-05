@@ -114,17 +114,19 @@ export const getMenuData: MenuData[] = [
     ],
   },
   {
-    title: 'Contact',
-    key: '__contact',
-    path: '/contact',
+    title: 'Customer',
+    key: '__customer',
+    path: '/customer',
     icon: sixthImg,
     iconActive: sixthImgActive,
-    component: lazyLoad(() => import('../../pages/Contact')),
+    component: lazyLoad(() => import('../../pages/Customers')),
     roles: ['admin', 'user'],
     status: [
       { id: 25, value: 'all_customers', title: 'All customers' },
       { id: 26, value: 'active', title: 'Active' },
       { id: 27, value: 'inactive', title: 'Inactive' },
+      { id: 28, value: 'favorite', title: 'Favorite' },
+      { id: 29, value: 'blocked', title: 'Blocked' },
     ],
   },
   {
