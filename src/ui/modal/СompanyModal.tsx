@@ -27,7 +27,6 @@ export default function CompanyModal({
   const createUser = (e: CompanyTableDataType) => {
     if (company) {
       e.id = company.id;
-      e.updatedFrom = company.updatedFrom;
       update(e, {
         onSuccess: () => {
           setModal(false);
