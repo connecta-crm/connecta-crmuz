@@ -21,10 +21,11 @@ class Customers {
     offset,
     phone,
     status,
+    q,
   }: CustomersParamsType) {
     try {
       const { data } = await this.$api.get('/customers/', {
-        params: { name, email, limit, offset, phone, status },
+        params: { name, email, limit, offset, phone, status, q },
       });
       return data;
     } catch (error) {

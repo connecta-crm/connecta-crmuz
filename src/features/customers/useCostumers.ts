@@ -10,6 +10,7 @@ export type CustomersParamsType = {
   email?: string | null;
   phone?: string | null;
   status?: string | null;
+  q?: string | null;
 };
 
 export function useCustomers(
@@ -19,6 +20,7 @@ export function useCustomers(
   const [searchParams] = useSearchParams();
 
   const status = searchParams.get('status') || '';
+  const q = searchParams.get('q') || '';
 
   const limit = !searchParams.get('limit')
     ? DEFAULT_LIMIT
@@ -35,9 +37,9 @@ export function useCustomers(
     isFetching,
     error,
   } = useQuery({
-    queryKey: ['customers', name, email, phone, limit, offset, status],
+    queryKey: ['customers', name, email, phone, limit, offset, status, q],
     queryFn: () =>
-      Customers.getCustomers({ name, email, phone, limit, offset, status }),
+      Customers.getCustomers({ name, email, phone, limit, offset, status, q }),
     enabled,
   });
   return { customers, isLoading, count, isFetching, error };
