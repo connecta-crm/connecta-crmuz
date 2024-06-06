@@ -10,7 +10,7 @@ export function useUsers() {
   const url = searchParams.size > 0 ? searchParams.toString() : '';
 
   const {
-    data:users,
+    data: users,
     isPending: isLoading,
     error,
   } = useQuery({

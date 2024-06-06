@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+import type { DropdownProps, MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
@@ -22,6 +22,9 @@ import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../quotes/quoteSlice';
+import { useUpdateUser } from '../users/useUpdateUser';
+import { useUsers } from '../users/useUsers';
+import { UsersTableDataType } from '../users/usersTableDataType';
 import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
 function DrawerHeader({
@@ -90,6 +93,7 @@ function DrawerHeader({
 
   const [isDataUpdated, setDataUpdated] = useState(false);
   const [isStatusUpdated, setStatusUpdated] = useState(false);
+  const [isOpenSettings, setOpenSettings] = useState(false);
   const [statusType, setStatusType] = useState(leadData.status);
 
   const { onSaveFeature, isLoading } = useUpdateFeatureData({
@@ -127,17 +131,21 @@ function DrawerHeader({
     }
   }, [isStatusUpdated, statusType, onSaveFeature]);
 
+  const { users, isLoading: isLoadingUsers } = useUsers();
+  const { update: updateUser, isLoading: isLoadingUpdateUser } =
+    useUpdateUser();
+
   if (!featureData) {
     return;
   }
   // PREV-NEXT functions
   const handlePrevElement = () => {
     const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
-    onOpenDrawer(previousLeadGuid);
+    onOpenDrawer?.(previousLeadGuid);
   };
   const handleNextElement = () => {
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
-    onOpenDrawer(nextLeadId);
+    onOpenDrawer?.(nextLeadId);
   };
 
   const orderStatusName = () => {
@@ -147,6 +155,15 @@ function DrawerHeader({
       .find((menu) => menu.path === pathname)
       ?.status?.find((statusObj) => statusObj.value === status)?.title;
   };
+
+  const handleChangeUserActivity = (
+    user: UsersTableDataType,
+    isActive: boolean,
+  ) => {
+    updateUser({ ...user, isActive });
+  };
+
+  console.log((users || []).filter((f: { isActive: boolean }) => !f?.isActive));
 
   const itemsSettingMore: MenuProps['items'] = [
     ...(feature === 'order'
@@ -167,9 +184,56 @@ function DrawerHeader({
             label: <p onClick={() => {}}>Team Support</p>,
             key: '4',
           },
+          { type: 'divider' as const },
+          ...((users || []).filter((f: { isActive: boolean }) => !f?.isActive)
+            ? [
+                {
+                  label: <small className="pb-0 pt-0">Available to add</small>,
+                  key: '4-01',
+                  type: 'group',
+                  children: (users || [])
+                    .filter((f: { isActive: boolean }) => !f?.isActive)
+                    .map((user: UsersTableDataType) => ({
+                      key: '4-' + user.id,
+                      label: (
+                        <button
+                          style={{ background: 'none' }}
+                          disabled={isLoadingUpdateUser}
+                          onClick={() => handleChangeUserActivity(user, true)}
+                        >
+                          {user.firstName + ' ' + user.lastName}
+                        </button>
+                      ),
+                    })),
+                },
+              ]
+            : []),
+          ...((users || []).filter((f: { isActive: boolean }) => f?.isActive)
+            ? [
+                {
+                  label: <small className="pb-0 pt-0">Included</small>,
+                  key: '4-02',
+                  type: 'group',
+                  children: (users || [])
+                    .filter((f: { isActive: boolean }) => f?.isActive)
+                    .map((user: UsersTableDataType) => ({
+                      key: '40-' + user.id,
+                      label: (
+                        <button
+                          style={{ background: 'none' }}
+                          disabled={isLoadingUpdateUser}
+                          onClick={() => handleChangeUserActivity(user, false)}
+                        >
+                          {user.firstName + ' ' + user.lastName}
+                        </button>
+                      ),
+                    })),
+                },
+              ]
+            : []),
         ]
       : []),
-    ...(feature === 'order' && status === 'dispatched'
+    ...(feature === 'order' && status !== 'dispatched'
       ? [
           { type: 'divider' as const },
           {
@@ -179,6 +243,13 @@ function DrawerHeader({
         ]
       : []),
   ];
+
+  // DROPDOWN FUNCTION
+  const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
+    if (info.source === 'trigger' || nextOpen) {
+      setOpenSettings(nextOpen);
+    }
+  };
 
   return (
     <div className="drawer-header">
@@ -397,7 +468,10 @@ function DrawerHeader({
               trigger={['click']}
               placement="bottomRight"
               arrow={{ pointAtCenter: true }}
+              open={isOpenSettings}
               destroyPopupOnHide={true}
+              onOpenChange={handleOpenChange}
+              className="drawer-header__settings"
             >
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
