@@ -3,34 +3,35 @@ import FormItem from 'antd/es/form/FormItem';
 import JoditEditor from 'jodit-react';
 import { useEffect, useRef, useState } from 'react';
 import car from '../../../public/img/sports-car.svg';
-import { GroundTableDataType } from '../../features/ground/groundTableDataType';
-import { useCreateRegion } from '../../features/regions/useCreateRegion';
-import { useUpdateRegion } from '../../features/regions/useUpdateRegion';
+import { TemplatesTableDataType } from '../../features/templates/templatesTableDataType';
+import { useCreateTemplate } from '../../features/templates/useCreateTemplate';
+import { useUpdateTemplate } from '../../features/templates/useUpdateTemplate';
+import Fields from '../Fields';
 import Modal from '../Modal';
 import FormControl from '../form/FormControl';
 import UpCollapse from '../form/UpCollapse';
 
-export default function RegionsModal({
+export default function TemplatesModal({
   openModal,
   setModal,
   setEditId,
-  region,
+  template,
 }: {
   openModal: boolean;
   setModal: (a: boolean) => void;
-  region: GroundTableDataType;
+  template: TemplatesTableDataType;
   setEditId: (a: null | number) => void;
 }) {
+  const [showInput, setShowInput] = useState<boolean>(false);
+  const { create } = useCreateTemplate();
+  const { update } = useUpdateTemplate();
   const editor = useRef(null);
   const [content, setContent] = useState('');
-  const [showInput, setShowInput] = useState<boolean>(false);
-  const { create } = useCreateRegion();
-  const { update } = useUpdateRegion();
 
-  const createUser = (e: GroundTableDataType) => {
+  const createUser = (e: TemplatesTableDataType) => {
     e.body = content;
-    if (region) {
-      e.id = region.id;
+    if (template) {
+      e.id = template.id;
       update(e, {
         onSuccess: () => {
           setModal(false);
@@ -49,13 +50,13 @@ export default function RegionsModal({
   };
 
   useEffect(() => {
-    if (region) {
+    if (template) {
       setShowInput(true);
-      setContent(region.body);
+      setContent(template.body);
       return;
     }
     setShowInput(false);
-  }, [region]);
+  }, [template]);
 
   const [form] = Form.useForm();
   const showEditAction = () => {
@@ -64,7 +65,7 @@ export default function RegionsModal({
   return (
     <Modal
       form={form}
-      title={'Hawaii and Alaska'}
+      title={'Templates'}
       width="large"
       padding="15"
       open={openModal}
@@ -76,49 +77,33 @@ export default function RegionsModal({
       }}
     >
       <Form form={form} onFinish={createUser}>
-        <div style={{ margin: '0 auto', width: '390px' }}>
+        <div style={{ margin: '0 auto', width: '450px' }}>
           <UpCollapse
-            hasEdit={region ? true : false}
+            hasEdit={template ? true : false}
             showEdit={showEditAction}
-            title="Hawaii and Alaska information"
+            title="Templates information"
           >
+            <FormControl img={car} title="Insert a field">
+              {!showInput && <Fields content={content} setContent={setContent} />}
+            </FormControl>
             <FormControl img={car} title="Name">
               {!showInput ? (
                 <FormItem
                   className="m-0 w-100 "
                   name="name"
                   rules={[{ required: true, message: '' }]}
-                  initialValue={region?.name}
+                  initialValue={template?.name}
                   preserve={false}
                 >
-                  <Input value={region?.name} type="text" placeholder="Empty" />
-                </FormItem>
-              ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {region?.name}
-                </span>
-              )}
-            </FormControl>
-            <FormControl img={car} title="Default">
-              {!showInput ? (
-                <FormItem
-                  className="m-0 w-100"
-                  name="isDefault"
-                  rules={[{ required: true, message: '' }]}
-                  initialValue={region?.isDefault}
-                  preserve={false}
-                >
-                  <Select
-                    value={region?.isDefault}
-                    options={[
-                      { value: true, label: 'Yes' },
-                      { value: false, label: 'No' },
-                    ]}
+                  <Input
+                    value={template?.name}
+                    type="text"
+                    placeholder="Empty"
                   />
                 </FormItem>
               ) : (
                 <span className="detail__text_with-bg ml-20">
-                  {region?.isDefault == true ? 'Yes' : 'No'}
+                  {template?.name}
                 </span>
               )}
             </FormControl>
@@ -128,11 +113,11 @@ export default function RegionsModal({
                   className="m-0 w-100"
                   name="status"
                   rules={[{ required: true, message: '' }]}
-                  initialValue={region?.status}
+                  initialValue={template?.status}
                   preserve={false}
                 >
                   <Select
-                    value={region?.status}
+                    value={template?.status}
                     options={[
                       { value: 'active', label: 'Active' },
                       { value: 'inactive', label: 'Inactive' },
@@ -141,13 +126,36 @@ export default function RegionsModal({
                 </FormItem>
               ) : (
                 <span className="detail__text_with-bg ml-20">
-                  {region?.status}
+                  {template?.status}
                 </span>
               )}
             </FormControl>
-            <br />
+            <FormControl img={car} title="Type">
+              {!showInput ? (
+                <FormItem
+                  className="m-0 w-100"
+                  name="templateType"
+                  rules={[{ required: true, message: '' }]}
+                  initialValue={template?.templateType}
+                  preserve={false}
+                >
+                  <Select
+                    value={template?.templateType}
+                    options={[
+                      { value: 'sms', label: 'SMS' },
+                      { value: 'email', label: 'Email' },
+                    ]}
+                  />
+                </FormItem>
+              ) : (
+                <span className="detail__text_with-bg ml-20">
+                  {template?.templateType}
+                </span>
+              )}
+            </FormControl>
           </UpCollapse>
         </div>
+        <br />
         <JoditEditor
           ref={editor}
           value={content}

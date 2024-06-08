@@ -34,6 +34,7 @@ export default function UserModal({
     if (user) {
       e.id = user?.id;
       e.newpassword = e.password ? e.password : '';
+      
       update(e, {
         onSuccess: () => {
           setModal(false);

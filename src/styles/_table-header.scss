@@ -83,6 +83,7 @@
   // .dt-header__add-btn
   &__add-btn {
     margin-left: 10px;
+    cursor: pointer;
   }
   // .dt-header__filters
   &__filters {
@@ -244,6 +245,9 @@
 .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title,
 .ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title {
   padding: 5px !important;
+}
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item{
+  padding: 2px 5px !important;
 }
 .dt-header__dropdown {
   .ant-dropdown-menu {

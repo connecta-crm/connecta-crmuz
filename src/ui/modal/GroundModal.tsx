@@ -31,7 +31,7 @@ export default function GroundModal({
     e.body = content;
     if (groundItem) {
       e.id = groundItem.id;
-      e.isDefault = groundItem.isDefault;
+      // e.isDefault = groundItem.isDefault;
       update(e, {
         onSuccess: () => {
           setModal(false);
@@ -41,7 +41,7 @@ export default function GroundModal({
       });
       return;
     }
-    e.isDefault = false;
+    // e.isDefault = false;
     create(e, {
       onSuccess: () => {
         setModal(false);
@@ -78,65 +78,90 @@ export default function GroundModal({
       }}
     >
       <Form form={form} onFinish={createUser}>
-        <UpCollapse
-          hasEdit={groundItem ? true : false}
-          showEdit={showEditAction}
-          title="Ground information"
-        >
-          <FormControl img={car} title="Ground name">
-            {!showInput ? (
-              <FormItem
-                className="m-0 w-100 "
-                name="name"
-                rules={[{ required: true, message: '' }]}
-                initialValue={groundItem?.name}
-                preserve={false}
-              >
-                <Input
-                  value={groundItem?.name}
-                  type="text"
-                  placeholder="Empty"
-                />
-              </FormItem>
-            ) : (
-              <span className="detail__text_with-bg ml-20">
-                {groundItem?.name}
-              </span>
-            )}
-          </FormControl>
-          <FormControl img={car} title="Status">
-            {!showInput ? (
-              <FormItem
-                className="m-0 w-100"
-                name="status"
-                rules={[{ required: true, message: '' }]}
-                initialValue={groundItem?.status}
-                preserve={false}
-              >
-                <Select
-                  value={groundItem?.status}
-                  options={[
-                    { value: 'active', label: 'Active' },
-                    { value: 'inactive', label: 'Inactive' },
-                  ]}
-                />
-              </FormItem>
-            ) : (
-              <span className="detail__text_with-bg ml-20">
-                {groundItem?.status}
-              </span>
-            )}
-          </FormControl>
-          <br />
-          <JoditEditor
-            ref={editor}
-            value={content}
-            onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-            onChange={(newContent) => {
-              setContent(newContent);
-            }}
-          />
-        </UpCollapse>
+        <div style={{ margin: '0 auto', width: '390px' }}>
+          <UpCollapse
+            hasEdit={groundItem ? true : false}
+            showEdit={showEditAction}
+            title="Ground information"
+          >
+            <FormControl img={car} title="Ground name">
+              {!showInput ? (
+                <FormItem
+                  className="m-0 w-100 "
+                  name="name"
+                  rules={[{ required: true, message: '' }]}
+                  initialValue={groundItem?.name}
+                  preserve={false}
+                >
+                  <Input
+                    value={groundItem?.name}
+                    type="text"
+                    placeholder="Empty"
+                  />
+                </FormItem>
+              ) : (
+                <span className="detail__text_with-bg ml-20">
+                  {groundItem?.name}
+                </span>
+              )}
+            </FormControl>
+            <FormControl img={car} title="Default">
+              {!showInput ? (
+                <FormItem
+                  className="m-0 w-100"
+                  name="isDefault"
+                  rules={[{ required: true, message: '' }]}
+                  initialValue={groundItem?.isDefault}
+                  preserve={false}
+                >
+                  <Select
+                    value={groundItem?.isDefault}
+                    options={[
+                      { value: true, label: 'Yes' },
+                      { value: false, label: 'No' },
+                    ]}
+                  />
+                </FormItem>
+              ) : (
+                <span className="detail__text_with-bg ml-20">
+                  {groundItem?.isDefault == true ? 'Yes' : 'No'}
+                </span>
+              )}
+            </FormControl>
+            <FormControl img={car} title="Status">
+              {!showInput ? (
+                <FormItem
+                  className="m-0 w-100"
+                  name="status"
+                  rules={[{ required: true, message: '' }]}
+                  initialValue={groundItem?.status}
+                  preserve={false}
+                >
+                  <Select
+                    value={groundItem?.status}
+                    options={[
+                      { value: 'active', label: 'Active' },
+                      { value: 'inactive', label: 'Inactive' },
+                    ]}
+                  />
+                </FormItem>
+              ) : (
+                <span className="detail__text_with-bg ml-20">
+                  {groundItem?.status}
+                </span>
+              )}
+            </FormControl>
+            <br />
+          </UpCollapse>
+        </div>
+        <JoditEditor
+          ref={editor}
+          value={content}
+          onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+          onChange={(newContent) => {
+            setContent(newContent);
+          }}
+        />
       </Form>
     </Modal>
   );

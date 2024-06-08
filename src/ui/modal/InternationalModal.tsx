@@ -31,7 +31,6 @@ export default function InternationalModal({
     e.body = content;
     if (international) {
       e.id = international.id;
-      e.isDefault = international.isDefault;
       update(e, {
         onSuccess: () => {
           setModal(false);
@@ -41,7 +40,6 @@ export default function InternationalModal({
       });
       return;
     }
-    e.isDefault = false;
     create(e, {
       onSuccess: () => {
         setModal(false);
@@ -78,65 +76,90 @@ export default function InternationalModal({
       }}
     >
       <Form form={form} onFinish={createUser}>
-        <UpCollapse
-          hasEdit={international ? true : false}
-          showEdit={showEditAction}
-          title="International information"
-        >
-          <FormControl img={car} title="Name">
-            {!showInput ? (
-              <FormItem
-                className="m-0 w-100 "
-                name="name"
-                rules={[{ required: true, message: '' }]}
-                initialValue={international?.name}
-                preserve={false}
-              >
-                <Input
-                  value={international?.name}
-                  type="text"
-                  placeholder="Empty"
-                />
-              </FormItem>
-            ) : (
-              <span className="detail__text_with-bg ml-20">
-                {international?.name}
-              </span>
-            )}
-          </FormControl>
-          <FormControl img={car} title="Status">
-            {!showInput ? (
-              <FormItem
-                className="m-0 w-100"
-                name="status"
-                rules={[{ required: true, message: '' }]}
-                initialValue={international?.status}
-                preserve={false}
-              >
-                <Select
-                  value={international?.status}
-                  options={[
-                    { value: 'active', label: 'Active' },
-                    { value: 'inactive', label: 'Inactive' },
-                  ]}
-                />
-              </FormItem>
-            ) : (
-              <span className="detail__text_with-bg ml-20">
-                {international?.status}
-              </span>
-            )}
-          </FormControl>
-          <br />
-          <JoditEditor
-            ref={editor}
-            value={content}
-            onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-            onChange={(newContent) => {
-              setContent(newContent);
-            }}
-          />
-        </UpCollapse>
+        <div style={{ margin: '0 auto', width: '390px' }}>
+          <UpCollapse
+            hasEdit={international ? true : false}
+            showEdit={showEditAction}
+            title="International information"
+          >
+            <FormControl img={car} title="Name">
+              {!showInput ? (
+                <FormItem
+                  className="m-0 w-100 "
+                  name="name"
+                  rules={[{ required: true, message: '' }]}
+                  initialValue={international?.name}
+                  preserve={false}
+                >
+                  <Input
+                    value={international?.name}
+                    type="text"
+                    placeholder="Empty"
+                  />
+                </FormItem>
+              ) : (
+                <span className="detail__text_with-bg ml-20">
+                  {international?.name}
+                </span>
+              )}
+            </FormControl>
+            <FormControl img={car} title="Default">
+              {!showInput ? (
+                <FormItem
+                  className="m-0 w-100"
+                  name="isDefault"
+                  rules={[{ required: true, message: '' }]}
+                  initialValue={international?.isDefault}
+                  preserve={false}
+                >
+                  <Select
+                    value={international?.isDefault}
+                    options={[
+                      { value: true, label: 'Yes' },
+                      { value: false, label: 'No' },
+                    ]}
+                  />
+                </FormItem>
+              ) : (
+                <span className="detail__text_with-bg ml-20">
+                  {international?.isDefault == true ? 'Yes' : 'No'}
+                </span>
+              )}
+            </FormControl>
+            <FormControl img={car} title="Status">
+              {!showInput ? (
+                <FormItem
+                  className="m-0 w-100"
+                  name="status"
+                  rules={[{ required: true, message: '' }]}
+                  initialValue={international?.status}
+                  preserve={false}
+                >
+                  <Select
+                    value={international?.status}
+                    options={[
+                      { value: 'active', label: 'Active' },
+                      { value: 'inactive', label: 'Inactive' },
+                    ]}
+                  />
+                </FormItem>
+              ) : (
+                <span className="detail__text_with-bg ml-20">
+                  {international?.status}
+                </span>
+              )}
+            </FormControl>
+            <br />
+          </UpCollapse>
+        </div>
+        <JoditEditor
+          ref={editor}
+          value={content}
+          onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+          onChange={(newContent) => {
+            setContent(newContent);
+          }}
+        />
       </Form>
     </Modal>
   );
