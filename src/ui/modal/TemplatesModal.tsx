@@ -3,10 +3,12 @@ import FormItem from 'antd/es/form/FormItem';
 import JoditEditor from 'jodit-react';
 import { useEffect, useRef, useState } from 'react';
 import car from '../../../public/img/sports-car.svg';
+import { LogType } from '../../features/dstribution/DistributionDataType';
 import { TemplatesTableDataType } from '../../features/templates/templatesTableDataType';
 import { useCreateTemplate } from '../../features/templates/useCreateTemplate';
 import { useUpdateTemplate } from '../../features/templates/useUpdateTemplate';
 import Fields from '../Fields';
+import History from '../History';
 import Modal from '../Modal';
 import FormControl from '../form/FormControl';
 import UpCollapse from '../form/UpCollapse';
@@ -84,7 +86,9 @@ export default function TemplatesModal({
             title="Templates information"
           >
             <FormControl img={car} title="Insert a field">
-              {!showInput && <Fields content={content} setContent={setContent} />}
+              {!showInput && (
+                <Fields content={content} setContent={setContent} />
+              )}
             </FormControl>
             <FormControl img={car} title="Name">
               {!showInput ? (
@@ -164,6 +168,28 @@ export default function TemplatesModal({
             setContent(newContent);
           }}
         />
+        <br />
+        {template && (
+          <>
+            <UpCollapse title="History ">
+              {template?.logs?.length ? (
+                <>
+                  {template?.logs?.map((item: LogType, index: number) => (
+                    <History
+                      key={index}
+                      title={item?.title}
+                      message={item.message}
+                    />
+                  ))}
+                </>
+              ) : (
+                <div className="d-flex justify-center history__message">
+                  Not found history
+                </div>
+              )}
+            </UpCollapse>
+          </>
+        )}
       </Form>
     </Modal>
   );

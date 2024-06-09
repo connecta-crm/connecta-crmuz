@@ -14,6 +14,12 @@ export default function Fields({
   const [open, setOpen] = useState(false);
   const { fields } = useFields(open);
 
+  // document
+  //   .querySelector('.ant-modal-content')
+  //   ?.addEventListener('click', () => {
+  //     setOpen(false);
+  //   });
+
   return (
     <div className="fields" onClick={() => setOpen(!open)}>
       <div className="fields__header">
