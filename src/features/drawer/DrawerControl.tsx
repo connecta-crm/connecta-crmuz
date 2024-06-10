@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
-import { DrawerProps } from '../../ui/Drawer';
+import { DrawerProps, SourceType } from '../../ui/Drawer';
 import { getLeadData } from '../leads/leadSlice';
 import { getOrderData } from '../orders/orderSlice';
 import { getQuoteData } from '../quotes/quoteSlice';
@@ -20,7 +20,7 @@ function DrawerControl({
   dataSource,
   loadingItem,
   onOpenDrawer,
-}: DrawerProps) {
+}: DrawerProps & { sourceType: SourceType }) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { guid: currentLeadGuid } = useAppSelector(getLeadData);
   const { guid: currentQuoteGuid } = useAppSelector(getQuoteData);

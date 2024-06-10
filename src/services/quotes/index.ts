@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { LogsParamsType } from '../../features/leads/useLeadLogs';
 import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 import { QuoteCreateVehicleParams } from '../../features/quotes/useQuoteVehicleCreate';
 import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
@@ -144,6 +145,24 @@ class Quotes {
   async getQuoteAttachments(id: number) {
     try {
       const { data } = await this.$api.get(`/quote/attachments/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getQuoteLogs({ id }: LogsParamsType) {
+    try {
+      // const params: Record<string, unknown> = {
+      //   // limit,
+      //   // offset,
+      //   // order,
+      // };
+
+      const { data } = await this.$api.get(`/quote/logs/${id}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

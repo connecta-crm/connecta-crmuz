@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { DrawerProps } from '../../ui/Drawer';
+import { DrawerProps, SourceType } from '../../ui/Drawer';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
@@ -26,7 +26,7 @@ export type TableProps = {
   guid: string | null;
   count: number;
   onOpenModal: (a: boolean) => void; // todo
-} & DrawerProps;
+} & DrawerProps & { sourceType: SourceType };
 
 function LeadTable({
   dataSource: leads,

@@ -18,11 +18,9 @@ export type DrawerSourceType = {
 export type DrawerProps = {
   dataSource: DataSourceType;
   loadingItem: boolean;
-  sourceType?: SourceType;
-  onOpenDrawer?: (guid: string) => void;
+  onOpenDrawer: (guid: string) => void;
   onOpenDispatch?: () => void;
   onOpenDirectDispatch?: () => void;
-  onOpenHistory?: () => void;
 };
 
 function DrawerApp({
@@ -33,7 +31,10 @@ function DrawerApp({
   onOpenDispatch,
   onOpenDirectDispatch,
   onOpenHistory,
-}: DrawerProps) {
+}: DrawerProps & {
+  onOpenHistory: (id: number) => void;
+  sourceType: SourceType;
+}) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';

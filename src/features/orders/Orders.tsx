@@ -4,21 +4,24 @@ import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
+import OrderHistoryModal from '../../ui/HistoryModal';
 import OrdersModal from '../../ui/modal/OrderModal';
 import OrderDirectDispatchModal from './OrderDirectDispatchModal';
 import OrderDispatchModal from './OrderDispatchModal';
-import OrderHistoryModal from './OrderHistoryModal';
 import OrdersTable from './OrderTable';
 import { setOrderData } from './orderSlice';
 import { useOrder } from './useOrder';
+import { useOrderLogs } from './useOrderLogs';
 import { useOrders } from './useOrders';
 
 function Orders() {
   const [guid, setGuid] = useState<string | null>(null);
+  const [orderId, setOrderId] = useState<number>(0);
   const { orders, count, isLoadingOrders } = useOrders();
   const { order, isLoading: isLoadingOrder, error } = useOrder(guid);
-  const [openLeadModal, setOpenLeadModal] = useState(false);
+  const { orderLogs, isLoadingOrderLogs } = useOrderLogs(orderId);
 
+  const [openLeadModal, setOpenLeadModal] = useState(false);
   const [isOpenDispatchModal, setOpenDispatchModal] = useState(false);
   const [isOpenDirectDispatchModal, setOpenDirectDispatchModal] =
     useState(false);
@@ -33,6 +36,17 @@ function Orders() {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
   };
+
+  const handleOpenHistoryModal = (order: number) => {
+    setOrderId(0);
+    setTimeout(() => setOrderId(order), 0);
+  };
+
+  useEffect(() => {
+    if (!isLoadingOrderLogs && orderId) {
+      setOpenHistoryModal(true);
+    }
+  }, [isLoadingOrderLogs, orderId]);
 
   useEffect(() => {
     if (!isLoadingOrder && !error && guid && order) {
@@ -59,6 +73,7 @@ function Orders() {
         onOpenModal={setOpenDirectDispatchModal}
       />
       <OrderHistoryModal
+        historyLogs={orderLogs}
         isOpenModal={isOpenHistoryModal}
         onOpenModal={setOpenHistoryModal}
       />
@@ -87,10 +102,7 @@ function Orders() {
         onOpenDirectDispatch={() => {
           setOpenDirectDispatchModal(true);
         }}
-        onOpenHistory={() => {
-          console.log('cls');
-          setOpenHistoryModal(true);
-        }}
+        onOpenHistory={handleOpenHistoryModal}
       />
     </div>
   );

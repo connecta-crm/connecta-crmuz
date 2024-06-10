@@ -4,8 +4,10 @@ import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useModal } from '../../context/ModalContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
+import QuoteHistoryModal from '../../ui/HistoryModal';
 import LeadModal from '../../ui/modal/LeadModal';
 import QuotesModal from '../../ui/modal/QuotesModal';
+import { useQuoteLogs } from '../leads/useQuoteLogs';
 import QuotesTable from './QuoteTable';
 import { setQuoteData } from './quoteSlice';
 import { useQuote } from './useQuote';
@@ -13,9 +15,13 @@ import { useQuotes } from './useQuotes';
 
 function Quotes() {
   const [guid, setGuid] = useState<string | null>(null);
+  const [quoteId, setQuoteId] = useState<number>(0);
+  const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
+  const [openLeadModal, setOpenLeadModal] = useState(false);
+
   const { quotes, count, isLoadingQuotes } = useQuotes();
   const { quote, isLoading: isLoadingQuote, error } = useQuote(guid);
-  const [openLeadModal, setOpenLeadModal] = useState(false);
+  const { quoteLogs, isLoadingQuoteLogs } = useQuoteLogs(quoteId);
 
   const { openDrawer } = useDrawerFeature();
 
@@ -27,6 +33,17 @@ function Quotes() {
     setGuid(null);
     setTimeout(() => setGuid(guid), 0);
   };
+
+  const handleOpenHistoryModal = (id: number) => {
+    setQuoteId(0);
+    setTimeout(() => setQuoteId(id), 0);
+  };
+
+  useEffect(() => {
+    if (!isLoadingQuoteLogs && quoteId) {
+      setOpenHistoryModal(true);
+    }
+  }, [isLoadingQuoteLogs, quoteId]);
 
   useEffect(() => {
     if (!isLoadingQuote && !error && guid && quote) {
@@ -53,6 +70,11 @@ function Quotes() {
         onOpenModal={setOpenLeadModal}
         onOpenDrawer={handleOpenDrawer}
       />
+      <QuoteHistoryModal
+        historyLogs={quoteLogs}
+        isOpenModal={isOpenHistoryModal}
+        onOpenModal={setOpenHistoryModal}
+      />
       <QuotesModal
         openLeadModal={openLeadModal}
         setOpenLeadModa={setOpenLeadModal}
@@ -66,6 +88,7 @@ function Quotes() {
         dataSource={quotes}
         loadingItem={isLoadingQuote}
         onOpenDrawer={handleOpenDrawer}
+        onOpenHistory={handleOpenHistoryModal}
       />
     </div>
   );

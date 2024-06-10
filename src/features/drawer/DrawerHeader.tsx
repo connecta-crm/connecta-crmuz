@@ -7,7 +7,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { getMenuData } from '../../services/menu';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { DrawerProps } from '../../ui/Drawer';
+import { DrawerProps, SourceType } from '../../ui/Drawer';
 import { classNames } from '../../utils/helpers';
 import {
   getLeadData,
@@ -35,7 +35,10 @@ function DrawerHeader({
   onOpenDispatch,
   onOpenDirectDispatch,
   onOpenHistory,
-}: DrawerProps) {
+}: DrawerProps & {
+  onOpenHistory: (id: number) => void;
+  sourceType: SourceType;
+}) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
@@ -131,7 +134,7 @@ function DrawerHeader({
     }
   }, [isStatusUpdated, statusType, onSaveFeature]);
 
-  const { users, isLoading: isLoadingUsers } = useUsers();
+  const { users, isLoading: isLoadingUsers } = useUsers(isOpenSettings);
   const { update: updateUser, isLoading: isLoadingUpdateUser } =
     useUpdateUser();
 
@@ -163,13 +166,27 @@ function DrawerHeader({
     updateUser({ ...user, isActive });
   };
 
-  console.log((users || []).filter((f: { isActive: boolean }) => !f?.isActive));
-
   const itemsSettingMore: MenuProps['items'] = [
+    ...(feature === 'lead'
+      ? [
+          {
+            label: <p onClick={() => onOpenHistory(featureData.id)}>History</p>,
+            key: '0',
+          },
+        ]
+      : []),
+    ...(feature === 'quote'
+      ? [
+          {
+            label: <p onClick={() => onOpenHistory(featureData.id)}>History</p>,
+            key: '0',
+          },
+        ]
+      : []),
     ...(feature === 'order'
       ? [
           {
-            label: <p onClick={onOpenHistory}>History</p>,
+            label: <p onClick={() => onOpenHistory(featureData.id)}>History</p>,
             key: '0',
           },
           {

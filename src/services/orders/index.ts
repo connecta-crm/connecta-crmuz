@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
+import { LogsParamsType } from '../../features/leads/useLeadLogs';
 import {
   OrderDispatchEditParamsType,
   OrderEditParamsType,
@@ -194,6 +195,24 @@ class Orders {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getOrderLogs({ limit, offset, id }: LogsParamsType) {
+    try {
+      // const params: Record<string, unknown> = {
+      //   // limit,
+      //   // offset,
+      //   // order,
+      // };
+
+      const { data } = await this.$api.get(`/orders/logs/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(
