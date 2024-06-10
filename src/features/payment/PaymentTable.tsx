@@ -1,29 +1,13 @@
 import { Table } from 'antd';
 import SettingsTableHeaderActions from '../../ui/SettingsTableHeaderActions';
 import SettingsTableHeaderFilters from '../../ui/SettingsTableHeaderFilters';
-import { MerchantTableColumn } from './MerchantTableColumn';
-import { MerchantTableDataType } from './merchantTableDataType';
-import CheckButton from '../../ui/CheckButton';
-
-const items = [
-  {
-    label: <CheckButton type="merchantType" title="authorize" drop={true} />,
-    key: '0',
-  },
-  {
-    label: <CheckButton type="merchantType" title="firstdata" drop={true}  />,
-    key: '1',
-  },
-  {
-    label: <CheckButton type="merchantType" title="paypal" drop={true}  />,
-    key: '2',
-  },
-];
+import { PaymentTableColumn } from './PaymentTableColumn';
+import { PaymentTableDataType } from './PaymentTableDataType';
 
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
-    selectedRows: MerchantTableDataType[],
+    selectedRows: PaymentTableDataType[],
   ) => {
     console.log(
       `selectedRowKeys: ${selectedRowKeys}`,
@@ -31,11 +15,11 @@ const rowSelection = {
       selectedRows,
     );
   },
-  getCheckboxProps: (record: MerchantTableDataType) => ({
+  getCheckboxProps: (record: PaymentTableDataType) => ({
     name: record.name,
   }),
 };
-export default function MerchantTable({
+export default function PaymentTable({
   count,
   dataSource,
   isLoading,
@@ -44,7 +28,7 @@ export default function MerchantTable({
   setEditId,
 }: {
   count: number;
-  dataSource: MerchantTableDataType[];
+  dataSource: PaymentTableDataType[];
   isLoading: boolean;
   isLoadingTeam: boolean;
   setOpenModal: (a: boolean) => void;
@@ -55,14 +39,13 @@ export default function MerchantTable({
       <div className="dt-header">
         <SettingsTableHeaderActions
           onOpenModal={setOpenModal}
-          pageName="Merchant"
+          pageName="Payment"
         />
         <SettingsTableHeaderFilters
           count={count}
           hasFilterBtn={false}
-          hasFilterSelect={true}
-          pagename="merchants"
-          typesData={items}
+          hasFilterSelect={false}
+          pagename="payments"
         />
       </div>
       <div className="table__container">
@@ -71,9 +54,9 @@ export default function MerchantTable({
           loading={isLoading || isLoadingTeam}
           rowKey="id"
           rowSelection={{ ...rowSelection }}
-          columns={MerchantTableColumn}
+          columns={PaymentTableColumn}
           dataSource={dataSource}
-          onRow={(data: MerchantTableDataType) => ({
+          onRow={(data: PaymentTableDataType) => ({
             onClick: (event) => {
               const target = event.target as HTMLTextAreaElement;
               const element = target.className;

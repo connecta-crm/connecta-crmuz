@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  useMerchant } from './useMerchant';
+import { useMerchant } from './useMerchant';
 import { useMerchantDetails } from './useMerchantDetails';
 import MerchantTable from './MerchantTable';
 import MerchantModal from '../../ui/modal/MerchantModal';

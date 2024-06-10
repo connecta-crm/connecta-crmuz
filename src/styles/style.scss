@@ -59,6 +59,8 @@ $color-white: #ffffff;
 @import '_task';
 @import '_filter';
 @import '_history';
+@import '_fields';
+@import '_templates';
 
 // base layout
 @import 'layout/header';
