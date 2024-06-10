@@ -2,10 +2,9 @@ import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
 import { LogsParamsType } from '../../features/leads/useLeadLogs';
-import {
-  OrderDispatchEditParamsType,
-  OrderEditParamsType,
-} from '../../features/orders/useOrderEdit';
+import { OrderDirectDispatchEditParamsType } from '../../features/orders/useOrderDirectDispatchEdit';
+import { OrderDispatchEditParamsType } from '../../features/orders/useOrderDispatchEdit';
+import { OrderEditParamsType } from '../../features/orders/useOrderEdit';
 import { OrderCreateVehicleParams } from '../../features/orders/useOrderVehicleCreate';
 import { OrderEditVehicleParamsType } from '../../features/orders/useOrderVehicleEdit';
 import { OrdersParamsType } from '../../features/orders/useOrders';
@@ -99,6 +98,25 @@ class Orders {
     try {
       const { data } = await this.$api.put(`/orders/dispatch/${guid}/`, {
         ...updateOrderDispatchModel,
+      });
+      console.log(data);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // PUT: /orders/dispatch/:guid/
+  async editOrderDirectDispatch({
+    guid,
+    updateOrderDirectDispatchModel,
+  }: OrderDirectDispatchEditParamsType) {
+    try {
+      const { data } = await this.$api.put(`/orders/direct-dispatch/${guid}/`, {
+        ...updateOrderDirectDispatchModel,
       });
       console.log(data);
       return data;

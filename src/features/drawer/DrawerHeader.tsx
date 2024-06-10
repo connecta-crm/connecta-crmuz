@@ -194,7 +194,7 @@ function DrawerHeader({
             key: '1',
           },
           {
-            label: <p onClick={() => {}}>Direct Dispatch</p>,
+            label: <p onClick={onOpenDirectDispatch}>Direct Dispatch</p>,
             key: '3',
           },
           {
@@ -397,11 +397,7 @@ function DrawerHeader({
                     </Button>
                   </>
                 ) : status === 'orders' || status === 'booked' ? (
-                  <Button
-                    className="ml-10"
-                    type="primary"
-                    onClick={onOpenDirectDispatch}
-                  >
+                  <Button className="ml-10" type="primary" onClick={() => {}}>
                     Post to CD
                   </Button>
                 ) : null)}

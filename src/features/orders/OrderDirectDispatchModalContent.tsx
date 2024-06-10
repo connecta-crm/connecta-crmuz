@@ -117,10 +117,13 @@ function OrderDirectDispatchModalContent() {
               <div className="form-label pl-0">Location</div>
             </div>
             <Input
-              value={carrierData.email || ''}
-              defaultValue={carrierData.email || ''}
+              value={carrierData.location || ''}
+              defaultValue={carrierData.location || ''}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeCompanyInfo('location', e.target.value)
+              }
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -132,6 +135,9 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.mcNumber || ''}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeCompanyInfo('mcNumber', e.target.value)
+              }
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -143,6 +149,9 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.address}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeCompanyInfo('address', e.target.value)
+              }
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -154,6 +163,7 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.city}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) => handleChangeCompanyInfo('city', e.target.value)}
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -165,6 +175,7 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.state}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) => handleChangeCompanyInfo('state', e.target.value)}
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -176,6 +187,7 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.zip}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) => handleChangeCompanyInfo('zip', e.target.value)}
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -187,6 +199,7 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.phone}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) => handleChangeCompanyInfo('phone', e.target.value)}
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -198,6 +211,9 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.phone2}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeCompanyInfo('phone2', e.target.value)
+              }
             />
           </div>
           <div className="d-flex justify-between mb-5">
@@ -209,6 +225,7 @@ function OrderDirectDispatchModalContent() {
               defaultValue={carrierData.fax}
               size="small"
               style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) => handleChangeCompanyInfo('fax', e.target.value)}
             />
           </div>
         </>

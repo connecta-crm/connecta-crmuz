@@ -8,7 +8,7 @@ import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 import OrderDirectDispatchModalContent from './OrderDirectDispatchModalContent';
 import { OrderModalProps } from './OrderDispatchModal';
 import { getOrderData } from './orderSlice';
-import { useOrderDispatchEdit } from './useOrderDispatchEdit';
+import { useOrderDirectDispatchEdit } from './useOrderDirectDispatchEdit';
 
 function OrderDirectDispatchModal({
   isOpenModal,
@@ -19,8 +19,11 @@ function OrderDirectDispatchModal({
 
   const orderData = useAppSelector(getOrderData);
 
-  const { editOrderDispatch, updatedOrderDispatchData, isLoadingDispatch } =
-    useOrderDispatchEdit();
+  const {
+    editOrderDirectDispatch,
+    updatedOrderDirectDispatchData,
+    isLoadingDirectDispatch,
+  } = useOrderDirectDispatchEdit();
 
   const { onCancelFeature, onSaveFeature, isLoading, updatedOrderData } =
     useUpdateFeatureData({
@@ -32,6 +35,7 @@ function OrderDirectDispatchModal({
     });
 
   const handleSaveDispatch = () => {
+    const { dateEstPu, dateEstDel, dateEstShip } = orderData;
     const {
       carrierData,
       dispatchCodMethod,
@@ -41,18 +45,22 @@ function OrderDirectDispatchModal({
       dispatchTermBegins,
     } = orderData.dispatchData;
 
-    const dispatchModel = {
+    const directDispatchModel = {
       dispatchPaidBy,
       dispatchPaymentTerm,
       dispatchTermBegins,
       dispatchCodMethod,
       dispatchPaymentType,
       carrierData,
+      isDispatch: true,
+      dateEstPu,
+      dateEstDel,
+      dateEstShip,
     };
 
-    editOrderDispatch({
+    editOrderDirectDispatch({
       guid: orderData.guid,
-      updateOrderDispatchModel: dispatchModel,
+      updateOrderDirectDispatchModel: directDispatchModel,
     });
     setDispatchUpdated(true);
   };
@@ -64,11 +72,19 @@ function OrderDirectDispatchModal({
   }, [isLoading, updatedOrderData]);
 
   useEffect(() => {
-    if (isDispatchUpdated && !isLoadingDispatch && updatedOrderDispatchData) {
+    if (
+      isDispatchUpdated &&
+      !isLoadingDirectDispatch &&
+      updatedOrderDirectDispatchData
+    ) {
       onOpenModal(false);
       setDispatchUpdated(false);
     }
-  }, [isDispatchUpdated, isLoadingDispatch, updatedOrderDispatchData]);
+  }, [
+    isDispatchUpdated,
+    isLoadingDirectDispatch,
+    updatedOrderDirectDispatchData,
+  ]);
 
   return (
     <Modal
@@ -91,7 +107,7 @@ function OrderDirectDispatchModal({
           disabled={false}
           onClick={handleSaveDispatch}
         >
-          {!isLoadingDispatch ? (
+          {!isLoadingDirectDispatch ? (
             'Dispatch'
           ) : (
             <>
