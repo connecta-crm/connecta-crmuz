@@ -1,7 +1,7 @@
 import { Form, Input, Select } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import JoditEditor from 'jodit-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import car from '../../../public/img/sports-car.svg';
 import { InternationalTableDataType } from '../../features/international/internationalTableDataType';
 import { useCreateInternational } from '../../features/international/useCreateInternational';
@@ -26,6 +26,52 @@ export default function InternationalModal({
   const [showInput, setShowInput] = useState<boolean>(false);
   const { create } = useCreateInternational();
   const { update } = useUpdateInternational();
+  const config = useMemo(
+    () => ({
+      useSearch: false,
+      spellcheck: false,
+      enter: 'P',
+      defaultMode: '1',
+      toolbarAdaptive: false,
+      toolbarSticky: false,
+      showCharsCounter: false,
+      showWordsCounter: false,
+      showXPathInStatusbar: false,
+      askBeforePasteHTML: false,
+      askBeforePasteFromWord: false,
+      minHeight: 150,
+      minWidth: null,
+      editorCssClass: 'alic',
+
+      zIndex: 0,
+      readonly: false,
+      activeButtonsInReadOnly: ['source', 'fullsize', 'print', 'about'],
+      // theme: 'default',
+      enableDragAndDropFileToEditor: true,
+      saveModeInCookie: false,
+      triggerChangeEvent: false, //
+      direction: 'ltr',
+      language: 'pt_BR',
+      debugLanguage: false,
+      i18n: 'en',
+      // tabIndex: tabIndex,
+      useSplitMode: false,
+      colorPickerDefaultTab: 'background',
+      imageDefaultWidth: 100,
+      removeButtons: ['about', 'print', 'file'],
+      disablePlugins: ['paste', 'stat'],
+      events: {},
+      textIcons: false,
+      uploader: {
+        insertImageAsBase64URI: true,
+      },
+      placeholder: 'Type your message here...',
+      toolbarButtonSize: 'small',
+      buttons:
+        'bold,italic,underline,ul,ol,indent,outdent,font,fontsize,image,|,link,|,file,align,',
+    }),
+    [],
+  );
 
   const createUser = (e: InternationalTableDataType) => {
     e.body = content;
@@ -154,6 +200,7 @@ export default function InternationalModal({
         </div>
         <JoditEditor
           ref={editor}
+          config={config as unknown as undefined}
           value={content}
           onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
           onChange={(newContent) => {
