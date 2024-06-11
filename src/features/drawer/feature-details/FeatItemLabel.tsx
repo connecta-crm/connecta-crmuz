@@ -9,7 +9,11 @@ function FeatItemLabel({ label, icon }: FeatItemLabelProps) {
   return (
     <div className="detail__left d-flex align-center">
       <div className="detail__icon d-flex">
-        <img src={`./img/drawer/${icon}.svg`} alt="" />
+        <img
+          style={{ width: icon !== 'none' ? 20 : 0 }}
+          src={`./img/drawer/${icon}.svg`}
+          alt=""
+        />
       </div>
       <div
         className={classNames(

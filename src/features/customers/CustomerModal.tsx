@@ -49,7 +49,7 @@ function CustomerModal({ openModal, onOpenModal }: CustomerModalProps) {
         <div className="d-flex justify-between mb-5">
           <div className="d-flex">
             <div className="d-flex" style={{ width: 18, height: 21 }}>
-              <img src={`./img/drawer/user.svg`} alt="" />
+              <img style={{ width: 20 }} src={`./img/drawer/user.svg`} alt="" />
             </div>
             <div className="form-label ml-5">Name</div>
           </div>
