@@ -1,4 +1,4 @@
-import { GroundTableDataType } from './parsingTableDataType';
+import { ParsingTableDataType } from './parsingTableDataType';
 
 export const GroundTableColumn = [
   {
@@ -9,7 +9,7 @@ export const GroundTableColumn = [
   {
     title: 'Default',
     dataIndex: 'isDefault',
-    render: (data: GroundTableDataType) => <div>{data ? 'Yes' : 'No'}</div>,
+    render: (data: ParsingTableDataType) => <div>{data ? 'Yes' : 'No'}</div>,
   },
   {
     title: 'Status',
