@@ -3,7 +3,25 @@ import SettingsTableHeaderActions from '../../ui/SettingsTableHeaderActions';
 import SettingsTableHeaderFilters from '../../ui/SettingsTableHeaderFilters';
 import { PaymentTableColumn } from './PaymentTableColumn';
 import { PaymentTableDataType } from './PaymentTableDataType';
-
+import CheckButton from '../../ui/CheckButton';
+const items = [
+  {
+    label: <CheckButton type="paymentType" title="zelle" drop={true} />,
+    key: '0',
+  },
+  {
+    label: <CheckButton type="paymentType" title="paypal" drop={true}  />,
+    key: '1',
+  },
+  {
+    label: <CheckButton type="paymentType" title="cashapp" drop={true}  />,
+    key: '2',
+  },
+  {
+    label: <CheckButton type="paymentType" title="venmo" drop={true}  />,
+    key: '3',
+  },
+];
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
@@ -44,8 +62,9 @@ export default function PaymentTable({
         <SettingsTableHeaderFilters
           count={count}
           hasFilterBtn={false}
-          hasFilterSelect={false}
+          hasFilterSelect={true}
           pagename="payments"
+          typesData={items}
         />
       </div>
       <div className="table__container">

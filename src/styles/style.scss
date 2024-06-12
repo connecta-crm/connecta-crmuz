@@ -61,6 +61,8 @@ $color-white: #ffffff;
 @import '_history';
 @import '_fields';
 @import '_templates';
+@import '_payment';
+@import '_parsing';
 
 // base layout
 @import 'layout/header';

@@ -40,6 +40,7 @@ export default function PaymentModal({
     formData.append('link ', e.link);
     if (img) {
       const target = img?.target as HTMLInputElement;
+
       const file: File = (target.files as FileList)[0];
       formData.append('qrCode ', file);
     }
@@ -152,6 +153,8 @@ export default function PaymentModal({
                   options={[
                     { value: 'zelle', label: 'Zelle' },
                     { value: 'paypal', label: 'PayPal' },
+                    { value: 'cashapp', label: 'CashApp' },
+                    { value: 'venmo', label: 'Venmo' },
                   ]}
                 />
               </FormItem>
@@ -229,14 +232,21 @@ export default function PaymentModal({
                 // initialValue={payment?.qrCode}
                 preserve={false}
               >
-                <Input
-                  value={payment?.qrCode}
-                  type="file"
-                  placeholder="Empty"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setImg(e as unknown as Event)
-                  }
-                />
+                <div className="payment-attach d-flex">
+                  <Input
+                    accept="image/png, image/gif, image/jpeg"
+                    // value={payment?.qrCode}
+                    type="file"
+                    placeholder="Empty"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setImg(e as unknown as Event)
+                    }
+                  />
+                  <div className="payment-attach-btn">Attach</div>
+                  <span className="payment-attach-name">
+                    {img ? 'Selected attach' : 'Max 200x200px'}
+                  </span>
+                </div>
               </FormItem>
             ) : (
               <span className="detail__text_with-bg ml-20">
