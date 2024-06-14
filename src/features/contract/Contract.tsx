@@ -3,7 +3,7 @@ import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import download from '../../../public/img/download.png';
-import logo from '../../../public/img/logo-meta.svg';
+import logo from '../../../public/img/logo-meta.png';
 import { useBlobContext } from '../../context/PdfContext';
 import SignAcceptModal from '../../ui/modal/SignAcceptModal';
 import { CompanyType, ContractType, Origintype } from './contractDataTypes';
