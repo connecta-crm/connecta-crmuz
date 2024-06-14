@@ -9,7 +9,8 @@ export function useConvertToQuote() {
     isPending: isLoadingConvertToOrder,
     isSuccess: isSuccessConvertToOrder,
   } = useMutation({
-    mutationFn: (id: number) => Quote.convertToOrder(id),
+    mutationFn: ({ id, model }: { id: number; model: unknown }) =>
+      Quote.convertToOrder({ id, model }),
     onSuccess: () => {
       message.success('Quote converted to order');
       queryClient.invalidateQueries({ queryKey: ['quotes'] });

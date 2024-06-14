@@ -4,11 +4,16 @@ import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import HighlightedWord from '../../../ui/HighlightedWord';
-import { CONDITION_TYPES } from '../../../utils/constants';
+import {
+  CONDITION_TYPES,
+  LOCATION_TYPES,
+  TRAILER_TYPES,
+} from '../../../utils/constants';
 import { useCities } from '../../address/useCities';
 import DrawerArrowIcon from '../../drawer/DrawerArrowIcon';
 import DrawerFeatureRow from '../../drawer/DrawerFeatureRow';
 import FeatItemLabel from '../../drawer/feature-details/FeatItemLabel';
+import { useProviders } from '../../providers/useProviders';
 import {
   fetchQuoteConvertData,
   getQuoteConvertData,
@@ -31,8 +36,10 @@ function ConvertDetailMainContent() {
 
   const [isSelectCity, setSelectCity] = useState(true);
   const [searchCity, setSearchCity] = useState<string | null>(null);
+  const [select, setSelect] = useState(false);
 
   const { cities, isLoading: isLoadingCities } = useCities(searchCity);
+  const { providers, isFetching: isLoadingProviders } = useProviders(select);
 
   // CITY
   const handleFocusCity = () => {
@@ -67,6 +74,15 @@ function ConvertDetailMainContent() {
       children: (
         <DrawerFeatureRow>
           <>
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label required-label">Pickup address</div>
+              <Input
+                value={quoteConvertData.originAddress || undefined}
+                defaultValue={quoteConvertData.originAddress || undefined}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChange('originAddress', e.target.value)}
+              />
+            </div>
             <div className="d-flex justify-between mb-5">
               <div className="form-label required-label">Pickup city</div>
               <Select
@@ -161,76 +177,72 @@ function ConvertDetailMainContent() {
                 )}
               </Select>
             </div>
-            {/* ORDER CONTENTS */}
-            <>
-              <div className="d-flex justify-between mb-5">
-                <div className="form-label">Business name</div>
+
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label">Business name</div>
+              <Input
+                value={quoteConvertData.originBusinessName || undefined}
+                defaultValue={quoteConvertData.originBusinessName || undefined}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChange('originBusinessName', e.target.value)
+                }
+              />
+            </div>
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label">Business phone</div>
+              <Input
+                value={quoteConvertData.originBusinessPhone}
+                defaultValue={quoteConvertData.originBusinessPhone}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChange('originBusinessPhone', e.target.value)
+                }
+              />
+            </div>
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label required-label">Contact person</div>
+              <Input
+                value={quoteConvertData.originContactPerson}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChange('originContactPerson', e.target.value)
+                }
+              />
+            </div>
+            <div className="d-flex justify-between mb-5">
+              <div className="d-flex justify-between">
+                <div className="form-label mr-5 required-label">Phone</div>
                 <Input
-                  value={quoteConvertData.originBusinessName}
-                  defaultValue={quoteConvertData.originBusinessName}
-                  style={{ width: 218, float: 'inline-end', height: 24 }}
-                  onChange={(e) =>
-                    handleChange('originBusinessName', e.target.value)
-                  }
+                  value={quoteConvertData.originPhone}
+                  defaultValue={quoteConvertData.originPhone}
+                  style={{ width: 115, float: 'inline-end', height: 24 }}
+                  onChange={(e) => handleChange('originPhone', e.target.value)}
                 />
-              </div>
-              <div className="d-flex justify-between mb-5">
-                <div className="form-label">Business phone</div>
-                <Input
-                  value={quoteConvertData.originBusinessPhone}
-                  defaultValue={quoteConvertData.originBusinessPhone}
-                  style={{ width: 218, float: 'inline-end', height: 24 }}
-                  onChange={(e) =>
-                    handleChange('originBusinessPhone', e.target.value)
-                  }
-                />
-              </div>
-              <div className="d-flex justify-between mb-5">
-                <div className="form-label required-label">Contact person</div>
-                <Input
-                  value={quoteConvertData.originContactPerson}
-                  style={{ width: 218, float: 'inline-end', height: 24 }}
-                  onChange={(e) =>
-                    handleChange('originContactPerson', e.target.value)
-                  }
-                />
-              </div>
-              <div className="d-flex justify-between mb-5">
-                <div className="d-flex justify-between">
-                  <div className="form-label mr-5 required-label">Phone</div>
-                  <Input
-                    value={quoteConvertData.originPhone}
-                    defaultValue={quoteConvertData.originPhone}
-                    style={{ width: 115, float: 'inline-end', height: 24 }}
-                    onChange={(e) =>
-                      handleChange('originPhone', e.target.value)
-                    }
-                  />
-                </div>
-                <div className="d-flex justify-between ">
-                  <div className="form-label mr-5 pl-0">Second</div>
-                  <Input
-                    value={quoteConvertData.originSecondPhone}
-                    defaultValue={quoteConvertData.originSecondPhone}
-                    style={{ width: 115, float: 'inline-end', height: 24 }}
-                    onChange={(e) =>
-                      handleChange('originSecondPhone', e.target.value)
-                    }
-                  />
-                </div>
               </div>
               <div className="d-flex justify-between ">
-                <div className="form-label required-label">Buyer number</div>
+                <div className="form-label mr-5 pl-0">Second</div>
                 <Input
-                  value={quoteConvertData.originBuyerNumber}
-                  defaultValue={quoteConvertData.originBuyerNumber}
-                  style={{ width: 218, float: 'inline-end', height: 24 }}
+                  value={quoteConvertData.originSecondPhone}
+                  defaultValue={quoteConvertData.originSecondPhone}
+                  style={{ width: 115, float: 'inline-end', height: 24 }}
                   onChange={(e) =>
-                    handleChange('originBuyerNumber', e.target.value)
+                    handleChange('originSecondPhone', e.target.value)
                   }
                 />
               </div>
-            </>
+            </div>
+            <div className="d-flex justify-between ">
+              <div className="form-label required-label">Buyer number</div>
+              <Input
+                value={quoteConvertData.originBuyerNumber}
+                defaultValue={quoteConvertData.originBuyerNumber}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChange('originBuyerNumber', e.target.value)
+                }
+              />
+            </div>
           </>
         </DrawerFeatureRow>
       ),
@@ -253,7 +265,18 @@ function ConvertDetailMainContent() {
       ),
       children: (
         <DrawerFeatureRow>
-          <>
+          <div className="mb-20">
+            <div className="d-flex justify-between mb-5">
+              <div className="form-label required-label">Delivery address</div>
+              <Input
+                value={quoteConvertData.destinationAddress || undefined}
+                defaultValue={quoteConvertData.destinationAddress || undefined}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChange('destinationAddress', e.target.value)
+                }
+              />
+            </div>
             <div className="d-flex justify-between mb-5">
               <div className="form-label required-label">Delivery city</div>
               <Select
@@ -406,7 +429,69 @@ function ConvertDetailMainContent() {
                 />
               </div>
             </div>
-          </>
+          </div>
+          <div className="mb-20">
+            <div className="d-flex align-center justify-between mb-5">
+              <FeatItemLabel icon="origin" label="Location Type" />
+              <Select
+                value={quoteConvertData.locationType}
+                defaultValue={quoteConvertData.locationType}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChange('locationType', e)}
+                options={LOCATION_TYPES}
+              />
+            </div>
+            <div className="d-flex align-center justify-between mb-5">
+              <FeatItemLabel icon="trailer" label="Trailer Type" />
+              <Select
+                value={quoteConvertData.trailerType}
+                defaultValue={quoteConvertData.trailerType}
+                style={{ width: 218, float: 'inline-end', height: 24 }}
+                onChange={(e) => handleChange('trailerType', e)}
+                options={TRAILER_TYPES}
+              />
+            </div>
+            <div className="d-flex align-center justify-between mb-5">
+              <FeatItemLabel icon="trailer" label="Source" />
+              <Select
+                size="small"
+                filterOption={false}
+                placeholder="Search city"
+                defaultValue={quoteConvertData.source}
+                value={quoteConvertData.source}
+                onChange={(e) => handleChange('source', e)}
+                onFocus={() => setSelect(true)}
+                style={{ width: 218 }}
+                loading={isLoadingProviders}
+                notFoundContent={
+                  isLoadingProviders ? <Spin size="small" /> : 'No such source'
+                }
+                options={(providers || []).map(
+                  (d: { id: number; name: string }) => ({
+                    value: d.id,
+                    data: d,
+                    label: d.name,
+                  }),
+                )}
+              />
+            </div>
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label pl-0 mr-5">CD note</div>
+            <Input
+              value={quoteConvertData.cdNote}
+              style={{ width: 258, float: 'inline-end', height: 24 }}
+              onChange={(e) => handleChange('cdNote', e.target.value)}
+            />
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label pl-0 mr-5">CM note</div>
+            <Input
+              value={quoteConvertData.cmNote}
+              style={{ width: 258, float: 'inline-end', height: 24 }}
+              onChange={(e) => handleChange('cmNote', e.target.value)}
+            />
+          </div>
         </DrawerFeatureRow>
       ),
       showArrow: false,

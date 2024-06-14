@@ -173,10 +173,13 @@ class Quotes {
   }
 
   // POST: /orders/convert/from-quote/:guid/
-  async convertToOrder(id: number) {
+  async convertToOrder({ id, model }: { id: number; model: unknown }) {
     try {
       const { data } = await this.$api.post(
         `/orders/convert/from-quote/${id}/`,
+        {
+          ...model,
+        },
       );
       return data;
     } catch (error) {
