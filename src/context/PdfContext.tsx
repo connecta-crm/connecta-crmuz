@@ -1,26 +1,28 @@
-import { ReactNode, createContext, useState } from 'react';
-type PdfContextType = {
-  pdf: { agreement: Blob; terms: Blob } | null;
-  setAgreement: (a: Blob) => void;
-  setTerms: (a: Blob) => void;
+import { ReactNode, createContext, useContext, useState } from 'react';
+
+type BlobContextType = {
+  blob: Blob | null; // The blob state
+  setBlob: (blob: Blob | null) => void; // Function to update the blob state
 };
-export const PdfContext = createContext<PdfContextType | null>(null);
+
+const BlobContext = createContext<BlobContextType | null>(null);
 
 const PdfProvider = ({ children }: { children: ReactNode }) => {
-  const [pdf, setPdf] = useState<{ agreement: Blob; terms: Blob } | null>(null);
-
-  const setAgreement = (a: Blob) => {
-    setPdf(pdf ? { ...pdf, agreement: a } : null);
-  };
-
-  const setTerms = (a: Blob) => {
-    setPdf(pdf ? { ...pdf, terms: a } : null);
-  };
+  const [blob, setBlob] = useState<Blob | null>(null);
 
   return (
-    <PdfContext.Provider value={{ pdf, setAgreement, setTerms }}>
+    <BlobContext.Provider value={{ blob, setBlob }}>
       {children}
-    </PdfContext.Provider>
+    </BlobContext.Provider>
   );
 };
-export default PdfProvider;
+
+const useBlobContext = () => {
+  const context = useContext(BlobContext);
+  if (!context) {
+    throw new Error('useBlobContext must be used within a BlobProvider');
+  }
+  return context;
+};
+
+export { PdfProvider, useBlobContext };

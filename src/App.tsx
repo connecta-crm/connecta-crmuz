@@ -8,7 +8,7 @@ import { DarkModeProvider } from './context/DarkModeContext';
 import DrawerFeatureProvider from './context/DrawerFeatureContext.tsx';
 import FilterProvider from './context/FilterContext.tsx';
 import ModalProvider from './context/ModalContext.tsx';
-import PdfProvider from './context/PdfContext.tsx';
+import {PdfProvider} from './context/PdfContext.tsx';
 import Contract from './pages/Contract.tsx';
 import PageNotFound from './pages/PageNotFound.tsx';
 import Terms from './pages/Terms.tsx';

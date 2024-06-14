@@ -4,10 +4,11 @@ import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import download from '../../../public/img/download.png';
+import { useBlobContext } from '../../context/PdfContext';
 import SignAcceptModal from '../../ui/modal/SignAcceptModal';
 import { CompanyType, Origintype } from './contractDataTypes';
 import { useContract } from './useContact';
-// import { useCreateContract } from './useCreateContact';
+import { useCreateContract } from './useCreateContact';
 export default function Terms() {
   const navigate = useNavigate();
   const localData = localStorage.getItem('contractTerm');
@@ -20,7 +21,8 @@ export default function Terms() {
   const [company, setCompany] = useState<CompanyType | null>(null);
   const [order, setOrder] = useState<Origintype>();
   const { contracts } = useContract(true, params);
-  //  const {create} = useCreateContract()
+  const { blob } = useBlobContext();
+  const { create } = useCreateContract();
   useEffect(() => {
     if (contracts) {
       setCompany(contracts?.company);
@@ -39,13 +41,21 @@ export default function Terms() {
     html2canvas(capture as unknown as HTMLElement).then((canvas) => {
       const imgData = canvas.toDataURL('img/png');
       const doc = new jsPDF('p', 'mm', 'a4');
-      doc.addPage();
       const componentWidth = doc.internal.pageSize.getWidth();
       const componentHeight = doc.internal.pageSize.getHeight();
       doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
-     
-      // const blob = doc.output9
-    
+
+      const form = new FormData();
+      form.append('agreement', blob as Blob);
+      form.append('terms', doc.output('blob'));
+      create(
+        { form: form, guidId: params.text, id: params.id },
+        {
+          onSuccess: () => {
+            setOpen(true);
+          },
+        },
+      );
     });
   };
 

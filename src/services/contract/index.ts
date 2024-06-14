@@ -73,15 +73,14 @@ class Contract {
   // }
 
   async createContract(contract: {
-    agreement: File;
-    terms: File;
+    form:FormData
     guidId: string;
     id: string;
   }) {
     try {
       const { data } = await this.$api.post(
         `/orders/contracts/sign/${contract.guidId}/${contract.id}/`,
-        contract,
+        contract.form,
       );
       return data;
     } catch (error) {

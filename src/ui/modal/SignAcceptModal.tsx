@@ -18,7 +18,7 @@ export default function SignAcceptModal({
   const createContract = (e: { fullName: string; initial: string }) => {
     setContractForm({ name: e.fullName, initial: e.initial });
     savePDF()
-    setModal(false);
+    // setModal(false);
   };
 
   const [form] = Form.useForm();

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import download from '../../../public/img/download.png';
 import logo from '../../../public/img/logo-meta.svg';
+import { useBlobContext } from '../../context/PdfContext';
 import SignAcceptModal from '../../ui/modal/SignAcceptModal';
 import { CompanyType, ContractType, Origintype } from './contractDataTypes';
 import { useContract } from './useContact';
@@ -20,10 +21,10 @@ export default function Contract() {
   const [order, setOrder] = useState<Origintype>();
   const { contracts } = useContract(true, params);
   const navigate = useNavigate();
+  const { setBlob } = useBlobContext();
 
   useEffect(() => {
     if (contracts) {
-      console.log(contracts);
       setCompany(contracts?.company);
       setContract(contracts?.contract);
       setOrder(contracts?.order);
@@ -45,6 +46,8 @@ export default function Contract() {
       const componentWidth = doc.internal.pageSize.getWidth();
       const componentHeight = doc.internal.pageSize.getHeight();
       doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+      setBlob(doc.output('blob'));
+      setOpen(false);
     });
   };
 

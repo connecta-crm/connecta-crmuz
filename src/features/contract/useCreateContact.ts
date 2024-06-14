@@ -9,7 +9,7 @@ export function useCreateContract() {
     error,
     isSuccess,
   } = useMutation({
-    mutationFn: (item: { agreement: File; terms: File,guidId:string,id:string }) =>
+    mutationFn: (item: {form:FormData,guidId:string,id:string }) =>
       Contract.createContract(item),
     onSuccess: () => {
       message.success('Success');
