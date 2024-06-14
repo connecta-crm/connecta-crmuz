@@ -5,11 +5,13 @@ import Delivery from '../../features/destination/Delivery';
 import { useCreateLead } from '../../features/leads/useLeadDetails';
 import Pickup from '../../features/origin/Pickup';
 import Source from '../../features/sourcecom/Source';
+
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
 import { LeadDataType } from '../../models/LeadDataType.ts';
 import { useAppSelector } from '../../store/hooks';
+import { CONDITION_TYPES } from '../../utils/constants.ts';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
 import FormControl from '../form/FormControl.tsx';
@@ -18,7 +20,7 @@ import UseDatePicker from '../picker/DatePicker.tsx';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import trailer from '/img/drawer/trailer.svg';
-import { CONDITION_TYPES } from '../../utils/constants.ts';
+
 export default function LeadModal({
   openLeadModal,
   setOpenLeadModa,

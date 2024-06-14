@@ -9,7 +9,7 @@ import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
-import { OrdersDataType } from '../../models/OrdersDataType.ts';
+import { OrdersDataType } from '../../models/OrderDataType.ts';
 import { useAppSelector } from '../../store/hooks';
 import { CONDITION_TYPES } from '../../utils/constants.ts';
 import Modal from '../Modal.tsx';
@@ -140,7 +140,7 @@ export default function OrdersModal({
                 />
               </FormControl>
               <Pickup setPickup={setOrigin}>
-              <InputRow>
+                <InputRow>
                   <InputCol>
                     <Label>Pickup address</Label>
                   </InputCol>
@@ -155,8 +155,8 @@ export default function OrdersModal({
                       />
                     </FormItem>
                   </InputCol>
-                  </InputRow>
-                
+                </InputRow>
+
                 <InputRow>
                   <InputCol>
                     <Label>Business name</Label>
@@ -247,9 +247,9 @@ export default function OrdersModal({
                 </InputRow>
               </Pickup>
               <Delivery setDelivery={setDelivery}>
-              <InputRow>
+                <InputRow>
                   <InputCol>
-                    <Label>Delivery  address</Label>
+                    <Label>Delivery address</Label>
                   </InputCol>
                   <InputCol>
                     <FormItem
@@ -262,7 +262,7 @@ export default function OrdersModal({
                       />
                     </FormItem>
                   </InputCol>
-                  </InputRow>
+                </InputRow>
                 <InputRow>
                   <InputCol>
                     <Label>Business name</Label>
