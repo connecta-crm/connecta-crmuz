@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
@@ -9,6 +10,7 @@ import LeadModal from '../../ui/modal/LeadModal';
 import QuotesModal from '../../ui/modal/QuotesModal';
 import { useQuoteLogs } from '../leads/useQuoteLogs';
 import QuotesTable from './QuoteTable';
+import QuotesConvertModal from './QuotesConvertModal';
 import { setQuoteData } from './quoteSlice';
 import { useQuote } from './useQuote';
 import { useQuotes } from './useQuotes';
@@ -17,6 +19,7 @@ function Quotes() {
   const [guid, setGuid] = useState<string | null>(null);
   const [quoteId, setQuoteId] = useState<number>(0);
   const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
+  const [isOpenConvertModal, setOpenConvertModal] = useState(false);
   const [openLeadModal, setOpenLeadModal] = useState(false);
 
   const { quotes, count, isLoadingQuotes } = useQuotes();
@@ -37,6 +40,10 @@ function Quotes() {
   const handleOpenHistoryModal = (id: number) => {
     setQuoteId(0);
     setTimeout(() => setQuoteId(id), 0);
+  };
+
+  const handleOpenConvertModal = () => {
+    setOpenConvertModal(true);
   };
 
   useEffect(() => {
@@ -79,6 +86,11 @@ function Quotes() {
         openLeadModal={openLeadModal}
         setOpenLeadModa={setOpenLeadModal}
       />
+      <QuotesConvertModal
+        isOpenModal={isOpenConvertModal}
+        onOpenModal={setOpenConvertModal}
+      />
+
       {show && status === 'lead' && (
         <LeadModal openLeadModal={show} setOpenLeadModa={hideModal} />
       )}
@@ -89,6 +101,7 @@ function Quotes() {
         loadingItem={isLoadingQuote}
         onOpenDrawer={handleOpenDrawer}
         onOpenHistory={handleOpenHistoryModal}
+        onOpenConvert={handleOpenConvertModal}
       />
     </div>
   );

@@ -130,6 +130,11 @@ $modal-border-color: #d1d1d1;
   }
   &__row {
     @include flexbox();
+    &--convert {
+      .remove-item {
+        display: none;
+      }
+    }
   }
   &__col {
     width: 50%;
@@ -184,5 +189,35 @@ $modal-border-color: #d1d1d1;
   }
   .jodit-toolbar__box {
     background-color: #d1d1d1 !important;
+  }
+}
+.convert-modal {
+  &__vehicle {
+    .ant-collapse .ant-collapse-content > .ant-collapse-content-box {
+      padding: 0 !important;
+    }
+    .ant-collapse-content-box {
+      padding: 0 !important;
+    }
+    .detail-inner {
+      padding: 6px 16px 6px 16px !important;
+    }
+  }
+}
+.convert-vehicle__inner {
+  .ant-collapse-item {
+    .box-header__arrow-bold {
+      right: 16px;
+      transform: rotate(-90deg);
+    }
+  }
+  .ant-collapse-item-active {
+    .box-header__arrow-bold {
+      transform: rotate(0);
+    }
+  }
+  .ant-collapse-header {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
   }
 }

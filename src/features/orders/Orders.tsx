@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
@@ -27,8 +28,10 @@ function Orders() {
     useState(false);
   const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { openDrawer } = useDrawerFeature();
+  const { openDrawer, closeDrawer } = useDrawerFeature();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 

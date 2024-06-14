@@ -172,6 +172,21 @@ class Quotes {
     }
   }
 
+  // POST: /orders/convert/from-quote/:guid/
+  async convertToOrder(id: number) {
+    try {
+      const { data } = await this.$api.post(
+        `/orders/convert/from-quote/${id}/`,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(

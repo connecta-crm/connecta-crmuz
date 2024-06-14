@@ -25,7 +25,13 @@ export default function UpCollapse({
           <span style={{ marginLeft: '10px' }}>{title}</span>
         </div>
         {hasButton && (
-          <Button disabled={false} type="primary" danger size="small">
+          <Button
+            disabled={false}
+            type="primary"
+            danger
+            size="small"
+            className="remove-item"
+          >
             CD Price
           </Button>
         )}

@@ -11,6 +11,7 @@ import { useAppDispatch } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
 import { updateVehicleField as updateLeadVehicleField } from '../../leads/leadSlice';
 import { updateVehicleField as updateOrderVehicleField } from '../../orders/orderSlice';
+import { updateConvertVehicleField } from '../../quotes/quoteConvertSlice';
 import { updateVehicleField as updateQuoteVehicleField } from '../../quotes/quoteSlice';
 import { useCarMarks } from '../../vehicles/useCarMarks';
 import { useCarModels } from '../../vehicles/useCarModels';
@@ -77,6 +78,15 @@ function FeatVehicleInner({
             }),
           );
           break;
+        case 'quote/convert':
+          dispatch(
+            updateConvertVehicleField({
+              vehicleIndex,
+              field,
+              value: record.data,
+            }),
+          );
+          break;
       }
 
       if (record.data.id && vehicle.mark?.id && field === 'vehicle.mark') {
@@ -126,6 +136,21 @@ function FeatVehicleInner({
                 }),
               );
               break;
+            case 'quote/convert':
+              dispatch(
+                updateConvertVehicleField({
+                  vehicleIndex,
+                  field: 'vehicle',
+                  value: {
+                    mark,
+                    id: null,
+                    name: null,
+                    vehicleType: null,
+                    isActive: true,
+                  },
+                }),
+              );
+              break;
           }
         }
       }
@@ -162,20 +187,41 @@ function FeatVehicleInner({
             }),
           );
           break;
+        case 'quote/convert':
+          dispatch(
+            updateConvertVehicleField({
+              vehicleIndex,
+              field,
+              value,
+            }),
+          );
+          break;
       }
     }
   };
 
-  // ORDER'S INPUTS
+  // * ORDER and QUOTE/CONVERT INPUTS
   const handleChangeInput = (field: string, value: string) => {
-    dispatch(
-      updateOrderVehicleField({
-        vehicleIndex,
-        field,
-        value,
-      }),
-    );
-    console.log(field, value);
+    switch (feature) {
+      case 'order':
+        dispatch(
+          updateOrderVehicleField({
+            vehicleIndex,
+            field,
+            value,
+          }),
+        );
+        break;
+      case 'quote/convert':
+        dispatch(
+          updateConvertVehicleField({
+            vehicleIndex,
+            field,
+            value,
+          }),
+        );
+        break;
+    }
   };
 
   return (
@@ -258,7 +304,7 @@ function FeatVehicleInner({
         />
       </div>
       {/* ORDER features */}
-      {feature === 'order' && (
+      {(feature === 'order' || feature === 'quote/convert') && (
         <div className="d-flex justify-between">
           <div className="">
             <div className="d-flex justify-between mb-5">

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { DropdownProps, MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import { useEffect, useState } from 'react';
@@ -18,13 +18,16 @@ import {
   getOrderData,
   updateField as updateOrderField,
 } from '../orders/orderSlice';
+import { useOrderPostCD } from '../orders/useOrderPostCD';
 import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../quotes/quoteSlice';
+import { useConvertToQuote } from '../quotes/useConvertToQuote';
 import { useUpdateUser } from '../users/useUpdateUser';
 import { useUsers } from '../users/useUsers';
 import { UsersTableDataType } from '../users/usersTableDataType';
+import { FeatureData } from './feature-details/FeatDestinationInner';
 import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
 function DrawerHeader({
@@ -35,13 +38,15 @@ function DrawerHeader({
   onOpenDispatch,
   onOpenDirectDispatch,
   onOpenHistory,
+  onOpenConvert,
 }: DrawerProps & {
-  onOpenHistory: (id: number) => void;
   sourceType: SourceType;
+  onOpenHistory: (id: number) => void;
+  onOpenConvert?: () => void;
 }) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { pathname } = useLocation();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const status = searchParams.get('status') || 'orders';
 
@@ -76,7 +81,7 @@ function DrawerHeader({
   const quoteData = useAppSelector(getQuoteData);
   const orderData = useAppSelector(getOrderData);
 
-  let featureData;
+  let featureData: FeatureData | undefined;
 
   switch (feature) {
     case 'lead':
@@ -98,8 +103,15 @@ function DrawerHeader({
   const [isStatusUpdated, setStatusUpdated] = useState(false);
   const [isOpenSettings, setOpenSettings] = useState(false);
   const [statusType, setStatusType] = useState(leadData.status);
+  const [isChangeStatus, setChangeStatus] = useState(false);
 
-  const { onSaveFeature, isLoading } = useUpdateFeatureData({
+  const { users, isLoading: isLoadingUsers } = useUsers(isOpenSettings);
+  const { update: updateUser, isLoading: isLoadingUpdateUser } =
+    useUpdateUser();
+  const { orderPostCD, updatedOrderPostCDData, isLoadingPostCD } =
+    useOrderPostCD();
+
+  const { onSaveFeature, isLoading, updatedOrderData } = useUpdateFeatureData({
     keyValue: '',
     feature,
     field: 'status',
@@ -127,6 +139,50 @@ function DrawerHeader({
     setStatusUpdated(true);
   };
 
+  const handleMarkPickedUp = () => {
+    dispatch(updateOrderField({ field: 'status', value: 'pickedup' }));
+    setStatusUpdated(true);
+  };
+
+  const handleMarkCompleted = () => {
+    dispatch(updateOrderField({ field: 'status', value: 'completed' }));
+    setStatusUpdated(true);
+  };
+
+  const handleOnHold = () => {
+    dispatch(updateOrderField({ field: 'status', value: 'onhold' }));
+    setStatusUpdated(true);
+  };
+
+  const handleBackToOrder = () => {
+    dispatch(updateOrderField({ field: 'status', value: 'orders' }));
+    setStatusUpdated(true);
+  };
+
+  const handleRemoveCD = () => {
+    dispatch(updateOrderField({ field: 'status', value: 'booked' }));
+    setStatusUpdated(true);
+  };
+
+  const { convertToOrder, isLoadingConvertToOrder, isSuccessConvertToOrder } =
+    useConvertToQuote();
+
+  const handleConvertToOrder = () => {
+    convertToOrder(quoteData.id);
+  };
+
+  const handlePostToCD = () => {
+    if (feature === 'order') {
+      orderPostCD(orderData.guid);
+    }
+  };
+
+  useEffect(() => {
+    if (!isLoadingConvertToOrder && isSuccessConvertToOrder) {
+      closeDrawer();
+    }
+  }, [isLoadingConvertToOrder, isSuccessConvertToOrder]);
+
   useEffect(() => {
     if (isStatusUpdated) {
       onSaveFeature();
@@ -134,9 +190,47 @@ function DrawerHeader({
     }
   }, [isStatusUpdated, statusType, onSaveFeature]);
 
-  const { users, isLoading: isLoadingUsers } = useUsers(isOpenSettings);
-  const { update: updateUser, isLoading: isLoadingUpdateUser } =
-    useUpdateUser();
+  useEffect(() => {
+    if (!isLoadingPostCD && updatedOrderPostCDData) {
+      if (updatedOrderPostCDData.status === 'posted') {
+        searchParams.set('status', 'posted');
+        setSearchParams(searchParams);
+        dispatch(updateOrderField({ field: 'status', value: 'posted' }));
+        setChangeStatus(true);
+      }
+    }
+  }, [isLoadingPostCD, updatedOrderPostCDData]);
+
+  useEffect(() => {
+    if (!isLoading && updatedOrderData) {
+      const updatedOrderStatus = updatedOrderData?.status;
+      switch (updatedOrderStatus) {
+        case 'pickedup':
+          searchParams.set('status', 'pickedup');
+          break;
+        case 'completed':
+          searchParams.set('status', 'completed');
+          break;
+        case 'onhold':
+          searchParams.set('status', 'onhold');
+          break;
+        case 'orders':
+          searchParams.set('status', 'orders');
+          break;
+        default:
+          closeDrawer();
+          break;
+      }
+      setSearchParams(searchParams);
+    }
+  }, [isLoading, updatedOrderData]);
+
+  useEffect(() => {
+    if (isChangeStatus && status && updatedOrderPostCDData?.status !== status) {
+      closeDrawer();
+      setChangeStatus(false);
+    }
+  }, [status, isChangeStatus]);
 
   if (!featureData) {
     return;
@@ -196,6 +290,18 @@ function DrawerHeader({
           {
             label: <p onClick={onOpenDirectDispatch}>Direct Dispatch</p>,
             key: '3',
+          },
+          {
+            label: (
+              <button
+                className="bg-transparent w-full text-left"
+                disabled={isLoading}
+                onClick={handleOnHold}
+              >
+                On hold
+              </button>
+            ),
+            key: '50',
           },
           {
             label: <p onClick={() => {}}>Team Support</p>,
@@ -365,14 +471,17 @@ function DrawerHeader({
             )}
             <div className="drawer-header__btnitem ">
               {feature === 'quote' && (
-                <Button className="" type="primary">
+                <Button
+                  className=""
+                  type="primary"
+                  onClick={onOpenConvert}
+                  disabled={isLoadingConvertToOrder}
+                >
                   Convert to order
                 </Button>
               )}
-
               {feature === 'order' && (
                 <Button
-                  className=""
                   style={{
                     backgroundColor: 'rgba(221, 242, 253, 1)',
                     cursor: 'initial',
@@ -392,22 +501,42 @@ function DrawerHeader({
                     >
                       Dispatch
                     </Button>
-                    <Button className="ml-10" type="primary" ghost>
+                    <Button
+                      onClick={handlePostToCD}
+                      disabled={isLoadingPostCD}
+                      className="ml-10"
+                      type="primary"
+                      ghost
+                    >
                       Repost to CD
                     </Button>
                   </>
                 ) : status === 'orders' || status === 'booked' ? (
-                  <Button className="ml-10" type="primary" onClick={() => {}}>
-                    Post to CD
+                  <Button
+                    className="ml-10"
+                    type="primary"
+                    onClick={handlePostToCD}
+                    disabled={isLoadingPostCD}
+                  >
+                    {isLoadingPostCD ? (
+                      <>
+                        <span>
+                          Post to CD <LoadingOutlined />
+                        </span>
+                      </>
+                    ) : (
+                      'Post to CD'
+                    )}
                   </Button>
                 ) : null)}
 
               {(feature === 'lead' || feature === 'quote') && (
                 <Button
-                  onClick={handleArchive}
                   className="ml-10 mr-10"
                   type="primary"
                   danger
+                  disabled={isLoading}
+                  onClick={handleArchive}
                 >
                   {featureData.status === 'archived'
                     ? 'Back to Leads'
@@ -416,40 +545,58 @@ function DrawerHeader({
               )}
 
               {feature === 'order' &&
-                (status === 'issue' ||
-                  status === 'onhold' ||
-                  status === 'archived') && (
-                  <Button className="ml-10" type="primary">
+                ['issue', 'onhold', 'archived'].includes(status) && (
+                  <Button
+                    className="ml-10"
+                    type="primary"
+                    onClick={handleBackToOrder}
+                    disabled={isLoading}
+                  >
                     Back to Order
                   </Button>
                 )}
               {feature === 'order' &&
                 ['orders', 'booked', 'issue', 'onhold'].includes(status) && (
                   <Button
-                    onClick={handleArchive}
                     className="ml-10 mr-10"
                     type="primary"
                     danger
+                    onClick={handleArchive}
+                    disabled={isLoading}
                   >
-                    {featureData.status === 'archived'
-                      ? 'Back to Order'
-                      : 'Archive'}
+                    Archive
                   </Button>
                 )}
 
               {feature === 'order' && status === 'posted' && (
-                <Button className="ml-10 mr-10" type="primary" danger>
+                <Button
+                  className="ml-10 mr-10"
+                  type="primary"
+                  danger
+                  onClick={handleRemoveCD}
+                  disabled={isLoading}
+                >
                   Remove from CD
                 </Button>
               )}
 
               {feature === 'order' && status === 'dispatched' && (
-                <Button className="ml-10" type="primary">
+                <Button
+                  className="ml-10"
+                  type="primary"
+                  onClick={handleMarkPickedUp}
+                  disabled={isLoading}
+                >
                   Mark as Picked up
                 </Button>
               )}
               {feature === 'order' && status === 'pickedup' && (
-                <Button className="ml-10" type="primary">
+                <Button
+                  className="ml-10"
+                  type="primary"
+                  onClick={handleMarkCompleted}
+                  disabled={isLoading}
+                >
                   Mark as Delivered
                 </Button>
               )}

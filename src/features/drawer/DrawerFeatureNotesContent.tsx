@@ -51,7 +51,6 @@ function DrawerFeatureNotesContent({
     }
   };
 
-  console.log(sourceType);
   return (
     <TextArea
       value={notes}

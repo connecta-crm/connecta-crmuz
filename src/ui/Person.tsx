@@ -22,25 +22,30 @@ export default function Person({
     name: string;
     email: string;
     phone: string;
-    lastName:string
+    lastName: string;
   }>({
     name: '',
     email: '',
     phone: '',
-    lastName:''
+    lastName: '',
   });
   const [addNumber, setAddNumber] = useState(false);
   const [newNumberValue, setNewNumberValue] = useState('');
   const [create, setCreate] = useState(false);
   const [selectPersonValue, setSelectPersonValue] =
     useState<DefaultOptionType | null>(null);
-  const [person, setPerson] = useState({ name: '', phone: '', email: '',lastName:'' });
+  const [person, setPerson] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    lastName: '',
+  });
   const [customer, setCustomer] = useState<string>('');
   const [disabled, setDisabled] = useState(true);
 
   const [url, seturl] = useState('');
   useEffect(() => {
-    if (person.name || person.email || person.phone||person.lastName) {
+    if (person.name || person.email || person.phone || person.lastName) {
       const searchParam = new URLSearchParams(person);
       seturl(searchParam.toString());
     }
@@ -49,33 +54,32 @@ export default function Person({
   const { personData, isFetching } = usePerson(url);
 
   const handleSearchPersonName = (newValue: string) => {
-    setNewCustomer({ name: newValue, email: '', phone: '',lastName:'' });
-    setPerson({ name: '', phone: '', email: '',lastName:'' });
+    setNewCustomer({ name: newValue, email: '', phone: '', lastName: '' });
+    setPerson({ name: '', phone: '', email: '', lastName: '' });
     setSelectPersonValue(null);
     setPerson({ ...person, name: newValue });
   };
   const handleSearchPersonLastName = (newValue: string) => {
-    
-    setNewCustomer({ name: '', email: '', phone: '',lastName:newValue });
-    setPerson({ name: '', phone: '', email: '' ,lastName:''});
+    setNewCustomer({ name: '', email: '', phone: '', lastName: newValue });
+    setPerson({ name: '', phone: '', email: '', lastName: '' });
     setSelectPersonValue(null);
-    setPerson({ ...person,lastName:newValue });
+    setPerson({ ...person, lastName: newValue });
   };
   const handleSearchPersonEmail = (newValue: string) => {
-    setNewCustomer({ name: '', email: newValue, phone: '',lastName:'' });
-    setPerson({ name: '', phone: '', email: '',lastName:'' });
+    setNewCustomer({ name: '', email: newValue, phone: '', lastName: '' });
+    setPerson({ name: '', phone: '', email: '', lastName: '' });
     setSelectPersonValue(null);
     setPerson({ ...person, email: newValue });
   };
   const handleSearchPersonPhone = (newValue: string) => {
-    setNewCustomer({ name: '', email: '', phone: newValue,lastName:'' });
-    setPerson({ name: '', phone: '', email: '' ,lastName:''});
+    setNewCustomer({ name: '', email: '', phone: newValue, lastName: '' });
+    setPerson({ name: '', phone: '', email: '', lastName: '' });
     setSelectPersonValue(null);
     setPerson({ ...person, phone: newValue });
   };
 
   const handleChangePerson = (newValue: string, record: DefaultOptionType) => {
-    setPerson({ name: '', phone: '', email: '' ,lastName:''});
+    setPerson({ name: '', phone: '', email: '', lastName: '' });
     setSelectPersonValue(record.all);
     setCustomer(newValue);
     setPersonId(newValue);
@@ -116,7 +120,7 @@ export default function Person({
   };
 
   useEffect(() => {
-    setPerson({ name: '', phone: '', email: '',lastName:'' });
+    setPerson({ name: '', phone: '', email: '', lastName: '' });
   }, [create]);
 
   const { createNumber, isPending } = useCreateNumber();

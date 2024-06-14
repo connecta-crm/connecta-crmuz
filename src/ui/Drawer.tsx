@@ -9,7 +9,7 @@ import { LeadData } from '../models';
 
 type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;
 
-export type SourceType = 'lead' | 'quote' | 'order';
+export type SourceType = 'lead' | 'quote' | 'order' | 'quote/convert';
 
 export type DrawerSourceType = {
   sourceType: SourceType;
@@ -31,9 +31,11 @@ function DrawerApp({
   onOpenDispatch,
   onOpenDirectDispatch,
   onOpenHistory,
+  onOpenConvert,
 }: DrawerProps & {
   onOpenHistory: (id: number) => void;
   sourceType: SourceType;
+  onOpenConvert?: () => void;
 }) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
@@ -49,6 +51,7 @@ function DrawerApp({
             loadingItem={loadingItem}
             onOpenDrawer={onOpenDrawer}
             onOpenHistory={onOpenHistory}
+            onOpenConvert={onOpenConvert}
             onOpenDispatch={onOpenDispatch}
             onOpenDirectDispatch={onOpenDirectDispatch}
           />

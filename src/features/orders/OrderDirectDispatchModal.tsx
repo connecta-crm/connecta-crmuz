@@ -6,14 +6,11 @@ import { useAppSelector } from '../../store/hooks';
 import Modal from '../../ui/Modal';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 import OrderDirectDispatchModalContent from './OrderDirectDispatchModalContent';
-import { OrderModalProps } from './OrderDispatchModal';
+import { ModalProps } from './OrderDispatchModal';
 import { getOrderData } from './orderSlice';
 import { useOrderDirectDispatchEdit } from './useOrderDirectDispatchEdit';
 
-function OrderDirectDispatchModal({
-  isOpenModal,
-  onOpenModal,
-}: OrderModalProps) {
+function OrderDirectDispatchModal({ isOpenModal, onOpenModal }: ModalProps) {
   const [isDataUpdated, setDataUpdated] = useState(false);
   const [isDispatchUpdated, setDispatchUpdated] = useState(false);
 

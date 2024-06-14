@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import Fields from '../services/fields';
+import Fields from '../../services/fields';
 export type GroundParamsType = {
   url?: string;
 };

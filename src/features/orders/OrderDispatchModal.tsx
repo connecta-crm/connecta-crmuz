@@ -9,12 +9,12 @@ import OrderDispatchModalContent from './OrderDispatchModalContent';
 import { getOrderData } from './orderSlice';
 import { useOrderDispatchEdit } from './useOrderDispatchEdit';
 
-export type OrderModalProps = {
+export type ModalProps = {
   isOpenModal: boolean;
   onOpenModal: (val: boolean) => void;
 };
 
-function OrderDispatchModal({ isOpenModal, onOpenModal }: OrderModalProps) {
+function OrderDispatchModal({ isOpenModal, onOpenModal }: ModalProps) {
   const [isDataUpdated, setDataUpdated] = useState(false);
   const [isDispatchUpdated, setDispatchUpdated] = useState(false);
 

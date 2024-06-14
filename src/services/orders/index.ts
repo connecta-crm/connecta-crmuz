@@ -231,6 +231,19 @@ class Orders {
       );
     }
   }
+
+  // POST: /orders/post-cd/:guid/
+  async orderPostCD(guid: string) {
+    try {
+      const { data } = await this.$api.post(`/orders/post-cd/${guid}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(
