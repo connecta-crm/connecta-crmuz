@@ -127,6 +127,7 @@ export const getMenuData: MenuData[] = [
       { id: 27, value: 'inactive', title: 'Inactive' },
     ],
   },
+
   {
     title: 'Settings',
     key: '__settings',

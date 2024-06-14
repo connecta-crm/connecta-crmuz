@@ -140,6 +140,23 @@ export default function OrdersModal({
                 />
               </FormControl>
               <Pickup setPickup={setOrigin}>
+              <InputRow>
+                  <InputCol>
+                    <Label>Pickup address</Label>
+                  </InputCol>
+                  <InputCol>
+                    <FormItem
+                      name="originAddress"
+                      style={{ margin: '0', width: '100%', minHeight: '0' }}
+                    >
+                      <Input
+                        placeholder="Pickup address"
+                        style={{ padding: '3px 5px' }}
+                      />
+                    </FormItem>
+                  </InputCol>
+                  </InputRow>
+                
                 <InputRow>
                   <InputCol>
                     <Label>Business name</Label>
@@ -230,6 +247,22 @@ export default function OrdersModal({
                 </InputRow>
               </Pickup>
               <Delivery setDelivery={setDelivery}>
+              <InputRow>
+                  <InputCol>
+                    <Label>Delivery  address</Label>
+                  </InputCol>
+                  <InputCol>
+                    <FormItem
+                      name="destinationAddress"
+                      style={{ margin: '0', width: '100%', minHeight: '0' }}
+                    >
+                      <Input
+                        placeholder="Pickup address"
+                        style={{ padding: '3px 5px' }}
+                      />
+                    </FormItem>
+                  </InputCol>
+                  </InputRow>
                 <InputRow>
                   <InputCol>
                     <Label>Business name</Label>

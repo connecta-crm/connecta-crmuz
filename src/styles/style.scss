@@ -63,6 +63,7 @@ $color-white: #ffffff;
 @import '_templates';
 @import '_payment';
 @import '_parsing';
+@import '_contract';
 
 // base layout
 @import 'layout/header';

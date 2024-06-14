@@ -45,7 +45,7 @@ export default function ParsingTable({
                   <div
                     className="parsing__card"
                     key={el.id}
-                    style={{ width: `${100 / item.items.length}%` }}
+                    // style={{ width: `${100 / item.items.length}%` }}
                   >
                     <h3 className="pasing__card__title">{el.name}</h3>
                     <ul className="parsing__card__menu">
