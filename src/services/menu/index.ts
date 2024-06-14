@@ -129,6 +129,7 @@ export const getMenuData: MenuData[] = [
       { id: 29, value: 'blocked', title: 'Blocked' },
     ],
   },
+
   {
     title: 'Settings',
     key: '__settings',

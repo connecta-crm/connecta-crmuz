@@ -2,18 +2,23 @@ import { Button } from 'antd';
 import React, { useState } from 'react';
 import arrow from '../../../public/img/down-arrow.svg';
 import pen from '../../../public/img/drawer/pen.svg';
+import remove from "../../../public/img/delete.svg"
 export default function UpCollapse({
   children,
   title,
   hasButton = false,
   hasEdit = false,
   showEdit,
+  isDelete=false,
+  removeItem
 }: {
   children: React.ReactNode;
   title: string;
   hasButton?: boolean;
   hasEdit?: boolean;
   showEdit?: () => void;
+  removeItem?: () => void;
+  isDelete?:boolean
 }) {
   const [show, setShow] = useState(false);
 
@@ -38,6 +43,11 @@ export default function UpCollapse({
         {hasEdit && (
           <div className="edit-btn" onClick={showEdit}>
             <img src={pen} />
+          </div>
+        )}
+         {isDelete && (
+          <div className="edit-btn" onClick={removeItem}>
+            <img src={remove} />
           </div>
         )}
       </div>

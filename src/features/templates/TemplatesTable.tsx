@@ -3,6 +3,17 @@ import SettingsTableHeaderActions from '../../ui/SettingsTableHeaderActions';
 import SettingsTableHeaderFilters from '../../ui/SettingsTableHeaderFilters';
 import { TemplatesTableColumn } from './TemplatesTableColumn';
 import { TemplatesTableDataType } from './templatesTableDataType';
+import CheckButton from '../../ui/CheckButton';
+const items = [
+  {
+    label: <CheckButton type="templateType" title="sms" drop={true} />,
+    key: '0',
+  },
+  {
+    label: <CheckButton type="templateType" title="email" drop={true}  />,
+    key: '1',
+  },
+];
 
 const rowSelection = {
   onChange: (
@@ -44,8 +55,9 @@ export default function TemplatesTable({
         <SettingsTableHeaderFilters
           count={count}
           hasFilterBtn={false}
-          hasFilterSelect={false}
+          hasFilterSelect={true}
           pagename="templates"
+          typesData={items}
         />
       </div>
       <div className="table__container">

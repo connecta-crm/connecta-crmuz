@@ -1,9 +1,23 @@
 import { Table } from 'antd';
+import CheckButton from '../../ui/CheckButton';
 import SettingsTableHeaderActions from '../../ui/SettingsTableHeaderActions';
 import SettingsTableHeaderFilters from '../../ui/SettingsTableHeaderFilters';
 import { VoipTableColumn } from './VoipTableColumn';
 import { VoipTableDataType } from './voipTableDataType';
-
+const items = [
+  {
+    label: <CheckButton type="voipType" title="zoom" drop={true} />,
+    key: '0',
+  },
+  {
+    label: <CheckButton type="voipType" title="dialpad" drop={true} />,
+    key: '1',
+  },
+  {
+    label: <CheckButton type="voipType" title="ringcentral" drop={true} />,
+    key: '2',
+  },
+];
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
@@ -44,8 +58,9 @@ export default function VoipTable({
         <SettingsTableHeaderFilters
           count={count}
           hasFilterBtn={false}
-          hasFilterSelect={false}
+          hasFilterSelect={true}
           pagename="voips"
+          typesData={items}
         />
       </div>
       <div className="table__container">
