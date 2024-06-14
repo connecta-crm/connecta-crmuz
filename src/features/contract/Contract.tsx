@@ -3,7 +3,7 @@ import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import download from '../../../public/img/download.png';
-import logo from '../../../public/img/logo-meta.svg';
+import logo from '../../../public/img/logo-meta.png';
 import { useBlobContext } from '../../context/PdfContext';
 import SignAcceptModal from '../../ui/modal/SignAcceptModal';
 import { CompanyType, ContractType, Origintype } from './contractDataTypes';
@@ -37,18 +37,20 @@ export default function Contract() {
   }, [contractForm]);
 
   const savePDF = () => {
-    const capture = document.querySelector('.pdp__content');
-    // setLoader(true);
-    html2canvas(capture as unknown as HTMLElement).then((canvas) => {
-      const imgData = canvas.toDataURL('img/png');
-      const doc = new jsPDF('p', 'mm', 'a4');
-      doc.addPage();
-      const componentWidth = doc.internal.pageSize.getWidth();
-      const componentHeight = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
-      setBlob(doc.output('blob'));
-      setOpen(false);
-    });
+    setTimeout(() => {
+      const capture = document.querySelector('.pdp__content');
+      // setLoader(true);
+      html2canvas(capture as unknown as HTMLElement).then((canvas) => {
+        const imgData = canvas.toDataURL('img/png');
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const componentWidth = doc.internal.pageSize.getWidth();
+        const componentHeight = doc.internal.pageSize.getHeight();
+        doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+        // doc.setProperties({title:"agreement.pdf"})
+        setBlob(doc.output('blob'));
+        setOpen(false);
+      });
+    }, 300);
   };
 
   const downloadPDF = () => {
@@ -56,12 +58,10 @@ export default function Contract() {
     // setLoader(true);
     html2canvas(capture as unknown as HTMLElement).then((canvas) => {
       const imgData = canvas.toDataURL('img/png');
-      const doc = new jsPDF('p', 'mm', 'a4');
-      doc.addPage();
+      const doc = new jsPDF('p', 'mm', 'a4',true);
       const componentWidth = doc.internal.pageSize.getWidth();
       const componentHeight = doc.internal.pageSize.getHeight();
       doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
-      // setLoader(false);
       doc.save('contract.pdf');
     });
   };
@@ -417,7 +417,9 @@ export default function Contract() {
                             </h3>
                           </td>
                           <td>
-                            <h3 className="pdf__text">$1,200.00</h3>
+                            <h3 className="pdf__text">
+                              ${order?.price / order?.orderVehicles.length}
+                            </h3>
                           </td>
                         </tr>
                       ))}
@@ -428,7 +430,7 @@ export default function Contract() {
                           <h3 className="pdf__text pl-30">Total price</h3>
                         </td>
                         <td>
-                          <h3 className="pdf__text">$2,300.00</h3>
+                          <h3 className="pdf__text">${order?.price}</h3>
                         </td>
                       </tr>
                       <tr>
@@ -438,7 +440,9 @@ export default function Contract() {
                           <h3 className="pdf__text  pl-30">Reservation fee</h3>
                         </td>
                         <td>
-                          <h3 className="pdf__text">$2,300.00</h3>
+                          <h3 className="pdf__text">
+                            ${order?.reservationPrice}
+                          </h3>
                         </td>
                       </tr>
                       <tr>
@@ -450,7 +454,12 @@ export default function Contract() {
                           </h3>
                         </td>
                         <td>
-                          <h3 className="pdf__text">$2,300.00</h3>
+                          <h3 className="pdf__text">
+                            $
+                            {order?.price && order?.reservationPrice
+                              ? order?.price - order?.reservationPrice
+                              : order?.price || order?.reservationPrice}
+                          </h3>
                         </td>
                       </tr>
                     </tbody>
