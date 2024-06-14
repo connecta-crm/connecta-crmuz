@@ -36,27 +36,28 @@ export default function Terms() {
   }, [contractForm]);
 
   const savePDF = () => {
-    const capture = document.querySelector('.pdp__content');
-    // setLoader(true);
-    html2canvas(capture as unknown as HTMLElement).then((canvas) => {
-      const imgData = canvas.toDataURL('img/png');
-      const doc = new jsPDF('p', 'mm', 'a4');
-      const componentWidth = doc.internal.pageSize.getWidth();
-      const componentHeight = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+    setTimeout(() => {
+      const capture = document.querySelector('.pdp__content');
+      html2canvas(capture as unknown as HTMLElement).then((canvas) => {
+        const imgData = canvas.toDataURL('img/png');
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const componentWidth = doc.internal.pageSize.getWidth();
+        const componentHeight = doc.internal.pageSize.getHeight();
+        doc.addImage(imgData, 'PNG', 0, 0, componentWidth, componentHeight);
+        const form = new FormData();
+        form.append('agreement', blob as Blob,"agreement.pdf");
+        form.append('terms', doc.output('blob'),"terms.pdf");
 
-      const form = new FormData();
-      form.append('agreement', blob as Blob);
-      form.append('terms', doc.output('blob'));
-      create(
-        { form: form, guidId: params.text, id: params.id },
-        {
-          onSuccess: () => {
-            setOpen(true);
+        create(
+          { form: form, guidId: params.text, id: params.id },
+          {
+            onSuccess: () => {
+              setOpen(false);
+            },
           },
-        },
-      );
-    });
+        );
+      });
+    }, 300);
   };
 
   const downloadPDF = () => {
