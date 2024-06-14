@@ -19,7 +19,7 @@ function TableDropdown({
     e.preventDefault();
     const user = userData?.id ? +userData?.id : undefined;
     console.log(record?.status);
-    
+
     createNote(
       {
         rel: record?.id,

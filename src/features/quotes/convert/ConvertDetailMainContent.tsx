@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Collapse, CollapseProps, Input, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
@@ -142,8 +141,8 @@ function ConvertDetailMainContent() {
                 optionFilterProp="children"
                 filterOption={false}
                 placeholder="Search zip"
-                defaultValue={quoteConvertData.origin?.zip}
-                value={quoteConvertData.origin.zip}
+                defaultValue={quoteConvertData.origin?.zip || undefined}
+                value={quoteConvertData.origin?.zip || undefined}
                 onChange={handleChangeCity}
                 onFocus={handleFocusCity}
                 onSearch={handleSearchCity}
@@ -214,8 +213,8 @@ function ConvertDetailMainContent() {
               <div className="d-flex justify-between">
                 <div className="form-label mr-5 required-label">Phone</div>
                 <Input
-                  value={quoteConvertData.originPhone}
-                  defaultValue={quoteConvertData.originPhone}
+                  value={quoteConvertData.originPhone || undefined}
+                  defaultValue={quoteConvertData.originPhone || undefined}
                   style={{ width: 115, float: 'inline-end', height: 24 }}
                   onChange={(e) => handleChange('originPhone', e.target.value)}
                 />
@@ -223,8 +222,8 @@ function ConvertDetailMainContent() {
               <div className="d-flex justify-between ">
                 <div className="form-label mr-5 pl-0">Second</div>
                 <Input
-                  value={quoteConvertData.originSecondPhone}
-                  defaultValue={quoteConvertData.originSecondPhone}
+                  value={quoteConvertData.originSecondPhone || undefined}
+                  defaultValue={quoteConvertData.originSecondPhone || undefined}
                   style={{ width: 115, float: 'inline-end', height: 24 }}
                   onChange={(e) =>
                     handleChange('originSecondPhone', e.target.value)
