@@ -7,17 +7,18 @@ import Pickup from '../../features/origin/Pickup';
 import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
-} from '../../features/vehicle/vehicleContainer';
-import { LeadDataType } from '../../models/LeadDataType';
+} from '../../features/vehicle/VehicleContainer.tsx';
+import { LeadDataType } from '../../models/LeadDataType.ts';
 import { useAppSelector } from '../../store/hooks';
-import UseDatePicker from '../DatePicker/DatePicker';
-import FormControl from '../Form/FormControl';
-import UpCollapse from '../Form/UpCollapse';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
+import FormControl from '../form/FormControl.tsx';
+import UpCollapse from '../form/UpCollapse.tsx';
+import UseDatePicker from '../picker/DatePicker.tsx';
 import dvigatel from '/img/drawer/dvigatel.svg';
 import date from '/img/drawer/est-ship-date.svg';
 import trailer from '/img/drawer/trailer.svg';
+import { CONDITION_TYPES } from '../../utils/constants.ts';
 export default function LeadModal({
   openLeadModal,
   setOpenLeadModa,
@@ -99,11 +100,7 @@ export default function LeadModal({
                   style={{ width: '100%' }}
                   onChange={(a) => setConditionValue(a)}
                   placeholder="Select a condition"
-                  options={[
-                    { value: 'run', label: 'Run and drives' },
-                    { value: 'rols', label: 'Inop, it rolls' },
-                    { value: 'forklift', label: 'forklift' },
-                  ]}
+                  options={CONDITION_TYPES}
                 />
               </FormControl>
               <Pickup setPickup={setOrigin} />
@@ -129,8 +126,12 @@ export default function LeadModal({
               <Source setSource={setSource} />
 
               <div className="form__footer">
-                <Form.Item label="CM note" name="notes">
-                  <Input />
+                <Form.Item
+                  label="CM note"
+                  name="notes"
+                  style={{ width: '100%' }}
+                >
+                  <Input style={{ width: '100%' }} />
                 </Form.Item>
               </div>
             </UpCollapse>

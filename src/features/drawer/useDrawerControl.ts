@@ -1,8 +1,9 @@
+import { LeadData } from '../../models';
 import { LeadTableDataType } from '../leads/LeadTableColumnType';
-import { LeadData } from '../leads/leadSlice';
+import { QuotesTableDataType } from '../quotes/QuoteTableColumnType';
 
 export function getNextObjectId(
-  array: LeadData | LeadTableDataType,
+  array: LeadData | LeadTableDataType | QuotesTableDataType,
   currentItemGuid: string,
 ) {
   if (Array.isArray(array)) {
@@ -10,12 +11,12 @@ export function getNextObjectId(
       (item: LeadData) => item.guid === currentItemGuid,
     );
     const nextIndex = currentIndex === array.length - 1 ? 0 : currentIndex + 1;
-    return array[nextIndex].guid;
+    return array[nextIndex]?.guid;
   }
 }
 
 export function getPreviousObjectId(
-  array: LeadData | LeadTableDataType,
+  array: LeadData | LeadTableDataType | QuotesTableDataType,
   currentItemGuid: string,
 ) {
   if (Array.isArray(array)) {
@@ -24,6 +25,6 @@ export function getPreviousObjectId(
     );
     const previousIndex =
       currentIndex === 0 ? array.length - 1 : currentIndex - 1;
-    return array[previousIndex].guid;
+    return array[previousIndex]?.guid;
   }
 }

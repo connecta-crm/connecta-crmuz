@@ -1,27 +1,71 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Popconfirm, Radio } from 'antd';
 import { useState } from 'react';
+import { SourceType } from '../../../ui/Drawer';
 import { useDeleteLeadAttachments } from '../../attachments/useDeleteLeadAttachments';
+import { useDeleteOrderAttachments } from '../../attachments/useDeleteOrderAttachments';
+import { useDeleteQuoteAttachments } from '../../attachments/useDeleteQuoteAttachments';
 import { NoteItemType } from './History';
 
 export type HistoryCardProps = {
   type: 'note' | 'task' | 'phone';
   isLoading: boolean;
+  sourceType: SourceType;
   item?: NoteItemType;
   onEdit: (id: number) => void;
 };
-function HistoryCard({ type, item, isLoading, onEdit }: HistoryCardProps) {
+function HistoryCard({
+  type,
+  item,
+  sourceType,
+  isLoading,
+  onEdit,
+}: HistoryCardProps) {
   const [popconfirmOpen, setPopconfirmOpen] = useState(false);
 
-  const { deleteLeadAttachments, isLoading: isLoadingDelete } =
+  const { deleteLeadAttachments, isLoadingDeleteAttachForLead } =
     useDeleteLeadAttachments();
+
+  const { deleteQuoteAttachments, isLoadingDeleteAttachForQuote } =
+    useDeleteQuoteAttachments();
+
+  const { deleteOrderAttachments, isLoadingDeleteAttachForOrder } =
+    useDeleteOrderAttachments();
+
+  let isLoadingDelete = false;
+
+  switch (sourceType) {
+    case 'lead':
+      isLoadingDelete = isLoadingDeleteAttachForLead;
+      break;
+    case 'quote':
+      isLoadingDelete = isLoadingDeleteAttachForQuote;
+      break;
+    case 'order':
+      isLoadingDelete = isLoadingDeleteAttachForOrder;
+      break;
+    default:
+      break;
+  }
 
   if (!item) {
     return null;
   }
 
-  const handleDeleteAttachment = () => {
-    deleteLeadAttachments(item.id);
+  const handleDelete = () => {
+    switch (sourceType) {
+      case 'lead':
+        deleteLeadAttachments(item.id);
+        break;
+      case 'quote':
+        deleteQuoteAttachments(item.id);
+        break;
+      case 'order':
+        deleteOrderAttachments(item.id);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -69,7 +113,7 @@ function HistoryCard({ type, item, isLoading, onEdit }: HistoryCardProps) {
                 okText={isLoadingDelete ? <LoadingOutlined /> : 'Yes'}
                 cancelText="No"
                 open={popconfirmOpen}
-                onConfirm={handleDeleteAttachment}
+                onConfirm={handleDelete}
                 onCancel={() => setPopconfirmOpen(false)}
               >
                 <button

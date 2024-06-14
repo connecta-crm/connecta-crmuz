@@ -1,4 +1,4 @@
-# Chop CRM
+# CONNECTA-METALOGISTICS CRM
 
 ## Monorepo
 

@@ -1,8 +1,10 @@
-import { useQueryClient } from '@tanstack/react-query';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../store/hooks';
-import { DrawerProps } from '../../ui/Drawer';
+import { DrawerProps, SourceType } from '../../ui/Drawer';
 import { getLeadData } from '../leads/leadSlice';
+import { getOrderData } from '../orders/orderSlice';
+import { getQuoteData } from '../quotes/quoteSlice';
 import { getNextObjectId, getPreviousObjectId } from './useDrawerControl';
 
 export type DrawerControlProps = {
@@ -13,24 +15,49 @@ export type DrawerControlProps = {
   onFullScreen: (val: boolean) => void;
 };
 
-function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+function DrawerControl({
+  sourceType,
+  dataSource,
+  loadingItem,
+  onOpenDrawer,
+}: DrawerProps & { sourceType: SourceType }) {
   const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
   const { guid: currentLeadGuid } = useAppSelector(getLeadData);
-  const queryClient = useQueryClient();
+  const { guid: currentQuoteGuid } = useAppSelector(getQuoteData);
+  const { guid: currentOrderGuid } = useAppSelector(getOrderData);
 
   if (isFullScreen) {
     return null;
   }
 
-  const handlePrevElement = () => {
-    const previousLeadGuid = getPreviousObjectId(leads, currentLeadGuid);
-    onOpenDrawer(previousLeadGuid);
-    queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
+  const getCurrentDataGuid = () => {
+    let currentDataGuid = '0';
+    switch (sourceType) {
+      case 'lead':
+        currentDataGuid = currentLeadGuid;
+        break;
+      case 'quote':
+        currentDataGuid = currentQuoteGuid;
+        break;
+      case 'order':
+        currentDataGuid = currentOrderGuid;
+        break;
+      default:
+        break;
+    }
+    return currentDataGuid;
   };
+
+  const handlePrevElement = () => {
+    const currentDataGuid = getCurrentDataGuid();
+    const previousDataGuid = getPreviousObjectId(dataSource, currentDataGuid);
+    onOpenDrawer(previousDataGuid);
+  };
+
   const handleNextElement = () => {
-    const nextLeadId = getNextObjectId(leads, currentLeadGuid);
-    onOpenDrawer(nextLeadId);
-    queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
+    const currentDataGuid = getCurrentDataGuid();
+    const nextDataId = getNextObjectId(dataSource, currentDataGuid);
+    onOpenDrawer(nextDataId);
   };
 
   return (
@@ -49,14 +76,14 @@ function DrawerControl({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
       </div>
       <button
         title="prev-element"
-        disabled={isLoadingLead}
+        disabled={loadingItem}
         onClick={handlePrevElement}
         className="drawer-control__item drawer-control__item_up-arrow"
       >
         <img src="./img/drawer/up-arrow.svg" alt="" />
       </button>
       <button
-        disabled={isLoadingLead}
+        disabled={loadingItem}
         title="next-element"
         onClick={handleNextElement}
         className="drawer-control__item drawer-control__item_down-arrow"

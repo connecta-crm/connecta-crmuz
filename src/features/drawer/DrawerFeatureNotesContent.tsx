@@ -1,15 +1,54 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import TextArea from 'antd/es/input/TextArea';
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getLeadData, updateField } from '../leads/leadSlice';
+import { SourceType } from '../../ui/Drawer';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../leads/leadSlice';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../quotes/quoteSlice';
 
-function DrawerFeatureNotesContent({ isEditNotes }: { isEditNotes: boolean }) {
-  const { notes } = useAppSelector(getLeadData);
+type DrawerFeatureNotesContentProps = {
+  isEditNotes: boolean;
+  sourceType: SourceType;
+};
+
+function DrawerFeatureNotesContent({
+  isEditNotes,
+  sourceType,
+}: DrawerFeatureNotesContentProps) {
+  const { notes: notesLead } = useAppSelector(getLeadData);
+  const { notes: notesQuote } = useAppSelector(getQuoteData);
   const dispatch = useAppDispatch();
+
+  let notes;
+  switch (sourceType) {
+    case 'lead':
+      notes = notesLead;
+      break;
+    case 'quote':
+      notes = notesQuote;
+      break;
+    default:
+      break;
+  }
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    dispatch(updateField({ field: 'notes', value }));
+    switch (sourceType) {
+      case 'lead':
+        dispatch(updateLeadField({ field: 'notes', value }));
+        break;
+      case 'quote':
+        dispatch(updateQuoteField({ field: 'notes', value }));
+        break;
+      default:
+        break;
+    }
   };
 
   return (

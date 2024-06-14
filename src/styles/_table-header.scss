@@ -9,6 +9,32 @@
     @include flexbox();
     align-items: center;
     justify-content: space-between;
+    &-btns {
+      @include flexbox();
+      border-left: 1px solid #d1d1d1;
+      margin-left: 10px;
+    }
+  }
+  &__filter-btns {
+    @include flexbox();
+    border-right: 1px solid #d1d1d1;
+    margin-right: 10px;
+    padding-right: 10px;
+  }
+  &__page-name {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 23.7px;
+    text-align: left;
+    color: #21232c;
+  }
+  &__data-count {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.96px;
+    text-align: right;
+    color: #666666;
+    margin: 0 10px;
   }
   // .dt-header__tableicon
   &__tableicon {
@@ -18,11 +44,11 @@
     @include flexbox();
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 25px;
+    width: 38px;
+    height: 30px;
     img {
-      width: 15px;
-      height: 15px;
+      width: 20px;
+      height: 20px;
       display: block;
     }
   }
@@ -34,8 +60,8 @@
     @include flexbox();
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 25px;
+    width: 38px;
+    height: 30px;
     margin: 0 10px;
     position: relative;
     &::after {
@@ -44,18 +70,20 @@
       top: 0;
       right: -11px;
       background-color: #d1d1d1;
-      height: 24px;
+      height: 28px;
       width: 1px;
     }
     img {
-      width: 15px;
-      height: 15px;
+      width: 20px;
+      height: 20px;
       display: block;
     }
   }
   // .dt-header__add-btn
   &__add-btn {
     margin-left: 10px;
+    cursor: pointer;
+    height: 31px;
   }
   // .dt-header__filters
   &__filters {
@@ -86,6 +114,7 @@
       @include flexbox();
       align-items: center;
       margin-left: 2px;
+      font-size: 16px;
     }
     // .dt-header__showlist_perpage
     &_perpage {
@@ -97,8 +126,8 @@
     &_open {
       margin-left: 10px;
       display: flex;
-      width: 28px;
-      height: 22px;
+      width: 35px;
+      height: 30px;
       justify-content: center;
       align-items: center;
       gap: 8px;
@@ -107,8 +136,8 @@
       border: 1px solid #d1d1d1;
       cursor: pointer;
       img {
-        width: 18px;
-        height: 14px;
+        width: 22px;
+        height: 17px;
       }
     }
   }
@@ -217,6 +246,9 @@
 .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title,
 .ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title {
   padding: 5px !important;
+}
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item {
+  padding: 2px 5px !important;
 }
 .dt-header__dropdown {
   .ant-dropdown-menu {

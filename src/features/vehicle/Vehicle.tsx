@@ -1,14 +1,15 @@
-import { Select, Spin } from 'antd';
+import { Input, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import { useMake, useModel } from '../../features/leads/useLeadDetails';
-import UseDatePicker from '../../ui/DatePicker/DatePicker';
-import DownCollapse from '../../ui/Form/DownCollapse';
-import Input from '../../ui/Form/Input';
-import InputCol from '../../ui/Form/InputCol';
-import InputRow from '../../ui/Form/InputRow';
-import Label from '../../ui/Form/Label';
-import { CarType } from './vehicleContainer';
+import DownCollapse from '../../ui/form/DownCollapse';
+// import Input from '../../ui/form/Input';
+import FormItem from 'antd/es/form/FormItem';
+import InputCol from '../../ui/form/InputCol';
+import InputRow from '../../ui/form/InputRow';
+import Label from '../../ui/form/Label';
+import UseDatePicker from '../../ui/picker/DatePicker';
+import { CarType } from './VehicleContainer';
 
 type DataType = {
   mark: string;
@@ -21,17 +22,24 @@ export default function Vehicle({
   vehicleRemove,
   getCarValue,
   carId,
+  type,
 }: {
   title: string;
   vehicleAdd: (car: CarType) => void;
   vehicleRemove: () => void;
   getCarValue: (a: CarType) => void;
   carId: number;
+  type?: boolean;
 }) {
+
   const [carValue, setCarValue] = useState<CarType>({
     id: carId,
     vehicle: '',
     vehicleYear: '',
+    vin: '',
+    lot: '',
+    color: '',
+    plate: '',
   });
   const [modelValue, setModelValue] = useState<DefaultOptionType | null>(null);
   const [makeValue, setMakeValue] = useState<DefaultOptionType | null>(null);
@@ -161,7 +169,7 @@ export default function Vehicle({
               data: d,
               label: d.name,
             }))}
-          />{' '}
+          />
         </InputCol>
       </InputRow>
       <InputRow>
@@ -169,14 +177,79 @@ export default function Vehicle({
           <Label>Type</Label>
         </InputCol>
         <InputCol>
-          <Input
-            defaultValue={vhicleType}
-            name="disabled_value"
-            type="text"
-            placeholder="Vehicle type"
-          />
+          <FormItem
+            style={{ margin: '0', width: '100%' }}
+            rules={[{ required: true, message: '' }]}
+          >
+            <Input value={vhicleType} style={{ width: '100%' }} />
+          </FormItem>
         </InputCol>
       </InputRow>
+      {type && (
+        <>
+          <div className="vehicle__details">
+            <div className="vehicle__details__left">
+              <Label>Lot</Label>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
+                <Input
+                  onChange={(e) =>
+                    setCarValue({ ...carValue, lot: e.target.value })
+                  }
+                  style={{ padding: '3px 5px' }}
+                />
+              </FormItem>
+            </div>
+            <div className="vehicle__details__right">
+              <Label>VIN</Label>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
+                <Input
+                  onChange={(e) =>
+                    setCarValue({ ...carValue, vin: e.target.value })
+                  }
+                  style={{ padding: '3px 5px' }}
+                />
+              </FormItem>
+            </div>
+          </div>
+
+          <div className="vehicle__details">
+            <div className="vehicle__details__left">
+              <Label>Color</Label>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
+                <Input
+                  onChange={(e) =>
+                    setCarValue({ ...carValue, color: e.target.value })
+                  }
+                  style={{ padding: '3px 5px' }}
+                />
+              </FormItem>
+            </div>
+            <div className="vehicle__details__right">
+              <Label>Plate</Label>
+              <FormItem
+                style={{ margin: '0', minHeight: '0px' }}
+                rules={[{ required: true, message: '' }]}
+              >
+                <Input
+                  onChange={(e) =>
+                    setCarValue({ ...carValue, plate: e.target.value })
+                  }
+                  style={{ padding: '3px 5px' }}
+                />
+              </FormItem>
+            </div>
+          </div>
+        </>
+      )}
     </DownCollapse>
   );
 }

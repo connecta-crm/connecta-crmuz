@@ -190,3 +190,19 @@ $transition-duration: 200ms;
   }
 }
 /* ==================================================================================================================*/
+
+.ant-dropdown-menu-item-group-title {
+  padding: 0 7px !important;
+  color: rgba(0, 0, 0, 0.68) !important;
+  line-height: 1;
+}
+.ant-dropdown-menu-item-group-list
+  .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 13px !important;
+  margin-left: 5px;
+  &:first-child {
+    padding-top: 5px !important;
+  }
+}

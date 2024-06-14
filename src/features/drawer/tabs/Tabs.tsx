@@ -1,5 +1,4 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { useQueryClient } from '@tanstack/react-query';
 import type { RadioChangeEvent, TabsProps, TimePickerProps } from 'antd';
 import {
   Button,
@@ -18,10 +17,13 @@ import StickyBox from 'react-sticky-box';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../../store/hooks';
 import Calendar from '../../../ui/Calendar';
+import { DrawerSourceType } from '../../../ui/Drawer';
 import { classNames } from '../../../utils/helpers';
 import { useCreateNote } from '../../attachments/useCreateNote';
 import { getUser } from '../../authentication/authSlice';
 import { getLeadData } from '../../leads/leadSlice';
+import { getOrderData } from '../../orders/orderSlice';
+import { getQuoteData } from '../../quotes/quoteSlice';
 import TabEmail from './TabEmail';
 import TabFiles from './TabFiles';
 import Notes from './TabNotes';
@@ -29,7 +31,7 @@ import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
 
 export type CancelNotesActionType = 'main' | 'phone' | 'task' | 'email';
 
-function TabsApp() {
+function TabsApp({ sourceType }: DrawerSourceType) {
   const [eventType, setEventType] = useState('call');
   const [taskNote, setTaskNote] = useState('');
   const [notes, setNotes] = useState({
@@ -41,10 +43,10 @@ function TabsApp() {
   const { isFullScreen } = useDrawerFeature();
 
   const { id: leadId } = useAppSelector(getLeadData);
-  const userData = useAppSelector(getUser);
+  const { id: quoteId } = useAppSelector(getQuoteData);
+  const { id: orderId } = useAppSelector(getOrderData);
 
-  const queryClient = useQueryClient();
-  queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
+  const userData = useAppSelector(getUser);
 
   const handleEventType = (e: RadioChangeEvent) => {
     setEventType(e.target.value);
@@ -84,12 +86,11 @@ function TabsApp() {
     }
   };
 
-  const feature = 'lead';
-  const { createNote, isLoading } = useCreateNote();
+  const { createNote, isLoading } = useCreateNote(sourceType);
 
   const handleSave = (type: 'main' | 'task' | 'phone') => {
     const user = userData?.id ? +userData?.id : undefined;
-    switch (feature) {
+    switch (sourceType) {
       case 'lead':
         if (type === 'main') {
           createNote({
@@ -98,39 +99,59 @@ function TabsApp() {
             text: notes.mainNote,
             user,
           });
+          setNotes({ ...notes, mainNote: '' });
         }
-        // editLead({ guid: leadData.guid, updateLeadModel });
         break;
-      // case 'quote':
-      // editQuote({ guid: leadData.guid, updateLeadData });
-      // break;
+      case 'quote':
+        if (type === 'main') {
+          createNote({
+            rel: quoteId,
+            endpointType: 'quote',
+            text: notes.mainNote,
+            user,
+          });
+          setNotes({ ...notes, mainNote: '' });
+        }
+        break;
+      case 'order':
+        if (type === 'main') {
+          createNote({
+            rel: orderId,
+            endpointType: 'order',
+            text: notes.mainNote,
+            user,
+          });
+          setNotes({ ...notes, mainNote: '' });
+        }
+        break;
     }
   };
 
   const handleCancel = (type: CancelNotesActionType) => {
-    switch (feature) {
-      case 'lead':
-        switch (type) {
-          case 'main':
-            setNotes({ ...notes, mainNote: '' });
-            break;
-          case 'phone':
-            setNotes({ ...notes, phoneNote: '' });
-            break;
-          case 'email':
-            setNotes({ ...notes, emailNote: '' });
-            break;
-          case 'task':
-            setTaskNote('');
-            break;
-        }
+    // switch (sourceType) {
+    // case 'lead':
+    switch (type) {
+      case 'main':
+        setNotes({ ...notes, mainNote: '' });
+        break;
+      case 'phone':
+        setNotes({ ...notes, phoneNote: '' });
+        break;
+      case 'email':
+        setNotes({ ...notes, emailNote: '' });
+        break;
+      case 'task':
+        setTaskNote('');
         break;
     }
+    // break;
+    // }
   };
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
   const renderTabBar: TabsProps['renderTabBar'] = (props, DefaultTabBar) => (
     <StickyBox offsetBottom={20} style={{ zIndex: 1 }}>
       <DefaultTabBar {...props} style={{ background: colorBgContainer }} />

@@ -6,7 +6,7 @@ import Quotes from '../../services/quotes';
 export type QuotesParamsType = {
   limit: number;
   offset: number;
-  status:string
+  status: string;
   q: string;
   source?: string[];
 };
@@ -29,11 +29,12 @@ export function useQuotes() {
 
   const {
     data: { results: quotes, count, sumPrice } = {},
-    isPending: isLoading,
+    isPending: isLoadingQuotes,
     error,
   } = useQuery({
-    queryKey: ['quotes', limit, offset, sources, q,status],
-    queryFn: () => Quotes.getQuotes({ limit, offset, source: sources, q ,status}),
+    queryKey: ['quotes', limit, offset, sources, q, status],
+    queryFn: () =>
+      Quotes.getQuotes({ limit, offset, source: sources, q, status }),
   });
-  return { quotes, count, sumPrice, isLoading, error };
+  return { quotes, count, sumPrice, isLoadingQuotes, error };
 }

@@ -1,0 +1,249 @@
+.pdf {
+  padding: 40px;
+  &__actions {
+    gap: 15px;
+    justify-content: end;
+    .pdf__signded__btn {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 18.96px;
+      text-align: center;
+      color: #fff;
+      background: #02a858;
+      padding: 3px 10px;
+      border-radius: 5px;
+    }
+
+    .pdf__pay__btn {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 18.96px;
+      text-align: center;
+      color: #fff;
+      background: #086ed6;
+      padding: 3px 10px;
+      border-radius: 5px;
+    }
+  }
+  &__table table {
+    border-collapse: collapse;
+    thead tr {
+      border-bottom: 1px solid #164863 !important;
+      th {
+        padding-bottom: 5px;
+      }
+    }
+  }
+  .pdf__container {
+    width: 840px;
+    margin: 0 auto;
+    border: 1px solid #d1d1d1;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .pdf__header {
+    background: #ddf2fd;
+    @include flexbox();
+    align-items: center;
+    justify-content: space-between;
+    padding: 12.5px;
+    div {
+      width: 33.3%;
+    }
+  }
+  .pdf__header__title {
+    font-size: 25.89px;
+    font-weight: 500;
+    line-height: 30.68px;
+    text-align: center;
+    color: #164863;
+  }
+  .pdf__download {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.96px;
+    text-align: center;
+    color: #21232c;
+    padding: 4.5px 10px;
+    @include flexbox();
+    // align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    border: 1px solid #d1d1d1;
+  }
+  .pdp__content {
+    padding: 30px;
+  }
+  .pdf__title {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 47.4px;
+  }
+  .pdf__line {
+    width: 100%;
+    height: 5px;
+    background-color: #164863;
+    margin-top: 10px;
+  }
+  .pdf__text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18.96px;
+    // text-align: right;
+    color: #21232c;
+    padding-bottom: 4px;
+  }
+  .pdf__subtitle {
+    font-size: 25.89px;
+    font-weight: 600;
+    line-height: 30.68px;
+    text-align: left;
+    color: #21232c;
+    padding-bottom: 10px;
+  }
+  .pdf__middle__title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.96px;
+    text-align: left;
+    color: #21232c;
+  }
+  .pdf__content__header {
+    @include flexbox();
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pdf__content__header-right {
+    span {
+      text-align: right;
+      display: block;
+      max-width: 173px;
+    }
+  }
+  .pdf__row {
+    display: flex;
+    // align-items: center;
+    justify-content: space-between;
+  }
+  .pdf__col {
+    width: 100%;
+  }
+  .row__line {
+    border-bottom: 1px solid #164863;
+  }
+  .pdf__small__title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18.96px;
+    text-align: left;
+    color: #21232c;
+    padding-bottom: 4px;
+  }
+  .pdf__sign__content {
+    border: 1px solid #d1d1d1;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 290px;
+  }
+  .pdf__sign__text {
+    font-family: Snell Roundhand;
+    font-size: 25.89px;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 32.64px;
+    text-align: left;
+    color: #21232c;
+  }
+  .pdf__sign__btn {
+    font-size: 25.89px;
+    font-weight: 600;
+    line-height: 30.68px;
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+    background: #086ed6;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .pdf__footer {
+    background: #ddf2fd;
+    height: 66px;
+    @include flexbox();
+    align-items: center;
+    justify-content: end;
+    padding: 0 25px;
+  }
+  .pdf__next {
+    font-size: 25.89px;
+    font-weight: 600;
+    line-height: 30.68px;
+    text-align: center;
+    border-radius: 10px;
+    background: #086ed6;
+    padding: 1px 20px;
+    color: #fff;
+  }
+}
+.sign__accept__signature {
+  padding: 3px 10px;
+  @include flexbox();
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  input {
+    font-family: Snell Roundhand !important;
+    font-size: 25.89px !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+    line-height: 32.64px !important;
+    text-align: left !important;
+    color: #a4a4a4 !important;
+  }
+  .sign__accept__col:last-child {
+    input {
+      width: 80px;
+    }
+  }
+  .sign__accept__label {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18.96px;
+    text-align: left;
+    color: #164863;
+    padding-bottom: 5px;
+  }
+}
+.pdf__form {
+  border: 1px solid #d1d1d1;
+  width: 367px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .pdf__form__item {
+    padding: 3px 20px;
+  }
+  // padding: 0px 10px;
+  .pdf__form__item:last-child {
+    border-left: 1px solid #d1d1d1;
+    padding-left: 0 10px;
+  }
+  p {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 17.78px;
+    text-align: center;
+    color: #21232c;
+  }
+  span {
+    font-family: Snell Roundhand;
+    font-size: 25.89px;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 32.64px;
+    text-align: left;
+    color: #21232c;
+  }
+}

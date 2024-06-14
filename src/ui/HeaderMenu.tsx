@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useDrawerFeature } from '../context/DrawerFeatureContext';
+import { getOrderData } from '../features/orders/orderSlice';
 import { MenuData, SortByStatusType, getMenuData } from '../services/menu';
+import { useAppSelector } from '../store/hooks';
 import { classNames } from '../utils/helpers';
 
 type Breadcrumb = {
@@ -13,9 +16,15 @@ function HeaderMenu({ search }: { search: string | undefined }) {
   const [searchParams] = useSearchParams();
   const isActive = searchParams.get('status') || '';
 
+  // const [isChangeStatus, setChangeStatus] = useState(false);
+
+  const { closeDrawer } = useDrawerFeature();
+  const orderData = useAppSelector(getOrderData);
+
   const currentPath: MenuData | undefined = getMenuData.find((menu) =>
     pathname.includes(menu.path),
   );
+
   const [breadcrumbs, setBreadcrumbs] = useState<MenuData[]>([]);
 
   useEffect(() => {
@@ -56,6 +65,12 @@ function HeaderMenu({ search }: { search: string | undefined }) {
     const newPath = `${currentPath?.path}?${params.toString()}`;
     return newPath;
   };
+
+  useEffect(() => {
+    if (isActive && orderData?.status !== isActive) {
+      closeDrawer();
+    }
+  }, [isActive]);
 
   return (
     <div className="header__menu menu">

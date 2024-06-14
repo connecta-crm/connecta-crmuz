@@ -4,10 +4,12 @@ import { classNames } from '../../../utils/helpers';
 
 type FeatItemCloseProps = {
   keyValue: string;
+  feature: string;
   label: string | undefined;
   textWithBg?: boolean;
   editable?: boolean;
   series?: boolean;
+  tooltip?: boolean;
 };
 
 function FeatItemClose({
@@ -16,8 +18,10 @@ function FeatItemClose({
   label,
   editable = true,
   series = true,
+  tooltip = false,
 }: FeatItemCloseProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
+
   return (
     <div
       className={classNames(
@@ -31,14 +35,20 @@ function FeatItemClose({
           'detail__text',
         )}
       >
-        <Tooltip
-          placement="left"
-          color="#ddf2fd"
-          overlayInnerStyle={{ color: '#000' }}
-          title={label}
-        >
-          {label}
-        </Tooltip>
+        {tooltip ? (
+          <Tooltip
+            placement="left"
+            color="#ddf2fd"
+            overlayInnerStyle={{
+              color: '#000',
+            }}
+            title={label}
+          >
+            {label}
+          </Tooltip>
+        ) : (
+          <span>{label}</span>
+        )}
       </div>
       <div
         className="detail__right_actions d-flex align-center"

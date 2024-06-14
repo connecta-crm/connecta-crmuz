@@ -1,7 +1,7 @@
 import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import { useFilter } from '../context/FilterContext';
-// import { useModal } from '../context/ModalContext';
+import { useModal } from '../context/ModalContext';
 import { logout } from '../features/authentication/authSlice';
 import { useAppDispatch } from '../store/hooks';
 
@@ -12,12 +12,12 @@ type HeaderActionsProps = {
 function HeaderActions({ searchHandler }: HeaderActionsProps) {
   const [value, setValue] = useState('');
   const { showFilter, hideFilter } = useFilter();
-  // const { showModal } = useModal();
+  const { showModal } = useModal();
   const dispatch = useAppDispatch();
 
   const itemsCreate: MenuProps['items'] = [
     {
-      label: <p onClick={() =>{} }>Create a lead</p>,
+      label: <p onClick={() =>showModal("lead") }>Create a lead</p>,
       key: '0',
     },
     {

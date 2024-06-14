@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { LoadingOutlined } from '@ant-design/icons';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../store/hooks';
+import { SourceType } from '../../../ui/Drawer';
 import Modal from '../../../ui/Modal';
 import { useNote } from '../../attachments/useNote';
 import { useUpdateNote } from '../../attachments/useUpdateNote';
 import { getUser } from '../../authentication/authSlice';
-import { useLeadAttachments } from '../../leads/useLeadAttachments';
 import Notes from '../tabs/TabNotes';
 import { CancelNotesActionType } from '../tabs/Tabs';
 import HistoryCard from './HistoryCard';
@@ -24,8 +25,17 @@ export type NoteItemType = {
   user: number;
 };
 
-function History() {
-  const { leadAttachments } = useLeadAttachments();
+type HistoryProps = {
+  sourceType: SourceType;
+  attachments: NoteItemType[];
+  isLoadingAttachments: boolean;
+};
+
+function History({
+  sourceType,
+  attachments,
+  isLoadingAttachments,
+}: HistoryProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [content, setContent] = useState('');
   const [noteId, setNoteId] = useState(0);
@@ -34,15 +44,16 @@ function History() {
   const user = useAppSelector(getUser);
 
   const { noteData, isLoadingNote, errorNote } = useNote(noteId);
-  const { updateNote, isLoadingUpdateNote, errorUpdateNote } = useUpdateNote();
+  const { updateNote, isLoadingUpdateNote, errorUpdateNote } =
+    useUpdateNote(sourceType);
 
   const onSetContent = (_: CancelNotesActionType, val: string) => {
     setContent(val);
   };
 
+  // * FILTER TO TYPE NOTE
   const notes =
-    leadAttachments?.filter(({ type }: { type: string }) => type === 'note') ??
-    [];
+    attachments?.filter(({ type }: { type: string }) => type === 'note') ?? [];
 
   const onChange = (key: string) => {
     console.log(key);
@@ -56,7 +67,7 @@ function History() {
     updateNote({
       id: noteId,
       user: user?.id,
-      endpointType: 'lead',
+      endpointType: sourceType,
       text: content,
     });
     setNoteUpdated(true);
@@ -66,12 +77,17 @@ function History() {
     {
       key: '1',
       label: 'All',
-      children: leadAttachments?.length ? (
-        leadAttachments.map((item: NoteItemType) => (
+      children: isLoadingAttachments ? (
+        <div className="text-center">
+          <LoadingOutlined style={{ fontSize: 24 }} spin />
+        </div>
+      ) : attachments?.length ? (
+        attachments.map((item: NoteItemType) => (
           <HistoryCard
             key={item.id}
-            type={'note'}
+            type="note"
             item={item}
+            sourceType={sourceType}
             isLoading={isLoadingNote}
             onEdit={handleEditNote}
           />
@@ -90,6 +106,7 @@ function History() {
           key={item.id}
           type={'note'}
           item={item}
+          sourceType={sourceType}
           isLoading={isLoadingNote}
           onEdit={handleEditNote}
         />
@@ -101,6 +118,7 @@ function History() {
     //   children: (
     //     <HistoryCard
     //       type={'task'}
+    //       sourceType={sourceType}
     //       onEdit={() => {}}
     //       isLoading={isLoadingNote}
     //     />
@@ -112,7 +130,6 @@ function History() {
     if (noteData && Object.keys(noteData).length && noteId && !errorNote) {
       setContent(noteData.text);
       setModalOpen(true);
-      console.log('OPENED');
     }
   }, [noteData, noteId, errorNote]);
 
@@ -122,7 +139,6 @@ function History() {
       setContent('');
       setNoteUpdated(false);
       setNoteId(0);
-      console.log('CLOSED');
     }
   }, [isNoteUpdated, isLoadingUpdateNote, errorUpdateNote]);
 
@@ -141,7 +157,7 @@ function History() {
         }}
         onSave={handleSave}
       >
-        <Notes type="main" content={content} onSetContent={onSetContent} />-
+        <Notes type="main" content={content} onSetContent={onSetContent} />
       </Modal>
     </div>
   );

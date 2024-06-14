@@ -1,19 +1,42 @@
 import { Drawer } from 'antd';
-
 import { useDrawerFeature } from '../context/DrawerFeatureContext';
 import DrawerContent from '../features/drawer/Drawer';
 import DrawerControl from '../features/drawer/DrawerControl';
 import DrawerHeader from '../features/drawer/DrawerHeader';
-import { LeadData } from '../features/leads/leadSlice';
 import { LeadTableDataType } from '../features/leads/LeadTableColumnType';
+import { QuotesTableDataType } from '../features/quotes/QuoteTableColumnType';
+import { LeadData } from '../models';
 
-export type DrawerProps = {
-  leads: LeadData | LeadTableDataType;
-  isLoadingLead: boolean;
-  onOpenDrawer: (guid: string) => void;
+type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;
+
+export type SourceType = 'lead' | 'quote' | 'order' | 'quote/convert';
+
+export type DrawerSourceType = {
+  sourceType: SourceType;
 };
 
-function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
+export type DrawerProps = {
+  dataSource: DataSourceType;
+  loadingItem: boolean;
+  onOpenDrawer?: (guid: string) => void;
+  onOpenDispatch?: () => void;
+  onOpenDirectDispatch?: () => void;
+};
+
+function DrawerApp({
+  dataSource,
+  loadingItem,
+  sourceType,
+  onOpenDrawer,
+  onOpenDispatch,
+  onOpenDirectDispatch,
+  onOpenHistory,
+  onOpenConvert,
+}: DrawerProps & {
+  onOpenHistory: (id: number) => void;
+  sourceType: SourceType;
+  onOpenConvert?: () => void;
+}) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';
@@ -23,9 +46,14 @@ function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
       <Drawer
         title={
           <DrawerHeader
-            leads={leads}
-            isLoadingLead={isLoadingLead}
+            sourceType={sourceType}
+            dataSource={dataSource} // todo
+            loadingItem={loadingItem}
             onOpenDrawer={onOpenDrawer}
+            onOpenHistory={onOpenHistory}
+            onOpenConvert={onOpenConvert}
+            onOpenDispatch={onOpenDispatch}
+            onOpenDirectDispatch={onOpenDirectDispatch}
           />
         }
         placement="right"
@@ -37,11 +65,12 @@ function DrawerApp({ leads, isLoadingLead, onOpenDrawer }: DrawerProps) {
         closeIcon={false}
       >
         <DrawerControl
-          leads={leads}
-          isLoadingLead={isLoadingLead}
+          sourceType={sourceType}
+          dataSource={dataSource} // todo
+          loadingItem={loadingItem}
           onOpenDrawer={onOpenDrawer}
         />
-        <DrawerContent />
+        <DrawerContent sourceType={sourceType} />
       </Drawer>
     </div>
   );

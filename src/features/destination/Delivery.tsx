@@ -1,11 +1,11 @@
 import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
-import { useState } from 'react';
-import DownCollapse from '../../ui/Form/DownCollapse';
-import Input from '../../ui/Form/Input';
-import InputCol from '../../ui/Form/InputCol';
-import InputRow from '../../ui/Form/InputRow';
-import Label from '../../ui/Form/Label';
+import { ReactNode, useState } from 'react';
+import DownCollapse from '../../ui/form/DownCollapse';
+import Input from '../../ui/form/Input';
+import InputCol from '../../ui/form/InputCol';
+import InputRow from '../../ui/form/InputRow';
+import Label from '../../ui/form/Label';
 import { useCity } from '../leads/useLeadDetails';
 import origin from '/img/drawer/destination.svg';
 type CityType = {
@@ -17,8 +17,10 @@ type CityType = {
 
 export default function Delivery({
   setDelivery,
+  children
 }: {
   setDelivery: (a: string | null) => void;
+  children?:ReactNode
 }) {
   // const [enabled, setEnabled] = useState(false);
   const [cityValue, setCityValue] = useState<CityType | null>(null);
@@ -119,6 +121,9 @@ export default function Delivery({
           />
         </InputCol>
       </InputRow>
+      {
+        children
+      }
     </DownCollapse>
   );
 }

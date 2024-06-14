@@ -62,11 +62,41 @@ class Attachments {
     }
   }
 
-  // DELETE: /attachments/delete/:id
+  // DELETE: /leads/attachments/delete/:id
   async deleteLeadAttachments(id: number) {
     try {
       const { data } = await this.$api.delete(
         `/leads/attachments/delete/${id}`,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // DELETE: /quote/attachments/delete/:id
+  async deleteQuoteAttachments(id: number) {
+    try {
+      const { data } = await this.$api.delete(
+        `/quote/attachments/delete/${id}`,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // DELETE: /orders/attachments/delete/:id
+  async deleteOrderAttachments(id: number) {
+    try {
+      const { data } = await this.$api.delete(
+        `/orders/attachments/delete/${id}`,
       );
       return data;
     } catch (error) {

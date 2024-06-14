@@ -28,16 +28,28 @@ $modal-border-color: #d1d1d1;
     border-radius: 4px;
   }
 }
-
+.edit-btn {
+  border: 1px solid #d1d1d1;
+  width: 25px;
+  height: 25px;
+  @include flexbox();
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  img {
+    width: 14px;
+    height: 14px;
+  }
+}
 .ant-modal-root {
   & .ant-modal-mask {
     position: fixed;
-    inset: 56px 0 0 56px;
+    inset: 0;
     background-color: rgba(0, 0, 0, 0.7);
   }
 
   & .ant-modal-wrap {
-    inset: 56px 0 0 56px;
+    inset: 15px 0 0 0;
   }
 }
 
@@ -118,11 +130,17 @@ $modal-border-color: #d1d1d1;
   }
   &__row {
     @include flexbox();
+    &--convert {
+      .remove-item {
+        display: none;
+      }
+    }
   }
   &__col {
     width: 50%;
     padding: 15px;
     display: flex;
+    flex-direction: column;
   }
   &__col:first-child {
     border-right: 1px solid #d1d1d1;
@@ -149,5 +167,57 @@ $modal-border-color: #d1d1d1;
       gap: 3px;
       justify-content: space-between;
     }
+  }
+  &__input-label {
+    color: #164863;
+    font-weight: 600;
+    font-size: 15px;
+  }
+}
+
+/* ==================================================================================================================*/
+
+.dispatch-modal,
+.customer-modal {
+  .form-label {
+    font-weight: 600;
+    font-size: 15px;
+    color: #164863;
+  }
+  .ant-collapse-content-box {
+    padding-top: 0 !important;
+  }
+  .jodit-toolbar__box {
+    background-color: #d1d1d1 !important;
+  }
+}
+.convert-modal {
+  &__vehicle {
+    .ant-collapse .ant-collapse-content > .ant-collapse-content-box {
+      padding: 0 !important;
+    }
+    .ant-collapse-content-box {
+      padding: 0 !important;
+    }
+    .detail-inner {
+      padding: 6px 16px 6px 16px !important;
+    }
+  }
+}
+.convert-vehicle__inner {
+  .ant-collapse-item {
+    .box-header__arrow-bold {
+      right: 16px;
+      transform: rotate(-90deg);
+    }
+  }
+  .ant-collapse-item-active {
+    .box-header__arrow-bold {
+      transform: rotate(0);
+    }
+  }
+  .ant-collapse-header {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
   }
 }

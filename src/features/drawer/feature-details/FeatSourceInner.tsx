@@ -1,13 +1,24 @@
 import { Button, Select, Spin } from 'antd';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getLeadData, updateField } from '../../leads/leadSlice';
 import { useProviders } from '../../providers/useProviders';
 
 import { LoadingOutlined } from '@ant-design/icons';
 import { DefaultOptionType } from 'antd/es/select';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
-import { useUpdateLeadData } from '../../leads/useUpdateLeadData';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../../leads/leadSlice';
+import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
+import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../../quotes/quoteSlice';
 
 type FeatSourceInnerProps = {
   feature: 'lead' | 'order' | 'quote';
@@ -17,26 +28,60 @@ type FeatSourceInnerProps = {
 function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
+
+  let featureData;
+
+  switch (feature) {
+    case 'lead':
+      featureData = leadData;
+      break;
+    case 'quote':
+      featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
+      break;
+    default:
+      break;
+  }
 
   const [select, setSelect] = useState(false);
-  const [isleadUpdated, setLeadUpdated] = useState(false);
+  const [isDataUpdated, setDataUpdated] = useState(false);
   const { isEditDetails } = useDrawerFeature();
 
-  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateLeadData({
+  const { onCancelFeature, onSaveFeature, isLoading } = useUpdateFeatureData({
     keyValue,
     feature,
     field: 'source',
-    isleadUpdated,
-    setLeadUpdated,
+    isDataUpdated,
+    setDataUpdated,
   });
 
   const { providers, isFetching: isLoadingProviders } = useProviders(select);
 
   const handleChange = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
-      dispatch(updateField({ field: 'source', value: option?.data }));
+      switch (feature) {
+        case 'lead':
+          dispatch(updateLeadField({ field: 'source', value: option?.data }));
+          break;
+        case 'quote':
+          dispatch(updateQuoteField({ field: 'source', value: option?.data }));
+          break;
+        case 'order':
+          dispatch(updateOrderField({ field: 'source', value: option?.data }));
+          break;
+        default:
+          break;
+      }
     }
   };
+
+  if (!featureData) {
+    return;
+  }
 
   return (
     <div className="d-flex justify-end feature-content">
@@ -48,8 +93,8 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
           size="small"
           filterOption={false}
           placeholder="Search city"
-          defaultValue={leadData.source.name}
-          value={leadData.source.name}
+          defaultValue={featureData.source?.name}
+          value={featureData.source?.name}
           onChange={handleChange}
           onFocus={() => setSelect(true)}
           style={{ width: 218 }}

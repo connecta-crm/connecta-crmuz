@@ -3,7 +3,7 @@ import AccessRoles from '../../pages/settings/AccessRoles';
 import CompanyName from '../../pages/settings/CompanyName';
 import Distribution from '../../pages/settings/Distribution';
 import Ground from '../../pages/settings/Ground';
-import HawaiiAndAlaska from '../../pages/settings/HawaiiAndAlaska';
+import HawaiiAndAlaska from '../../pages/settings/Regions';
 import International from '../../pages/settings/International';
 import LeadParsing from '../../pages/settings/LeadParsing';
 import Merchant from '../../pages/settings/Merchant';
@@ -65,7 +65,7 @@ export const elements: MenuNestedData[] = [
     el: Ground,
   },
   {
-    title: 'Regions',
+    title: 'Hawaii and Alaska',
     path: '/settings/regions',
     category: 'Contract',
     el: HawaiiAndAlaska,
@@ -77,7 +77,7 @@ export const elements: MenuNestedData[] = [
     el: International,
   },
   {
-    title: 'Name',
+    title: 'Company Name',
     path: '/settings/name',
     category: 'Company Management',
     el: CompanyName,

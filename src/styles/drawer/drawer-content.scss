@@ -1,17 +1,7 @@
 .drawer {
   @include flexbox();
   background: #fafafa;
-  .ant-collapse-item {
-    .arrow-icon {
-      width: 14px;
-      @include anim(0.3s, 0s);
-    }
-    &.ant-collapse-item-active {
-      .arrow-icon {
-        transform: rotate(180deg);
-      }
-    }
-  }
+
   .ant-collapse-header-text {
     color: #21232c;
     font-size: 16px;
@@ -29,13 +19,7 @@
     border-right: 1px solid #d1d1d1;
     overflow-y: auto;
     min-height: 100vh;
-    // .ant-collapse
-    //   > .ant-collapse-item
-    //   .ant-collapse-icon-collapsible-only
-    //   .ant-collapse-expand-icon {
-    //   cursor: none;
-    //   pointer-events: none;
-    // }
+
     &-notes {
       height: 44px !important;
       min-height: 44px !important;
@@ -47,6 +31,22 @@
   &__main {
     padding: 14px;
     width: 100%;
+  }
+  .feature-drawer__item {
+    border-bottom: 1px solid rgba(209, 209, 209, 1);
+    border-radius: 0 !important;
+  }
+}
+// custom arrow-icon for collapse
+.ant-collapse-item {
+  .arrow-icon {
+    width: 14px;
+    @include anim(0.3s, 0s);
+  }
+  &.ant-collapse-item-active {
+    .arrow-icon {
+      transform: rotate(180deg);
+    }
   }
 }
 /* ==================================================================================================================*/
@@ -104,7 +104,7 @@
 /* ==================================================================================================================*/
 .box-header-inner {
   .ant-collapse {
-    padding: 0 9px;
+    padding: 0 9px 10px;
   }
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     padding: 0;
@@ -127,6 +127,9 @@
       }
     }
   }
+  .ant-collapse-ghost > .ant-collapse-item.detail__cdcm-note:hover {
+    background-color: inherit !important;
+  }
   .ant-collapse.ant-collapse-icon-position-end
     > .ant-collapse-item
     > .ant-collapse-header
@@ -139,11 +142,13 @@
     margin-right: 9px;
     background-color: #eaeaea;
     border-radius: 4px;
+    margin-bottom: 10px;
   }
 }
 .ant-input-outlined.ant-input-disabled,
 .ant-input-outlined[disabled] {
-  background-color: #f8f8f8 !important;
+  background-color: #f5f5f5 !important;
+  color: rgba(0, 0, 0, 0.7) !important;
 }
 /* ==================================================================================================================*/
 .detail {
@@ -202,7 +207,6 @@
 }
 .detail-condition {
 }
-
 /* ==================================================================================================================*/
 .detail-inner {
   padding: 6px 0;
@@ -216,7 +220,6 @@
     margin-bottom: 2px;
   }
 }
-
 /* ==================================================================================================================*/
 .map {
   width: 100%;
@@ -232,6 +235,7 @@
 .form-label {
   position: relative;
   padding-left: 9px;
+  font-size: 14px;
   &.required-label {
     padding-left: 0;
     &::before {

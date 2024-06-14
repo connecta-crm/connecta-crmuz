@@ -104,8 +104,14 @@ body {
 .absolute {
   position: absolute !important;
 }
+.m-0 {
+  margin: 0 !important;
+}
 .ml-10 {
   margin-left: 10px;
+}
+.ml-0 {
+  margin-left: 0 !important;
 }
 .mr-10 {
   margin-right: 10px;
@@ -143,11 +149,17 @@ body {
 .mb-12 {
   margin-bottom: 12px;
 }
+.mb-20 {
+  margin-bottom: 20px;
+}
 .mb-5 {
   margin-bottom: 5px;
 }
 .mt-5 {
   margin-top: 5px;
+}
+.mt-20 {
+  margin-top: 20px;
 }
 .mx-15 {
   margin-left: 15px;
@@ -157,6 +169,7 @@ body {
   margin-left: 5px;
   margin-right: 5px;
 }
+
 .pl-5 {
   padding-left: 5px !important;
 }
@@ -166,11 +179,17 @@ body {
 .pr-0 {
   padding-right: 0 !important;
 }
+.pl-0 {
+  padding-left: 0 !important;
+}
 .p-5 {
   padding: 5px;
 }
 .pr-10 {
   padding-right: 10px;
+}
+.pl-30 {
+  padding-left: 30px;
 }
 .pl-10 {
   padding-left: 10px;
@@ -188,6 +207,9 @@ body {
 }
 .p-0 {
   padding: 0 !important;
+}
+.mt-40 {
+  margin-top: 40px;
 }
 .d-flex {
   display: flex;
@@ -240,4 +262,16 @@ body {
 }
 .d-none {
   display: none !important;
+}
+.font-bold {
+  font-weight: 600;
+}
+.bg-transparent {
+  background-color: transparent;
+}
+.w-full {
+  width: 100%;
+}
+.text-left {
+  text-align: left;
 }

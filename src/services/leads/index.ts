@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DefaultOptionType } from 'antd/es/select';
 import { AxiosError } from 'axios';
 import { LeadConvertParams } from '../../features/leads/useLeadConvert';
 import { LeadEditParamsType } from '../../features/leads/useLeadEdit';
+import { LogsParamsType } from '../../features/leads/useLeadLogs';
 import { LeadCreateVehicleParams } from '../../features/leads/useLeadVehicleCreate';
 import { LeadEditVehicleParamsType } from '../../features/leads/useLeadVehicleEdit';
 import { LeadsParamsType } from '../../features/leads/useLeads';
-import { LeadDataType } from '../../models/LeadDataType';
+import { LeadDataType } from '../../models';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -23,7 +25,7 @@ class Leads {
     try {
       const params: Record<string, unknown> = {
         limit,
-          offset,
+        offset,
         q,
         status,
       };
@@ -277,6 +279,23 @@ class Leads {
         res('success', formData);
       }, 1500);
     });
+  }
+  async getLeadLogs({ limit, offset, id }: LogsParamsType) {
+    try {
+      // const params: Record<string, unknown> = {
+      //   // limit,
+      //   // offset,
+      //   // order,
+      // };
+
+      const { data } = await this.$api.get(`/leads/logs/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
   }
 
   throwError(error: unknown) {
