@@ -24,11 +24,13 @@ import {
   getLeadData,
   updateField as updateLeadField,
 } from '../leads/leadSlice';
+import { useLeadArchive } from '../leads/useLeadArchive';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 import {
   getOrderData,
   updateField as updateOrderField,
 } from '../orders/orderSlice';
+import { useOrderArchive } from '../orders/useOrderArchive';
 import { useOrderPostCD } from '../orders/useOrderPostCD';
 import { useOrderReassignUser } from '../orders/useOrderReassignUser';
 import {
@@ -36,6 +38,7 @@ import {
   updateField as updateQuoteField,
 } from '../quotes/quoteSlice';
 import { useLeadReassignUser } from '../quotes/useLeadReassignUser';
+import { useQuoteArchive } from '../quotes/useQuoteArchive';
 import { useQuoteReassignUser } from '../quotes/useQuoteReassignUser';
 import { useUpdateUser } from '../users/useUpdateUser';
 import { useUsers } from '../users/useUsers';
@@ -89,25 +92,49 @@ function DrawerHeader({
     isSuccessReassignUser: isSuccessReassignUser3,
   } = useLeadReassignUser();
 
+  const {
+    leadArchive,
+    isLoadingArchive: isLoadingArchive3,
+    isSuccessArchive: isSuccessArchive3,
+  } = useLeadArchive();
+  const {
+    quoteArchive,
+    isLoadingArchive: isLoadingArchive2,
+    isSuccessArchive: isSuccessArchive2,
+  } = useQuoteArchive();
+  const {
+    orderArchive,
+    isLoadingArchive: isLoadingArchive1,
+    isSuccessArchive: isSuccessArchive1,
+  } = useOrderArchive();
+
   let featureData: FeatureData | undefined,
     isLoadingReassign: boolean = false,
-    isSuccessReassignUser: boolean = false;
+    isSuccessReassignUser: boolean = false,
+    isSuccessArchive: boolean = false,
+    isLoadingArchive: boolean = false;
 
   switch (feature) {
     case 'lead':
       featureData = leadData;
       isLoadingReassign = isLoadingReassign3;
       isSuccessReassignUser = isSuccessReassignUser3;
+      isLoadingArchive = isLoadingArchive3;
+      isSuccessArchive = isSuccessArchive3;
       break;
     case 'quote':
       featureData = quoteData;
       isLoadingReassign = isLoadingReassign2;
       isSuccessReassignUser = isSuccessReassignUser2;
+      isLoadingArchive = isLoadingArchive2;
+      isSuccessArchive = isSuccessArchive2;
       break;
     case 'order':
       featureData = orderData;
       isLoadingReassign = isLoadingReassign1;
       isSuccessReassignUser = isSuccessReassignUser1;
+      isLoadingArchive = isLoadingArchive1;
+      isSuccessArchive = isSuccessArchive1;
       break;
     default:
       break;
@@ -146,18 +173,17 @@ function DrawerHeader({
   const handleArchive = () => {
     switch (feature) {
       case 'lead':
-        dispatch(updateLeadField({ field: 'status', value: 'archived' }));
+        leadArchive({ guid: featureData?.guid || '', reason: archieveReason });
         break;
       case 'quote':
-        dispatch(updateQuoteField({ field: 'status', value: 'archived' }));
+        quoteArchive({ guid: featureData?.guid || '', reason: archieveReason });
         break;
       case 'order':
-        dispatch(updateOrderField({ field: 'status', value: 'archived' }));
+        orderArchive({ guid: featureData?.guid || '', reason: archieveReason });
         break;
       default:
-        break;
+        throw new Error('Something went wrong in archiving');
     }
-    setStatusUpdated(true);
   };
 
   const handleReassign = () => {
@@ -190,6 +216,17 @@ function DrawerHeader({
       setOpenReassignModal(false);
     }
   }, [isLoadingReassign, isSuccessReassignUser]);
+
+  useEffect(() => {
+    if (
+      !isLoadingArchive &&
+      isSuccessArchive
+      // featureData?.status !== status
+    ) {
+      setOpenArchiveModal(false);
+      closeDrawer();
+    }
+  }, [isLoadingArchive, isSuccessArchive]);
 
   useEffect(() => {
     if (isStatusUpdated) {
@@ -232,12 +269,6 @@ function DrawerHeader({
       setSearchParams(searchParams);
     }
   }, [isLoading, updatedOrderData]);
-
-  useEffect(() => {
-    if (!isLoading && !isStatusUpdated) {
-      setOpenArchiveModal(false);
-    }
-  }, [isLoading, isStatusUpdated]);
 
   useEffect(() => {
     if (isChangeStatus && status && updatedOrderPostCDData?.status !== status) {
@@ -812,7 +843,7 @@ function DrawerHeader({
         saveBtnText="Archive"
         onSave={handleArchive}
         saveBtnDanger
-        loading={isLoading}
+        loading={isLoadingArchive}
       >
         <div className="d-flex justify-between">
           <div className="d-flex">
@@ -826,7 +857,7 @@ function DrawerHeader({
             placeholder="Select reason"
             onChange={(e) => setArchiveReason(e)}
             style={{ width: 218 }}
-            loading={isLoading}
+            loading={isLoadingArchive}
             options={
               feature === 'quote'
                 ? QUOTE_ARCHIVE_REASONS

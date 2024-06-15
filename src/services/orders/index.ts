@@ -262,13 +262,12 @@ class Orders {
     }
   }
 
-  // POST: /orders/reason/archive/{order}/
-  async orderArchive(order: string, reason: string) {
+  // POST: /orders/reason/archive/{guid}/
+  async orderArchive(guid: string, reason: string) {
     try {
-      const { data } = await this.$api.post(
-        `/orders/reason/archive/${order}/`,
-        { reason },
-      );
+      const { data } = await this.$api.post(`/orders/reason/archive/${guid}/`, {
+        reason,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

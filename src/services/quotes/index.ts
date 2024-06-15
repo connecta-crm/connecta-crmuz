@@ -206,6 +206,21 @@ class Quotes {
     }
   }
 
+  // POST: /quote/reason/archive/{order}/
+  async quoteArchive(guid: string, reason: string) {
+    try {
+      const { data } = await this.$api.post(`/quote/reason/archive/${guid}/`, {
+        reason,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(
