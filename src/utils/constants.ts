@@ -73,3 +73,52 @@ export const DISPATCH_PAYMENT_TYPE = [
   { value: 'venmo', label: 'Venmo' },
   { value: 'cashapp', label: 'CashApp' },
 ];
+
+export const QUOTE_ARCHIVE_REASONS = [
+  {
+    label: 'Already shipped',
+    value: 'already_shipped',
+  },
+  {
+    label: 'Change of mind',
+    value: 'change_mind',
+  },
+  {
+    label: 'Another company',
+    value: 'another_company',
+  },
+  {
+    label: 'Shipping is canceled',
+    value: 'shipping_cancelled',
+  },
+  {
+    label: 'Other',
+    value: 'other',
+  },
+];
+export const ORDER_ARCHIVE_REASONS = [
+  {
+    label: 'No driver',
+    value: 'no_driver',
+  },
+  {
+    label: 'Customer canceled',
+    value: 'customer_cancelled',
+  },
+  {
+    label: "Couldn't complete",
+    value: 'couldnot_complete',
+  },
+  {
+    label: 'Delayed',
+    value: 'delayed',
+  },
+  {
+    label: 'Customer disappeared ',
+    value: 'customer_disappeared',
+  },
+  {
+    label: 'Other',
+    value: 'other',
+  },
+];

@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { DropdownProps, MenuProps } from 'antd';
-import { Button, Dropdown, Space } from 'antd';
+import { Button, Dropdown, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { getMenuData } from '../../services/menu';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { DrawerProps, SourceType } from '../../ui/Drawer';
+import Modal from '../../ui/Modal';
+import {
+  ORDER_ARCHIVE_REASONS,
+  QUOTE_ARCHIVE_REASONS,
+} from '../../utils/constants';
 import { classNames } from '../../utils/helpers';
 import {
   getLeadData,
@@ -23,7 +28,6 @@ import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../quotes/quoteSlice';
-import { useConvertToQuote } from '../quotes/useConvertToQuote';
 import { useUpdateUser } from '../users/useUpdateUser';
 import { useUsers } from '../users/useUsers';
 import { UsersTableDataType } from '../users/usersTableDataType';
@@ -102,8 +106,10 @@ function DrawerHeader({
   const [isDataUpdated, setDataUpdated] = useState(false);
   const [isStatusUpdated, setStatusUpdated] = useState(false);
   const [isOpenSettings, setOpenSettings] = useState(false);
-  const [statusType, setStatusType] = useState(leadData.status);
+  // const [statusType, setStatusType] = useState(featureData?.status);
   const [isChangeStatus, setChangeStatus] = useState(false);
+  const [isOpenArchiveModal, setOpenArchiveModal] = useState(false);
+  const [archieveReason, setArchiveReason] = useState('');
 
   const { users, isLoading: isLoadingUsers } = useUsers(isOpenSettings);
   const { update: updateUser, isLoading: isLoadingUpdateUser } =
@@ -120,75 +126,29 @@ function DrawerHeader({
   });
 
   const handleArchive = () => {
-    const value = statusType === 'leads' ? 'archived' : 'leads';
-    setStatusType(value);
     switch (feature) {
       case 'lead':
-        dispatch(updateLeadField({ field: 'status', value }));
+        dispatch(updateLeadField({ field: 'status', value: 'archived' }));
         break;
       case 'quote':
-        dispatch(updateQuoteField({ field: 'status', value }));
+        dispatch(updateQuoteField({ field: 'status', value: 'archived' }));
         break;
       case 'order':
-        dispatch(updateOrderField({ field: 'status', value }));
+        dispatch(updateOrderField({ field: 'status', value: 'archived' }));
         break;
       default:
         break;
     }
-
+    console.log('Reason: ', archieveReason);
     setStatusUpdated(true);
   };
-
-  const handleMarkPickedUp = () => {
-    dispatch(updateOrderField({ field: 'status', value: 'pickedup' }));
-    setStatusUpdated(true);
-  };
-
-  const handleMarkCompleted = () => {
-    dispatch(updateOrderField({ field: 'status', value: 'completed' }));
-    setStatusUpdated(true);
-  };
-
-  const handleOnHold = () => {
-    dispatch(updateOrderField({ field: 'status', value: 'onhold' }));
-    setStatusUpdated(true);
-  };
-
-  const handleBackToOrder = () => {
-    dispatch(updateOrderField({ field: 'status', value: 'orders' }));
-    setStatusUpdated(true);
-  };
-
-  const handleRemoveCD = () => {
-    dispatch(updateOrderField({ field: 'status', value: 'booked' }));
-    setStatusUpdated(true);
-  };
-
-  const { convertToOrder, isLoadingConvertToOrder, isSuccessConvertToOrder } =
-    useConvertToQuote();
-
-  const handleConvertToOrder = () => {
-    convertToOrder(quoteData.id);
-  };
-
-  const handlePostToCD = () => {
-    if (feature === 'order') {
-      orderPostCD(orderData.guid);
-    }
-  };
-
-  useEffect(() => {
-    if (!isLoadingConvertToOrder && isSuccessConvertToOrder) {
-      closeDrawer();
-    }
-  }, [isLoadingConvertToOrder, isSuccessConvertToOrder]);
 
   useEffect(() => {
     if (isStatusUpdated) {
       onSaveFeature();
       setStatusUpdated(false);
     }
-  }, [isStatusUpdated, statusType, onSaveFeature]);
+  }, [isStatusUpdated, onSaveFeature]);
 
   useEffect(() => {
     if (!isLoadingPostCD && updatedOrderPostCDData) {
@@ -224,6 +184,12 @@ function DrawerHeader({
       setSearchParams(searchParams);
     }
   }, [isLoading, updatedOrderData]);
+
+  useEffect(() => {
+    if (!isLoading && !isStatusUpdated) {
+      setOpenArchiveModal(false);
+    }
+  }, [isLoading, isStatusUpdated]);
 
   useEffect(() => {
     if (isChangeStatus && status && updatedOrderPostCDData?.status !== status) {
@@ -296,7 +262,12 @@ function DrawerHeader({
               <button
                 className="bg-transparent w-full text-left"
                 disabled={isLoading}
-                onClick={handleOnHold}
+                onClick={() => {
+                  dispatch(
+                    updateOrderField({ field: 'status', value: 'onhold' }),
+                  );
+                  setStatusUpdated(true);
+                }}
               >
                 On hold
               </button>
@@ -471,12 +442,7 @@ function DrawerHeader({
             )}
             <div className="drawer-header__btnitem ">
               {feature === 'quote' && (
-                <Button
-                  className=""
-                  type="primary"
-                  onClick={onOpenConvert}
-                  disabled={isLoadingConvertToOrder}
-                >
+                <Button className="" type="primary" onClick={onOpenConvert}>
                   Convert to order
                 </Button>
               )}
@@ -502,7 +468,11 @@ function DrawerHeader({
                       Dispatch
                     </Button>
                     <Button
-                      onClick={handlePostToCD}
+                      onClick={() => {
+                        if (feature === 'order') {
+                          orderPostCD(orderData.guid);
+                        }
+                      }}
                       disabled={isLoadingPostCD}
                       className="ml-10"
                       type="primary"
@@ -515,7 +485,11 @@ function DrawerHeader({
                   <Button
                     className="ml-10"
                     type="primary"
-                    onClick={handlePostToCD}
+                    onClick={() => {
+                      if (feature === 'order') {
+                        orderPostCD(orderData.guid);
+                      }
+                    }}
                     disabled={isLoadingPostCD}
                   >
                     {isLoadingPostCD ? (
@@ -530,26 +504,59 @@ function DrawerHeader({
                   </Button>
                 ) : null)}
 
-              {(feature === 'lead' || feature === 'quote') && (
+              {(feature === 'lead' || feature === 'quote') &&
+                featureData.status !== 'archived' && (
+                  <Button
+                    className="ml-10 mr-10"
+                    type="primary"
+                    danger
+                    disabled={isLoading}
+                    onClick={() => setOpenArchiveModal(true)}
+                  >
+                    Archive
+                  </Button>
+                )}
+              {feature === 'lead' && featureData.status === 'archived' && (
                 <Button
                   className="ml-10 mr-10"
                   type="primary"
-                  danger
                   disabled={isLoading}
-                  onClick={handleArchive}
+                  onClick={() => {
+                    dispatch(
+                      updateLeadField({ field: 'status', value: 'leads' }),
+                    );
+                    setStatusUpdated(true);
+                  }}
                 >
-                  {featureData.status === 'archived'
-                    ? 'Back to Leads'
-                    : 'Archive'}
+                  Back to Leads
                 </Button>
               )}
-
+              {feature === 'quote' && featureData.status === 'archived' && (
+                <Button
+                  className="ml-10 mr-10"
+                  type="primary"
+                  disabled={isLoading}
+                  onClick={() => {
+                    dispatch(
+                      updateQuoteField({ field: 'status', value: 'quote' }),
+                    );
+                    setStatusUpdated(true);
+                  }}
+                >
+                  Back to Quotes
+                </Button>
+              )}
               {feature === 'order' &&
                 ['issue', 'onhold', 'archived'].includes(status) && (
                   <Button
                     className="ml-10"
                     type="primary"
-                    onClick={handleBackToOrder}
+                    onClick={() => {
+                      dispatch(
+                        updateOrderField({ field: 'status', value: 'orders' }),
+                      );
+                      setStatusUpdated(true);
+                    }}
                     disabled={isLoading}
                   >
                     Back to Order
@@ -561,7 +568,7 @@ function DrawerHeader({
                     className="ml-10 mr-10"
                     type="primary"
                     danger
-                    onClick={handleArchive}
+                    onClick={() => setOpenArchiveModal(true)}
                     disabled={isLoading}
                   >
                     Archive
@@ -573,18 +580,27 @@ function DrawerHeader({
                   className="ml-10 mr-10"
                   type="primary"
                   danger
-                  onClick={handleRemoveCD}
+                  onClick={() => {
+                    dispatch(
+                      updateOrderField({ field: 'status', value: 'booked' }),
+                    );
+                    setStatusUpdated(true);
+                  }}
                   disabled={isLoading}
                 >
                   Remove from CD
                 </Button>
               )}
-
               {feature === 'order' && status === 'dispatched' && (
                 <Button
                   className="ml-10"
                   type="primary"
-                  onClick={handleMarkPickedUp}
+                  onClick={() => {
+                    dispatch(
+                      updateOrderField({ field: 'status', value: 'pickedup' }),
+                    );
+                    setStatusUpdated(true);
+                  }}
                   disabled={isLoading}
                 >
                   Mark as Picked up
@@ -594,7 +610,12 @@ function DrawerHeader({
                 <Button
                   className="ml-10"
                   type="primary"
-                  onClick={handleMarkCompleted}
+                  onClick={() => {
+                    dispatch(
+                      updateOrderField({ field: 'status', value: 'completed' }),
+                    );
+                    setStatusUpdated(true);
+                  }}
                   disabled={isLoading}
                 >
                   Mark as Delivered
@@ -644,6 +665,40 @@ function DrawerHeader({
           </div>
         </div>
       </div>
+      <Modal
+        title="Reason To Archive"
+        open={isOpenArchiveModal}
+        onCancel={() => setOpenArchiveModal(false)}
+        width="small"
+        padding="15"
+        saveBtnText="Archive"
+        onSave={handleArchive}
+        saveBtnDanger
+        loading={isLoading}
+      >
+        <div className="d-flex justify-between">
+          <div className="d-flex">
+            <div className="form-label pl-0">Reason</div>
+          </div>
+          <Select
+            size="small"
+            showSearch
+            optionFilterProp="children"
+            filterOption={false}
+            placeholder="Select reason"
+            onChange={(e) => setArchiveReason(e)}
+            style={{ width: 218 }}
+            loading={isLoading}
+            options={
+              feature === 'quote'
+                ? QUOTE_ARCHIVE_REASONS
+                : feature === 'order'
+                  ? ORDER_ARCHIVE_REASONS
+                  : []
+            }
+          />
+        </div>
+      </Modal>
     </div>
   );
 }
