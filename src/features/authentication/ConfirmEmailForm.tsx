@@ -8,7 +8,7 @@ function ConfirmEmailForm() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!email?.trim()) return;
 
     sendConfirmEmail(
       { email },

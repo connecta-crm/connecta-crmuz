@@ -138,3 +138,22 @@ export const LEAD_ARCHIVE_REASONS = [
     value: 'duplicate',
   },
 ];
+
+export const REASSIGN_USERS_REASONS = [
+  {
+    label: 'Transferring the customer',
+    value: 'transferring_customer',
+  },
+  {
+    label: "Couldn't handle",
+    value: 'couldnot_handle',
+  },
+  {
+    label: 'Exchange',
+    value: 'exchange',
+  },
+  {
+    label: 'Other',
+    value: 'other',
+  },
+];

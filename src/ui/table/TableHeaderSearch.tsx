@@ -17,7 +17,7 @@ function TableHeaderSearch() {
   useEffect(() => {
     const newSearchParams = new URLSearchParams(searchParams);
 
-    if (debouncedSearchText.trim() !== '') {
+    if (debouncedSearchText?.trim() !== '') {
       newSearchParams.set('q', debouncedSearchText);
     } else {
       newSearchParams.delete('q');

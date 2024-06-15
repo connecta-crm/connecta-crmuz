@@ -5,6 +5,7 @@ import { LogsParamsType } from '../../features/leads/useLeadLogs';
 import { OrderDirectDispatchEditParamsType } from '../../features/orders/useOrderDirectDispatchEdit';
 import { OrderDispatchEditParamsType } from '../../features/orders/useOrderDispatchEdit';
 import { OrderEditParamsType } from '../../features/orders/useOrderEdit';
+import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { OrderCreateVehicleParams } from '../../features/orders/useOrderVehicleCreate';
 import { OrderEditVehicleParamsType } from '../../features/orders/useOrderVehicleEdit';
 import { OrdersParamsType } from '../../features/orders/useOrders';
@@ -236,6 +237,38 @@ class Orders {
   async orderPostCD(guid: string) {
     try {
       const { data } = await this.$api.post(`/orders/post-cd/${guid}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /orders/reason/reassign/{guid}/
+  async orderReassignUser({ guid, model }: ReassignUserParams) {
+    try {
+      const { data } = await this.$api.post(
+        `/orders/reason/reassign/${guid}/`,
+        { ...model },
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /orders/reason/archive/{order}/
+  async orderArchive(order: string, reason: string) {
+    try {
+      const { data } = await this.$api.post(
+        `/orders/reason/archive/${order}/`,
+        { reason },
+      );
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

@@ -17,6 +17,8 @@ export type Vehicle = {
 export type User = {
   id: number;
   picture: string;
+  firstName: string;
+  lastName: string;
 };
 
 export type Customer = {

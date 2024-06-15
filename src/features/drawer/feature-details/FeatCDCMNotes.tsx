@@ -86,7 +86,7 @@ function FeatCDCMNotes({ keyValue, sourceType }: FeatCDCMNotesProps) {
               size="small"
               disabled={
                 (isLoading && loading.cdLoading) ||
-                featureData.cdNote.trim() === initialOrderData.cdNote.trim()
+                featureData.cdNote?.trim() === initialOrderData.cdNote?.trim()
               }
               onClick={() => {
                 setLoading({ ...loading, cdLoading: true });
@@ -112,7 +112,7 @@ function FeatCDCMNotes({ keyValue, sourceType }: FeatCDCMNotesProps) {
               size="small"
               disabled={
                 (isLoading && loading.cmLoading) ||
-                featureData.cmNote.trim() === initialOrderData.cmNote.trim()
+                featureData.cmNote?.trim() === initialOrderData.cmNote?.trim()
               }
               onClick={() => {
                 setLoading({ ...loading, cmLoading: true });

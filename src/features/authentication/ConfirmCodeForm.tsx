@@ -10,7 +10,7 @@ function ConfirmCodeForm() {
     e.preventDefault();
     const email = localStorage.getItem('email');
     console.log(email, code);
-    if (!code.trim() || !email) return;
+    if (!code?.trim() || !email) return;
 
     confirmOtp(
       { email, code },

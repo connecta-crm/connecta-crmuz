@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { LogsParamsType } from '../../features/leads/useLeadLogs';
+import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 import { QuoteCreateVehicleParams } from '../../features/quotes/useQuoteVehicleCreate';
 import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
@@ -181,6 +182,21 @@ class Quotes {
           ...model,
         },
       );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /quote/reason/reassign/{guid}/
+  async quoteReassignUser({ guid, model }: ReassignUserParams) {
+    try {
+      const { data } = await this.$api.post(`/quote/reason/reassign/${guid}/`, {
+        ...model,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

@@ -7,6 +7,7 @@ import { LogsParamsType } from '../../features/leads/useLeadLogs';
 import { LeadCreateVehicleParams } from '../../features/leads/useLeadVehicleCreate';
 import { LeadEditVehicleParamsType } from '../../features/leads/useLeadVehicleEdit';
 import { LeadsParamsType } from '../../features/leads/useLeads';
+import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { LeadDataType } from '../../models';
 import apiClient from '../axios';
 
@@ -289,6 +290,22 @@ class Leads {
       // };
 
       const { data } = await this.$api.get(`/leads/logs/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  /* ==================================================================================================================*/
+  // POST: /leads/reason/reassign/{guid}/
+  async leadReassignUser({ guid, model }: ReassignUserParams) {
+    try {
+      const { data } = await this.$api.post(`/leads/reason/reassign/${guid}/`, {
+        ...model,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

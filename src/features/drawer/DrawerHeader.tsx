@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
+import {
+  CaretDownOutlined,
+  DownOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 import type { DropdownProps, MenuProps } from 'antd';
 import { Button, Dropdown, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
@@ -13,6 +17,7 @@ import {
   LEAD_ARCHIVE_REASONS,
   ORDER_ARCHIVE_REASONS,
   QUOTE_ARCHIVE_REASONS,
+  REASSIGN_USERS_REASONS,
 } from '../../utils/constants';
 import { classNames } from '../../utils/helpers';
 import {
@@ -25,10 +30,13 @@ import {
   updateField as updateOrderField,
 } from '../orders/orderSlice';
 import { useOrderPostCD } from '../orders/useOrderPostCD';
+import { useOrderReassignUser } from '../orders/useOrderReassignUser';
 import {
   getQuoteData,
   updateField as updateQuoteField,
 } from '../quotes/quoteSlice';
+import { useLeadReassignUser } from '../quotes/useLeadReassignUser';
+import { useQuoteReassignUser } from '../quotes/useQuoteReassignUser';
 import { useUpdateUser } from '../users/useUpdateUser';
 import { useUsers } from '../users/useUsers';
 import { UsersTableDataType } from '../users/usersTableDataType';
@@ -55,48 +63,51 @@ function DrawerHeader({
 
   const status = searchParams.get('status') || 'orders';
 
-  const items: MenuProps['items'] = [
-    {
-      label: <a href="https://www.antgroup.com">1st menu item</a>,
-      key: '0',
-    },
-    {
-      label: <a href="https://www.aliyun.com">2nd menu item</a>,
-      key: '1',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: '3rd menu item',
-      key: '3',
-    },
-  ];
-
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     console.log('click', e);
-  };
-
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
   };
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
   const orderData = useAppSelector(getOrderData);
 
-  let featureData: FeatureData | undefined;
+  const {
+    orderReassignUser,
+    isLoadingReassign: isLoadingReassign1,
+    isSuccessReassignUser: isSuccessReassignUser1,
+  } = useOrderReassignUser();
+
+  const {
+    quoteReassignUser,
+    isLoadingReassign: isLoadingReassign2,
+    isSuccessReassignUser: isSuccessReassignUser2,
+  } = useQuoteReassignUser();
+
+  const {
+    leadReassignUser,
+    isLoadingReassign: isLoadingReassign3,
+    isSuccessReassignUser: isSuccessReassignUser3,
+  } = useLeadReassignUser();
+
+  let featureData: FeatureData | undefined,
+    isLoadingReassign: boolean = false,
+    isSuccessReassignUser: boolean = false;
 
   switch (feature) {
     case 'lead':
       featureData = leadData;
+      isLoadingReassign = isLoadingReassign3;
+      isSuccessReassignUser = isSuccessReassignUser3;
       break;
     case 'quote':
       featureData = quoteData;
+      isLoadingReassign = isLoadingReassign2;
+      isSuccessReassignUser = isSuccessReassignUser2;
       break;
     case 'order':
       featureData = orderData;
+      isLoadingReassign = isLoadingReassign1;
+      isSuccessReassignUser = isSuccessReassignUser1;
       break;
     default:
       break;
@@ -107,12 +118,18 @@ function DrawerHeader({
   const [isDataUpdated, setDataUpdated] = useState(false);
   const [isStatusUpdated, setStatusUpdated] = useState(false);
   const [isOpenSettings, setOpenSettings] = useState(false);
+  const [isOpenUsers, setOpenUsers] = useState(false);
   // const [statusType, setStatusType] = useState(featureData?.status);
   const [isChangeStatus, setChangeStatus] = useState(false);
   const [isOpenArchiveModal, setOpenArchiveModal] = useState(false);
+  const [isOpenReassignModal, setOpenReassignModal] = useState(false);
+  const [reassignUserId, setReassignUserId] = useState(0);
   const [archieveReason, setArchiveReason] = useState('');
+  const [reassignReason, setReassignReason] = useState('');
 
-  const { users, isLoading: isLoadingUsers } = useUsers(isOpenSettings);
+  const { users, isLoading: isLoadingUsers } = useUsers(
+    isOpenSettings || isOpenUsers,
+  );
   const { update: updateUser, isLoading: isLoadingUpdateUser } =
     useUpdateUser();
   const { orderPostCD, updatedOrderPostCDData, isLoadingPostCD } =
@@ -140,9 +157,39 @@ function DrawerHeader({
       default:
         break;
     }
-    console.log('Reason: ', archieveReason);
     setStatusUpdated(true);
   };
+
+  const handleReassign = () => {
+    switch (feature) {
+      case 'lead':
+        leadReassignUser({
+          guid: featureData?.guid || '',
+          model: { user: reassignUserId, reason: reassignReason },
+        });
+        break;
+      case 'quote':
+        quoteReassignUser({
+          guid: featureData?.guid || '',
+          model: { user: reassignUserId, reason: reassignReason },
+        });
+        break;
+      case 'order':
+        orderReassignUser({
+          guid: featureData?.guid || '',
+          model: { user: reassignUserId, reason: reassignReason },
+        });
+        break;
+      default:
+        throw new Error('Something went wrong in reassigning');
+    }
+  };
+
+  useEffect(() => {
+    if (!isLoadingReassign && isSuccessReassignUser) {
+      setOpenReassignModal(false);
+    }
+  }, [isLoadingReassign, isSuccessReassignUser]);
 
   useEffect(() => {
     if (isStatusUpdated) {
@@ -202,6 +249,9 @@ function DrawerHeader({
   if (!featureData) {
     return;
   }
+
+  const { user } = featureData || {};
+
   // PREV-NEXT functions
   const handlePrevElement = () => {
     const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
@@ -211,7 +261,6 @@ function DrawerHeader({
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(nextLeadId);
   };
-
   const orderStatusName = () => {
     if (pathname !== '/orders') return;
 
@@ -294,7 +343,7 @@ function DrawerHeader({
                         <button
                           style={{ background: 'none' }}
                           disabled={isLoadingUpdateUser}
-                          onClick={() => handleChangeUserActivity(user, true)}
+                          onClick={() => handleChangeUserActivity(user, false)}
                         >
                           {user.firstName + ' ' + user.lastName}
                         </button>
@@ -339,11 +388,77 @@ function DrawerHeader({
       : []),
   ];
 
+  // USERS ITEMS
+  const items = [
+    {
+      label: <p>Add a user for support</p>,
+      key: '4',
+    },
+    { type: 'divider' as const },
+    {
+      label: <small className="pb-0 pt-0">Current owner</small>,
+      key: '4-01',
+      type: 'group',
+      children: [
+        {
+          key: '4-100',
+          label: (
+            <p style={{ background: 'none', paddingBottom: 5 }}>
+              {user?.firstName + ' ' + user?.lastName}
+            </p>
+          ),
+        },
+      ],
+    },
+    ...((users || []).filter((f: { isActive: boolean }) => f?.isActive)
+      ? [
+          {
+            label: (
+              <small className="pb-0 pt-0">Available users to re-assign</small>
+            ),
+            key: '4-02',
+            type: 'group',
+            children: (users || [])
+              .filter((f: { isActive: boolean }) => f?.isActive)
+              .map((user: UsersTableDataType) => ({
+                key: '40-' + user.id,
+                label: (
+                  <button
+                    style={{ background: 'none' }}
+                    disabled={isLoadingUpdateUser}
+                    onClick={() => {
+                      setReassignUserId(user.id);
+                      setOpenReassignModal(true);
+                    }}
+                  >
+                    {user.firstName + ' ' + user.lastName}
+                  </button>
+                ),
+              })),
+          },
+        ]
+      : []),
+  ];
+
   // DROPDOWN FUNCTION
-  const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
+  const handleOpenSettings: DropdownProps['onOpenChange'] = (
+    nextOpen,
+    info,
+  ) => {
     if (info.source === 'trigger' || nextOpen) {
       setOpenSettings(nextOpen);
     }
+  };
+
+  const handleOpenUsers: DropdownProps['onOpenChange'] = (nextOpen, info) => {
+    if (info.source === 'trigger' || nextOpen) {
+      setOpenUsers(nextOpen);
+    }
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
   };
 
   return (
@@ -413,29 +528,50 @@ function DrawerHeader({
                 </Dropdown>
               </div>
             )}
+            {/* USERS DROPDOWN */}
             <div className="drawer-header__btnitem __avatar">
               <img
-                src="./img/drawer/avatar.png"
-                alt="Ali Brian"
-                className="avatar mr-10"
+                src={user?.picture ?? '/img/empty-user.jpeg'}
+                alt={user?.firstName || 'User'}
+                className="user-avatar mr-10"
               />
-              <Dropdown menu={{ items }} trigger={['click']}>
+              <Dropdown
+                menu={{
+                  items: items,
+                  selectable: false,
+                  defaultSelectedKeys: [''],
+                }}
+                placement="bottom"
+                trigger={['click']}
+                arrow={{ pointAtCenter: true }}
+                open={isOpenUsers}
+                destroyPopupOnHide={true}
+                onOpenChange={handleOpenUsers}
+                className="drawer-header__settings"
+              >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
-                    <span className="user-name">Ali Brian</span>
-                    <DownOutlined />
+                    <span className="user-name">
+                      {user?.firstName + ' ' + user?.lastName}
+                    </span>
+                    <CaretDownOutlined
+                      className="mt-5"
+                      style={{ fontSize: 16 }}
+                    />
                   </Space>
                 </a>
               </Dropdown>
             </div>
-
             {feature === 'quote' && (
               <div className="drawer-header__btnitem">
                 <Dropdown menu={menuProps} trigger={['click']}>
                   <Button>
                     <Space>
                       Upcoming
-                      <DownOutlined />
+                      <CaretDownOutlined
+                        className="mt-5"
+                        style={{ fontSize: 16 }}
+                      />
                     </Space>
                   </Button>
                 </Dropdown>
@@ -652,7 +788,7 @@ function DrawerHeader({
               arrow={{ pointAtCenter: true }}
               open={isOpenSettings}
               destroyPopupOnHide={true}
-              onOpenChange={handleOpenChange}
+              onOpenChange={handleOpenSettings}
               className="drawer-header__settings"
             >
               <a onClick={(e) => e.preventDefault()}>
@@ -666,6 +802,7 @@ function DrawerHeader({
           </div>
         </div>
       </div>
+      {/* MODAL FOR ARCHIVE */}
       <Modal
         title="Reason To Archive"
         open={isOpenArchiveModal}
@@ -699,6 +836,33 @@ function DrawerHeader({
                     ? LEAD_ARCHIVE_REASONS
                     : []
             }
+          />
+        </div>
+      </Modal>
+      {/* MODAL FOR RE-ASSIGN USERS */}
+      <Modal
+        title="Why are you reassigning?"
+        open={isOpenReassignModal}
+        onCancel={() => setOpenReassignModal(false)}
+        width="small"
+        padding="15"
+        onSave={handleReassign}
+        loading={isLoadingReassign}
+      >
+        <div className="d-flex justify-between">
+          <div className="d-flex">
+            <div className="form-label pl-0">Reason</div>
+          </div>
+          <Select
+            size="small"
+            showSearch
+            optionFilterProp="children"
+            filterOption={false}
+            placeholder="Select reason"
+            onChange={(e) => setReassignReason(e)}
+            style={{ width: 218 }}
+            loading={isLoadingReassign}
+            options={REASSIGN_USERS_REASONS}
           />
         </div>
       </Modal>
