@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { DrawerProps, SourceType } from '../../ui/Drawer';
 import Modal from '../../ui/Modal';
 import {
+  LEAD_ARCHIVE_REASONS,
   ORDER_ARCHIVE_REASONS,
   QUOTE_ARCHIVE_REASONS,
 } from '../../utils/constants';
@@ -694,7 +695,9 @@ function DrawerHeader({
                 ? QUOTE_ARCHIVE_REASONS
                 : feature === 'order'
                   ? ORDER_ARCHIVE_REASONS
-                  : []
+                  : feature === 'lead'
+                    ? LEAD_ARCHIVE_REASONS
+                    : []
             }
           />
         </div>

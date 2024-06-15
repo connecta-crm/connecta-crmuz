@@ -39,7 +39,7 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
     {
       key: '1',
       label: <DrawerMainHeader label="Map" />,
-      children: <Map />,
+      children: <Map sourceType={sourceType} />,
     },
     {
       key: '2',

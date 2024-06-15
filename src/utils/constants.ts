@@ -96,6 +96,7 @@ export const QUOTE_ARCHIVE_REASONS = [
     value: 'other',
   },
 ];
+
 export const ORDER_ARCHIVE_REASONS = [
   {
     label: 'No driver',
@@ -120,5 +121,20 @@ export const ORDER_ARCHIVE_REASONS = [
   {
     label: 'Other',
     value: 'other',
+  },
+];
+
+export const LEAD_ARCHIVE_REASONS = [
+  {
+    label: 'Invalid',
+    value: 'invalid',
+  },
+  {
+    label: 'Wrong number',
+    value: 'wrong_number',
+  },
+  {
+    label: 'Duplicate',
+    value: 'duplicate',
   },
 ];
