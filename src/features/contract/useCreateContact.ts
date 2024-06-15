@@ -5,9 +5,10 @@ export function useCreateContract() {
   const queryClient = useQueryClient();
   const {
     mutate: create,
-    isPending: isLoading,
+    isPending: isLoadingContract,
     error,
     isSuccess,
+    
   } = useMutation({
     mutationFn: (item: {form:FormData,guidId:string,id:string }) =>
       Contract.createContract(item),
@@ -19,5 +20,5 @@ export function useCreateContract() {
       message.error(err.message);
     },
   });
-  return { create, isLoading, error, isSuccess };
+  return { create, isLoadingContract, error, isSuccess };
 }
