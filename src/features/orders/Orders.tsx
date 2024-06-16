@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
+import { useSetStatusParam } from '../../hooks/useSetStatusParam';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import OrderHistoryModal from '../../ui/HistoryModal';
@@ -16,6 +17,7 @@ import { useOrderLogs } from './useOrderLogs';
 import { useOrders } from './useOrders';
 
 function Orders() {
+  useSetStatusParam('orders');
   const [guid, setGuid] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<number>(0);
   const { orders, count, isLoadingOrders } = useOrders();

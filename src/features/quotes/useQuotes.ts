@@ -24,7 +24,7 @@ export function useQuotes() {
   // const calculatedOffset = offset - 1;
 
   const q = searchParams.get('q') || '';
-  const status = searchParams.get('status') || '';
+  const status = searchParams.get('status') || 'quote';
   const sources = searchParams.getAll('source');
 
   const {

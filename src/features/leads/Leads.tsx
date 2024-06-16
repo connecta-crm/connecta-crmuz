@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useModal } from '../../context/ModalContext';
+import { useSetStatusParam } from '../../hooks/useSetStatusParam';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import LeadHistoryModal from '../../ui/HistoryModal';
@@ -13,6 +15,7 @@ import { useLeadLogs } from './useLeadLogs';
 import { useLeads } from './useLeads';
 
 function Leads() {
+  useSetStatusParam('leads');
   const [guid, setGuid] = useState<string | null>(null);
   const [leadId, setLeadId] = useState<number>(0);
   const { leads, count, isLoading: isLoadingLeads } = useLeads();

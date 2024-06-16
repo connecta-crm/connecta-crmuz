@@ -12,11 +12,12 @@ export function useUsers(enabled: boolean) {
   const {
     data: users,
     isPending: isLoading,
+    isFetching: isFetchingUsers,
     error,
   } = useQuery({
     queryKey: ['users', url],
     queryFn: () => Users.getUsers({ url }),
     enabled,
   });
-  return { users, isLoading, error };
+  return { users, isLoading, isFetchingUsers, error };
 }

@@ -1,7 +1,8 @@
 import { Dropdown, DropdownProps, Input, MenuProps, Space } from 'antd';
 
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { debounce } from 'lodash';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { DEFAULT_LIMIT } from '../../utils/constants';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
 import openView from '/img/dt_table/full_view.svg';
@@ -31,6 +32,11 @@ function TableHeaderPagination({
     const newOffset = Number(e.target.value);
     if (newOffset >= 0) {
       setInputOffset(newOffset);
+      $updateSearchParams({
+        offset: newOffset,
+        limit: inputLimit,
+        status: searchParams.get('status'),
+      });
     }
   };
 
@@ -39,41 +45,26 @@ function TableHeaderPagination({
     if (newEnd >= 0) {
       const newLimit = newEnd - inputOffset + 1;
       setInputLimit(newLimit);
+      $updateSearchParams({
+        offset: inputOffset.toString(),
+        limit: newLimit.toString(),
+        status: searchParams.get('status'),
+      });
     }
   };
 
-  const modify = () => {
-    updateSearchParams(inputOffset);
-  };
-
-  // const { providers } = useProviders(true);
-
-  const { pathname } = useLocation();
+  // const modify = () => {
+  //   updateSearchParams(inputOffset);
+  // };
 
   const updateSearchParams = (offsetValue: number) => {
-    let status = 'leads';
-    const path = pathname.replace('/', '');
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete('offset');
     newSearchParams.delete('limit');
-    newSearchParams.delete('status');
     newSearchParams.delete('source');
     newSearchParams.append('offset', String(offsetValue));
     newSearchParams.append('limit', String(inputLimit));
 
-    switch (path) {
-      case 'leads':
-        status = 'leads';
-        break;
-      case 'quotes':
-        status = 'quote';
-        break;
-      case 'orders':
-        status = 'orders';
-        break;
-    }
-
-    newSearchParams.append('status', String(status));
     setSearchParams(newSearchParams, { replace: true });
   };
 
@@ -92,10 +83,17 @@ function TableHeaderPagination({
     setInputLimit(defaultLimit);
   }, [defaultOffset, defaultLimit]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => modify(), 0);
-    return () => clearTimeout(timer);
-  }, [inputOffset, inputLimit]);
+  const $updateSearchParams = useCallback(
+    debounce((newParams) => {
+      setSearchParams(newParams);
+    }, 700),
+    [setSearchParams],
+  );
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => modify(), 0);
+  //   return () => clearTimeout(timer);
+  // }, [inputOffset, inputLimit]);
 
   // DROPDOWN FUNCTION
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {

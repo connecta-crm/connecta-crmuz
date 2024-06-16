@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useModal } from '../../context/ModalContext';
+import { useSetStatusParam } from '../../hooks/useSetStatusParam';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import QuoteHistoryModal from '../../ui/HistoryModal';
@@ -16,6 +17,7 @@ import { useQuote } from './useQuote';
 import { useQuotes } from './useQuotes';
 
 function Quotes() {
+  useSetStatusParam('quote');
   const [guid, setGuid] = useState<string | null>(null);
   const [quoteId, setQuoteId] = useState<number>(0);
   const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
