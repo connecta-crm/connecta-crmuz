@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  CaretDownOutlined,
-  DownOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons';
+import { CaretDownOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { DropdownProps, MenuProps } from 'antd';
 import { Button, Dropdown, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
@@ -145,6 +141,7 @@ function DrawerHeader({
   const [isDataUpdated, setDataUpdated] = useState(false);
   const [isStatusUpdated, setStatusUpdated] = useState(false);
   const [isOpenSettings, setOpenSettings] = useState(false);
+  const [isOpenTeamSupport, setOpenTeamSupport] = useState(false);
   const [isOpenUsers, setOpenUsers] = useState(false);
   // const [statusType, setStatusType] = useState(featureData?.status);
   const [isChangeStatus, setChangeStatus] = useState(false);
@@ -154,9 +151,11 @@ function DrawerHeader({
   const [archieveReason, setArchiveReason] = useState('');
   const [reassignReason, setReassignReason] = useState('');
 
-  const { users, isLoading: isLoadingUsers } = useUsers(
-    isOpenSettings || isOpenUsers,
-  );
+  const {
+    users,
+    isLoading: isLoadingUsers,
+    isFetchingUsers,
+  } = useUsers(isOpenSettings || isOpenUsers || isOpenTeamSupport);
   const { update: updateUser, isLoading: isLoadingUpdateUser } =
     useUpdateUser();
   const { orderPostCD, updatedOrderPostCDData, isLoadingPostCD } =
@@ -307,7 +306,7 @@ function DrawerHeader({
     updateUser({ ...user, isActive });
   };
 
-  const itemsSettingMore: MenuProps['items'] = [
+  const itemsSettingMore = [
     ...(feature === 'lead'
       ? [
           {
@@ -419,8 +418,57 @@ function DrawerHeader({
       : []),
   ];
 
+  const itemsTeamSupports = [
+    ...((users || []).filter((f: { isActive: boolean }) => !f?.isActive)
+      ? [
+          {
+            label: <small className="pb-0 pt-0">Available to add</small>,
+            key: '4-01',
+            type: 'group',
+            children: (users || [])
+              .filter((f: { isActive: boolean }) => !f?.isActive)
+              .map((user: UsersTableDataType) => ({
+                key: '4-' + user.id,
+                label: (
+                  <button
+                    style={{ background: 'none' }}
+                    disabled={isLoadingUpdateUser}
+                    onClick={() => handleChangeUserActivity(user, false)}
+                  >
+                    {user.firstName + ' ' + user.lastName}
+                  </button>
+                ),
+              })),
+          },
+        ]
+      : []),
+    ...((users || []).filter((f: { isActive: boolean }) => f?.isActive)
+      ? [
+          {
+            label: <small className="pb-0 pt-0">Included</small>,
+            key: '4-02',
+            type: 'group',
+            children: (users || [])
+              .filter((f: { isActive: boolean }) => f?.isActive)
+              .map((user: UsersTableDataType) => ({
+                key: '40-' + user.id,
+                label: (
+                  <button
+                    style={{ background: 'none' }}
+                    disabled={isLoadingUpdateUser}
+                    onClick={() => handleChangeUserActivity(user, false)}
+                  >
+                    {user.firstName + ' ' + user.lastName}
+                  </button>
+                ),
+              })),
+          },
+        ]
+      : []),
+  ];
+
   // USERS ITEMS
-  const items = [
+  const itemsUsers = [
     {
       label: <p>Add a user for support</p>,
       key: '4',
@@ -481,15 +529,19 @@ function DrawerHeader({
     }
   };
 
+  const handleOpenTeamSupport: DropdownProps['onOpenChange'] = (
+    nextOpen,
+    info,
+  ) => {
+    if (info.source === 'trigger' || nextOpen) {
+      setOpenTeamSupport(nextOpen);
+    }
+  };
+
   const handleOpenUsers: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
       setOpenUsers(nextOpen);
     }
-  };
-
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
   };
 
   return (
@@ -549,11 +601,24 @@ function DrawerHeader({
           <div className="drawer-header__actions">
             {feature === 'quote' && (
               <div className="drawer-header__btnitem">
-                <Dropdown menu={menuProps} trigger={['click']}>
+                <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        label: <p>Test</p>,
+                        key: '4',
+                      },
+                    ],
+                  }}
+                  trigger={['click']}
+                >
                   <Button>
                     <Space>
                       12 days old
-                      <DownOutlined />
+                      <CaretDownOutlined
+                        className="mt-5"
+                        style={{ fontSize: 16 }}
+                      />
                     </Space>
                   </Button>
                 </Dropdown>
@@ -568,14 +633,14 @@ function DrawerHeader({
               />
               <Dropdown
                 menu={{
-                  items: items,
+                  items: itemsUsers,
                   selectable: false,
                   defaultSelectedKeys: [''],
                 }}
                 placement="bottom"
                 trigger={['click']}
                 arrow={{ pointAtCenter: true }}
-                open={isOpenUsers}
+                open={isOpenUsers && !isLoadingUsers}
                 destroyPopupOnHide={true}
                 onOpenChange={handleOpenUsers}
                 className="drawer-header__settings"
@@ -585,15 +650,22 @@ function DrawerHeader({
                     <span className="user-name">
                       {user?.firstName + ' ' + user?.lastName}
                     </span>
-                    <CaretDownOutlined
-                      className="mt-5"
-                      style={{ fontSize: 16 }}
-                    />
+                    {isFetchingUsers && !users?.length && isOpenUsers ? (
+                      <LoadingOutlined
+                        className="mt-5"
+                        style={{ fontSize: 16 }}
+                      />
+                    ) : (
+                      <CaretDownOutlined
+                        className="mt-5"
+                        style={{ fontSize: 16 }}
+                      />
+                    )}
                   </Space>
                 </a>
               </Dropdown>
             </div>
-            {feature === 'quote' && (
+            {/* {feature === 'quote' && (
               <div className="drawer-header__btnitem">
                 <Dropdown menu={menuProps} trigger={['click']}>
                   <Button>
@@ -607,7 +679,7 @@ function DrawerHeader({
                   </Button>
                 </Dropdown>
               </div>
-            )}
+            )} */}
             <div className="drawer-header__btnitem ">
               {feature === 'quote' && (
                 <Button className="" type="primary" onClick={onOpenConvert}>
@@ -797,11 +869,35 @@ function DrawerHeader({
             </div>
             {feature === 'quote' && (
               <div className="drawer-header__btnitem ml-0">
-                <Dropdown menu={menuProps} trigger={['click']}>
+                <Dropdown
+                  menu={{
+                    items: itemsTeamSupports,
+                    selectable: false,
+                    defaultSelectedKeys: [''],
+                  }}
+                  trigger={['click']}
+                  placement="bottom"
+                  arrow={{ pointAtCenter: true }}
+                  open={isOpenTeamSupport && !isLoadingUsers}
+                  destroyPopupOnHide={true}
+                  onOpenChange={handleOpenTeamSupport}
+                >
                   <Button>
                     <Space>
                       Team support
-                      <DownOutlined />
+                      {isFetchingUsers &&
+                      !users?.length &&
+                      isOpenTeamSupport ? (
+                        <LoadingOutlined
+                          className="mt-5"
+                          style={{ fontSize: 16 }}
+                        />
+                      ) : (
+                        <CaretDownOutlined
+                          className="mt-5"
+                          style={{ fontSize: 16 }}
+                        />
+                      )}
                     </Space>
                   </Button>
                 </Dropdown>
