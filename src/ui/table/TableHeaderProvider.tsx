@@ -56,6 +56,8 @@ function TableHeaderProvider({ ...props }) {
         : 'By source';
   };
 
+  console.log(providers);
+
   const items: MenuProps['items'] = [
     {
       label: (
@@ -106,7 +108,9 @@ function TableHeaderProvider({ ...props }) {
                           htmlFor={provider.id}
                           className="label-contents d-flex align-center justify-between"
                         >
-                          <p className="dropdown-text">{provider.name}</p>
+                          <p className="dropdown-text">
+                            {provider.name || '(unknown)'}
+                          </p>
                           <span className="ml-20">{provider.id}</span>
                         </label>
                       </div>

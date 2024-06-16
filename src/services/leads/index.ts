@@ -32,13 +32,28 @@ class Leads {
       };
 
       if (source) {
-        if (Array.isArray(source)) {
-          source.forEach((s) => (params['source'] = s));
-        } else {
-          params['source'] = source;
-        }
+        params['source'] = source;
       }
-      const { data } = await this.$api.get('/leads/', { params });
+
+      const paramsSerializer = (params: Record<string, unknown>) => {
+        const searchParams = new URLSearchParams();
+        Object.keys(params).forEach((key) => {
+          const value = params[key];
+          if (Array.isArray(value)) {
+            value.forEach((item) => {
+              searchParams.append(key, item);
+            });
+          } else {
+            searchParams.append(key, String(value));
+          }
+        });
+        return searchParams.toString();
+      };
+
+      const { data } = await this.$api.get('/leads/', {
+        params,
+        paramsSerializer,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

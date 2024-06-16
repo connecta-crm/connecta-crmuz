@@ -6,6 +6,7 @@ import { useProviders } from '../../providers/useProviders';
 import { LoadingOutlined } from '@ant-design/icons';
 import { DefaultOptionType } from 'antd/es/select';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
+import { SourceType } from '../../../ui/Drawer';
 import {
   getLeadData,
   updateField as updateLeadField,
@@ -21,7 +22,7 @@ import {
 } from '../../quotes/quoteSlice';
 
 type FeatSourceInnerProps = {
-  feature: 'lead' | 'order' | 'quote';
+  feature: SourceType;
   keyValue: string | string[];
 };
 
@@ -93,8 +94,8 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
           size="small"
           filterOption={false}
           placeholder="Search city"
-          defaultValue={featureData.source?.name}
-          value={featureData.source?.name}
+          defaultValue={featureData.source?.name || 'unknown'}
+          value={featureData.source?.name || 'unknown'}
           onChange={handleChange}
           onFocus={() => setSelect(true)}
           style={{ width: 218 }}
@@ -105,7 +106,7 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
           options={(providers || []).map((d: { id: number; name: string }) => ({
             value: d.id,
             data: d,
-            label: d.name,
+            label: d.name || 'unknown',
           }))}
         />
       </div>

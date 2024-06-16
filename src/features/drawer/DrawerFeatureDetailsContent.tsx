@@ -34,12 +34,12 @@ import FeatEstShipDateInner from './feature-details/FeatEstShipDateInner';
 import FeatItemClose from './feature-details/FeatItemClose';
 import FeatItemLabel from './feature-details/FeatItemLabel';
 import FeatItemOpen from './feature-details/FeatItemOpen';
+import FeatLocationtypeInner from './feature-details/FeatLocationtypeInner';
 import FeatOriginInner from './feature-details/FeatOriginInner';
 import FeatSourceInner from './feature-details/FeatSourceInner';
 import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
-import FeatLocationtypeInner from './feature-details/FeatLocationtypeInner';
 
 const extractCommonData = (data: QuoteData | LeadData | OrderData) => {
   const {
@@ -411,7 +411,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 feature={sourceType}
                 keyValue="7"
-                label={sourceName}
+                label={sourceName || 'unknown'}
                 textWithBg={true}
                 series={false}
               />
