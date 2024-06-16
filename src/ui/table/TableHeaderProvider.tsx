@@ -56,8 +56,6 @@ function TableHeaderProvider({ ...props }) {
         : 'By source';
   };
 
-  console.log(providers);
-
   const items: MenuProps['items'] = [
     {
       label: (

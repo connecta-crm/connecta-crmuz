@@ -43,11 +43,12 @@ function OrdersTable({
             columns={OrderTableColumn}
             dataSource={quotes as unknown as OrderTableDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
+            pagination={{ position: ['bottomRight'] }}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;
                 const element = target.className;
-                element == 'table__id' && onOpenDrawer(data.guid);
+                element == 'table__id' && onOpenDrawer?.(data.guid);
               },
             })}
           />
