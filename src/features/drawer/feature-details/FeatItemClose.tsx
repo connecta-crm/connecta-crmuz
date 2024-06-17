@@ -1,4 +1,5 @@
-import { Tooltip } from 'antd';
+import { CopyOutlined } from '@ant-design/icons';
+import { Tooltip, notification } from 'antd';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { classNames } from '../../../utils/helpers';
 
@@ -22,6 +23,43 @@ function FeatItemClose({
 }: FeatItemCloseProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
 
+  const [api, contextHolder] = notification.useNotification();
+  const key = 'updatable';
+  const openNotification = (message: string) => {
+    api.open({
+      key,
+      message: 'Copied...',
+      description: null,
+      duration: 1,
+      closable: false,
+      icon: <CopyOutlined style={{ color: '#108ee9' }} />,
+      className: 'copy-message',
+    });
+
+    setTimeout(() => {
+      api.open({
+        key,
+        message,
+        duration: 1,
+        closable: false,
+        icon: <CopyOutlined style={{ color: '#108ee9' }} />,
+        className: 'copy-message',
+      });
+    }, 600);
+  };
+
+  const handleCopyLabel = () => {
+    if (!label) return;
+    navigator.clipboard
+      .writeText(label)
+      .then(() => {
+        openNotification(label);
+      })
+      .catch(() => {
+        openNotification('Failed to copy text');
+      });
+  };
+
   return (
     <div
       className={classNames(
@@ -29,6 +67,7 @@ function FeatItemClose({
         'detail__right d-flex align-center justify-between',
       )}
     >
+      {contextHolder}
       <div
         className={classNames(
           textWithBg ? 'detail__text_with-bg' : '',
@@ -66,9 +105,7 @@ function FeatItemClose({
         )}
         <div
           className="box-header__copy cursor-pointer ml-5 __inner"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
+          onClick={handleCopyLabel}
         >
           <img src="./img/drawer/copy.svg" alt="" />
         </div>

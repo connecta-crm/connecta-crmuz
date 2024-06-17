@@ -419,29 +419,9 @@ function DrawerHeader({
   ];
 
   const itemsTeamSupports = [
-    ...((users || []).filter((f: { isActive: boolean }) => !f?.isActive)
-      ? [
-          {
-            label: <small className="pb-0 pt-0">Available to add</small>,
-            key: '4-01',
-            type: 'group',
-            children: (users || [])
-              .filter((f: { isActive: boolean }) => !f?.isActive)
-              .map((user: UsersTableDataType) => ({
-                key: '4-' + user.id,
-                label: (
-                  <button
-                    style={{ background: 'none' }}
-                    disabled={isLoadingUpdateUser}
-                    onClick={() => handleChangeUserActivity(user, false)}
-                  >
-                    {user.firstName + ' ' + user.lastName}
-                  </button>
-                ),
-              })),
-          },
-        ]
-      : []),
+    {
+      label: <p>Add a user for support</p>,
+    },
     ...((users || []).filter((f: { isActive: boolean }) => f?.isActive)
       ? [
           {
@@ -465,15 +445,33 @@ function DrawerHeader({
           },
         ]
       : []),
+    ...((users || []).filter((f: { isActive: boolean }) => !f?.isActive)
+      ? [
+          {
+            label: <small className="pb-0 pt-0">Available to add</small>,
+            key: '4-01',
+            type: 'group',
+            children: (users || [])
+              .filter((f: { isActive: boolean }) => !f?.isActive)
+              .map((user: UsersTableDataType) => ({
+                key: '4-' + user.id,
+                label: (
+                  <button
+                    style={{ background: 'none' }}
+                    disabled={isLoadingUpdateUser}
+                    onClick={() => handleChangeUserActivity(user, false)}
+                  >
+                    {user.firstName + ' ' + user.lastName}
+                  </button>
+                ),
+              })),
+          },
+        ]
+      : []),
   ];
 
   // USERS ITEMS
   const itemsUsers = [
-    {
-      label: <p>Add a user for support</p>,
-      key: '4',
-    },
-    { type: 'divider' as const },
     {
       label: <small className="pb-0 pt-0">Current owner</small>,
       key: '4-01',

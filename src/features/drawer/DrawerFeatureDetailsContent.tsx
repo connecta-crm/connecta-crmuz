@@ -496,12 +496,13 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
   ];
 
   const vehicleItems = renderVehicles();
-  const keysToFilterForOrder: string[] = ['9', '13', '05'];
+  const keysToFilterForOrder: string[] = ['13', '05'];
 
   const filteredItems: CollapseProps['items'] = items.filter(
     (item) =>
       !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order') &&
-      !(item.key === '6' && sourceType === 'order'),
+      !(item.key === '6' && sourceType === 'order') &&
+      !(item.key === '9' && sourceType === 'order'),
   );
 
   const mergeItems = vehicleItems
