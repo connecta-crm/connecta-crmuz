@@ -70,6 +70,22 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
     }
   };
 
+  const handleChangeAddress = (field: string, value: string) => {
+    switch (feature) {
+      case 'lead':
+        dispatch(updateLeadField({ field, value }));
+        break;
+      case 'quote':
+        dispatch(updateQuoteField({ field, value }));
+        break;
+      case 'order':
+        dispatch(updateOrderField({ field, value }));
+        break;
+      default:
+        break;
+    }
+  };
+
   // ORDER'S INPUTS
   const handleChangeInput = (field: string, value: string) => {
     dispatch(updateOrderField({ field, value }));
@@ -86,6 +102,15 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
 
   return (
     <>
+      <div className="d-flex justify-between mb-5">
+        <div className="form-label required-label">Pickup address</div>
+        <Input
+          value={featureData?.originAddress}
+          defaultValue={featureData?.originAddress}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(e) => handleChangeAddress('originAddress', e.target.value)}
+        />
+      </div>
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup city</div>
         <Select

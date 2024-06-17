@@ -9,7 +9,7 @@ function TableHeaderProvider({ ...props }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const newSearchParams = new URLSearchParams(searchParams);
 
-  const { providers, isLoading, error } = useProviders(true);
+  const { providers, isLoading, error } = useProviders(open);
 
   const currentSourcesLength = searchParams.getAll('source')?.length;
   const isLengthEqual = currentSourcesLength === providers?.length;
@@ -106,7 +106,7 @@ function TableHeaderProvider({ ...props }) {
                           htmlFor={provider.id}
                           className="label-contents d-flex align-center justify-between"
                         >
-                          <p className="dropdown-text">
+                          <p className="dropdown-text text-nowrap">
                             {provider.name || '(unknown)'}
                           </p>
                           <span className="ml-20">{provider.id}</span>
@@ -136,6 +136,7 @@ function TableHeaderProvider({ ...props }) {
           destroyPopupOnHide={true}
           overlayClassName="dt-header__dropdown"
           onOpenChange={handleOpenChange}
+          overlayStyle={{ minWidth: 170 }}
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>

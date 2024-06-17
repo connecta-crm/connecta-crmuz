@@ -22,7 +22,7 @@ class Leads {
     this.$api = apiClient;
   }
 
-  async getLeads({ limit, offset, source, q, status }: LeadsParamsType) {
+  async getLeads({ limit, offset, source, q, status, user }: LeadsParamsType) {
     try {
       const params: Record<string, unknown> = {
         limit,
@@ -33,6 +33,9 @@ class Leads {
 
       if (source) {
         params['source'] = source;
+      }
+      if (user) {
+        params['user'] = user;
       }
 
       const paramsSerializer = (params: Record<string, unknown>) => {

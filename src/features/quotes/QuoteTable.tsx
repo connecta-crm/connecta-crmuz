@@ -33,7 +33,11 @@ function QuotesTable({
     <>
       <div className="dt-header">
         <TableHeaderActions onOpenModal={onOpenModal} pageName="quote" />
-        <TableHeaderFilters count={count} sumPrice={undefined} />
+        <TableHeaderFilters
+          count={count}
+          sumPrice={undefined}
+          sourceType="quote"
+        />
       </div>
       <div className="quotes-table">
         <div className="table__container">
@@ -43,7 +47,7 @@ function QuotesTable({
             columns={QuotesTableColumns}
             dataSource={quotes as unknown as QuotesTableDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
-            pagination={{ position: ['bottomRight'] }}
+            pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;

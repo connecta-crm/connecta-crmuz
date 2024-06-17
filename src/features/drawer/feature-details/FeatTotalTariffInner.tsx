@@ -145,22 +145,24 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
         >
           {isLoading && loadingType === 'save' ? <LoadingOutlined /> : 'Save'}
         </Button>
-        <Button
-          className="ml-10"
-          type="primary"
-          size="small"
-          disabled={isLoading}
-          onClick={handleSaveQuote}
-        >
-          {isLoading && loadingType === 'saveQuote' ? (
-            <>
-              <span>Save and send quote </span>
-              <LoadingOutlined />
-            </>
-          ) : (
-            'Save and send quote'
-          )}
-        </Button>
+        {feature !== 'quote' && (
+          <Button
+            className="ml-10"
+            type="primary"
+            size="small"
+            disabled={isLoading}
+            onClick={handleSaveQuote}
+          >
+            {isLoading && loadingType === 'saveQuote' ? (
+              <>
+                <span>Save and send quote </span>
+                <LoadingOutlined />
+              </>
+            ) : (
+              'Save and send quote'
+            )}
+          </Button>
+        )}
       </div>
     </>
   );

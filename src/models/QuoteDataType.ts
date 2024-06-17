@@ -54,6 +54,8 @@ export type QuoteData = {
   notes: string;
   reservationPrice: number;
   dateEstShip: string | null;
+  originAddress: string;
+  destinationAddress: string;
 };
 
 export type QuoteState = {

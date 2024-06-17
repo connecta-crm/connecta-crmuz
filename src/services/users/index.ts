@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { UserTeamsParams } from '../../features/users/useUserTeams';
 import { UsersParamsType } from '../../features/users/useUsers';
 import { UsersTableDataType } from '../../features/users/usersTableDataType';
 import apiClient from '../axios';
@@ -55,6 +56,18 @@ class Users {
   async createUser(user: UsersTableDataType) {
     try {
       const { data } = await this.$api.post('/users/create/', user);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+  // GET: /type/teams/
+  async getUserTeams(type: UserTeamsParams) {
+    try {
+      const { data } = await this.$api.get(`/${type}/teams/`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

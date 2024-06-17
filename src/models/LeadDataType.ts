@@ -53,6 +53,8 @@ export type LeadData = {
   notes: string;
   reservationPrice: number;
   dateEstShip: string | null;
+  originAddress: string;
+  destinationAddress: string;
 };
 
 export type LeadState = {

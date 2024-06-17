@@ -211,7 +211,9 @@
   font-size: 12px;
   font-weight: 400;
 }
-
+.dropdown-text {
+  white-space: nowrap;
+}
 .dt-header__dropdown {
   .label-contents {
     width: 100%;

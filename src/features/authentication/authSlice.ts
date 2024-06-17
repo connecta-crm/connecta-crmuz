@@ -5,6 +5,8 @@ type UserType = {
   firstName: string;
   id: string;
   lastName: string;
+  picture: string;
+  count: number;
 };
 
 type AuthState = {

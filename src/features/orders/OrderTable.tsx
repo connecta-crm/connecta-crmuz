@@ -33,7 +33,11 @@ function OrdersTable({
     <>
       <div className="dt-header">
         <TableHeaderActions onOpenModal={onOpenModal} pageName="order" />
-        <TableHeaderFilters count={count} sumPrice={undefined} />
+        <TableHeaderFilters
+          count={count}
+          sumPrice={undefined}
+          sourceType="order"
+        />
       </div>
       <div className="quotes-table">
         <div className="table__container">
@@ -43,7 +47,7 @@ function OrdersTable({
             columns={OrderTableColumn}
             dataSource={orders as unknown as OrderTableDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
-            pagination={{ position: ['bottomRight'] }}
+            pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;

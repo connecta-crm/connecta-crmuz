@@ -41,7 +41,11 @@ function LeadTable({
     <>
       <div className="dt-header">
         <TableHeaderActions onOpenModal={onOpenModal} pageName="lead" />
-        <TableHeaderFilters count={count} sumPrice={undefined} />
+        <TableHeaderFilters
+          count={count}
+          sumPrice={undefined}
+          sourceType="lead"
+        />
       </div>
       <div className="leads-table">
         <div className="table__container">
@@ -51,7 +55,7 @@ function LeadTable({
             columns={LeadTableColumns}
             dataSource={leads as unknown as LeadTableDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
-            pagination={{ position: ['bottomRight'] }}
+            pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;

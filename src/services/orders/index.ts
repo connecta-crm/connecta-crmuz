@@ -23,7 +23,14 @@ class Orders {
     this.$api = apiClient;
   }
 
-  async getOrders({ limit, offset, source, q, status }: OrdersParamsType) {
+  async getOrders({
+    limit,
+    offset,
+    source,
+    q,
+    status,
+    user,
+  }: OrdersParamsType) {
     try {
       const params: Record<string, unknown> = {
         limit,
@@ -34,6 +41,9 @@ class Orders {
 
       if (source) {
         params['source'] = source;
+      }
+      if (user) {
+        params['user'] = user;
       }
 
       const paramsSerializer = (params: Record<string, unknown>) => {

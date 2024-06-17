@@ -186,6 +186,8 @@ export type OrderData = {
   dispatchPaymentType: null;
   cdNote: string;
   cmNote: string;
+  originAddress: string;
+  destinationAddress: string;
 };
 
 export type OrderVehicle = {

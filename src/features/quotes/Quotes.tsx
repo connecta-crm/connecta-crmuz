@@ -9,11 +9,11 @@ import DrawerApp from '../../ui/Drawer';
 import QuoteHistoryModal from '../../ui/HistoryModal';
 import LeadModal from '../../ui/modal/LeadModal';
 import QuotesModal from '../../ui/modal/QuotesModal';
-import { useQuoteLogs } from '../leads/useQuoteLogs';
 import QuotesTable from './QuoteTable';
 import QuotesConvertModal from './QuotesConvertModal';
 import { setQuoteData } from './quoteSlice';
 import { useQuote } from './useQuote';
+import { useQuoteLogs } from './useQuoteLogs';
 import { useQuotes } from './useQuotes';
 
 function Quotes() {

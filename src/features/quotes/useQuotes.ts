@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { DEFAULT_LIMIT } from '../../utils/constants';
 import Quotes from '../../services/quotes';
+import { DEFAULT_LIMIT } from '../../utils/constants';
 
 export type QuotesParamsType = {
   limit: number;
@@ -9,6 +9,7 @@ export type QuotesParamsType = {
   status: string;
   q: string;
   source?: string[];
+  user?: string[];
 };
 
 export function useQuotes() {
@@ -26,15 +27,16 @@ export function useQuotes() {
   const q = searchParams.get('q') || '';
   const status = searchParams.get('status') || 'quote';
   const sources = searchParams.getAll('source');
+  const user = searchParams.getAll('user');
 
   const {
     data: { results: quotes, count, sumPrice } = {},
     isPending: isLoadingQuotes,
     error,
   } = useQuery({
-    queryKey: ['quotes', limit, offset, sources, q, status],
+    queryKey: ['quotes', limit, offset, sources, q, status, user],
     queryFn: () =>
-      Quotes.getQuotes({ limit, offset, source: sources, q, status }),
+      Quotes.getQuotes({ limit, offset, source: sources, q, status, user }),
   });
   return { quotes, count, sumPrice, isLoadingQuotes, error };
 }

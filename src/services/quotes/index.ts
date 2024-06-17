@@ -19,7 +19,14 @@ class Quotes {
     this.$api = apiClient;
   }
 
-  async getQuotes({ limit, offset, source, q, status }: QuotesParamsType) {
+  async getQuotes({
+    limit,
+    offset,
+    source,
+    q,
+    status,
+    user,
+  }: QuotesParamsType) {
     try {
       const params: Record<string, unknown> = {
         limit,
@@ -30,6 +37,9 @@ class Quotes {
 
       if (source) {
         params['source'] = source;
+      }
+      if (user) {
+        params['user'] = user;
       }
 
       const paramsSerializer = (params: Record<string, unknown>) => {

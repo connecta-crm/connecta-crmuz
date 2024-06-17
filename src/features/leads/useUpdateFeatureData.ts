@@ -141,7 +141,7 @@ export function useUpdateFeatureData({
     origin: data?.origin?.id,
     destination: data?.destination?.id,
     user: data?.user?.id || user?.id,
-    extraUser: data?.extraUser,
+    extraUser: null,
     ...(data && isOrderData(data)
       ? {
           dateEstPu: data.dates?.dateEstPu,

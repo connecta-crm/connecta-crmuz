@@ -83,6 +83,22 @@ function FeatDestinationInner({ feature }: FeatItemInnerProps) {
     }
   };
 
+  const handleChangeAddress = (field: string, value: string) => {
+    switch (feature) {
+      case 'lead':
+        dispatch(updateLeadField({ field, value }));
+        break;
+      case 'quote':
+        dispatch(updateQuoteField({ field, value }));
+        break;
+      case 'order':
+        dispatch(updateOrderField({ field, value }));
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleSearchCity = (value: string) => {
     setSelectCity(false);
     setSearchCity(value);
@@ -94,6 +110,17 @@ function FeatDestinationInner({ feature }: FeatItemInnerProps) {
 
   return (
     <>
+      <div className="d-flex justify-between mb-5">
+        <div className="form-label required-label">Delivery address</div>
+        <Input
+          value={featureData?.destinationAddress}
+          defaultValue={featureData?.destinationAddress}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(e) =>
+            handleChangeAddress('destinationAddress', e.target.value)
+          }
+        />
+      </div>
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Delivery city</div>
         <Select
