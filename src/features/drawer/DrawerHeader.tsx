@@ -150,6 +150,7 @@ function DrawerHeader({
   const [reassignUserId, setReassignUserId] = useState(0);
   const [archieveReason, setArchiveReason] = useState('');
   const [reassignReason, setReassignReason] = useState('');
+  const [showUsers, setShowUsers] = useState(false);
 
   const {
     users,
@@ -355,11 +356,13 @@ function DrawerHeader({
             key: '50',
           },
           {
-            label: <p onClick={() => {}}>Team Support</p>,
+            label: <p onClick={() => setShowUsers(!showUsers)}>Team Support</p>,
             key: '4',
           },
-          { type: 'divider' as const },
-          ...((users || []).filter((f: { isActive: boolean }) => !f?.isActive)
+          ...(showUsers ? [{ type: 'divider' as const }] : []),
+          ...((users || []).filter(
+            (f: { isActive: boolean }) => !f?.isActive,
+          ) && showUsers
             ? [
                 {
                   label: <small className="pb-0 pt-0">Available to add</small>,
@@ -371,7 +374,13 @@ function DrawerHeader({
                       key: '4-' + user.id,
                       label: (
                         <button
-                          style={{ background: 'none' }}
+                          style={{
+                            background: 'none',
+                            maxWidth: '100%',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                          }}
                           disabled={isLoadingUpdateUser}
                           onClick={() => handleChangeUserActivity(user, false)}
                         >
@@ -382,7 +391,8 @@ function DrawerHeader({
                 },
               ]
             : []),
-          ...((users || []).filter((f: { isActive: boolean }) => f?.isActive)
+          ...((users || []).filter((f: { isActive: boolean }) => f?.isActive) &&
+          showUsers
             ? [
                 {
                   label: <small className="pb-0 pt-0">Included</small>,
@@ -907,6 +917,7 @@ function DrawerHeader({
                 items: itemsSettingMore,
                 selectable: false,
                 defaultSelectedKeys: [''],
+                className: 'drawer-header__settings',
               }}
               trigger={['click']}
               placement="bottomRight"
@@ -914,7 +925,7 @@ function DrawerHeader({
               open={isOpenSettings}
               destroyPopupOnHide={true}
               onOpenChange={handleOpenSettings}
-              className="drawer-header__settings"
+              overlayStyle={{ width: 150 }}
             >
               <a onClick={(e) => e.preventDefault()}>
                 <Space>

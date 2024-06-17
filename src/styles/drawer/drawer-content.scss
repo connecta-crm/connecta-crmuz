@@ -1,6 +1,7 @@
 .drawer {
   @include flexbox();
   background: #fafafa;
+  height: 100%;
 
   .ant-collapse-header-text {
     color: #21232c;
@@ -18,8 +19,8 @@
     min-width: 400px;
     border-right: 1px solid #d1d1d1;
     overflow-y: auto;
-    min-height: 100vh;
-
+    // min-height: 100vh;
+    height: 100%;
     &-notes {
       height: 44px !important;
       min-height: 44px !important;
@@ -31,6 +32,9 @@
   &__main {
     padding: 14px;
     width: 100%;
+    overflow-y: auto;
+    // min-height: 100vh;
+    height: 100%;
   }
   .feature-drawer__item {
     border-bottom: 1px solid rgba(209, 209, 209, 1);
