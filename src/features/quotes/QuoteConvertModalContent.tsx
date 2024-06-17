@@ -88,8 +88,8 @@ function QuoteConvertModalContent() {
               optionFilterProp="children"
               filterOption={false}
               placeholder="Search name"
-              defaultValue={quoteConvertData.customer.name}
-              value={quoteConvertData.customer.name}
+              defaultValue={quoteConvertData.customer?.name}
+              value={quoteConvertData.customer?.name}
               onChange={handleChangePerson}
               onFocus={handleFocusPerson}
               onSearch={(value) => handleSearch('name', value)}
@@ -117,8 +117,8 @@ function QuoteConvertModalContent() {
               optionFilterProp="children"
               filterOption={false}
               placeholder="Search email"
-              defaultValue={quoteConvertData.customer.email}
-              value={quoteConvertData.customer.email}
+              defaultValue={quoteConvertData.customer?.email}
+              value={quoteConvertData.customer?.email}
               onChange={handleChangePerson}
               onFocus={handleFocusPerson}
               onSearch={(value) => handleSearch('email', value)}
@@ -146,8 +146,8 @@ function QuoteConvertModalContent() {
               optionFilterProp="children"
               filterOption={false}
               placeholder="Search phone"
-              defaultValue={quoteConvertData.customer.phone}
-              value={quoteConvertData.customer.phone}
+              defaultValue={quoteConvertData.customer?.phone}
+              value={quoteConvertData.customer?.phone}
               onChange={handleChangePerson}
               onFocus={handleFocusPerson}
               onSearch={(value) => handleSearch('phone', value)}
