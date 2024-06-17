@@ -126,3 +126,10 @@ a.ant-dropdown-trigger {
 .jodit-wysiwyg {
   // border: 1px solid #ccc !important;
 }
+
+.ant-notification
+  .ant-notification-notice-wrapper
+  .copy-message
+  .ant-notification-notice-message {
+  margin-bottom: 0 !important;
+}

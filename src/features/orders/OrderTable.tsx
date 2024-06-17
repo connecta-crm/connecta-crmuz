@@ -21,7 +21,7 @@ const rowSelection = {
 };
 
 function OrdersTable({
-  dataSource: quotes,
+  dataSource: orders,
   loadingList,
   loadingItem,
   guid,
@@ -41,7 +41,7 @@ function OrdersTable({
             rowKey="id"
             rowSelection={{ ...rowSelection }}
             columns={OrderTableColumn}
-            dataSource={quotes as unknown as OrderTableDataType[] | undefined}
+            dataSource={orders as unknown as OrderTableDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
             pagination={{ position: ['bottomRight'] }}
             onRow={(data) => ({

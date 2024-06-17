@@ -7,8 +7,10 @@ export const OrderTableColumn = [
     render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
-    title: 'Quotes	',
+    title: 'Quotes',
     dataIndex: 'updatedAt',
+    render: (text: string) =>
+      text ? <span>{text}</span> : <p className="text-center">-</p>,
   },
   {
     title: 'Note	',
@@ -46,10 +48,10 @@ export const OrderTableColumn = [
   },
   {
     title: 'Vehicle',
-    dataIndex: 'quoteVehicles',
-    render: (data: { vehicleName: string }[], record: OrderTableDataType) => (
-      <div className="table__vehicle">
-        {
+    dataIndex: 'orderVehicles',
+    render: (data: { vehicleName: string }[], record: OrderTableDataType) =>
+      data.length ? (
+        <div className="table__vehicle">
           <div className="table__vehicle__imgs">
             {record.condition == 'rols' && (
               <img src="./img/dt_table/engine.svg" alt="engine" />
@@ -63,14 +65,15 @@ export const OrderTableColumn = [
                 />
               ))}
           </div>
-        }
-        <div className="table__vehicle__text">
-          {(data || []).map((item, index) => (
-            <div key={index}>{item.vehicleName}</div>
-          ))}
+          <div className="table__vehicle__text">
+            {(data || []).map((item, index) => (
+              <div key={index}>{item.vehicleName}</div>
+            ))}
+          </div>
         </div>
-      </div>
-    ),
+      ) : (
+        <p className="text-center">-</p>
+      ),
   },
   {
     title: 'Origin',
