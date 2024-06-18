@@ -128,8 +128,6 @@ function TabsApp({ sourceType }: DrawerSourceType) {
   };
 
   const handleCancel = (type: CancelNotesActionType) => {
-    // switch (sourceType) {
-    // case 'lead':
     switch (type) {
       case 'main':
         setNotes({ ...notes, mainNote: '' });
@@ -144,8 +142,6 @@ function TabsApp({ sourceType }: DrawerSourceType) {
         setTaskNote('');
         break;
     }
-    // break;
-    // }
   };
 
   const {
@@ -486,8 +482,8 @@ function TabsApp({ sourceType }: DrawerSourceType) {
                   suffixIcon={<img alt="" src={ArrowDownIcon} />}
                   options={[
                     { value: '(929) 592-3003', label: '(929) 592-3003' },
-                    { value: 'lucy', label: 'Lucy' },
-                    { value: 'Yiminghe', label: 'yiminghe' },
+                    // { value: 'lucy', label: 'Lucy' },
+                    // { value: 'Yiminghe', label: 'yiminghe' },
                   ]}
                 />
               </div>

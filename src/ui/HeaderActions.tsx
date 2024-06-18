@@ -17,9 +17,21 @@ function HeaderActions({ searchHandler }: HeaderActionsProps) {
 
   const user = useAppSelector(getUser);
 
+  const handleSetValue = (value: string) => {
+    setValue(value);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const handleShowModal = () => {
+    showModal('lead');
+  };
+
   const itemsCreate: MenuProps['items'] = [
     {
-      label: <p onClick={() => showModal('lead')}>Create a lead</p>,
+      label: <p onClick={handleShowModal}>Create a lead</p>,
       key: '0',
     },
     {
@@ -50,7 +62,7 @@ function HeaderActions({ searchHandler }: HeaderActionsProps) {
       key: '3',
     },
     {
-      label: <p onClick={() => dispatch(logout())}>Log out</p>,
+      label: <p onClick={handleLogout}>Log out</p>,
       key: '4',
     },
   ];
@@ -72,7 +84,7 @@ function HeaderActions({ searchHandler }: HeaderActionsProps) {
                 searchHandler('');
                 hideFilter();
               }
-              setValue(e.target.value);
+              handleSetValue(e.target.value);
             }}
             type="search"
             placeholder="Search"

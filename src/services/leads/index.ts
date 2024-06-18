@@ -9,7 +9,6 @@ import { LeadEditVehicleParamsType } from '../../features/leads/useLeadVehicleEd
 import { LeadsParamsType } from '../../features/leads/useLeads';
 import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { LeadDataType } from '../../models';
-import { SourceType } from '../../ui/Drawer';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -349,7 +348,7 @@ class Leads {
     }
   }
 
-  async getCDPrice(feature: SourceType, guid: string | null) {
+  async getCDPrice(feature: 'leads' | 'quote' | 'order', guid: string | null) {
     try {
       const { data } = await this.$api.get(
         `/fields/cd-price/${feature}/${guid}/`,

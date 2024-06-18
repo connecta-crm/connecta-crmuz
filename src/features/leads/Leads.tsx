@@ -26,7 +26,7 @@ function Leads() {
   const [isOpenCDPriceModal, setOpenCDPriceModal] = useState(false);
 
   const { cdPrice, isFetchingCDPrice } = useCDPrice(
-    'lead',
+    'leads',
     guid,
     isOpenCDPriceModal,
   );

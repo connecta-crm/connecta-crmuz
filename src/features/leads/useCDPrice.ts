@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import Leads from '../../services/leads';
-import { SourceType } from '../../ui/Drawer';
 
 export function useCDPrice(
-  feature: SourceType,
+  feature: 'leads' | 'quote' | 'order',
   guid: string | null,
   enabled: boolean,
 ) {
