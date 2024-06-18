@@ -2,8 +2,8 @@ import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 import { useFilter } from '../context/FilterContext';
 import { useModal } from '../context/ModalContext';
-import { logout } from '../features/authentication/authSlice';
-import { useAppDispatch } from '../store/hooks';
+import { getUser, logout } from '../features/authentication/authSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 type HeaderActionsProps = {
   searchHandler: (text: string) => void;
@@ -15,9 +15,11 @@ function HeaderActions({ searchHandler }: HeaderActionsProps) {
   const { showModal } = useModal();
   const dispatch = useAppDispatch();
 
+  const user = useAppSelector(getUser);
+
   const itemsCreate: MenuProps['items'] = [
     {
-      label: <p onClick={() =>showModal("lead") }>Create a lead</p>,
+      label: <p onClick={() => showModal('lead')}>Create a lead</p>,
       key: '0',
     },
     {
@@ -114,7 +116,10 @@ function HeaderActions({ searchHandler }: HeaderActionsProps) {
         <a onClick={(e) => e.preventDefault()} style={{ marginRight: 18 }}>
           <Space>
             <div className="header__avatar">
-              <img src="./img/main_user_img.svg" alt="" />
+              <img
+                src={user?.picture ?? './img/empty-user.jpeg'}
+                alt="avatar"
+              />
             </div>
           </Space>
         </a>

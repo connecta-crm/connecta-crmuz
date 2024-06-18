@@ -7,9 +7,11 @@ import { useSetStatusParam } from '../../hooks/useSetStatusParam';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import LeadHistoryModal from '../../ui/HistoryModal';
+import LeadCDPriceModal from '../../ui/modal/CDPriceModal';
 import LeadModal from '../../ui/modal/LeadModal';
 import LeadTable from './LeadTable';
 import { setLeadData } from './leadSlice';
+import { useCDPrice } from './useCDPrice';
 import { useLead } from './useLead';
 import { useLeadLogs } from './useLeadLogs';
 import { useLeads } from './useLeads';
@@ -21,6 +23,13 @@ function Leads() {
   const { leads, count, isLoading: isLoadingLeads } = useLeads();
   const { lead, isLoading: isLoadingLead, error } = useLead(guid);
   const { leadLogs, isLoadingLeadLogs } = useLeadLogs(leadId);
+  const [isOpenCDPriceModal, setOpenCDPriceModal] = useState(false);
+
+  const { cdPrice, isFetchingCDPrice } = useCDPrice(
+    'lead',
+    guid,
+    isOpenCDPriceModal,
+  );
 
   const [openLeadModal, setOpenLeadModal] = useState(false);
   const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
@@ -78,6 +87,12 @@ function Leads() {
       <LeadModal
         openLeadModal={openLeadModal}
         setOpenLeadModa={setOpenLeadModal}
+      />
+      <LeadCDPriceModal
+        cdPrice={cdPrice}
+        isFetchingCDPrice={isFetchingCDPrice}
+        isOpenModal={isOpenCDPriceModal}
+        onOpenModal={setOpenCDPriceModal}
       />
       {show && status === 'lead' && (
         <LeadModal openLeadModal={show} setOpenLeadModa={hideModal} />

@@ -44,6 +44,7 @@ function DrawerFeatureHeader({
     onEditCarrierInfo,
     onChangeMainCollapse,
     onChangeInnerCollapse,
+    onOpenCDPrice,
   } = useDrawerFeature();
 
   const [fieldType, setFieldType] = useState<
@@ -216,6 +217,7 @@ function DrawerFeatureHeader({
             <Button
               onClick={(e) => {
                 e.stopPropagation();
+                onOpenCDPrice();
               }}
               type="primary"
               size="small"
@@ -362,6 +364,7 @@ function DrawerFeatureHeader({
             <Button
               onClick={(e) => {
                 e.stopPropagation();
+                onOpenCDPrice();
               }}
               type="primary"
               size="small"

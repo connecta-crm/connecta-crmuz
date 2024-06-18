@@ -9,6 +9,7 @@ import { LeadEditVehicleParamsType } from '../../features/leads/useLeadVehicleEd
 import { LeadsParamsType } from '../../features/leads/useLeads';
 import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { LeadDataType } from '../../models';
+import { SourceType } from '../../ui/Drawer';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -339,6 +340,20 @@ class Leads {
       const { data } = await this.$api.post(`/leads/reason/archive/${guid}/`, {
         reason,
       });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getCDPrice(feature: SourceType, guid: string | null) {
+    try {
+      const { data } = await this.$api.get(
+        `/fields/cd-price/${feature}/${guid}/`,
+      );
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

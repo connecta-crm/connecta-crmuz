@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { useSetStatusParam } from '../../hooks/useSetStatusParam';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import OrderHistoryModal from '../../ui/HistoryModal';
+import OrderCDPriceModal from '../../ui/modal/CDPriceModal';
 import OrdersModal from '../../ui/modal/OrderModal';
+import { useCDPrice } from '../leads/useCDPrice';
 import OrderDirectDispatchModal from './OrderDirectDispatchModal';
 import OrderDispatchModal from './OrderDispatchModal';
 import OrdersTable from './OrderTable';
@@ -29,11 +30,15 @@ function Orders() {
   const [isOpenDirectDispatchModal, setOpenDirectDispatchModal] =
     useState(false);
   const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
+  const [isOpenCDPriceModal, setOpenCDPriceModal] = useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { cdPrice, isFetchingCDPrice } = useCDPrice(
+    'order',
+    guid,
+    isOpenCDPriceModal,
+  );
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { openDrawer, closeDrawer } = useDrawerFeature();
+  const { openDrawer } = useDrawerFeature();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
@@ -65,8 +70,6 @@ function Orders() {
     }
   }, [isLoadingOrder, error, dispatch, guid, order]);
 
-  // * CARRIER MODAL FUNCTIONS
-
   return (
     <div className="orders">
       <OrderDispatchModal
@@ -81,6 +84,12 @@ function Orders() {
         historyLogs={orderLogs}
         isOpenModal={isOpenHistoryModal}
         onOpenModal={setOpenHistoryModal}
+      />
+      <OrderCDPriceModal
+        cdPrice={cdPrice}
+        isFetchingCDPrice={isFetchingCDPrice}
+        isOpenModal={isOpenCDPriceModal}
+        onOpenModal={setOpenCDPriceModal}
       />
       <OrdersModal
         openLeadModal={openLeadModal}

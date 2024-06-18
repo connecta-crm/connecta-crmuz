@@ -7,8 +7,10 @@ import { useSetStatusParam } from '../../hooks/useSetStatusParam';
 import { useAppDispatch } from '../../store/hooks';
 import DrawerApp from '../../ui/Drawer';
 import QuoteHistoryModal from '../../ui/HistoryModal';
+import QuotesCDPriceModal from '../../ui/modal/CDPriceModal';
 import LeadModal from '../../ui/modal/LeadModal';
 import QuotesModal from '../../ui/modal/QuotesModal';
+import { useCDPrice } from '../leads/useCDPrice';
 import QuotesTable from './QuoteTable';
 import QuotesConvertModal from './QuotesConvertModal';
 import { setQuoteData } from './quoteSlice';
@@ -27,6 +29,13 @@ function Quotes() {
   const { quotes, count, isLoadingQuotes } = useQuotes();
   const { quote, isLoading: isLoadingQuote, error } = useQuote(guid);
   const { quoteLogs, isLoadingQuoteLogs } = useQuoteLogs(quoteId);
+  const [isOpenCDPriceModal, setOpenCDPriceModal] = useState(false);
+
+  const { cdPrice, isFetchingCDPrice } = useCDPrice(
+    'quote',
+    guid,
+    isOpenCDPriceModal,
+  );
 
   const { openDrawer } = useDrawerFeature();
 
@@ -91,6 +100,12 @@ function Quotes() {
       <QuotesConvertModal
         isOpenModal={isOpenConvertModal}
         onOpenModal={setOpenConvertModal}
+      />
+      <QuotesCDPriceModal
+        cdPrice={cdPrice}
+        isFetchingCDPrice={isFetchingCDPrice}
+        isOpenModal={isOpenCDPriceModal}
+        onOpenModal={setOpenCDPriceModal}
       />
 
       {show && status === 'lead' && (

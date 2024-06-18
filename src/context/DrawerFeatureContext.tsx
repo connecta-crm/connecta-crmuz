@@ -17,11 +17,13 @@ type DrawerFeatureContextType = {
   makeDrawerFull: (e: boolean) => void;
   openDrawer: () => void;
   closeDrawer: () => void;
-
+  onOpenCDPrice: () => void;
+  onCloseCDPrice: () => void;
   // setEditDetails: (e: SetStateAction<boolean>) => void;
   // onChangePerson: (e: string) => void;
   // onChangeDetails: (e: string | string[]) => void;
   // onChange: (e: string, b?: boolean | undefined) => void;
+  isOpenCDPrice: boolean;
   isEditDetails: boolean;
   isEditPerson: boolean;
   isEditNotes: boolean;
@@ -62,6 +64,8 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
 
   const [isOpenDrawer, setOpenDrawer] = useState(false);
   const [isFullScreen, setFullScreen] = useState(false);
+
+  const [isOpenCDPrice, setOpenCDPrice] = useState(false);
   // const queryClient = useQueryClient();
 
   const openDrawer = () => {
@@ -102,6 +106,13 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   };
   const onPrevElement = (value: boolean) => {
     setEditNote(value);
+  };
+
+  const onOpenCDPrice = () => {
+    setOpenCDPrice(true);
+  };
+  const onCloseCDPrice = () => {
+    setOpenCDPrice(false);
   };
 
   // const onChangePerson = (key: string) => {
@@ -175,6 +186,10 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         makeDrawerFull,
         onNextElement,
         onPrevElement,
+
+        isOpenCDPrice,
+        onOpenCDPrice,
+        onCloseCDPrice,
       }}
     >
       {children}
