@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
 import Modal from '../../../ui/Modal';
+import Notes from '../../../ui/Notes';
+import { EndPointType } from '../../attachments/useCreateNote';
 import { useNote } from '../../attachments/useNote';
 import { useUpdateNote } from '../../attachments/useUpdateNote';
 import { getUser } from '../../authentication/authSlice';
-import Notes from '../tabs/TabNotes';
 import { CancelNotesActionType } from '../tabs/Tabs';
 import HistoryCard from './HistoryCard';
 
@@ -44,8 +45,9 @@ function History({
   const user = useAppSelector(getUser);
 
   const { noteData, isLoadingNote, errorNote } = useNote(noteId);
-  const { updateNote, isLoadingUpdateNote, errorUpdateNote } =
-    useUpdateNote(sourceType);
+  const { updateNote, isLoadingUpdateNote, errorUpdateNote } = useUpdateNote(
+    sourceType as EndPointType,
+  );
 
   const onSetContent = (_: CancelNotesActionType, val: string) => {
     setContent(val);
@@ -67,7 +69,7 @@ function History({
     updateNote({
       id: noteId,
       user: user?.id,
-      endpointType: sourceType,
+      endpointType: sourceType as EndPointType,
       text: content,
     });
     setNoteUpdated(true);

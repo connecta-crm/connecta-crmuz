@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
-import { GroundParamsType } from '../../features/ground/useGround';
-import apiClient from '../axios';
 import { TemplatesTableDataType } from '../../features/templates/templatesTableDataType';
+import { TemplatesParamsType } from '../../features/templates/useTemplates';
+import apiClient from '../axios';
 
 type ApiErrorResponse = {
   message: string;
@@ -14,9 +14,11 @@ class Templates {
     this.$api = apiClient;
   }
 
-  async getTemplates({ url }: GroundParamsType) {
+  async getTemplates({ template_status }: TemplatesParamsType) {
     try {
-      const { data } = await this.$api.get(!url ? '/template/' : '/template?' + url);
+      const { data } = await this.$api.get('/template/', {
+        params: { status: template_status },
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -52,7 +54,10 @@ class Templates {
 
   async updateTemplate(template: TemplatesTableDataType) {
     try {
-      const { data } = await this.$api.put(`/template/${template.id}`, template);
+      const { data } = await this.$api.put(
+        `/template/${template.id}`,
+        template,
+      );
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

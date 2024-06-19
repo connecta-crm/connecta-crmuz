@@ -59,6 +59,7 @@ function Leads() {
   useEffect(() => {
     if (!isLoadingLead && !error && guid && lead) {
       dispatch(setLeadData(lead));
+      console.log('LEAD: ', lead);
       openDrawer();
       setTimeout(
         () => queryClient.invalidateQueries({ queryKey: [`leadAttachments`] }),

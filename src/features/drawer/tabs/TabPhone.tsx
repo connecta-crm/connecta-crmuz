@@ -1,36 +1,55 @@
 import { Button, Flex, Select, Spin, TreeSelect } from 'antd';
 import { useMemo, useState } from 'react';
 import Notes from '../../../ui/Notes';
-import { useCreateEmail } from '../../attachments/useCreateEmail';
 import { EndPointType } from '../../attachments/useCreateNote';
+import { useCreatePhone } from '../../attachments/useCreatePhone';
 import { useFields } from '../../fields/useFields';
 import { useTemplates } from '../../templates/useTemplates';
-import { transformData } from './TabPhone';
 import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
 
-function TabEmail({ user, sourceId, userEmail, sourceType }) {
+export const transformData = (data) => {
+  return data?.map((section, sectionIndex) => ({
+    title: section.title,
+    key: `section-${sectionIndex}`,
+    value: `section-${sectionIndex}`,
+    children: section.block.map((block, blockIndex) => ({
+      title: block.blockName,
+      key: `section-${sectionIndex}-block-${blockIndex}`,
+      value: `section-${sectionIndex}-block-${blockIndex}`,
+      children: block.data.map((item, itemIndex) => {
+        const uniqueValue = `${item.value}-${sectionIndex}-${blockIndex}-${itemIndex}`;
+        return {
+          title: `${item.key}: ${item.value}`,
+          key: uniqueValue,
+          value: uniqueValue,
+        };
+      }),
+    })),
+  }));
+};
+
+function TabPhone({ user, sourceId, sourceType, customerPhone }) {
   const [note, setNote] = useState('');
   const [isOpenTemplate, setOpenTemplate] = useState(false);
   const [isOpenField, setOpenField] = useState(false);
 
-  const { createEmail, isLoading } = useCreateEmail(sourceType as EndPointType);
+  const { createPhone, isLoading } = useCreatePhone(sourceType as EndPointType);
 
   const { templates, isLoading: isLoadingTemplates } =
     useTemplates(isOpenTemplate);
   const { fields, isLoading: isLoadingFields } = useFields(isOpenField);
-
   const fieldsData = useMemo(() => transformData(fields), [fields]);
 
-  const fromEmailValue = 'alibrain@gmail.com'; // todo
+  const fromPhoneValue = '(929) 592-3003'; // todo
 
   const handleSave = () => {
-    createEmail({
+    createPhone({
       rel: sourceId,
       endpointType: sourceType,
       text: note,
-      fromEmail: fromEmailValue,
-      toEmail: [userEmail],
-      subject: user,
+      fromPhone: fromPhoneValue,
+      toPhone: [customerPhone],
+      user,
     });
   };
 
@@ -50,11 +69,11 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
           <div className="item-phone__select">
             <Select
               variant="borderless"
-              defaultValue={fromEmailValue}
+              defaultValue={fromPhoneValue}
               placeholder=""
               style={{ flex: 1, width: 150, height: 30 }}
               suffixIcon={<img alt="" src={ArrowDownIcon} />}
-              options={[{ value: fromEmailValue, label: fromEmailValue }]}
+              options={[{ value: fromPhoneValue, label: fromPhoneValue }]}
             />
           </div>
         </div>
@@ -63,10 +82,10 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
           <div className="item-phone__select">
             <Select
               variant="borderless"
-              defaultValue={userEmail}
+              defaultValue={customerPhone}
               style={{ flex: 1, width: 150, height: 30 }}
               suffixIcon={<img alt="" src={ArrowDownIcon} />}
-              options={[{ value: userEmail, label: userEmail }]}
+              options={[{ value: customerPhone, label: customerPhone }]}
             />
           </div>
         </div>
@@ -147,4 +166,4 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
   );
 }
 
-export default TabEmail;
+export default TabPhone;

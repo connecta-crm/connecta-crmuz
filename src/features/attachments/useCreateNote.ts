@@ -14,7 +14,11 @@ export type CreateNoteParams = {
 export function useCreateNote(sourceType: EndPointType) {
   const queryClient = useQueryClient();
 
-  const { mutate: createNote, isPending: isLoading } = useMutation({
+  const {
+    mutate: createNote,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: ({ rel, endpointType, text, user }: CreateNoteParams) =>
       Attachments.createNote({ rel, endpointType, text, user }),
     onSuccess: () => {
@@ -31,5 +35,6 @@ export function useCreateNote(sourceType: EndPointType) {
   return {
     createNote,
     isLoading,
+    error,
   };
 }

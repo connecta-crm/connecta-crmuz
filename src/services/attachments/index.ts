@@ -1,5 +1,8 @@
 import { AxiosError } from 'axios';
+import { CreateEmailParams } from '../../features/attachments/useCreateEmail';
 import { CreateNoteParams } from '../../features/attachments/useCreateNote';
+import { CreatePhoneParams } from '../../features/attachments/useCreatePhone';
+import { CreateTaskParams } from '../../features/attachments/useCreateTask';
 import { UpdateNoteParams } from '../../features/attachments/useUpdateNote';
 import apiClient from '../axios';
 
@@ -35,6 +38,91 @@ class Attachments {
         text,
         endpointType,
         user,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /attachments/create-phone/
+  async createPhone({
+    rel,
+    text,
+    endpointType,
+    user,
+    fromPhone,
+    toPhone,
+  }: CreatePhoneParams) {
+    try {
+      const { data } = await this.$api.post(`/attachments/create-phone/`, {
+        rel,
+        text,
+        endpointType,
+        user,
+        fromPhone,
+        toPhone,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /attachments/create-email/
+  async createEmail({
+    rel,
+    text,
+    endpointType,
+    subject,
+    fromEmail,
+    toEmail,
+  }: CreateEmailParams) {
+    try {
+      const { data } = await this.$api.post(`/attachments/create-email/`, {
+        rel,
+        text,
+        endpointType,
+        subject,
+        fromEmail,
+        toEmail,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /attachments/create-task/
+  async createTask({
+    rel,
+    text,
+    endpointType,
+    type,
+    endTime,
+    startTime,
+    user,
+    customer,
+  }: CreateTaskParams) {
+    try {
+      const { data } = await this.$api.post(`/attachments/create-task/`, {
+        rel,
+        text,
+        endpointType,
+        type,
+        endTime,
+        startTime,
+        user,
+        customer,
       });
       return data;
     } catch (error) {

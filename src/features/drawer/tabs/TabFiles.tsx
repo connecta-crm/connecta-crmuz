@@ -49,12 +49,6 @@ function TabFiles() {
     },
   };
 
-  const uploadButton = (
-    <Button type="primary" size="small">
-      Upload files
-    </Button>
-  );
-
   return (
     <>
       <div className="tabs-file">
@@ -70,7 +64,9 @@ function TabFiles() {
                 fileList={fileList}
                 onChange={handleChange}
               >
-                {uploadButton}
+                <Button type="primary" size="small">
+                  Upload files
+                </Button>
               </Upload>
 
               <p className="ml-10">or drag files here</p>

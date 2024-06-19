@@ -59,7 +59,10 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
       key: '1',
       label: (
         <div className="dt-header__user-active d-flex align-center justify-between">
-          <p>{user?.firstName + ' ' + user?.lastName} (me)</p>
+          <p>
+            {(user?.firstName ?? 'Unknown') + ' ' + (user?.lastName ?? 'name')}{' '}
+            (me)
+          </p>
           <span>{user?.id}</span>
         </div>
       ),
