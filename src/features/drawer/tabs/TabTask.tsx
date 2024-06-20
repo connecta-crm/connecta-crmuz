@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
-  Calendar,
   DatePicker,
   Flex,
   Input,
@@ -18,6 +17,7 @@ import { classNames } from '../../../utils/helpers';
 import { EndPointType } from '../../attachments/useCreateNote';
 import { useCreateTask } from '../../attachments/useCreateTask';
 import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
+import Calendar from '../../../ui/Calendar';
 
 function TabTask({ user, customer, sourceId, sourceType }) {
   const { isFullScreen } = useDrawerFeature();

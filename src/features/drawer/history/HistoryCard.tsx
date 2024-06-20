@@ -95,6 +95,18 @@ function HistoryCard({
               </div>
             </div>
             <div className="card__right d-flex align-center">
+              <p
+                className="card__action w-auto"
+                style={{ color: '#666666', fontWeight: 400 }}
+              >
+                Listen
+              </p>
+              <p
+                className="card__action w-auto"
+                style={{ color: '#666666', fontWeight: 400 }}
+              >
+                View
+              </p>
               <p className="card__action">
                 <img src="./img/drawer/extract.svg" alt="" />
               </p>

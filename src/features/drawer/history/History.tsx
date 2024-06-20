@@ -87,7 +87,7 @@ function History({
         attachments.map((item: NoteItemType) => (
           <HistoryCard
             key={item.id}
-            type="note"
+            type="all"
             item={item}
             sourceType={sourceType}
             isLoading={isLoadingNote}
@@ -102,11 +102,11 @@ function History({
     },
     {
       key: '2',
-      label: `Notes (${notes.length})`,
+      label: `Note (${notes.length})`,
       children: notes.map((item: NoteItemType) => (
         <HistoryCard
           key={item.id}
-          type={'note'}
+          type="note"
           item={item}
           sourceType={sourceType}
           isLoading={isLoadingNote}
@@ -114,18 +114,102 @@ function History({
         />
       )),
     },
-    // {
-    //   key: '3',
-    //   label: 'Tasks (1)',
-    //   children: (
-    //     <HistoryCard
-    //       type={'task'}
-    //       sourceType={sourceType}
-    //       onEdit={() => {}}
-    //       isLoading={isLoadingNote}
-    //     />
-    //   ),
-    // },
+    {
+      key: '3',
+      label: 'Tasks (0)',
+      children: (
+        <HistoryCard
+          type="task"
+          sourceType={sourceType}
+          onEdit={() => {}}
+          isLoading={isLoadingNote}
+        />
+      ),
+    },
+    {
+      key: '4',
+      label: 'Phone (0)',
+      children: (
+        <HistoryCard
+          type="phone"
+          sourceType={sourceType}
+          onEdit={() => {}}
+          isLoading={isLoadingNote}
+        />
+      ),
+    },
+    {
+      key: '5',
+      label: 'Email (0)',
+      children: (
+        <HistoryCard
+          type="email"
+          sourceType={sourceType}
+          onEdit={() => {}}
+          isLoading={isLoadingNote}
+        />
+      ),
+    },
+    ...(sourceType === 'quote' || sourceType === 'order'
+      ? [
+          {
+            key: '6',
+            label: 'Files (0)',
+            children: (
+              <HistoryCard
+                type="file"
+                sourceType={sourceType}
+                onEdit={() => {}}
+                isLoading={isLoadingNote}
+              />
+            ),
+          },
+        ]
+      : []),
+    ...(sourceType === 'order'
+      ? [
+          {
+            key: '7',
+            label: 'Contract (0)',
+            children: (
+              <HistoryCard
+                type="contract"
+                sourceType={sourceType}
+                onEdit={() => {}}
+                isLoading={isLoadingNote}
+              />
+            ),
+          },
+        ]
+      : []),
+    ...(sourceType === 'order'
+      ? [
+          {
+            key: '8',
+            label: 'Payment (0)',
+            children: (
+              <HistoryCard
+                type="payment"
+                sourceType={sourceType}
+                onEdit={() => {}}
+                isLoading={isLoadingNote}
+              />
+            ),
+          },
+        ]
+      : []),
+    {
+      key: '9',
+      label: 'Activity (0)',
+      children: (
+        <HistoryCard
+          type="activity"
+          sourceType={sourceType}
+          onEdit={() => {}}
+          isLoading={isLoadingNote}
+        />
+      ),
+    },
   ];
 
   useEffect(() => {

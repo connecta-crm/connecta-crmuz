@@ -18,99 +18,82 @@ function TabPayment() {
           </div>
         ) : (
           <div className="tabs-file__files mt-0">
-            {fileList.map((file, index) => (
-              <table className="payment-table">
-                <thead>
-                  <tr>
-                    <th>Created</th>
-                    <th>Amount</th>
-                    <th>Amount charged</th>
-                    <th>Payment type</th>
-                    <th>Direction</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>03/15/2024</td>
-                    <td>$200.00</td>
-                    <td className="highlight">$0.00</td>
-                    <td>Zelle</td>
-                    <td>Customer to Broker</td>
-                    <td>
-                      <Button className="ml-10" type="primary" size="small">
-                        Attach
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>03/15/2024</td>
-                    <td>$200.00</td>
-                    <td className="highlight">$200.00</td>
-                    <td>Zelle</td>
-                    <td>Customer to Broker</td>
-                    <td>
-                      <Button
-                        className="ml-10"
-                        ghost
-                        type="primary"
-                        size="small"
-                      >
-                        View
-                      </Button>
-                      <Button
-                        className="ml-10"
-                        type="primary"
-                        size="small"
-                        style={{ backgroundColor: 'rgb(66, 125, 157)' }}
-                      >
-                        Paid
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>03/15/2024</td>
-                    <td>$200.00</td>
-                    <td className="highlight">$0.00</td>
-                    <td>Credit Card</td>
-                    <td>Customer to Broker</td>
-                    <td>
-                      <Button
-                        className="ml-10"
-                        ghost
-                        type="primary"
-                        size="small"
-                      >
-                        Send CCA
-                      </Button>
-                      <Button className="ml-10" type="primary" size="small">
-                        Charge
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>03/15/2024</td>
-                    <td>$200.00</td>
-                    <td className="highlight">$0.00</td>
-                    <td>Credit Card</td>
-                    <td>Customer to Broker</td>
-                    <td>
-                      <Button
-                        className="ml-10"
-                        ghost
-                        type="primary"
-                        size="small"
-                      >
-                        View CCA
-                      </Button>
-                      <Button className="ml-10" type="primary" size="small">
-                        Charge
-                      </Button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            ))}
+            <table className="payment-table">
+              <thead>
+                <tr>
+                  <th>Created</th>
+                  <th>Amount</th>
+                  <th>Amount charged</th>
+                  <th>Payment type</th>
+                  <th>Direction</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>03/15/2024</td>
+                  <td>$200.00</td>
+                  <td className="highlight">$0.00</td>
+                  <td>Zelle</td>
+                  <td>Customer to Broker</td>
+                  <td>
+                    <Button className="ml-10" type="primary" size="small">
+                      Attach
+                    </Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>03/15/2024</td>
+                  <td>$200.00</td>
+                  <td className="highlight">$200.00</td>
+                  <td>Zelle</td>
+                  <td>Customer to Broker</td>
+                  <td>
+                    <Button className="ml-10" ghost type="primary" size="small">
+                      View
+                    </Button>
+                    <Button
+                      className="ml-10"
+                      type="primary"
+                      size="small"
+                      style={{ backgroundColor: 'rgb(66, 125, 157)' }}
+                    >
+                      Paid
+                    </Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>03/15/2024</td>
+                  <td>$200.00</td>
+                  <td className="highlight">$0.00</td>
+                  <td>Credit Card</td>
+                  <td>Customer to Broker</td>
+                  <td>
+                    <Button className="ml-10" ghost type="primary" size="small">
+                      Send CCA
+                    </Button>
+                    <Button className="ml-10" type="primary" size="small">
+                      Charge
+                    </Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>03/15/2024</td>
+                  <td>$200.00</td>
+                  <td className="highlight">$0.00</td>
+                  <td>Credit Card</td>
+                  <td>Customer to Broker</td>
+                  <td>
+                    <Button className="ml-10" ghost type="primary" size="small">
+                      View CCA
+                    </Button>
+                    <Button className="ml-10" type="primary" size="small">
+                      Charge
+                    </Button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         )}
       </div>

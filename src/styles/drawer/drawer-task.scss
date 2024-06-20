@@ -86,12 +86,14 @@
     margin-left: 10px;
     display: flex;
     width: 21px;
+    height: 21px;
     padding: 3px 4px;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
     border: 1px solid #d1d1d1;
     background-color: transparent;
+    cursor: pointer;
   }
 }
 

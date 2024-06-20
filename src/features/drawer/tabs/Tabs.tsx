@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { TabsProps } from 'antd';
 import { Tabs, theme } from 'antd';
+import { useState } from 'react';
 import StickyBox from 'react-sticky-box';
 import { useAppSelector } from '../../../store/hooks';
 import { DrawerSourceType } from '../../../ui/Drawer';
@@ -22,6 +23,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
   const userData = useAppSelector(getUser);
   const user = userData?.id ? Number(userData?.id) : undefined;
   const userEmail = userData?.email ? userData?.email : undefined;
+  const [activeKey, setActiveKey] = useState('1');
 
   const {
     id: leadId,
@@ -62,6 +64,18 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       throw new Error('There is something error in Tabs.tsx');
   }
 
+  const tabIcon = (key: string, icon: string) => {
+    const iconPath = activeKey === key ? `${icon}_a` : icon;
+
+    return (
+      <img
+        className="tab-icon"
+        src={`./img/drawer/tab/${iconPath}.svg`}
+        alt="icon"
+      />
+    );
+  };
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -77,20 +91,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       key: '1',
       label: 'Notes',
       value: 'notes',
-      icon: (
-        <>
-          <img
-            className="tab-icon default-icon"
-            src="./img/drawer/tab/note.svg"
-            alt=""
-          />
-          <img
-            className="tab-icon active-icon"
-            src="./img/drawer/tab/note_a.svg"
-            alt=""
-          />
-        </>
-      ),
+      icon: tabIcon('1', 'note'),
       children: (
         <TabNotes user={user} sourceId={sourceId} sourceType={sourceType} />
       ),
@@ -99,20 +100,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       key: '2',
       label: 'Task',
       value: 'task',
-      icon: (
-        <>
-          <img
-            className="tab-icon default-icon"
-            src="./img/drawer/tab/task.svg"
-            alt=""
-          />
-          <img
-            className="tab-icon active-icon"
-            src="./img/drawer/tab/task.svg"
-            alt=""
-          />
-        </>
-      ),
+      icon: tabIcon('2', 'task'),
       children: (
         <TabTask
           user={user}
@@ -126,20 +114,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       key: '3',
       label: 'Phone',
       value: 'phone',
-      icon: (
-        <>
-          <img
-            className="tab-icon default-icon"
-            src="./img/drawer/tab/phone.svg"
-            alt=""
-          />
-          <img
-            className="tab-icon active-icon"
-            src="./img/drawer/tab/phone.svg"
-            alt=""
-          />
-        </>
-      ),
+      icon: tabIcon('3', 'phone'),
       children: (
         <TabPhone
           user={user}
@@ -153,20 +128,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       key: '4',
       label: 'Email',
       value: 'email',
-      icon: (
-        <>
-          <img
-            className="tab-icon default-icon"
-            src="./img/drawer/tab/email.svg"
-            alt=""
-          />
-          <img
-            className="tab-icon active-icon"
-            src="./img/drawer/tab/email.svg"
-            alt=""
-          />
-        </>
-      ),
+      icon: tabIcon('4', 'email'),
       children: (
         <TabEmail
           user={user}
@@ -182,20 +144,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
             key: '5',
             label: 'Files',
             value: 'files',
-            icon: (
-              <>
-                <img
-                  className="tab-icon default-icon"
-                  src="./img/drawer/tab/files.svg"
-                  alt=""
-                />
-                <img
-                  className="tab-icon active-icon"
-                  src="./img/drawer/tab/files.svg"
-                  alt=""
-                />
-              </>
-            ),
+            icon: tabIcon('5', 'files'),
             children: <TabFiles />,
           },
         ]
@@ -206,20 +155,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
             key: '6',
             label: 'Contract',
             value: 'contract',
-            icon: (
-              <>
-                <img
-                  className="tab-icon default-icon"
-                  src="./img/drawer/tab/contract.svg"
-                  alt=""
-                />
-                <img
-                  className="tab-icon active-icon"
-                  src="./img/drawer/tab/contract.svg"
-                  alt=""
-                />
-              </>
-            ),
+            icon: tabIcon('6', 'contract'),
             children: <TabContract />,
           },
         ]
@@ -230,20 +166,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
             key: '7',
             label: 'Payment',
             value: 'payment',
-            icon: (
-              <>
-                <img
-                  className="tab-icon default-icon"
-                  src="./img/drawer/tab/payment.svg"
-                  alt=""
-                />
-                <img
-                  className="tab-icon active-icon"
-                  src="./img/drawer/tab/payment.svg"
-                  alt=""
-                />
-              </>
-            ),
+            icon: tabIcon('7', 'payment'),
             children: <TabPayment />,
           },
         ]
@@ -268,6 +191,8 @@ function TabsApp({ sourceType }: DrawerSourceType) {
         type="card"
         renderTabBar={renderTabBar}
         items={items}
+        activeKey={activeKey}
+        onChange={(key) => setActiveKey(key)}
       />
     </div>
   );

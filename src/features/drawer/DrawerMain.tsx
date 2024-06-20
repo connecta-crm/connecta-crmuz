@@ -17,6 +17,7 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
   const { orderAttachments, isLoadingOrderAttachments } = useOrderAttachments();
 
   let attachments, isLoadingAttachments: boolean | undefined;
+
   switch (sourceType) {
     case 'lead':
       attachments = leadAttachments;
@@ -30,7 +31,6 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
       attachments = orderAttachments;
       isLoadingAttachments = isLoadingOrderAttachments;
       break;
-
     default:
       break;
   }
