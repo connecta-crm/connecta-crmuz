@@ -7,24 +7,23 @@ import FormControl from '../form/FormControl';
 export default function SignAcceptModal({
   openModal,
   setModal,
-  setContractForm,
-  savePDF
+  savePDF,
+  isLoadingContract
 }: {
   openModal: boolean;
   setModal: (a: boolean) => void;
-  setContractForm: (a: { name: string; initial: string }) => void;
-  savePDF:()=>void
+  savePDF:(a: { name: string; initial: string }) => void;
+  isLoadingContract?:boolean
 }) {
   const createContract = (e: { fullName: string; initial: string }) => {
-    setContractForm({ name: e.fullName, initial: e.initial });
-    savePDF()
-    // setModal(false);
+    savePDF({ name: e.fullName, initial: e.initial })
   };
 
   const [form] = Form.useForm();
 
   return (
     <Modal
+      loading={isLoadingContract}
       form={form}
       title="Sign and Accept"
       width="small"

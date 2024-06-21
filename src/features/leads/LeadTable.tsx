@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Radio, Table } from 'antd';
 import { DrawerProps, SourceType } from '../../ui/Drawer';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
@@ -49,21 +49,22 @@ function LeadTable({
       </div>
       <div className="leads-table">
         <div className="table__container">
-          <Table
-            rowKey="id"
-            rowSelection={{ ...rowSelection }}
-            columns={LeadTableColumns}
-            dataSource={leads as unknown as LeadTableDataType[] | undefined}
-            loading={loadingList || (loadingItem && !!guid)}
-            pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
-            onRow={(data) => ({
-              onClick: (event) => {
-                const target = event.target as HTMLTextAreaElement;
-                const element = target.className;
-                element == 'table__id' && onOpenDrawer?.(data.guid);
-              },
-            })}
-          />
+          <Radio.Group style={{ width: '100%' }}>
+            <Table
+              rowKey="id"
+              rowSelection={{ ...rowSelection }}
+              columns={LeadTableColumns}
+              dataSource={leads as unknown as LeadTableDataType[] | undefined}
+              loading={loadingList || (loadingItem && !!guid)}
+              onRow={(data) => ({
+                onClick: (event) => {
+                  const target = event.target as HTMLTextAreaElement;
+                  const element = target.className;
+                  element == 'table__id' && onOpenDrawer(data.guid);
+                },
+              })}
+            />
+          </Radio.Group>
         </div>
       </div>
     </>
