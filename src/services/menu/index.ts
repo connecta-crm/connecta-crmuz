@@ -14,8 +14,9 @@ import sixthImg from '/img/sidebar/06.svg';
 import sixthImgActive from '/img/sidebar/06_active.svg';
 import ninthImg from '/img/sidebar/09.svg';
 import ninthImgActive from '/img/sidebar/09_active.svg';
+import more from '/img/sidebar/11.svg';
 
-import { MenuNestedData, elements } from './nestedElements';
+import { MenuNestedData, elements ,MoreSettingsElements} from './nestedElements';
 
 const lazyLoad = (
   importFunc: () => Promise<{ default: ComponentType<unknown> }>,
@@ -137,5 +138,15 @@ export const getMenuData: MenuData[] = [
     component: lazyLoad(() => import('../../pages/Settings')),
     roles: ['admin', 'user'],
     elements,
+  },
+  {
+    title: 'Automation',
+    key: '_more-settings',
+    path: '/automation',
+    icon: more,
+    iconActive: more,
+    component: lazyLoad(() => import('../../pages/MoreSettings')),
+    roles: ['admin', 'user'],
+    elements:MoreSettingsElements,
   },
 ];
