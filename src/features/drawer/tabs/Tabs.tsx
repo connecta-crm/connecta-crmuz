@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { TabsProps } from 'antd';
 import { Tabs, theme } from 'antd';
 import { useState } from 'react';

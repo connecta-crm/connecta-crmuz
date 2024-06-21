@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Flex, UploadFile } from 'antd';
 import { useState } from 'react';
+import TabPaymentAttachModal from './TabPaymentAttachModal';
 
 function TabPayment() {
   const [fileList, setFileList] = useState<UploadFile[]>(['123']);
+  const [isOpenModal, setOpenModal] = useState({
+    attachModal: false,
+  });
 
   return (
     <>
@@ -37,7 +41,14 @@ function TabPayment() {
                   <td>Zelle</td>
                   <td>Customer to Broker</td>
                   <td>
-                    <Button className="ml-10" type="primary" size="small">
+                    <Button
+                      className="ml-10"
+                      type="primary"
+                      size="small"
+                      onClick={() =>
+                        setOpenModal((prev) => ({ ...prev, attachModal: true }))
+                      }
+                    >
                       Attach
                     </Button>
                   </td>
@@ -114,6 +125,12 @@ function TabPayment() {
           </div>
         </Flex>
       )}
+      <TabPaymentAttachModal
+        isOpenModal={isOpenModal.attachModal}
+        onCloseModal={() =>
+          setOpenModal((prev) => ({ ...prev, attachModal: false }))
+        }
+      />
     </>
   );
 }
