@@ -2,6 +2,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Popconfirm, Radio } from 'antd';
 import { useState } from 'react';
 import { SourceType } from '../../../ui/Drawer';
+import { classNames } from '../../../utils/helpers';
 import { useDeleteLeadAttachments } from '../../attachments/useDeleteLeadAttachments';
 import { useDeleteOrderAttachments } from '../../attachments/useDeleteOrderAttachments';
 import { useDeleteQuoteAttachments } from '../../attachments/useDeleteQuoteAttachments';
@@ -22,6 +23,7 @@ function HistoryCard({
   onEdit,
 }: HistoryCardProps) {
   const [popconfirmOpen, setPopconfirmOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { deleteLeadAttachments, isLoadingDeleteAttachForLead } =
     useDeleteLeadAttachments();
@@ -68,6 +70,10 @@ function HistoryCard({
     }
   };
 
+  const handleExtract = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div className="card mb-10">
       <div className="card__row">
@@ -80,7 +86,12 @@ function HistoryCard({
           <div className="card__body">
             <div className="card__left">
               <div className="card__texts d-flex align-center mb-5">
-                <div className="card__text">
+                <div
+                  className={classNames(
+                    isExpanded ? 'expanded' : '',
+                    'card__text',
+                  )}
+                >
                   {type === 'task' && (
                     <Radio>
                       <div
@@ -116,9 +127,12 @@ function HistoryCard({
                   View
                 </p>
               )}
-              {!['contract', 'payment', 'phone'].includes(type) && (
-                <p className="card__action">
-                  <img src="./img/drawer/extract.svg" alt="" />
+              {!['contract', 'payment'].includes(type) && (
+                <p onClick={handleExtract} className="card__action">
+                  <img
+                    src={`./img/drawer/${isExpanded ? 'extract-o' : 'extract'}.svg`}
+                    alt=""
+                  />
                 </p>
               )}
               {['note', 'file'].includes(type) && (

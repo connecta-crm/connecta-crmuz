@@ -2,7 +2,7 @@
   // .card__row
   &__row {
     @include flexbox();
-    align-items: center;
+    // align-items: center;
     margin: 0 -5px;
   }
   // .card__col
@@ -16,6 +16,7 @@
     @include flexbox();
     align-items: center;
     justify-content: space-between;
+    margin-top: 17px;
     img {
       width: 100%;
     }
@@ -29,6 +30,7 @@
     align-items: flex-start;
     justify-content: space-between;
     padding: 4px 10px;
+    @include anim(0.3s, 0s);
   }
   // .card__left
   &__left {
@@ -46,9 +48,13 @@
     font-size: 16px;
     font-weight: 400;
     max-width: 95%;
-    // white-space: nowrap;
-    text-overflow: ellipsis;
+    max-height: 27px;
     overflow: hidden;
+    @include anim(0.3s, 0s);
+    &.expanded {
+      max-height: none;
+      overflow: auto;
+    }
   }
   // .card__bottom
   &__bottom {

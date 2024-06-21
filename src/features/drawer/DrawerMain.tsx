@@ -44,7 +44,13 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
     {
       key: '2',
       label: <DrawerMainHeader label="Task" />,
-      children: <Task />,
+      children: (
+        <Task
+          sourceType={sourceType}
+          attachments={attachments}
+          isLoadingAttachments={isLoadingAttachments || false}
+        />
+      ),
     },
     {
       key: '3',

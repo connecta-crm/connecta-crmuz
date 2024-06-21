@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoadingOutlined } from '@ant-design/icons';
 import type { TabsProps } from 'antd';
-import { Tabs } from 'antd';
+import { Spin, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
@@ -25,7 +25,7 @@ export type NoteItemType = {
   user: number;
 };
 
-type HistoryProps = {
+export type HistoryProps = {
   sourceType: SourceType;
   attachments: NoteItemType[];
   isLoadingAttachments: boolean;
@@ -36,7 +36,7 @@ function History({
   attachments: data,
   isLoadingAttachments,
 }: HistoryProps) {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isNoteModalOpen, setNoteModalOpen] = useState(false);
   const [content, setContent] = useState('');
   const [attachmentId, setAttachmentId] = useState(0);
   const [attachmentType, setAttachmentType] = useState('');
@@ -152,7 +152,13 @@ Ali Brian call or text me at (973) 245-9373.`,
   const handleEditAttachment = (type: string, link: number) => {
     setAttachmentType(type);
     setAttachmentId(link);
-    console.log(type);
+    switch (type) {
+      case 'note':
+        setNoteModalOpen(true);
+        break;
+      default:
+        throw new Error('There is smth error in `handleEditAttachment`');
+    }
   };
 
   const handleSave = () => {
@@ -381,13 +387,12 @@ Ali Brian call or text me at (973) 245-9373.`,
       !errorNote
     ) {
       setContent(noteData.text);
-      setModalOpen(true);
     }
   }, [noteData, attachmentId, errorNote]);
 
   useEffect(() => {
     if (isNoteUpdated && !isLoadingUpdateNote && !errorUpdateNote) {
-      setModalOpen(false);
+      setNoteModalOpen(false);
       setContent('');
       setNoteUpdated(false);
       setAttachmentId(0);
@@ -402,14 +407,22 @@ Ali Brian call or text me at (973) 245-9373.`,
         width="middle"
         padding="0"
         loading={isLoadingUpdateNote}
-        open={isModalOpen}
+        open={isNoteModalOpen}
         onCancel={() => {
           setAttachmentId(0);
-          setModalOpen(false);
+          setNoteModalOpen(false);
         }}
         onSave={handleSave}
       >
-        <Notes content={content} onSetContent={onSetContent} />
+        {isLoadingNote ? (
+          <p className="text-center py-10">
+            <Spin />
+          </p>
+        ) : errorNote ? (
+          <p className="text-center">Error in loading note</p>
+        ) : (
+          <Notes content={content} onSetContent={onSetContent} />
+        )}
       </Modal>
     </div>
   );
