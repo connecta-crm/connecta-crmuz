@@ -135,7 +135,7 @@ export type Origintype = {
   guid: string;
   createdAt: string;
   updatedAt: string;
-  price: string;
+  price: number;
   condition: string;
   trailerType: string;
   notes: string;

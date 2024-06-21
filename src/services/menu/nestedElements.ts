@@ -1,14 +1,15 @@
 import { ComponentType } from 'react';
+import StatusAutomation from '../../pages/automation/StatusAutomation';
 import AccessRoles from '../../pages/settings/AccessRoles';
 import CompanyName from '../../pages/settings/CompanyName';
 import Distribution from '../../pages/settings/Distribution';
 import Ground from '../../pages/settings/Ground';
-import HawaiiAndAlaska from '../../pages/settings/Regions';
 import International from '../../pages/settings/International';
 import LeadParsing from '../../pages/settings/LeadParsing';
 import Merchant from '../../pages/settings/Merchant';
 import PaymentApps from '../../pages/settings/PaymentApps';
 import Providers from '../../pages/settings/Providers';
+import HawaiiAndAlaska from '../../pages/settings/Regions';
 import Teams from '../../pages/settings/Teams';
 import Templates from '../../pages/settings/Templates';
 import Users from '../../pages/settings/Users';
@@ -105,5 +106,14 @@ export const elements: MenuNestedData[] = [
     path: '/settings/templates',
     category: 'Company Management',
     el: Templates,
+  },
+];
+
+export const MoreSettingsElements: MenuNestedData[] = [
+  {
+    title: 'Status automation',
+    path: '/automation/status-automation',
+    category: 'Automation',
+    el: StatusAutomation,
   },
 ];

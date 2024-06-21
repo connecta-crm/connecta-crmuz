@@ -147,6 +147,7 @@
     align-items: center;
     justify-content: center;
     width: 290px;
+    height: 54px;
   }
   .pdf__sign__text {
     font-family: Snell Roundhand;
@@ -246,4 +247,25 @@
     text-align: left;
     color: #21232c;
   }
+ 
 }
+ .pdf__spinner{
+    width: 100%;
+    height: 100vh;
+    @include flexbox();
+    align-items: center;
+    justify-content: center;
+  }
+  .pdf__eror__text{
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 47.4px;
+    color: rgb(227, 75, 75);
+  }
+
+  .pdf__success__text{
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 47.4px;
+    color: rgb(25 146 94)
+  }
