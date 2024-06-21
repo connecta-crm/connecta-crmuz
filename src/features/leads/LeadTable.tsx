@@ -1,7 +1,7 @@
 import { Radio, Table } from 'antd';
-import { DrawerProps } from '../../ui/Drawer';
-import TableHeaderActions from '../../ui/TableHeaderActions';
-import TableHeaderFilters from '../../ui/TableHeaderFilters';
+import { DrawerProps, SourceType } from '../../ui/Drawer';
+import TableHeaderActions from '../../ui/table/TableHeaderActions';
+import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
 
