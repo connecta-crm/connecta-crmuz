@@ -33,7 +33,7 @@ type HistoryProps = {
 
 function History({
   sourceType,
-  attachments,
+  attachments: data,
   isLoadingAttachments,
 }: HistoryProps) {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -56,6 +56,73 @@ function History({
   const onSetContent = (val: string) => {
     setContent(val);
   };
+
+  const fakeData = [
+    {
+      id: 230,
+      text: `Hi Francisco ! I was just wondering if you still need a transportation service. Please, reply to me with either “Yes” or “No”, so I can proceed with your request. 
+Ali Brian call or text me at (973) 245-9373.`,
+      createdAt: '2024-06-21T04:54:39.627Z',
+      fromPhone: '(929) 999-9999',
+      toPhone: ['string'],
+      type: 'phone',
+      user: 0,
+    },
+    {
+      id: 332,
+      text: 'Insurance',
+      createdAt: '2024-06-21T04:54:39.627Z',
+      file: 'string',
+      type: 'file',
+      user: 0,
+    },
+    {
+      id: 3343432,
+      text: 'Driver Prime Auto Transport PU today DEL tom (929) 929-2929',
+      createdAt: '2024-06-21T04:54:39.627Z',
+      file: 'string',
+      type: 'note',
+      user: 0,
+    },
+    {
+      id: 443,
+      text: 'Contract is sent',
+      createdAt: '2024-06-21T04:54:39.627Z',
+      type: 'contract',
+      user: 'Ali Brian',
+    },
+    {
+      id: 512,
+      text: '$200 is paid by Zelle',
+      createdAt: '2024-06-21T04:54:39.627Z',
+      type: 'payment',
+      user: 'Ali Brian',
+    },
+    {
+      id: 643,
+      text: 'Converted to order',
+      createdAt: '2024-06-21T04:54:39.627Z',
+      type: 'activity',
+      user: 'Ali Brian',
+    },
+    {
+      id: 754,
+      text: 'Initial quote',
+      createdAt: '2024-06-21T04:54:39.627Z',
+      type: 'email',
+      user: 'Ali Brian',
+      fromEmail: 'brian@matelogisticss.com',
+    },
+    {
+      id: 854,
+      text: 'Need to call back, wants to speak with his wife',
+      createdAt: '2024-06-21T04:54:39.627Z',
+      type: 'task',
+      user: 'Ali Brian',
+      fromEmail: 'Call was scheduled on 12.31.2024 at 3:40 pm',
+    },
+  ];
+  const attachments = data?.concat(fakeData);
 
   // * FILTER TO TYPE NOTE
   const typeNoteData =
@@ -332,7 +399,7 @@ function History({
       <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
       <Modal
         title="Edit Note"
-        width="small"
+        width="middle"
         padding="0"
         loading={isLoadingUpdateNote}
         open={isModalOpen}

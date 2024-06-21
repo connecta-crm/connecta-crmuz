@@ -81,11 +81,16 @@ function HistoryCard({
             <div className="card__left">
               <div className="card__texts d-flex align-center mb-5">
                 <div className="card__text">
-                  <Radio>
-                    <div
-                      dangerouslySetInnerHTML={{ __html: item.title || '' }}
-                    />
-                  </Radio>
+                  {type === 'task' && (
+                    <Radio>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: item.title || item?.text || '',
+                        }}
+                      />
+                    </Radio>
+                  )}
+                  {item.title || item?.text || ''}
                 </div>
               </div>
               <div className="card__bottom d-flex align-center">
@@ -95,48 +100,58 @@ function HistoryCard({
               </div>
             </div>
             <div className="card__right d-flex align-center">
-              <p
-                className="card__action w-auto"
-                style={{ color: '#666666', fontWeight: 400 }}
-              >
-                Listen
-              </p>
-              <p
-                className="card__action w-auto"
-                style={{ color: '#666666', fontWeight: 400 }}
-              >
-                View
-              </p>
-              <p className="card__action">
-                <img src="./img/drawer/extract.svg" alt="" />
-              </p>
-              <button
-                title="edit-attachment"
-                className="card__action"
-                disabled={isLoading}
-                onClick={() => onEdit(item.type, item.link)}
-              >
-                <img src="./img/drawer/pen.svg" alt="" />
-              </button>
-              <Popconfirm
-                placement="top"
-                title={`Delete this ${type} from the history?`}
-                description={`Delete this ${type}`}
-                okText={isLoadingDelete ? <LoadingOutlined /> : 'Yes'}
-                cancelText="No"
-                open={popconfirmOpen}
-                onConfirm={handleDelete}
-                onCancel={() => setPopconfirmOpen(false)}
-              >
-                <button
-                  title="delete"
-                  className="card__action"
-                  disabled={isLoadingDelete}
-                  onClick={() => setPopconfirmOpen(true)}
+              {type === 'phone' && (
+                <p
+                  className="card__action w-auto"
+                  style={{ color: '#666666', fontWeight: 400 }}
                 >
-                  <img src="./img/drawer/delete-icon.svg" alt="" />
-                </button>
-              </Popconfirm>
+                  Listen
+                </p>
+              )}
+              {['email', 'contract', 'payment', 'activity'].includes(type) && (
+                <p
+                  className="card__action w-auto"
+                  style={{ color: '#666666', fontWeight: 400 }}
+                >
+                  View
+                </p>
+              )}
+              {!['contract', 'payment', 'phone'].includes(type) && (
+                <p className="card__action">
+                  <img src="./img/drawer/extract.svg" alt="" />
+                </p>
+              )}
+              {['note', 'file'].includes(type) && (
+                <>
+                  <button
+                    title="edit-attachment"
+                    className="card__action"
+                    disabled={isLoading}
+                    onClick={() => onEdit(item.type, item.link)}
+                  >
+                    <img src="./img/drawer/pen.svg" alt="" />
+                  </button>
+                  <Popconfirm
+                    placement="top"
+                    title={`Delete this ${type} from the history?`}
+                    description={`Delete this ${type}`}
+                    okText={isLoadingDelete ? <LoadingOutlined /> : 'Yes'}
+                    cancelText="No"
+                    open={popconfirmOpen}
+                    onConfirm={handleDelete}
+                    onCancel={() => setPopconfirmOpen(false)}
+                  >
+                    <button
+                      title="delete"
+                      className="card__action"
+                      disabled={isLoadingDelete}
+                      onClick={() => setPopconfirmOpen(true)}
+                    >
+                      <img src="./img/drawer/delete-icon.svg" alt="" />
+                    </button>
+                  </Popconfirm>
+                </>
+              )}
             </div>
           </div>
         </div>
