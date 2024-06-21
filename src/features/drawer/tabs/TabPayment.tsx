@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Flex, UploadFile } from 'antd';
 import { useState } from 'react';
+import TabChargePaymentModal from './TabChargePaymentModal';
+import TabCreatePaymentModal from './TabCreatePaymentModal';
 import TabPaymentAttachModal from './TabPaymentAttachModal';
 
 function TabPayment() {
   const [fileList, setFileList] = useState<UploadFile[]>(['123']);
   const [isOpenModal, setOpenModal] = useState({
     attachModal: false,
+    createPaymentModal: false,
+    chargePaymentModal: false,
   });
 
   return (
@@ -30,7 +34,7 @@ function TabPayment() {
                   <th>Amount charged</th>
                   <th>Payment type</th>
                   <th>Direction</th>
-                  <th>Status</th>
+                  <th style={{ width: 190 }}>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +87,17 @@ function TabPayment() {
                     <Button className="ml-10" ghost type="primary" size="small">
                       Send CCA
                     </Button>
-                    <Button className="ml-10" type="primary" size="small">
+                    <Button
+                      className="ml-10"
+                      type="primary"
+                      size="small"
+                      onClick={() =>
+                        setOpenModal((prev) => ({
+                          ...prev,
+                          chargePaymentModal: true,
+                        }))
+                      }
+                    >
                       Charge
                     </Button>
                   </td>
@@ -119,7 +133,13 @@ function TabPayment() {
         >
           <span></span>
           <div>
-            <Button type="primary" size="middle">
+            <Button
+              type="primary"
+              size="middle"
+              onClick={() => {
+                setOpenModal((prev) => ({ ...prev, createPaymentModal: true }));
+              }}
+            >
               Create a payment
             </Button>
           </div>
@@ -129,6 +149,18 @@ function TabPayment() {
         isOpenModal={isOpenModal.attachModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, attachModal: false }))
+        }
+      />
+      <TabCreatePaymentModal
+        isOpenModal={isOpenModal.createPaymentModal}
+        onCloseModal={() =>
+          setOpenModal((prev) => ({ ...prev, createPaymentModal: false }))
+        }
+      />
+      <TabChargePaymentModal
+        isOpenModal={isOpenModal.chargePaymentModal}
+        onCloseModal={() =>
+          setOpenModal((prev) => ({ ...prev, chargePaymentModal: false }))
         }
       />
     </>

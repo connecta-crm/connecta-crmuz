@@ -22,7 +22,8 @@ function Leads() {
   const [leadId, setLeadId] = useState<number>(0);
   const { leads, count, isLoading: isLoadingLeads } = useLeads();
   const { lead, isLoading: isLoadingLead, error } = useLead(guid);
-  const { leadLogs, isLoadingLeadLogs } = useLeadLogs(leadId);
+  const { leadLogs, isLoadingLeadLogs, isFetchingLeadLogs } =
+    useLeadLogs(leadId);
   const [isOpenCDPriceModal, setOpenCDPriceModal] = useState(false);
 
   const { cdPrice, isFetchingCDPrice } = useCDPrice(
@@ -102,6 +103,7 @@ function Leads() {
         sourceType="lead"
         dataSource={leads}
         loadingItem={isLoadingLead}
+        isLoadingHistory={isFetchingLeadLogs}
         onOpenDrawer={handleOpenDrawer}
         onOpenHistory={handleOpenHistoryModal}
       />

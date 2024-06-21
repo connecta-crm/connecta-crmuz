@@ -23,7 +23,8 @@ function Orders() {
   const [orderId, setOrderId] = useState<number>(0);
   const { orders, count, isLoadingOrders } = useOrders();
   const { order, isLoading: isLoadingOrder, error } = useOrder(guid);
-  const { orderLogs, isLoadingOrderLogs } = useOrderLogs(orderId);
+  const { orderLogs, isLoadingOrderLogs, isFetchingOrderLogs } =
+    useOrderLogs(orderId);
 
   const [openLeadModal, setOpenLeadModal] = useState(false);
   const [isOpenDispatchModal, setOpenDispatchModal] = useState(false);
@@ -109,6 +110,7 @@ function Orders() {
         sourceType="order"
         dataSource={orders}
         loadingItem={isLoadingOrder}
+        isLoadingHistory={isFetchingOrderLogs}
         onOpenDrawer={handleOpenDrawer}
         onOpenDispatch={() => {
           setOpenDispatchModal(true);

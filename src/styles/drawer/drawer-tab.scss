@@ -145,12 +145,16 @@
       &__content {
         @include flexbox();
         align-items: center;
+        max-width: 55%;
       }
       &__text {
         margin-left: 10px;
         color: #666;
         font-size: 15px;
         font-weight: 400;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       &__delete {
         cursor: pointer;

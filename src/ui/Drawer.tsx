@@ -27,14 +27,16 @@ function DrawerApp({
   dataSource,
   loadingItem,
   sourceType,
+  isLoadingHistory,
   onOpenDrawer,
   onOpenDispatch,
   onOpenDirectDispatch,
   onOpenHistory,
   onOpenConvert,
 }: DrawerProps & {
-  onOpenHistory: (id: number) => void;
   sourceType: SourceType;
+  isLoadingHistory: boolean;
+  onOpenHistory: (id: number) => void;
   onOpenConvert?: () => void;
 }) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
@@ -49,6 +51,7 @@ function DrawerApp({
             sourceType={sourceType}
             dataSource={dataSource} // todo
             loadingItem={loadingItem}
+            isLoadingHistory={isLoadingHistory}
             onOpenDrawer={onOpenDrawer}
             onOpenHistory={onOpenHistory}
             onOpenConvert={onOpenConvert}

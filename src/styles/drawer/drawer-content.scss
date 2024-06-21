@@ -263,3 +263,12 @@
     bottom: 28px;
   }
 }
+/* ==================================================================================================================*/
+
+.ant-collapse-item .charge-payment .box-header__arrow-bold {
+  right: 16px;
+  transform: rotate(-90deg);
+}
+.ant-collapse-item-active .charge-payment .box-header__arrow-bold {
+  transform: rotate(0);
+}

@@ -28,7 +28,8 @@ function Quotes() {
 
   const { quotes, count, isLoadingQuotes } = useQuotes();
   const { quote, isLoading: isLoadingQuote, error } = useQuote(guid);
-  const { quoteLogs, isLoadingQuoteLogs } = useQuoteLogs(quoteId);
+  const { quoteLogs, isLoadingQuoteLogs, isFetchingQuoteLogs } =
+    useQuoteLogs(quoteId);
   const [isOpenCDPriceModal, setOpenCDPriceModal] = useState(false);
 
   const { cdPrice, isFetchingCDPrice } = useCDPrice(
@@ -117,6 +118,7 @@ function Quotes() {
         sourceType="quote"
         dataSource={quotes}
         loadingItem={isLoadingQuote}
+        isLoadingHistory={isFetchingQuoteLogs}
         onOpenDrawer={handleOpenDrawer}
         onOpenHistory={handleOpenHistoryModal}
         onOpenConvert={handleOpenConvertModal}

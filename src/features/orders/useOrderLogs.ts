@@ -17,11 +17,12 @@ export function useOrderLogs(id: number) {
   const {
     data: { results: orderLogs } = {},
     isPending: isLoadingOrderLogs,
+    isFetching: isFetchingOrderLogs,
     error,
   } = useQuery({
     queryKey: ['orderLogs', limit, offset, id],
     queryFn: () => Orders.getOrderLogs({ limit, offset, id }),
     enabled: !!id,
   });
-  return { orderLogs, isLoadingOrderLogs, error };
+  return { orderLogs, isLoadingOrderLogs, isFetchingOrderLogs, error };
 }

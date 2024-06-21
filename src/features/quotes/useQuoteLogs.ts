@@ -17,11 +17,12 @@ export function useQuoteLogs(id: number) {
   const {
     data: { results: quoteLogs } = {},
     isPending: isLoadingQuoteLogs,
+    isFetching: isFetchingQuoteLogs,
     error,
   } = useQuery({
     queryKey: ['quoteLogs', limit, offset, id],
     queryFn: () => Quotes.getQuoteLogs({ limit, offset, id }),
     enabled: !!id,
   });
-  return { quoteLogs, isLoadingQuoteLogs, error };
+  return { quoteLogs, isLoadingQuoteLogs, isFetchingQuoteLogs, error };
 }

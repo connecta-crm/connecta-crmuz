@@ -46,6 +46,7 @@ function DrawerHeader({
   dataSource,
   sourceType: feature,
   loadingItem,
+  isLoadingHistory,
   onOpenDrawer,
   onOpenDispatch,
   onOpenDirectDispatch,
@@ -53,6 +54,7 @@ function DrawerHeader({
   onOpenConvert,
 }: DrawerProps & {
   sourceType: SourceType;
+  isLoadingHistory: boolean;
   onOpenHistory: (id: number) => void;
   onOpenConvert?: () => void;
 }) {
@@ -308,28 +310,24 @@ function DrawerHeader({
   };
 
   const itemsSettingMore = [
-    ...(feature === 'lead'
+    ...(['lead', 'quote', 'order'].includes(feature)
       ? [
           {
-            label: <p onClick={() => onOpenHistory(featureData.id)}>History</p>,
-            key: '0',
-          },
-        ]
-      : []),
-    ...(feature === 'quote'
-      ? [
-          {
-            label: <p onClick={() => onOpenHistory(featureData.id)}>History</p>,
+            label: (
+              <p
+                className="d-flex justify-between"
+                onClick={() => onOpenHistory(featureData.id)}
+              >
+                <span>History</span>
+                {isLoadingHistory && <LoadingOutlined />}
+              </p>
+            ),
             key: '0',
           },
         ]
       : []),
     ...(feature === 'order'
       ? [
-          {
-            label: <p onClick={() => onOpenHistory(featureData.id)}>History</p>,
-            key: '0',
-          },
           {
             label: <p onClick={() => {}}>Back To Quotes</p>,
             key: '1',
@@ -356,7 +354,14 @@ function DrawerHeader({
             key: '50',
           },
           {
-            label: <p onClick={() => setShowUsers(!showUsers)}>Team Support</p>,
+            label: (
+              <div onClick={() => setShowUsers(!showUsers)}>
+                <p className="d-flex align-center justify-between">
+                  <span>Team support</span>
+                  <CaretDownOutlined size={12} />
+                </p>
+              </div>
+            ),
             key: '4',
           },
           ...(showUsers ? [{ type: 'divider' as const }] : []),

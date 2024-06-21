@@ -23,11 +23,12 @@ export function useLeadLogs(id: number) {
   const {
     data: { results: leadLogs } = {},
     isPending: isLoadingLeadLogs,
+    isFetching: isFetchingLeadLogs,
     error,
   } = useQuery({
     queryKey: ['leadLogs', limit, offset, id],
     queryFn: () => Leads.getLeadLogs({ limit, offset, id }),
     enabled: !!id,
   });
-  return { leadLogs, isLoadingLeadLogs, error };
+  return { leadLogs, isLoadingLeadLogs, isFetchingLeadLogs, error };
 }
