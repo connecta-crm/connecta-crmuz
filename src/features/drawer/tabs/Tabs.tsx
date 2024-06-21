@@ -144,7 +144,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
             key: '5',
             label: 'Files',
             value: 'files',
-            icon: tabIcon('5', 'files'),
+            icon: tabIcon('5', 'file'),
             children: <TabFiles />,
           },
         ]

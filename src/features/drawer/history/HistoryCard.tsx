@@ -8,11 +8,11 @@ import { useDeleteQuoteAttachments } from '../../attachments/useDeleteQuoteAttac
 import { NoteItemType } from './History';
 
 export type HistoryCardProps = {
-  type: 'note' | 'task' | 'phone';
+  type: string;
   isLoading: boolean;
   sourceType: SourceType;
   item?: NoteItemType;
-  onEdit: (id: number) => void;
+  onEdit: (type: string, id: number) => void;
 };
 function HistoryCard({
   type,
@@ -49,7 +49,7 @@ function HistoryCard({
   }
 
   if (!item) {
-    return null;
+    return <p className="text-center">Empty data</p>;
   }
 
   const handleDelete = () => {
@@ -114,7 +114,7 @@ function HistoryCard({
                 title="edit-attachment"
                 className="card__action"
                 disabled={isLoading}
-                onClick={() => onEdit(item.link)}
+                onClick={() => onEdit(item.type, item.link)}
               >
                 <img src="./img/drawer/pen.svg" alt="" />
               </button>

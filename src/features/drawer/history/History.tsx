@@ -11,7 +11,6 @@ import { EndPointType } from '../../attachments/useCreateNote';
 import { useNote } from '../../attachments/useNote';
 import { useUpdateNote } from '../../attachments/useUpdateNote';
 import { getUser } from '../../authentication/authSlice';
-import { CancelNotesActionType } from '../tabs/Tabs';
 import HistoryCard from './HistoryCard';
 
 export type NoteItemType = {
@@ -22,7 +21,7 @@ export type NoteItemType = {
   marked: boolean;
   secondTitle: null;
   title: string;
-  type: string;
+  type: 'task' | 'note' | 'email';
   user: number;
 };
 
@@ -39,41 +38,74 @@ function History({
 }: HistoryProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [content, setContent] = useState('');
-  const [noteId, setNoteId] = useState(0);
+  const [attachmentId, setAttachmentId] = useState(0);
+  const [attachmentType, setAttachmentType] = useState('');
   const [isNoteUpdated, setNoteUpdated] = useState(false);
 
   const user = useAppSelector(getUser);
 
-  const { noteData, isLoadingNote, errorNote } = useNote(noteId);
+  const { noteData, isLoadingNote, errorNote } = useNote(
+    attachmentId,
+    attachmentType === 'note',
+  );
+  // const { noteData, isLoadingNote, errorNote } = useTask(attachmentId, attachmentType === 'task');
   const { updateNote, isLoadingUpdateNote, errorUpdateNote } = useUpdateNote(
     sourceType as EndPointType,
   );
 
-  const onSetContent = (_: CancelNotesActionType, val: string) => {
+  const onSetContent = (val: string) => {
     setContent(val);
   };
 
   // * FILTER TO TYPE NOTE
-  const notes =
+  const typeNoteData =
     attachments?.filter(({ type }: { type: string }) => type === 'note') ?? [];
+  const typeTaskData =
+    attachments?.filter(({ type }: { type: string }) => type === 'task') ?? [];
+  const typePhoneData =
+    attachments?.filter(({ type }: { type: string }) => type === 'phone') ?? [];
+  const typeEmailData =
+    attachments?.filter(({ type }: { type: string }) => type === 'email') ?? [];
+  const typeFileData =
+    attachments?.filter(({ type }: { type: string }) => type === 'file') ?? [];
+  const typeContractData =
+    attachments?.filter(({ type }: { type: string }) => type === 'contract') ??
+    [];
+  const typePaymentData =
+    attachments?.filter(({ type }: { type: string }) => type === 'payment') ??
+    [];
+  const typeActivityData =
+    attachments?.filter(({ type }: { type: string }) => type === 'activity') ??
+    [];
 
   const onChange = (key: string) => {
     console.log(key);
   };
 
-  const handleEditNote = (link: number) => {
-    setNoteId(link);
+  const handleEditAttachment = (type: string, link: number) => {
+    setAttachmentType(type);
+    setAttachmentId(link);
+    console.log(type);
   };
 
   const handleSave = () => {
-    updateNote({
-      id: noteId,
-      user: user?.id,
-      endpointType: sourceType as EndPointType,
-      text: content,
-    });
+    switch (attachmentType) {
+      case 'note':
+        updateNote({
+          id: attachmentId,
+          user: user?.id,
+          endpointType: sourceType as EndPointType,
+          text: content,
+        });
+        break;
+      default:
+        break;
+    }
+
     setNoteUpdated(true);
   };
+
+  console.log('attachments:', attachments);
 
   const items: TabsProps['items'] = [
     {
@@ -87,11 +119,11 @@ function History({
         attachments.map((item: NoteItemType) => (
           <HistoryCard
             key={item.id}
-            type="all"
+            type={item.type}
             item={item}
             sourceType={sourceType}
             isLoading={isLoadingNote}
-            onEdit={handleEditNote}
+            onEdit={handleEditAttachment}
           />
         ))
       ) : (
@@ -102,66 +134,104 @@ function History({
     },
     {
       key: '2',
-      label: `Note (${notes.length})`,
-      children: notes.map((item: NoteItemType) => (
-        <HistoryCard
-          key={item.id}
-          type="note"
-          item={item}
-          sourceType={sourceType}
-          isLoading={isLoadingNote}
-          onEdit={handleEditNote}
-        />
-      )),
+      label: `Note (${typeNoteData.length})`,
+      children: typeNoteData.length ? (
+        typeNoteData.map((item: NoteItemType) => (
+          <HistoryCard
+            key={item.id}
+            type={item.type}
+            item={item}
+            sourceType={sourceType}
+            isLoading={isLoadingNote}
+            onEdit={handleEditAttachment}
+          />
+        ))
+      ) : (
+        <p className="text-center" style={{ color: '#d1d1d1' }}>
+          Empty Note
+        </p>
+      ),
     },
     {
       key: '3',
-      label: 'Tasks (0)',
-      children: (
-        <HistoryCard
-          type="task"
-          sourceType={sourceType}
-          onEdit={() => {}}
-          isLoading={isLoadingNote}
-        />
+      label: `Tasks (${typeTaskData.length})`,
+      children: typeTaskData.length ? (
+        typeTaskData.map((item: NoteItemType) => (
+          <HistoryCard
+            key={item.id}
+            type={item.type}
+            item={item}
+            sourceType={sourceType}
+            isLoading={isLoadingNote}
+            onEdit={handleEditAttachment}
+          />
+        ))
+      ) : (
+        <p className="text-center" style={{ color: '#d1d1d1' }}>
+          Empty Task
+        </p>
       ),
     },
     {
       key: '4',
-      label: 'Phone (0)',
-      children: (
-        <HistoryCard
-          type="phone"
-          sourceType={sourceType}
-          onEdit={() => {}}
-          isLoading={isLoadingNote}
-        />
+      label: `Phone (${typePhoneData.length})`,
+      children: typePhoneData.length ? (
+        typePhoneData.map((item: NoteItemType) => (
+          <HistoryCard
+            key={item.id}
+            type={item.type}
+            item={item}
+            sourceType={sourceType}
+            isLoading={isLoadingNote}
+            onEdit={handleEditAttachment}
+          />
+        ))
+      ) : (
+        <p className="text-center" style={{ color: '#d1d1d1' }}>
+          Empty Phone
+        </p>
       ),
     },
     {
       key: '5',
-      label: 'Email (0)',
-      children: (
-        <HistoryCard
-          type="email"
-          sourceType={sourceType}
-          onEdit={() => {}}
-          isLoading={isLoadingNote}
-        />
+      label: `Email (${typeEmailData.length})`,
+      children: typeEmailData.length ? (
+        typeEmailData.map((item: NoteItemType) => (
+          <HistoryCard
+            key={item.id}
+            type={item.type}
+            item={item}
+            sourceType={sourceType}
+            isLoading={isLoadingNote}
+            onEdit={handleEditAttachment}
+          />
+        ))
+      ) : (
+        <p className="text-center" style={{ color: '#d1d1d1' }}>
+          Empty Email
+        </p>
       ),
     },
     ...(sourceType === 'quote' || sourceType === 'order'
       ? [
           {
             key: '6',
-            label: 'Files (0)',
-            children: (
-              <HistoryCard
-                type="file"
-                sourceType={sourceType}
-                onEdit={() => {}}
-                isLoading={isLoadingNote}
-              />
+            label: `Files (${typeFileData.length})`,
+            children: typeFileData.length ? (
+              typeFileData.map((item: NoteItemType) => (
+                <HistoryCard
+                  key={item.id}
+                  type={item.type}
+                  item={item}
+                  sourceType={sourceType}
+                  isLoading={isLoadingNote}
+                  onEdit={handleEditAttachment}
+                />
+              ))
+            ) : (
+              <p className="text-center" style={{ color: '#d1d1d1' }}>
+                Empty File
+              </p>
             ),
           },
         ]
@@ -170,14 +240,22 @@ function History({
       ? [
           {
             key: '7',
-            label: 'Contract (0)',
-            children: (
-              <HistoryCard
-                type="contract"
-                sourceType={sourceType}
-                onEdit={() => {}}
-                isLoading={isLoadingNote}
-              />
+            label: `Contract (${typeContractData.length})`,
+            children: typeContractData.length ? (
+              typeContractData.map((item: NoteItemType) => (
+                <HistoryCard
+                  key={item.id}
+                  type={item.type}
+                  item={item}
+                  sourceType={sourceType}
+                  isLoading={isLoadingNote}
+                  onEdit={handleEditAttachment}
+                />
+              ))
+            ) : (
+              <p className="text-center" style={{ color: '#d1d1d1' }}>
+                Empty Contract
+              </p>
             ),
           },
         ]
@@ -186,45 +264,66 @@ function History({
       ? [
           {
             key: '8',
-            label: 'Payment (0)',
-            children: (
-              <HistoryCard
-                type="payment"
-                sourceType={sourceType}
-                onEdit={() => {}}
-                isLoading={isLoadingNote}
-              />
+            label: `Payment (${typePaymentData.length})`,
+            children: typePaymentData.length ? (
+              typePaymentData.map((item: NoteItemType) => (
+                <HistoryCard
+                  key={item.id}
+                  type={item.type}
+                  item={item}
+                  sourceType={sourceType}
+                  isLoading={isLoadingNote}
+                  onEdit={handleEditAttachment}
+                />
+              ))
+            ) : (
+              <p className="text-center" style={{ color: '#d1d1d1' }}>
+                Empty Payment
+              </p>
             ),
           },
         ]
       : []),
     {
       key: '9',
-      label: 'Activity (0)',
-      children: (
-        <HistoryCard
-          type="activity"
-          sourceType={sourceType}
-          onEdit={() => {}}
-          isLoading={isLoadingNote}
-        />
+      label: `Activity (${typeActivityData.length})`,
+      children: typeActivityData.length ? (
+        typeActivityData.map((item: NoteItemType) => (
+          <HistoryCard
+            key={item.id}
+            type={item.type}
+            item={item}
+            sourceType={sourceType}
+            isLoading={isLoadingNote}
+            onEdit={handleEditAttachment}
+          />
+        ))
+      ) : (
+        <p className="text-center" style={{ color: '#d1d1d1' }}>
+          Empty Activity
+        </p>
       ),
     },
   ];
 
   useEffect(() => {
-    if (noteData && Object.keys(noteData).length && noteId && !errorNote) {
+    if (
+      noteData &&
+      Object.keys(noteData).length &&
+      attachmentId &&
+      !errorNote
+    ) {
       setContent(noteData.text);
       setModalOpen(true);
     }
-  }, [noteData, noteId, errorNote]);
+  }, [noteData, attachmentId, errorNote]);
 
   useEffect(() => {
     if (isNoteUpdated && !isLoadingUpdateNote && !errorUpdateNote) {
       setModalOpen(false);
       setContent('');
       setNoteUpdated(false);
-      setNoteId(0);
+      setAttachmentId(0);
     }
   }, [isNoteUpdated, isLoadingUpdateNote, errorUpdateNote]);
 
@@ -238,12 +337,12 @@ function History({
         loading={isLoadingUpdateNote}
         open={isModalOpen}
         onCancel={() => {
-          setNoteId(0);
+          setAttachmentId(0);
           setModalOpen(false);
         }}
         onSave={handleSave}
       >
-        <Notes type="main" content={content} onSetContent={onSetContent} />
+        <Notes content={content} onSetContent={onSetContent} />
       </Modal>
     </div>
   );
