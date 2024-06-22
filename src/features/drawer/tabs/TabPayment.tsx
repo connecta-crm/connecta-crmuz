@@ -4,6 +4,8 @@ import { useState } from 'react';
 import TabChargePaymentModal from './TabChargePaymentModal';
 import TabCreatePaymentModal from './TabCreatePaymentModal';
 import TabPaymentAttachModal from './TabPaymentAttachModal';
+import TabPaymentModal from './TabPaymentModal';
+import TabTransRefundModal from './TabTransRefundModal';
 
 function TabPayment() {
   const [fileList, setFileList] = useState<UploadFile[]>(['123']);
@@ -11,6 +13,8 @@ function TabPayment() {
     attachModal: false,
     createPaymentModal: false,
     chargePaymentModal: false,
+    paymentModal: false,
+    transRefundModal: false,
   });
 
   return (
@@ -64,7 +68,18 @@ function TabPayment() {
                   <td>Zelle</td>
                   <td>Customer to Broker</td>
                   <td>
-                    <Button className="ml-10" ghost type="primary" size="small">
+                    <Button
+                      className="ml-10"
+                      ghost
+                      type="primary"
+                      size="small"
+                      onClick={() =>
+                        setOpenModal((prev) => ({
+                          ...prev,
+                          transRefundModal: true,
+                        }))
+                      }
+                    >
                       View
                     </Button>
                     <Button
@@ -84,7 +99,18 @@ function TabPayment() {
                   <td>Credit Card</td>
                   <td>Customer to Broker</td>
                   <td>
-                    <Button className="ml-10" ghost type="primary" size="small">
+                    <Button
+                      className="ml-10"
+                      ghost
+                      type="primary"
+                      size="small"
+                      onClick={() =>
+                        setOpenModal((prev) => ({
+                          ...prev,
+                          paymentModal: true,
+                        }))
+                      }
+                    >
                       Send CCA
                     </Button>
                     <Button
@@ -161,6 +187,18 @@ function TabPayment() {
         isOpenModal={isOpenModal.chargePaymentModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, chargePaymentModal: false }))
+        }
+      />
+      <TabPaymentModal
+        isOpenModal={isOpenModal.paymentModal}
+        onCloseModal={() =>
+          setOpenModal((prev) => ({ ...prev, paymentModal: false }))
+        }
+      />
+      <TabTransRefundModal
+        isOpenModal={isOpenModal.transRefundModal}
+        onCloseModal={() =>
+          setOpenModal((prev) => ({ ...prev, transRefundModal: false }))
         }
       />
     </>

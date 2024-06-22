@@ -1,14 +1,14 @@
 import { Button, Input, Select } from 'antd';
 import Modal from '../../../ui/Modal';
 
-function TabPaymentAttachModal({ isOpenModal, onCloseModal }) {
+function TabTransRefundModal({ isOpenModal, onCloseModal }) {
   return (
     <Modal
-      title="Attach a payment"
+      title="View a transaction"
       width="small"
       padding="15"
-      hasEdit
       open={isOpenModal}
+      hasEdit
       onCancel={onCloseModal}
     >
       <>
@@ -27,17 +27,7 @@ function TabPaymentAttachModal({ isOpenModal, onCloseModal }) {
           <div className="d-flex">
             <div className="modal__input-label pl-0">Payment type</div>
           </div>
-          <Select
-            size="small"
-            showSearch
-            optionFilterProp="children"
-            filterOption={false}
-            placeholder="Select payment type"
-            onChange={() => {}}
-            style={{ width: 218, float: 'inline-end', height: 24 }}
-            loading={false}
-            options={[]}
-          />
+          <div className="modal__single-text">Credit Card</div>
         </div>
         <div className="d-flex justify-between mb-5">
           <div className="d-flex">
@@ -72,13 +62,12 @@ function TabPaymentAttachModal({ isOpenModal, onCloseModal }) {
           />
         </div>
         <Button type="primary" style={{ width: '100%' }} size="middle">
-          <b>Attach a receipt</b>
+          <b>Submit</b>
         </Button>
-
         <div className="mt-20">
           <div className="mb-20">
             <h3 className="text-center f-16 font-bold">
-              This transaction has been recorder via Zelle
+              This transaction has been approved via Zelle
             </h3>
             <div className="d-flex align-center justify-between f-15">
               <p style={{ color: '#086ed6', fontSize: 16 }}>Successful</p>{' '}
@@ -86,27 +75,15 @@ function TabPaymentAttachModal({ isOpenModal, onCloseModal }) {
               <div style={{ color: '#21232c' }}>03/14/2024 03:23 PM</div>
             </div>
           </div>
-          <div className="mb-20">
+          <div className="">
             <h3 className="text-center f-16 font-bold">
-              This transaction has been recorder via Zelle
+              This transaction has been approved via Zelle
             </h3>
             <div className="d-flex align-center justify-between f-15">
-              <p style={{ color: '#086ed6', fontSize: 16 }}>Successful</p>{' '}
+              <p style={{ color: '#e52e2e', fontSize: 16 }}>Unsuccessful</p>{' '}
               <span style={{ color: '#02a858' }}>$300.00</span>
               <div style={{ color: '#21232c' }}>03/14/2024 03:23 PM</div>
             </div>
-          </div>
-          <div className="mt-20 mb-20 text-center">
-            <img
-              src="/img/drawer/example-attach-payment.png"
-              alt="attach-payment-image"
-            />
-          </div>
-          <div className="mt-20 mb-20 text-center">
-            <img
-              src="/img/drawer/example-attach-payment.png"
-              alt="attach-payment-image"
-            />
           </div>
         </div>
       </>
@@ -114,4 +91,4 @@ function TabPaymentAttachModal({ isOpenModal, onCloseModal }) {
   );
 }
 
-export default TabPaymentAttachModal;
+export default TabTransRefundModal;
