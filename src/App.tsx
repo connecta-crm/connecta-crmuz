@@ -8,7 +8,7 @@ import { DarkModeProvider } from './context/DarkModeContext';
 import DrawerFeatureProvider from './context/DrawerFeatureContext.tsx';
 import FilterProvider from './context/FilterContext.tsx';
 import ModalProvider from './context/ModalContext.tsx';
-import {PdfProvider} from './context/PdfContext.tsx';
+import { PdfProvider } from './context/PdfContext.tsx';
 import Contract from './pages/Contract.tsx';
 import PageNotFound from './pages/PageNotFound.tsx';
 import Terms from './pages/Terms.tsx';
@@ -16,6 +16,11 @@ import ConfirmCode from './pages/authentication/ConfirmCode.tsx';
 import ConfirmEmail from './pages/authentication/ConfirmEmail.tsx';
 import ConfirmPassword from './pages/authentication/ConfirmPassword.tsx';
 import Login from './pages/authentication/Login.tsx';
+import Cashapp from './pages/payment/Cashapp.tsx';
+import Pay from './pages/payment/Pay.tsx';
+import Paypal from './pages/payment/Paypal.tsx';
+import Venmo from './pages/payment/Venmo.tsx';
+import Zelle from './pages/payment/Zelle.tsx';
 import { getMenuData } from './services/menu/index.ts';
 import AppLayout from './ui/AppLayout.tsx';
 import AuthLayout from './ui/AuthLayout.tsx';
@@ -95,6 +100,14 @@ function App() {
                       <Route
                         path="/contract/:text/:id/terms"
                         element={<Terms />}
+                      />
+                      <Route path="/contract/pay" element={<Pay />} />
+                      <Route path="/contract/pay/zelle" element={<Zelle />} />
+                      <Route path="/contract/pay/venmo" element={<Venmo />} />
+                      <Route path="/contract/pay/paypal" element={<Paypal />} />
+                      <Route
+                        path="/contract/pay/cashapp"
+                        element={<Cashapp />}
                       />
                     </Route>
                     <Route path="*" element={<PageNotFound />} />
