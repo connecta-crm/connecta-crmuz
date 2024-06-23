@@ -39,7 +39,7 @@ export default function Venmo() {
                 className="pay__form__text d-flex"
                 onClick={() => {
                   navigator.clipboard.writeText('@oceanbluego');
-                  message.success('Copy');
+                  message.success('Copied');
                 }}
               >
                 <span className="copy__text">@oceanbluego</span>

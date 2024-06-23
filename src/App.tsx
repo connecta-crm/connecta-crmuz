@@ -25,6 +25,10 @@ import { getMenuData } from './services/menu/index.ts';
 import AppLayout from './ui/AppLayout.tsx';
 import AuthLayout from './ui/AuthLayout.tsx';
 import ProtectedRoute from './ui/ProtectedRoute.tsx';
+import CcAuthorization from './pages/cc-auth/CcAuthorization.tsx';
+import CcDebet from './pages/cc-auth/CcDebet.tsx';
+import CcDebePicture from './features/cc-auth/CcDebetPicture.tsx';
+import CcDebePhone from './features/cc-auth/CcDebetPhone.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -101,14 +105,15 @@ function App() {
                         path="/contract/:text/:id/terms"
                         element={<Terms />}
                       />
+                      <Route path="/contract/cc-auth" element={<CcAuthorization />} />
+                      <Route path="/contract/cc-debit" element={<CcDebet />} />
+                      <Route path="/contract/cc-card-picture" element={<CcDebePicture />} />
+                      <Route path="/contract/cc-phone" element={<CcDebePhone />} />
                       <Route path="/contract/pay" element={<Pay />} />
                       <Route path="/contract/pay/zelle" element={<Zelle />} />
                       <Route path="/contract/pay/venmo" element={<Venmo />} />
                       <Route path="/contract/pay/paypal" element={<Paypal />} />
-                      <Route
-                        path="/contract/pay/cashapp"
-                        element={<Cashapp />}
-                      />
+                      <Route path="/contract/pay/cashapp" element={<Cashapp />} />
                     </Route>
                     <Route path="*" element={<PageNotFound />} />
                   </Routes>

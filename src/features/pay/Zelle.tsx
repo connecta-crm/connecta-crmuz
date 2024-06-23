@@ -39,7 +39,7 @@ export default function Zelle() {
                 className="pay__form__text d-flex"
                 onClick={() => {
                   navigator.clipboard.writeText('payment@oceanbluego.com');
-                  message.success('Copy');
+                  message.success('Copied');
                 }}
               >
                 <span className="copy__text">payment@oceanbluego.com </span>
