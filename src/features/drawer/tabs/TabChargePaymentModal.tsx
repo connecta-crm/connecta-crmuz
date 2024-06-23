@@ -307,7 +307,7 @@ function TabChargePaymentModal({ isOpenModal, onCloseModal }) {
             </div>
           )}
           items={itemsForCreditCard}
-          expandIconPosition="right"
+          expandIconPosition="end"
         />
       </>
     </Modal>

@@ -130,6 +130,56 @@ export const TaskTableColumns = [
   },
 ];
 
+// * insight table fake column
+export const InsightLeadsTableColumns = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    render: (text: string) => (
+      <p className="font-bold" style={{ color: 'rgb(8, 110, 214)' }}>
+        {text}
+      </p>
+    ),
+  },
+  {
+    title: 'Customer',
+    dataIndex: 'customer',
+  },
+  {
+    title: 'Comission',
+    dataIndex: 'comission',
+  },
+  {
+    title: 'User',
+    dataIndex: 'user',
+  },
+  {
+    title: 'Lead status',
+    dataIndex: 'lead_status',
+  },
+  {
+    title: 'Lead source',
+    dataIndex: 'lead_source',
+  },
+  {
+    title: 'Lead created on',
+    dataIndex: 'lead_created',
+  },
+];
+
+// * insight table fake data
+export const InsightLeadsTableData = [
+  {
+    id: '110000',
+    customer: 'John Smith',
+    comission: 'John Smith',
+    lead_status: 'Upcoming',
+    user: 'Ali Brian',
+    lead_source: 'A01',
+    lead_created: '01/15/2024 09:02 AM',
+  },
+];
+
 export const TaskTableData = [
   {
     key: '1',

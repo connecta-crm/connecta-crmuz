@@ -203,7 +203,7 @@ function TabPaymentModal({ isOpenModal, onCloseModal }) {
             </div>
           )}
           items={itemsForCreditCard}
-          expandIconPosition="right"
+          expandIconPosition="end"
         />
         <div style={{ padding: 15 }}>
           <Button

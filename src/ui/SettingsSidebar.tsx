@@ -24,6 +24,7 @@ function SettingsSidebar() {
           key={categoryName}
           size="large"
           defaultActiveKey={['0']}
+          // expandIcon={() => <DownOutlined />}
           items={[
             {
               key: String(index),

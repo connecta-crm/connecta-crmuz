@@ -12,9 +12,12 @@ import fifthImg from '/img/sidebar/05.svg';
 import fifthImgActive from '/img/sidebar/05_active.svg';
 import sixthImg from '/img/sidebar/06.svg';
 import sixthImgActive from '/img/sidebar/06_active.svg';
+import eightImg from '/img/sidebar/08.svg';
+import eightImgActive from '/img/sidebar/08_active.svg';
 import ninthImg from '/img/sidebar/09.svg';
 import ninthImgActive from '/img/sidebar/09_active.svg';
-import more from '/img/sidebar/11.svg';
+import moreImg from '/img/sidebar/10.svg';
+import moreImgActive from '/img/sidebar/10_active.svg';
 
 import {
   MenuNestedData,
@@ -134,7 +137,16 @@ export const getMenuData: MenuData[] = [
       { id: 29, value: 'blocked', title: 'Blocked' },
     ],
   },
-
+  {
+    title: 'Insights',
+    key: '__insights',
+    path: '/insights',
+    icon: eightImg,
+    iconActive: eightImgActive,
+    component: lazyLoad(() => import('../../pages/Insights')),
+    roles: ['admin', 'user'],
+    status: [{ id: 30, value: 'insights', title: 'Insights' }],
+  },
   {
     title: 'Settings',
     key: '__settings',
@@ -149,8 +161,8 @@ export const getMenuData: MenuData[] = [
     title: 'Automation',
     key: '_more-settings',
     path: '/automation',
-    icon: more,
-    iconActive: more,
+    icon: moreImg,
+    iconActive: moreImgActive,
     component: lazyLoad(() => import('../../pages/MoreSettings')),
     roles: ['admin', 'user'],
     elements: MoreSettingsElements,
