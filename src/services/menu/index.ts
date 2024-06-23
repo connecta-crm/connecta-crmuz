@@ -18,8 +18,8 @@ import more from '/img/sidebar/11.svg';
 
 import {
   MenuNestedData,
-  elements,
   MoreSettingsElements,
+  elements,
 } from './nestedElements';
 
 const lazyLoad = (
@@ -104,15 +104,15 @@ export const getMenuData: MenuData[] = [
     ],
   },
   {
-    title: 'Task',
+    title: 'Tasks',
     key: '__task',
-    path: '/task',
+    path: '/tasks',
     icon: fifthImg,
     iconActive: fifthImgActive,
     component: lazyLoad(() => import('../../pages/Tasks')),
     roles: ['admin', 'user'],
     status: [
-      { id: 21, value: 'task_list', title: 'Task list' },
+      { id: 21, value: 'tasks', title: 'Task list' },
       { id: 22, value: 'support', title: 'Support' },
       { id: 23, value: 'completed', title: 'Completed' },
       { id: 24, value: 'archived', title: 'Archived' },

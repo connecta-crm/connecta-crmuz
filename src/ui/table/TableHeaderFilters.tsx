@@ -17,8 +17,12 @@ function TableHeaderFilters({
 }: TableHeaderFiltersProps) {
   return (
     <div className="dt-header__filters">
-      <TableHeaderProvider />
-      <TableHeaderPagination count={count} sumPrice={sumPrice} />
+      {sourceType !== 'task' && <TableHeaderProvider />}
+      <TableHeaderPagination
+        count={count}
+        sumPrice={sumPrice}
+        sourceType={sourceType}
+      />
       <TableHeaderSearch />
       <TableHeaderUsers sourceType={sourceType} />
       <div className="dt-header__hamburg">

@@ -13,7 +13,8 @@ type TableHeaderPaginationProps = TableHeaderFiltersProps;
 function TableHeaderPagination({
   count,
   sumPrice,
-}: TableHeaderPaginationProps) {
+  sourceType,
+}: TableHeaderPaginationProps & { sourceType?: string }) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -53,10 +54,6 @@ function TableHeaderPagination({
     }
   };
 
-  // const modify = () => {
-  //   updateSearchParams(inputOffset);
-  // };
-
   const updateSearchParams = (offsetValue: number) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete('offset');
@@ -90,14 +87,9 @@ function TableHeaderPagination({
     [setSearchParams],
   );
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => modify(), 0);
-  //   return () => clearTimeout(timer);
-  // }, [inputOffset, inputLimit]);
-
   // DROPDOWN FUNCTION
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
-    if (info.source === 'trigger' || nextOpen) {
+    if ((info.source === 'trigger' || nextOpen) && sourceType !== 'task') {
       setOpen(nextOpen);
     }
   };
@@ -202,13 +194,19 @@ function TableHeaderPagination({
                   <div className="dt-header__dot"></div>
                 </>
               )}
-              <div className="dt-header__showlist_gutter">
-                <p className="dt-header__showlist_perpage">
-                  {inputOffset}-{endOffset}
-                </p>
-                /
-                <p className="dt-header__showlist_allcounts">{count || '00'}</p>
-              </div>
+              {sourceType !== 'task' ? (
+                <div className="dt-header__showlist_gutter">
+                  <p className="dt-header__showlist_perpage">
+                    {inputOffset}-{endOffset}
+                  </p>
+                  /
+                  <p className="dt-header__showlist_allcounts">
+                    {count || '00'}
+                  </p>
+                </div>
+              ) : (
+                <p className="dt-header__showlist_perpage">7 tasks</p>
+              )}
             </Space>
           </a>
         </Dropdown>

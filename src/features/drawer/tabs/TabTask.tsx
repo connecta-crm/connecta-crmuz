@@ -335,24 +335,29 @@ function TabTask({ user, customer, sourceId, sourceType }) {
               />
             </div>
           </div>
-          <div
-            className={classNames(!isFullScreen ? 'pr-5' : '', 'task__bottom')}
-          >
-            <Flex className="p-0" gap="small" wrap="wrap">
-              <Button size="small" onClick={handleCancel}>
-                Cancel
-              </Button>
-              <Button
-                type="primary"
-                size="small"
-                disabled={isLoading}
-                loading={isLoading}
-                onClick={handleSave}
-              >
-                Save
-              </Button>
-            </Flex>
-          </div>
+          {sourceType !== 'task' && (
+            <div
+              className={classNames(
+                !isFullScreen ? 'pr-5' : '',
+                'task__bottom',
+              )}
+            >
+              <Flex className="p-0" gap="small" wrap="wrap">
+                <Button size="small" onClick={handleCancel}>
+                  Cancel
+                </Button>
+                <Button
+                  type="primary"
+                  size="small"
+                  disabled={isLoading}
+                  loading={isLoading}
+                  onClick={handleSave}
+                >
+                  Save
+                </Button>
+              </Flex>
+            </div>
+          )}
         </div>
         <div className="task__col">
           <div className="task__calendar calendar">
