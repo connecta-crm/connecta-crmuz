@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-export function useSetStatusParam(statusValue: 'leads' | 'quote' | 'orders') {
+type StatusParamType = 'leads' | 'quote' | 'orders' | 'tasks';
+
+export function useSetStatusParam(statusValue: StatusParamType) {
   const [searchParams, setSearchParams] = useSearchParams();
   const status = searchParams.get('status');
 

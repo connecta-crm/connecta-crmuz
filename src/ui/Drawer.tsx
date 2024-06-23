@@ -9,7 +9,7 @@ import { LeadData } from '../models';
 
 type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;
 
-export type SourceType = 'lead' | 'quote' | 'order' | 'quote/convert';
+export type SourceType = 'lead' | 'quote' | 'order' | 'quote/convert' | 'task';
 
 export type DrawerSourceType = {
   sourceType: SourceType;

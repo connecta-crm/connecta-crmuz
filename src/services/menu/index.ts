@@ -16,7 +16,11 @@ import ninthImg from '/img/sidebar/09.svg';
 import ninthImgActive from '/img/sidebar/09_active.svg';
 import more from '/img/sidebar/11.svg';
 
-import { MenuNestedData, elements ,MoreSettingsElements} from './nestedElements';
+import {
+  MenuNestedData,
+  elements,
+  MoreSettingsElements,
+} from './nestedElements';
 
 const lazyLoad = (
   importFunc: () => Promise<{ default: ComponentType<unknown> }>,
@@ -105,7 +109,7 @@ export const getMenuData: MenuData[] = [
     path: '/task',
     icon: fifthImg,
     iconActive: fifthImgActive,
-    component: lazyLoad(() => import('../../pages/Task')),
+    component: lazyLoad(() => import('../../pages/Tasks')),
     roles: ['admin', 'user'],
     status: [
       { id: 21, value: 'task_list', title: 'Task list' },
@@ -149,6 +153,6 @@ export const getMenuData: MenuData[] = [
     iconActive: more,
     component: lazyLoad(() => import('../../pages/MoreSettings')),
     roles: ['admin', 'user'],
-    elements:MoreSettingsElements,
+    elements: MoreSettingsElements,
   },
 ];

@@ -1,5 +1,5 @@
 import { Radio } from 'antd';
-import { LeadTableDataType } from './LeadTableColumnType';
+import { TaskTableDataType } from './TaskTableDataType';
 export const LeadTableColumns = [
   {
     title: 'Id',
@@ -27,7 +27,7 @@ export const LeadTableColumns = [
     title: 'Phone',
     dataIndex: 'customerPhone',
 
-    render: (text: string, record: LeadTableDataType) => (
+    render: (text: string, record: TaskTableDataType) => (
       <Radio.Button value={record.id}>
         <a
           className="table__phone "
