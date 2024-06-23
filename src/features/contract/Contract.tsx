@@ -24,7 +24,7 @@ export default function Contract() {
   const { contracts, isLoading, error } = useContract(true, params);
   const navigate = useNavigate();
   const { setBlob } = useBlobContext();
-  console.log(contracts);
+  // console.log(contracts);
 
   useEffect(() => {
     if (contracts) {
@@ -104,7 +104,10 @@ export default function Contract() {
                           <button className="pdf__signded__btn">
                             <span>Signed</span>
                           </button>
-                          <button className="pdf__pay__btn">
+                          <button
+                            className="pdf__pay__btn"
+                            onClick={() => navigate('/contract/pay')}
+                          >
                             <span>Pay</span>
                           </button>
                         </>

@@ -94,7 +94,7 @@ export default function Terms() {
           {!contract?.signed ? (
             <div className="pdf pdf__spinner">
               <h1 className="pdf__success__text">
-                You are already signed in 🤗 
+                You are already signed in 🤗
               </h1>
             </div>
           ) : (
@@ -114,7 +114,10 @@ export default function Terms() {
                           <button className="pdf__signded__btn">
                             <span>Signed</span>
                           </button>
-                          <button className="pdf__pay__btn">
+                          <button
+                            className="pdf__pay__btn"
+                            onClick={() => navigate('/contract/pay')}
+                          >
                             <span>Pay</span>
                           </button>
                         </>
