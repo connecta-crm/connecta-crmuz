@@ -44,7 +44,7 @@ export const options = {
     datalabels: {
       anchor: 'end',
       align: 'end',
-      formatter: (value) => `$${value.toLocaleString()}`,
+      formatter: (value) => `$ ${value.toLocaleString()}`,
       color: '#666666',
       font: {
         size: 14,
@@ -106,20 +106,20 @@ const data = {
   datasets: [
     {
       label: 'A01',
-      // data: [420, 300, 230, 190, 280],
-      data: [-420, 300, 230, 190, -280],
+      data: [420, 300, 230, 190, 280],
+      // data: [-420, 300, 230, 190, -280],
       backgroundColor: '#164863',
     },
     {
       label: 'A02',
-      // data: [245, 215, 200, 250, 200],
-      data: [245, -215, 200, -250, 200],
+      data: [245, 215, 200, 250, 200],
+      // data: [245, -215, 200, -250, 200],
       backgroundColor: '#427D9D',
     },
     {
       label: 'Ads',
-      // data: [0, 115, 150, 100, 0],
-      data: [0, -115, 150, 100, 0],
+      data: [0, 115, 150, 100, 0],
+      // data: [0, -115, 150, 100, 0],
       backgroundColor: '#9BBEC8',
     },
   ],
