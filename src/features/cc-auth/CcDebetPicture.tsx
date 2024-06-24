@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 import deleteFile from '../../../public/img/delete.svg';
-import file from '../../../public/img/drawer/tab/files.svg';
+import file from '../../../public/img/drawer/tab/file.svg';
 import img from '../../../public/img/payment.png';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
@@ -71,7 +71,10 @@ export default function CcDebePicture() {
               >
                 Back
               </Link>
-              <Link className="pay__form__next mt-10  " to={'/contract/cc-phone'}>
+              <Link
+                className="pay__form__next mt-10  "
+                to={'/contract/cc-phone'}
+              >
                 Next
               </Link>
             </InputRow>
