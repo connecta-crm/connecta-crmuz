@@ -21,7 +21,8 @@ function DrawerControl({
   loadingItem,
   onOpenDrawer,
 }: DrawerProps & { sourceType: SourceType }) {
-  const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
+  const { closeDrawer, isFullScreen, makeDrawerFull, onChangeInnerCollapse } =
+    useDrawerFeature();
   const { guid: currentLeadGuid } = useAppSelector(getLeadData);
   const { guid: currentQuoteGuid } = useAppSelector(getQuoteData);
   const { guid: currentOrderGuid } = useAppSelector(getOrderData);
@@ -51,31 +52,35 @@ function DrawerControl({
   const handlePrevElement = () => {
     const currentDataGuid = getCurrentDataGuid();
     const previousDataGuid = getPreviousObjectId(dataSource, currentDataGuid);
+    onChangeInnerCollapse([]);
     onOpenDrawer(previousDataGuid);
   };
 
   const handleNextElement = () => {
     const currentDataGuid = getCurrentDataGuid();
     const nextDataId = getNextObjectId(dataSource, currentDataGuid);
+    onChangeInnerCollapse([]);
     onOpenDrawer(nextDataId);
   };
 
   return (
     <div className="drawer-control">
-      <div
+      <button
+        title="Close"
         onClick={closeDrawer}
         className="drawer-control__item drawer-control__item_close cursor-pointer"
       >
         <img src="./img/drawer/close-arrow.svg" alt="" />
-      </div>
-      <div
+      </button>
+      <button
+        title="Make full"
         onClick={() => makeDrawerFull(true)}
         className="drawer-control__item drawer-control__item_size cursor-pointer"
       >
         <img src="./img/drawer/resize.svg" alt="" />
-      </div>
+      </button>
       <button
-        title="prev-element"
+        title="Previous"
         disabled={loadingItem}
         onClick={handlePrevElement}
         className="drawer-control__item drawer-control__item_up-arrow"
@@ -84,7 +89,7 @@ function DrawerControl({
       </button>
       <button
         disabled={loadingItem}
-        title="next-element"
+        title="Next"
         onClick={handleNextElement}
         className="drawer-control__item drawer-control__item_down-arrow"
       >

@@ -305,3 +305,23 @@
 .payment-table tbody tr td:last-of-type {
   text-align: end;
 }
+.custom-tree-select .ant-select-selector {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.custom-tree-select .ant-select-selection-overflow {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.custom-tree-select .ant-select-selection-overflow-item {
+  white-space: nowrap;
+}
+.custom-tree-select .ant-select-selector {
+  max-width: 220px;
+}
+.ant-tree-select-dropdown .ant-select-tree .ant-select-tree-switcher {
+  width: 12px !important;
+}

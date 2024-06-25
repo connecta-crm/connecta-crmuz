@@ -69,6 +69,13 @@ function Leads() {
     }
   }, [isLoadingLead, error, dispatch, guid, lead]);
 
+  // useEffect(() => {
+  //   if (isLoadingLead && isFetchingLead) {
+  //     closeDrawer();
+  //     console.log('CLOSED DRAWER 1');
+  //   }
+  // }, [isLoadingLead, isFetchingLead]);
+
   return (
     <div className="leads">
       <LeadTable

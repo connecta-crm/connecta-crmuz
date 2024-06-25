@@ -42,22 +42,26 @@ function TabsApp({ sourceType }: DrawerSourceType) {
 
   let customerPhone = '',
     sourceId: number | undefined = undefined,
-    customer;
+    customer,
+    customerEmail;
   switch (sourceType) {
     case 'lead':
       customerPhone = customerLeadPhone;
       sourceId = Number(leadId);
       customer = customerLead;
+      customerEmail = customerLead.email;
       break;
     case 'quote':
       customerPhone = customerQuotePhone;
       sourceId = Number(quoteId);
       customer = customerQuote;
+      customerEmail = customerQuote.email;
       break;
     case 'order':
       customerPhone = customerOrderPhone;
       sourceId = Number(orderId);
       customer = customerOrder;
+      customerEmail = customerOrder.email;
       break;
     default:
       throw new Error('There is something error in Tabs.tsx');
@@ -134,6 +138,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
           sourceId={sourceId}
           userEmail={userEmail}
           sourceType={sourceType}
+          customerEmail={customerEmail}
         />
       ),
     },

@@ -3,7 +3,7 @@ import Orders from '../../services/orders';
 import { useAppSelector } from '../../store/hooks';
 import { getOrderData } from './orderSlice';
 
-export function useOrderAttachments() {
+export function useOrderAttachments(enabled: boolean) {
   const { id } = useAppSelector(getOrderData);
   const {
     data: { results: orderAttachments, count } = {},
@@ -13,6 +13,7 @@ export function useOrderAttachments() {
     queryKey: ['orderAttachments'],
     queryFn: () => Orders.getOrderAttachments(id),
     retry: false,
+    enabled,
   });
   return { orderAttachments, count, isLoadingOrderAttachments, error };
 }

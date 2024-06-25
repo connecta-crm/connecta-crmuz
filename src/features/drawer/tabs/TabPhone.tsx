@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Flex, Select, Spin, TreeSelect } from 'antd';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Notes from '../../../ui/Notes';
 import { EndPointType } from '../../attachments/useCreateNote';
 import { useCreatePhone } from '../../attachments/useCreatePhone';
@@ -30,10 +31,13 @@ export const transformData = (data) => {
 
 function TabPhone({ user, sourceId, sourceType, customerPhone }) {
   const [note, setNote] = useState('');
+  const [insertFieldValue, setInsertFieldValue] = useState([]);
   const [isOpenTemplate, setOpenTemplate] = useState(false);
   const [isOpenField, setOpenField] = useState(false);
 
-  const { createPhone, isLoading } = useCreatePhone(sourceType as EndPointType);
+  const { createPhone, isLoading, createdPhoneData } = useCreatePhone(
+    sourceType as EndPointType,
+  );
 
   const { templates, isLoading: isLoadingTemplates } =
     useTemplates(isOpenTemplate);
@@ -54,12 +58,31 @@ function TabPhone({ user, sourceId, sourceType, customerPhone }) {
   };
 
   const handleChangeTemplate = (body: string) => {
-    setNote(body);
+    setNote((prev) => prev.concat(body));
   };
 
-  const handleChangeField = (body: string) => {
-    setNote(body);
+  const handleChangeInsertField = (newValues: string[]) => {
+    setInsertFieldValue(newValues);
+    setNote((prev) => {
+      // Convert the previous note to an array of values, splitting by comma and trimming whitespace
+      const prevArray = prev ? prev.split(',').map((item) => item.trim()) : [];
+
+      // Create a new set to hold unique values
+      const updatedNoteSet = new Set(prevArray);
+
+      // Add new values to the set (this will automatically handle duplicates)
+      newValues.forEach((value) => updatedNoteSet.add(value));
+
+      // Convert the set back to an array and join it to form the new note string
+      return Array.from(updatedNoteSet).join(' ');
+    });
   };
+
+  useEffect(() => {
+    if (!isLoading && createdPhoneData) {
+      setNote('');
+    }
+  }, [isLoading, createdPhoneData]);
 
   return (
     <div className="phone">
@@ -82,6 +105,7 @@ function TabPhone({ user, sourceId, sourceType, customerPhone }) {
           <div className="item-phone__select">
             <Select
               variant="borderless"
+              value={customerPhone}
               defaultValue={customerPhone}
               style={{ flex: 1, width: 150, height: 30 }}
               suffixIcon={<img alt="" src={ArrowDownIcon} />}
@@ -115,18 +139,24 @@ function TabPhone({ user, sourceId, sourceType, customerPhone }) {
           </div>
           <div className="item-phone__select">
             <TreeSelect
+              value={insertFieldValue}
               treeData={fieldsData}
-              style={{ flex: 1, width: 250, height: 22, margin: '4px 0' }}
+              style={{ flex: 1, width: 250, maxHeight: 30, margin: '0px 0' }}
               suffixIcon={<img alt="" src={ArrowDownIcon} />}
               placeholder="Insert a field"
               variant="borderless"
               allowClear
               treeDefaultExpandAll
+              multiple
               notFoundContent={
                 isLoadingFields ? <Spin size="small" /> : 'No such field'
               }
+              treeIcon
+              showSearch={true}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               onFocus={() => setOpenField(true)}
-              onChange={handleChangeField}
+              onChange={handleChangeInsertField}
+              className="custom-tree-select"
             />
           </div>
         </div>
@@ -156,7 +186,7 @@ function TabPhone({ user, sourceId, sourceType, customerPhone }) {
                 loading={isLoading}
                 onClick={handleSave}
               >
-                Save
+                Send
               </Button>
             </Flex>
           </div>

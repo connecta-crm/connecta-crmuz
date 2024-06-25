@@ -40,7 +40,7 @@
   // .card__texts
   &__texts {
     @include flexbox();
-    align-items: center;
+    // align-items: center;
   }
   // .card__text
   &__text {

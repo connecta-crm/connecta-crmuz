@@ -85,7 +85,7 @@ function HistoryCard({
         <div className="card__col w-100">
           <div className="card__body">
             <div className="card__left">
-              <div className="card__texts d-flex align-center mb-5">
+              <div className="card__texts d-flex mb-5">
                 <div
                   className={classNames(
                     isExpanded ? 'expanded' : '',
@@ -93,21 +93,23 @@ function HistoryCard({
                   )}
                 >
                   {type === 'task' && (
-                    <Radio>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: item.title || item?.text || '',
-                        }}
+                    <label className="d-flex" htmlFor={String(item.id)}>
+                      <Radio
+                        style={{ display: 'block' }}
+                        id={String(item.id)}
                       />
-                    </Radio>
+                      <span>{item.title}</span>
+                    </label>
                   )}
-                  {item.title || item?.text || ''}
+                  {item.title}
                 </div>
               </div>
               <div className="card__bottom d-flex align-center">
-                <p>12.31.2024 at 3:40</p>
-                <p>Ali Brain</p>
-                <p>Call was scheduled on {item.createdAt}</p>
+                <p>{item.createdAt ?? 'Unknown'}</p>
+                <p>{item.user ?? 'Unknown'}</p>
+                {type !== 'phone' && (
+                  <p>Call was scheduled on {item.createdAt}</p>
+                )}
               </div>
             </div>
             <div className="card__right d-flex align-center">

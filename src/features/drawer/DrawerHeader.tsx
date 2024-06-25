@@ -58,7 +58,8 @@ function DrawerHeader({
   onOpenHistory: (id: number) => void;
   onOpenConvert?: () => void;
 }) {
-  const { closeDrawer, isFullScreen, makeDrawerFull } = useDrawerFeature();
+  const { closeDrawer, isFullScreen, makeDrawerFull, onChangeInnerCollapse } =
+    useDrawerFeature();
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -287,10 +288,12 @@ function DrawerHeader({
 
   // PREV-NEXT functions
   const handlePrevElement = () => {
+    onChangeInnerCollapse([]);
     const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(previousLeadGuid);
   };
   const handleNextElement = () => {
+    onChangeInnerCollapse([]);
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(nextLeadId);
   };

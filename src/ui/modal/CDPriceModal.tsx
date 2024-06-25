@@ -1,5 +1,5 @@
 import { CopyOutlined } from '@ant-design/icons';
-import { notification, Spin } from 'antd';
+import { Spin, message } from 'antd';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import EmptyIcon from '../EmptyIcon';
@@ -13,40 +13,27 @@ function CDPriceModal({
 }) {
   const { isOpenCDPrice, onCloseCDPrice } = useDrawerFeature();
 
-  const [api, contextHolder] = notification.useNotification();
-  const key = 'updatable';
-  const openNotification = (message: string) => {
-    api.open({
-      key,
-      message: 'Copied...',
-      description: null,
-      duration: 0.8,
-      closable: false,
-      icon: <CopyOutlined style={{ color: '#108ee9' }} />,
-      className: 'copy-message',
-    });
-
-    setTimeout(() => {
-      api.open({
-        key,
-        message,
-        duration: 1,
-        closable: false,
-        icon: <CopyOutlined style={{ color: '#108ee9' }} />,
-        className: 'copy-message',
-      });
-    }, 400);
-  };
   const handleCopyPrice = (label: string) => {
     if (!label) return;
-    navigator.clipboard
-      .writeText(label)
-      .then(() => {
-        openNotification(label);
-      })
-      .catch(() => {
-        openNotification('Failed to copy text');
-      });
+
+    message.info({
+      content: `Copied: ${label}`,
+      icon: <CopyOutlined style={{ color: '#108ee9' }} />,
+    });
+  };
+
+  const isEmpty = (value) => {
+    if (Array.isArray(value)) {
+      return value.length === 0;
+    }
+    if (typeof value === 'string') {
+      return value.trim() === '';
+    }
+    return !value;
+  };
+
+  const areAllValuesEmpty = (obj) => {
+    return Object.values(obj).every(isEmpty);
   };
 
   useEffect(() => {
@@ -67,8 +54,7 @@ function CDPriceModal({
         onCloseCDPrice();
       }}
     >
-      {contextHolder}
-      {Object.keys(cdPrice ?? {})?.length ? (
+      {!areAllValuesEmpty(cdPrice ?? {}) ? (
         <div className="cd-price">
           <div className="cd-price__title">{cdPrice.title}</div>
           <table>

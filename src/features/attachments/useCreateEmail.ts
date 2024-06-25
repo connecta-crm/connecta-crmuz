@@ -9,13 +9,17 @@ export type CreateEmailParams = {
   rel: number | undefined;
   endpointType: EndPointType;
   text: string;
-  subject: number | undefined;
+  subject: string | undefined;
 };
 
 export function useCreateEmail(sourceType: EndPointType) {
   const queryClient = useQueryClient();
 
-  const { mutate: createEmail, isPending: isLoading } = useMutation({
+  const {
+    mutate: createEmail,
+    isPending: isLoading,
+    data: createdEmailData,
+  } = useMutation({
     mutationFn: ({
       rel,
       endpointType,
@@ -46,5 +50,6 @@ export function useCreateEmail(sourceType: EndPointType) {
   return {
     createEmail,
     isLoading,
+    createdEmailData,
   };
 }

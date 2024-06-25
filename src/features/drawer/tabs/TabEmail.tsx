@@ -1,5 +1,6 @@
-import { Button, Flex, Select, Spin, TreeSelect } from 'antd';
-import { useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Button, Flex, Input, Select, Spin, TreeSelect } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
 import Notes from '../../../ui/Notes';
 import { useCreateEmail } from '../../attachments/useCreateEmail';
 import { EndPointType } from '../../attachments/useCreateNote';
@@ -8,12 +9,16 @@ import { useTemplates } from '../../templates/useTemplates';
 import { transformData } from './TabPhone';
 import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
 
-function TabEmail({ user, sourceId, userEmail, sourceType }) {
+function TabEmail({ user, sourceId, userEmail, customerEmail, sourceType }) {
   const [note, setNote] = useState('');
+  const [subject, setSubject] = useState('');
+  const [insertFieldValue, setInsertFieldValue] = useState([]);
   const [isOpenTemplate, setOpenTemplate] = useState(false);
   const [isOpenField, setOpenField] = useState(false);
 
-  const { createEmail, isLoading } = useCreateEmail(sourceType as EndPointType);
+  const { createEmail, isLoading, createdEmailData } = useCreateEmail(
+    sourceType as EndPointType,
+  );
 
   const { templates, isLoading: isLoadingTemplates } =
     useTemplates(isOpenTemplate);
@@ -30,17 +35,31 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
       text: note,
       fromEmail: fromEmailValue,
       toEmail: [userEmail],
-      subject: user,
+      subject,
     });
   };
 
   const handleChangeTemplate = (body: string) => {
-    setNote(body);
+    setNote((prev) => prev.concat(body));
   };
 
-  const handleChangeField = (body: string) => {
-    setNote(body);
+  const handleChangeInsertField = (newValues: string[]) => {
+    setInsertFieldValue(newValues);
+    setNote((prev) => {
+      const prevArray = prev ? prev.split(',').map((item) => item.trim()) : [];
+      const updatedNoteSet = new Set(prevArray);
+      newValues.forEach((value) => updatedNoteSet.add(value));
+
+      return Array.from(updatedNoteSet).join(' ');
+    });
   };
+
+  useEffect(() => {
+    if (!isLoading && createdEmailData) {
+      setNote('');
+      setSubject('');
+    }
+  }, [isLoading, createdEmailData]);
 
   return (
     <div className="phone">
@@ -50,11 +69,11 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
           <div className="item-phone__select">
             <Select
               variant="borderless"
-              defaultValue={fromEmailValue}
+              defaultValue={userEmail}
               placeholder=""
               style={{ flex: 1, width: 150, height: 30 }}
               suffixIcon={<img alt="" src={ArrowDownIcon} />}
-              options={[{ value: fromEmailValue, label: fromEmailValue }]}
+              options={[{ value: userEmail, label: userEmail }]}
             />
           </div>
         </div>
@@ -63,12 +82,23 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
           <div className="item-phone__select">
             <Select
               variant="borderless"
-              defaultValue={userEmail}
+              value={customerEmail}
+              defaultValue={customerEmail}
               style={{ flex: 1, width: 150, height: 30 }}
               suffixIcon={<img alt="" src={ArrowDownIcon} />}
-              options={[{ value: userEmail, label: userEmail }]}
+              options={[{ value: customerEmail, label: customerEmail }]}
             />
           </div>
+        </div>
+        <div className="phone__item item-phone pl-0">
+          <Input
+            variant="borderless"
+            placeholder="Subject"
+            value={subject}
+            defaultValue={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            style={{ flex: 1, width: '100%', height: 30 }}
+          />
         </div>
         <div className="phone__item item-phone">
           <div className="item-phone__select">
@@ -96,18 +126,24 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
           </div>
           <div className="item-phone__select">
             <TreeSelect
+              value={insertFieldValue}
               treeData={fieldsData}
-              style={{ flex: 1, width: 250, height: 22, margin: '4px 0' }}
+              style={{ flex: 1, width: 250, maxHeight: 30, margin: '0px 0' }}
               suffixIcon={<img alt="" src={ArrowDownIcon} />}
               placeholder="Insert a field"
               variant="borderless"
               allowClear
               treeDefaultExpandAll
+              multiple
               notFoundContent={
                 isLoadingFields ? <Spin size="small" /> : 'No such field'
               }
+              treeIcon
+              showSearch={true}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               onFocus={() => setOpenField(true)}
-              onChange={handleChangeField}
+              onChange={handleChangeInsertField}
+              className="custom-tree-select"
             />
           </div>
         </div>
@@ -137,7 +173,7 @@ function TabEmail({ user, sourceId, userEmail, sourceType }) {
                 loading={isLoading}
                 onClick={handleSave}
               >
-                Save
+                Send
               </Button>
             </Flex>
           </div>

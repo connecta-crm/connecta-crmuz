@@ -1,5 +1,6 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
 import { DrawerSourceType } from '../../ui/Drawer.tsx';
 import { useLeadAttachments } from '../leads/useLeadAttachments.ts';
 import { useOrderAttachments } from '../orders/useOrderAttachments.ts';
@@ -12,9 +13,17 @@ import Tabs from './tabs/Tabs.tsx';
 import Task from './task/Task.tsx';
 
 function DrawerMain({ sourceType }: DrawerSourceType) {
-  const { leadAttachments, isLoadingLeadAttachments } = useLeadAttachments();
-  const { quoteAttachments, isLoadingQuoteAttachments } = useQuoteAttachments();
-  const { orderAttachments, isLoadingOrderAttachments } = useOrderAttachments();
+  const { leadAttachments, isLoadingLeadAttachments } = useLeadAttachments(
+    sourceType === 'lead',
+  );
+  const { quoteAttachments, isLoadingQuoteAttachments } = useQuoteAttachments(
+    sourceType === 'quote',
+  );
+  const { orderAttachments, isLoadingOrderAttachments } = useOrderAttachments(
+    sourceType === 'order',
+  );
+
+  const [activeKey, setActiveKey] = useState<string[] | string>(['3']);
 
   let attachments, isLoadingAttachments: boolean | undefined;
 
@@ -35,6 +44,30 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
       break;
   }
 
+  const typeTaskData = useMemo(
+    () =>
+      attachments?.filter(({ type }: { type: string }) => type === 'task') ??
+      [],
+    [attachments],
+  );
+
+  useEffect(() => {
+    setActiveKey((prevActiveKey) => {
+      let newActiveKey = Array.isArray(prevActiveKey)
+        ? [...prevActiveKey]
+        : [prevActiveKey];
+
+      newActiveKey = newActiveKey.filter((key) => key !== '1');
+      if (typeTaskData.length && !newActiveKey.includes('2')) {
+        newActiveKey.push('2');
+      } else {
+        newActiveKey = newActiveKey.filter((key) => key !== '2');
+      }
+
+      return newActiveKey;
+    });
+  }, [typeTaskData, isLoadingAttachments]);
+
   const items: CollapseProps['items'] = [
     {
       key: '1',
@@ -47,7 +80,7 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
       children: (
         <Task
           sourceType={sourceType}
-          attachments={attachments}
+          attachments={typeTaskData}
           isLoadingAttachments={isLoadingAttachments || false}
         />
       ),
@@ -70,11 +103,13 @@ function DrawerMain({ sourceType }: DrawerSourceType) {
       <Tabs sourceType={sourceType} />
       <br />
       <Collapse
+        activeKey={activeKey}
         defaultActiveKey={['3']}
         ghost
         collapsible="header"
         expandIcon={DrawerArrowIcon}
         items={items}
+        onChange={(key) => setActiveKey(Array.isArray(key) ? key : [key])}
       />
     </>
   );

@@ -11,7 +11,11 @@ export type CreatePhoneParams = {
 export function useCreatePhone(sourceType: EndPointType) {
   const queryClient = useQueryClient();
 
-  const { mutate: createPhone, isPending: isLoading } = useMutation({
+  const {
+    mutate: createPhone,
+    isPending: isLoading,
+    data: createdPhoneData,
+  } = useMutation({
     mutationFn: ({
       rel,
       endpointType,
@@ -42,5 +46,6 @@ export function useCreatePhone(sourceType: EndPointType) {
   return {
     createPhone,
     isLoading,
+    createdPhoneData,
   };
 }

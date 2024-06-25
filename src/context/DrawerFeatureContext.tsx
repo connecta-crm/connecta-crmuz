@@ -102,9 +102,11 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const onNextElement = (value: boolean) => {
+    onChangeInnerCollapse([]);
     setEditNote(value);
   };
   const onPrevElement = (value: boolean) => {
+    onChangeInnerCollapse([]);
     setEditNote(value);
   };
 
@@ -125,6 +127,7 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   // };
 
   const onChangeInnerCollapse = (panelKey: string | string[]) => {
+    console.log('panelKey', panelKey);
     if (Array.isArray(panelKey)) {
       setOpenInnerPanels(panelKey);
     } else {
