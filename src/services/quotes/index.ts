@@ -246,6 +246,21 @@ class Quotes {
     }
   }
 
+  // GET: /quote/providers/
+  async getQuoteProviders(status: string) {
+    try {
+      const { data } = await this.$api.get('/quote/providers/', {
+        params: { status },
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(

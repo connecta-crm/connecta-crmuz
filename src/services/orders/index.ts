@@ -301,6 +301,22 @@ class Orders {
       );
     }
   }
+
+  // GET: /orders/providers/
+  async getOrderProviders(status: string) {
+    try {
+      const { data } = await this.$api.get('/orders/providers/', {
+        params: { status },
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   throwError(error: unknown) {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     throw new Error(

@@ -348,6 +348,21 @@ class Leads {
     }
   }
 
+  // GET: /leads/providers/
+  async getLeadProviders(status: string) {
+    try {
+      const { data } = await this.$api.get('/leads/providers/', {
+        params: { status },
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   async getCDPrice(feature: 'leads' | 'quote' | 'order', guid: string | null) {
     try {
       const { data } = await this.$api.get(

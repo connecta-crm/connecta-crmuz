@@ -1,15 +1,54 @@
 import { Dropdown, DropdownProps, MenuProps, Space, Spin } from 'antd';
 import { ChangeEvent, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useProviders } from '../../features/providers/useProviders';
+import { useLeadProviders } from '../../features/leads/useLeadProviders';
+import { useOrderProviders } from '../../features/orders/useOrderProviders';
+import { useQuoteProviders } from '../../features/quotes/useQuoteProviders';
 import ellipse from '/img/dt_table/ellipse.svg';
 
-function TableHeaderProvider({ ...props }) {
+function TableHeaderProvider({ sourceType }) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const newSearchParams = new URLSearchParams(searchParams);
 
-  const { providers, isLoading, error } = useProviders(open);
+  const {
+    leadProviders,
+    isLoading: isLoading1,
+    error: error1,
+  } = useLeadProviders(open && sourceType === 'lead');
+  const {
+    quoteProviders,
+    isLoading: isLoading2,
+    error: error2,
+  } = useQuoteProviders(open && sourceType === 'quote');
+  const {
+    orderProviders,
+    isLoading: isLoading3,
+    error: error3,
+  } = useOrderProviders(open && sourceType === 'order');
+
+  let providers = [];
+  let isLoading, error;
+
+  switch (sourceType) {
+    case 'lead':
+      providers = leadProviders;
+      isLoading = isLoading1;
+      error = error1;
+      break;
+    case 'quote':
+      providers = quoteProviders;
+      isLoading = isLoading2;
+      error = error2;
+      break;
+    case 'order':
+      providers = orderProviders;
+      isLoading = isLoading3;
+      error = error3;
+      break;
+    default:
+      return null;
+  }
 
   const currentSourcesLength = searchParams.getAll('source')?.length;
   const isLengthEqual = currentSourcesLength === providers?.length;
@@ -85,35 +124,47 @@ function TableHeaderProvider({ ...props }) {
               </p>
               <div className="dropdown-check">
                 {providers?.length &&
-                  providers.map((provider: { id: string; name: string }) => {
-                    return (
-                      <div
-                        key={provider.id}
-                        className="dropdown-check__item d-flex align-center justify-between"
-                      >
-                        <input
-                          type="checkbox"
-                          name="source"
-                          id={provider.id}
-                          value={provider.id}
-                          className="dropdown-check__input"
-                          checked={searchParams
-                            .getAll('source')
-                            .includes(String(provider.id))}
-                          onChange={handleChangeProvider}
-                        />
-                        <label
-                          htmlFor={provider.id}
-                          className="label-contents d-flex align-center justify-between"
+                  providers.map(
+                    (provider: {
+                      id: string;
+                      name: string;
+                      leadCount?: number;
+                      quoteCount?: number;
+                      orderCount?: number;
+                    }) => {
+                      return (
+                        <div
+                          key={provider.id}
+                          className="dropdown-check__item d-flex align-center justify-between"
                         >
-                          <p className="dropdown-text text-nowrap">
-                            {provider.name || '(unknown)'}
-                          </p>
-                          <span className="ml-20">{provider.id}</span>
-                        </label>
-                      </div>
-                    );
-                  })}
+                          <input
+                            type="checkbox"
+                            name="source"
+                            id={provider.id}
+                            value={provider.id}
+                            className="dropdown-check__input"
+                            checked={searchParams
+                              .getAll('source')
+                              .includes(String(provider.id))}
+                            onChange={handleChangeProvider}
+                          />
+                          <label
+                            htmlFor={provider.id}
+                            className="label-contents d-flex align-center justify-between"
+                          >
+                            <p className="dropdown-text text-nowrap">
+                              {provider.name || '(unknown)'}
+                            </p>
+                            <span className="ml-20">
+                              {provider.leadCount ??
+                                provider?.quoteCount ??
+                                provider?.orderCount}
+                            </span>
+                          </label>
+                        </div>
+                      );
+                    },
+                  )}
               </div>
             </div>
           )}
@@ -126,7 +177,7 @@ function TableHeaderProvider({ ...props }) {
   return (
     <div className="dt-header__allsources dt-header-select">
       <img className="dt-header-select_icon" src={ellipse} alt="" />
-      <div {...props} className="dt-header__allsources_select">
+      <div className="dt-header__allsources_select">
         <Dropdown
           menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
           placement="bottom"

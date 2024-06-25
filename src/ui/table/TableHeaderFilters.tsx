@@ -19,7 +19,7 @@ function TableHeaderFilters({
   return (
     <div className="dt-header__filters">
       {sourceType !== 'task' && sourceType !== 'insight' && (
-        <TableHeaderProvider />
+        <TableHeaderProvider sourceType={sourceType} />
       )}
       {sourceType !== 'insight' && (
         <TableHeaderPagination
