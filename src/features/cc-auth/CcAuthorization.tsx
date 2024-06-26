@@ -60,12 +60,7 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Vehicle</span>
               </InputCol>
               <InputCol>
-                <div className="d-flex align-center">
-                  <span className="pay__form__text mr-5">
-                    2023 Toyota Camry
-                  </span>
-                  <img width={68} height={14} src={card} alt="" />
-                </div>
+                <span className="pay__form__text ">2023 Toyota Camry</span>
               </InputCol>
             </InputRow>
             <div className="mt-10"></div>
@@ -74,7 +69,10 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Payment method</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">Credit/Debit Card</span>
+                <div className="d-flex align-center">
+                  <span className="pay__form__text mr-5">Credit/Debit Card </span>
+                  <img width={68} height={14} src={card} alt="" />
+                </div>
               </InputCol>
             </InputRow>
             <InputRow>
