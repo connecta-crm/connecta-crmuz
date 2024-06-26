@@ -1,16 +1,16 @@
 import { Form, Input } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
-import { Link } from 'react-router-dom';
+import InputMask from 'react-input-mask';
+import { Link, useNavigate } from 'react-router-dom';
 import visa from '../../../public/img/card/visa.svg';
 import img from '../../../public/img/payment.png';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
-import { useNavigate } from 'react-router-dom';
 export default function CcDebet() {
-  const navigate = useNavigate()
-  const onFinish=()=>{
-     navigate("/contract/cc-card-picture")
-  }
+  const navigate = useNavigate();
+  const onFinish = () => {
+    navigate('/contract/cc-card-picture');
+  };
   return (
     <div className="pay cc-debet">
       <div className="pay__content">
@@ -30,25 +30,45 @@ export default function CcDebet() {
                 <span className="pay__form__label">Card number</span>
               </InputCol>
               <InputCol>
-                <FormItem
-                  className="m-0 w-100 "
-                  name=""
-                  rules={[{ required: true, message: '' }]}
-                  preserve={false}
-                >
-                  <Input
-                    type="text"
-                    placeholder="0000 0000 0000 0000"
-                    style={{ paddingRight: '30px' }}
-                    maxLength={16}
-                  />
+                <div style={{ position: 'relative' }}>
+                  <FormItem
+                    className="m-0 w-100 "
+                    name="cardNumber"
+                    rules={[
+                      {
+                        required: true,
+                        message: '',
+                        pattern: new RegExp(/^(\d{4}-){3}\d{3,4}$/),
+                      },
+                    ]}
+                    preserve={false}
+                  >
+                    {/* <Input
+                      type="text"
+                      placeholder="0000-0000-0000-0000"
+                      style={{ paddingRight: '30px' }}
+                      maxLength={19}
+                      minLength={18}
+                    /> */}
+                    <InputMask mask="0000-0000-0000-0000">
+                      {() => (
+                        <Input
+                          type="text"
+                          placeholder="0000-0000-0000-0000"
+                          style={{ paddingRight: '30px' }}
+                          maxLength={19}
+                          minLength={18}
+                        />
+                      )}
+                    </InputMask>
+                  </FormItem>
                   <img
                     className="pay__card__type--img"
                     src={visa}
                     alt=""
                     width={'14px'}
                   />
-                </FormItem>
+                </div>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -89,11 +109,24 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
-                  rules={[{ required: true, message: '' }]}
+                  name="d"
+                  rules={[
+                    {
+                      required: true,
+                      message: '',
+                      pattern: new RegExp(
+                        /\b(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})\b/,
+                      ),
+                    },
+                  ]}
                   preserve={false}
                 >
-                  <Input type="text" placeholder="MM/YY" />
+                  <Input
+                    type="text"
+                    maxLength={5}
+                    minLength={5}
+                    placeholder="MM/YY"
+                  />
                 </FormItem>
               </InputCol>
             </InputRow>
@@ -104,11 +137,22 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
-                  rules={[{ required: true, message: '' }]}
+                  name="date"
+                  rules={[
+                    {
+                      required: true,
+                      message: '',
+                      pattern: new RegExp(/^[0-9]{3,4}$/),
+                    },
+                  ]}
                   preserve={false}
                 >
-                  <Input type="text" placeholder="CVV" />
+                  <Input
+                    maxLength={3}
+                    minLength={3}
+                    type="text"
+                    placeholder="CVV"
+                  />
                 </FormItem>
               </InputCol>
             </InputRow>
@@ -193,18 +237,12 @@ export default function CcDebet() {
                 rules={[{ required: true, message: '' }]}
                 preserve={false}
               >
-                <Input.TextArea
-                  placeholder=""
-                  style={{ marginTop: '5px' }}
-                />
+                <Input.TextArea placeholder="" style={{ marginTop: '5px' }} />
               </FormItem>
             </InputRow>
 
             <InputRow>
-              <Link
-                className="pay__form__prev mt-10 "
-                to={'/contract/cc-auth'}
-              >
+              <Link className="pay__form__prev mt-10 " to={'/contract/cc-auth'}>
                 Back
               </Link>
               <button className="pay__form__next mt-10 ">Next</button>

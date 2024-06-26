@@ -81,7 +81,7 @@ export default function Contract() {
     <>
       {!isLoading ? (
         <>
-          {!contract?.signed ? (
+          {contract?.signed ? (
             <div className="pdf pdf__spinner">
               <h1 className="pdf__success__text">
                 You are already signed in 🤗
