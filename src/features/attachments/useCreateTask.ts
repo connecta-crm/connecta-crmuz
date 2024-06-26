@@ -12,6 +12,8 @@ export type CreateTaskParams = {
   endTime: string | null;
   user: number | undefined;
   customer: number | undefined;
+  priority: string;
+  busy: string;
 };
 
 export function useCreateTask(sourceType: EndPointType) {
@@ -27,6 +29,8 @@ export function useCreateTask(sourceType: EndPointType) {
       endTime,
       user,
       customer,
+      priority,
+      busy,
     }: CreateTaskParams) =>
       Attachments.createTask({
         rel,
@@ -37,6 +41,8 @@ export function useCreateTask(sourceType: EndPointType) {
         endTime,
         user,
         customer,
+        priority,
+        busy,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({

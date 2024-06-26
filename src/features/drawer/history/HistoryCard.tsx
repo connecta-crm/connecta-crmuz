@@ -92,7 +92,7 @@ function HistoryCard({
                     'card__text',
                   )}
                 >
-                  {type === 'task' && (
+                  {type === 'task' ? (
                     <label className="d-flex" htmlFor={String(item.id)}>
                       <Radio
                         style={{ display: 'block' }}
@@ -100,8 +100,9 @@ function HistoryCard({
                       />
                       <span>{item.title}</span>
                     </label>
+                  ) : (
+                    <span>{item.title}</span>
                   )}
-                  {item.title}
                 </div>
               </div>
               <div className="card__bottom d-flex align-center">

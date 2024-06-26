@@ -112,6 +112,8 @@ class Attachments {
     startTime,
     user,
     customer,
+    priority,
+    busy,
   }: CreateTaskParams) {
     try {
       const { data } = await this.$api.post(`/attachments/create-task/`, {
@@ -123,6 +125,8 @@ class Attachments {
         startTime,
         user,
         customer,
+        priority,
+        busy,
       });
       return data;
     } catch (error) {

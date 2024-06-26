@@ -13,17 +13,24 @@ import TextArea from 'antd/es/input/TextArea';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
+import { useAppSelector } from '../../../store/hooks';
+import Calendar from '../../../ui/Calendar';
 import { classNames } from '../../../utils/helpers';
 import { EndPointType } from '../../attachments/useCreateNote';
 import { useCreateTask } from '../../attachments/useCreateTask';
+import { getUser } from '../../authentication/authSlice';
 import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
-import Calendar from '../../../ui/Calendar';
 
-function TabTask({ user, customer, sourceId, sourceType }) {
+function TabTask({ user, customer: currentCustomer, sourceId, sourceType }) {
   const { isFullScreen } = useDrawerFeature();
+  const userData = useAppSelector(getUser);
 
   const [eventType, setEventType] = useState('call');
   const [taskNote, setTaskNote] = useState('');
+  const [busy, setBusy] = useState('busy');
+  const [priority, setPriority] = useState('high');
+  const [customer, setCustomer] = useState(currentCustomer.id);
+  const [customerId, setCustomerId] = useState(currentCustomer.id);
   const [startDateAndTime, setStartDateAndTime] = useState<{
     startDate: string | string[];
     startTime: string | string[];
@@ -51,11 +58,16 @@ function TabTask({ user, customer, sourceId, sourceType }) {
     setTaskNote(value);
   };
 
-  const handleChangePriority = (value: string) => {
+  const handleChangeUser = (value: string) => {
     console.log(value);
   };
-  const handleChangeBusy = (value: string) => {
+  const handleChangeCustomer = (value: number) => {
     console.log(value);
+    setCustomer(value);
+  };
+  const handleChangeCustomerId = (value: number) => {
+    console.log(value);
+    setCustomerId(value);
   };
 
   const handleCancel = () => {
@@ -87,6 +99,7 @@ function TabTask({ user, customer, sourceId, sourceType }) {
     return parsedDate.toISOString();
   };
 
+  console.log('P', user, currentCustomer, userData);
   const handleSave = () => {
     let startTime, endTime;
 
@@ -121,6 +134,8 @@ function TabTask({ user, customer, sourceId, sourceType }) {
       customer,
       startTime,
       endTime,
+      priority,
+      busy,
     });
   };
 
@@ -241,36 +256,33 @@ function TabTask({ user, customer, sourceId, sourceType }) {
             </div>
             <div className="feature-task--group mb-10">
               <Select
-                defaultValue="lucy"
+                defaultValue={priority}
                 style={{ width: 120, height: 30 }}
-                onChange={handleChangePriority}
+                onChange={(val) => setPriority(val)}
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
                 options={[
-                  { value: 'jack', label: 'Jack' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                  { value: 'disabled', label: 'Disabled' },
+                  { value: 'high', label: 'High' },
+                  { value: 'medium', label: 'Medium' },
+                  { value: 'low', label: 'Low' },
                 ]}
               />
               <div className="task-icon">
-                <img src="./img/drawer/tab/phone.svg" alt="" />
+                <img src="./img/drawer/tab/task/busy.svg" alt="" />
               </div>
             </div>
             <div className="feature-task--group mb-10">
               <Select
-                defaultValue="lucy"
+                defaultValue={busy}
                 style={{ width: 120, height: 30 }}
-                onChange={handleChangeBusy}
+                onChange={(val) => setBusy(val)}
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
                 options={[
-                  { value: 'jack', label: 'Jack' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                  { value: 'disabled', label: 'Disabled' },
+                  { value: 'busy', label: 'Busy' },
+                  { value: 'free', label: 'Free' },
                 ]}
               />
               <div className="task-icon">
-                <img src="./img/drawer/tab/phone.svg" alt="" />
+                <img src="./img/drawer/tab/task/busy.svg" alt="" />
               </div>
             </div>
             <div className="feature-task--group mb-10">
@@ -281,58 +293,58 @@ function TabTask({ user, customer, sourceId, sourceType }) {
                 className="feature-task__notes"
               />
               <div className="task-icon">
-                <img src="./img/drawer/tab/notes.svg" alt="" />
+                <img src="./img/drawer/tab/task/comment.svg" alt="" />
               </div>
             </div>
             <div className="feature-task--group mb-10">
               <Select
-                defaultValue="lucy"
+                defaultValue={user}
                 style={{ width: '100%', height: 30 }}
-                onChange={handleChangeBusy}
+                onChange={handleChangeUser}
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
                 options={[
-                  { value: 'ali', label: 'Ali Brain (you)' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                  { value: 'disabled', label: 'Disabled' },
+                  {
+                    value: user,
+                    label: `${userData?.firstName ?? 'Unknown'} ${userData?.lastName ?? ''}`,
+                  },
                 ]}
               />
               <div className="task-icon">
-                <img src="./img/drawer/tab/phone.svg" alt="" />
+                <img src="./img/drawer/tab/task/user.svg" alt="" />
               </div>
             </div>
             <div className="feature-task--group mb-10">
               <Select
-                defaultValue="lucy"
+                defaultValue={currentCustomer?.id}
                 style={{ width: '100%', height: 30 }}
-                onChange={handleChangeBusy}
+                onChange={handleChangeCustomer}
                 allowClear={true}
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
                 options={[
-                  { value: 'ali', label: 'Ali Brain (you)' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                  { value: 'disabled', label: 'Disabled' },
+                  { value: currentCustomer?.id, label: currentCustomer?.name },
                 ]}
               />
               <div className="task-icon">
-                <img src="./img/drawer/tab/phone.svg" alt="" />
+                <img src="./img/drawer/tab/task/customer.svg" alt="" />
               </div>
             </div>
             <div className="feature-task--group mb-10">
               <Select
-                defaultValue="lucy"
+                mode="multiple"
+                defaultValue={currentCustomer?.id}
                 style={{ width: '100%', height: 30 }}
-                onChange={handleChangeBusy}
+                onChange={handleChangeCustomerId}
                 allowClear={true}
+                filterOption={false}
+                // onSearch={debounceFetcher}
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
                 options={[
-                  { value: 'ali', label: 'Ali Brain (you)' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                  { value: 'disabled', label: 'Disabled' },
+                  { value: currentCustomer?.id, label: currentCustomer?.id },
                 ]}
               />
+              <div className="task-icon">
+                <img src="./img/drawer/tab/task/task-check.svg" alt="" />
+              </div>
             </div>
           </div>
           {sourceType !== 'task' && (
