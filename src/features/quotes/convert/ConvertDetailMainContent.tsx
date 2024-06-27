@@ -90,8 +90,8 @@ function ConvertDetailMainContent() {
                 optionFilterProp="children"
                 filterOption={false}
                 placeholder="Search city"
-                defaultValue={quoteConvertData.origin.name}
-                value={quoteConvertData.origin.name}
+                defaultValue={quoteConvertData.origin?.name}
+                value={quoteConvertData.origin?.name}
                 onChange={handleChangeCity}
                 onFocus={handleFocusCity}
                 onSearch={handleSearchCity}
