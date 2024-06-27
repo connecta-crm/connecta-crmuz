@@ -39,7 +39,7 @@ function InsightSidebar() {
         <Collapse
           ghost
           items={itemsGoalActive}
-          defaultActiveKey={['1', '2']}
+          defaultActiveKey={['1']}
           onChange={onChange}
           expandIconPosition="end"
         />
