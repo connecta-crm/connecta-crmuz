@@ -1,36 +1,61 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { UploadProps } from 'antd';
-import { Button, Flex, UploadFile } from 'antd';
+import { Button, Flex, Spin, UploadFile } from 'antd';
 import { useState } from 'react';
+import { useContractList } from '../../orders/useContractList';
+import { useCreateContract } from '../../orders/useCreateContract';
 
-function TabContract() {
-  const [fileList, setFileList] = useState<UploadFile[]>(['something', 'smt2']);
+function TabContract({ order }) {
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
+  const { createContract, isLoadingContract } = useCreateContract();
+  const { contractList, isLoadingContractList } = useContractList(order, true);
   const handleChange: UploadProps['onChange'] = (info) => {};
+
+  console.log('order', order);
+
+  const handleContractSend = () => {
+    console.log('send');
+    createContract({
+      order,
+      contractType: 'ground',
+      signed: true,
+    });
+  };
+
+  if (isLoadingContractList) {
+    return (
+      <div className="text-center py-10">
+        <Spin />
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="tabs-contract tabs-file">
-        {fileList.length === 0 ? (
+        {(contractList || []).length === 0 ? (
           <div className="tabs-file__content">
             <div className="tabs-file__btns d-flex align-center has-file">
               <Button
                 type="primary"
                 size="middle"
                 className="d-flex align-center"
+                loading={isLoadingContract}
+                onClick={handleContractSend}
               >
                 <span>Send a contract</span>{' '}
-                <img
+                {/* <img
                   className="ml-10"
                   src="/img/drawer/tab/down-w.svg"
                   alt="down"
-                />
+                /> */}
               </Button>
             </div>
           </div>
         ) : (
           <div className="tabs-file__files mt-0">
-            {fileList.map((file, index) => (
+            {(contractList || []).map((file, index) => (
               <div key={index} className="file-item">
                 <div className="file-item__content">
                   <p>
@@ -66,7 +91,7 @@ function TabContract() {
           </div>
         )}
       </div>
-      {fileList.length !== 0 && (
+      {(contractList || []).length !== 0 && (
         <Flex
           style={{
             justifyContent: 'space-between',

@@ -2,13 +2,12 @@
 import { useState } from 'react';
 import { useSetStatusParam } from '../../hooks/useSetStatusParam';
 import TaskModal from '../../ui/modal/TaskModal';
-import { TaskTableData } from '../../utils/table';
-import { useLeads } from '../leads/useLeads';
 import TaskTable from './TaskTable';
+import { useTasks } from './useTasks';
 
 function Leads() {
   useSetStatusParam('tasks');
-  const { leads, count, isLoading: isLoadingTasks } = useLeads();
+  const { tasks, count, isLoading: isLoadingTasks } = useTasks();
 
   const [isOpenTaskModal, setOpenTaskModal] = useState(false);
 
@@ -17,10 +16,12 @@ function Leads() {
   return (
     <div className="tasks">
       <TaskTable
+        guid={null}
         count={count}
-        dataSource={TaskTableData}
+        dataSource={tasks}
         sourceType="task"
         loadingList={isLoadingTasks}
+        loadingItem={false}
         onOpenModal={setOpenTaskModal}
       />
       <TaskModal

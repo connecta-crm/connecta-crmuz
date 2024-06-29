@@ -38,6 +38,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
     id: orderId,
     customerPhone: customerOrderPhone,
     customer: customerOrder,
+    guid: orderGuid,
   } = useAppSelector(getOrderData);
 
   let customerPhone = '',
@@ -160,7 +161,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
             label: 'Contract',
             value: 'contract',
             icon: tabIcon('6', 'contract'),
-            children: <TabContract />,
+            children: <TabContract order={orderGuid} />,
           },
         ]
       : []),

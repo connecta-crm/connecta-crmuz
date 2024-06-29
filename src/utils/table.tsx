@@ -64,7 +64,7 @@ export const TaskTableColumns = [
   },
   {
     title: 'Task ID',
-    dataIndex: 'task_id',
+    dataIndex: 'id',
   },
   {
     title: 'ID',
@@ -72,7 +72,7 @@ export const TaskTableColumns = [
   },
   {
     title: 'Created',
-    dataIndex: 'created',
+    dataIndex: 'createdAt',
   },
   {
     title: 'Task',
@@ -90,12 +90,13 @@ export const TaskTableColumns = [
   },
   {
     title: 'Title',
-    dataIndex: 'title',
+    dataIndex: 'text',
   },
 
   {
     title: 'Customer',
     dataIndex: 'customer',
+    render: (customer: string) => <p>{customer}</p>,
   },
   {
     title: 'Phone',

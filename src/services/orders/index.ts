@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
 import { LogsParamsType } from '../../features/leads/useLeadLogs';
+import { CreateContractParams } from '../../features/orders/useCreateContract';
 import { OrderDirectDispatchEditParamsType } from '../../features/orders/useOrderDirectDispatchEdit';
 import { OrderDispatchEditParamsType } from '../../features/orders/useOrderDispatchEdit';
 import { OrderEditParamsType } from '../../features/orders/useOrderEdit';
@@ -308,6 +309,36 @@ class Orders {
       const { data } = await this.$api.get('/orders/providers/', {
         params: { status },
       });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /orders/contracts/add/
+  async createContract({ signed, contractType, order }: CreateContractParams) {
+    try {
+      const { data } = await this.$api.post('/orders/contracts/add/', {
+        signed,
+        contractType,
+        order,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // GET: /orders/contracts/list/:order
+  async getContractList(order: string) {
+    try {
+      const { data } = await this.$api.post(`/orders/contracts/list/${order}/`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

@@ -4,6 +4,7 @@ import { CreateNoteParams } from '../../features/attachments/useCreateNote';
 import { CreatePhoneParams } from '../../features/attachments/useCreatePhone';
 import { CreateTaskParams } from '../../features/attachments/useCreateTask';
 import { UpdateNoteParams } from '../../features/attachments/useUpdateNote';
+import { TasksParamsType } from '../../features/tasks/useTasks';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -190,6 +191,65 @@ class Attachments {
       const { data } = await this.$api.delete(
         `/orders/attachments/delete/${id}`,
       );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // GET: /attachments/task-list/
+  async getTasks({
+    limit,
+    offset,
+    user,
+    q,
+    due,
+    nextWeek,
+    thisWeek,
+    toDo,
+    today,
+    type,
+  }: TasksParamsType) {
+    try {
+      const params: Record<string, unknown> = {
+        limit,
+        offset,
+        q,
+        user,
+        due,
+        nextWeek,
+        thisWeek,
+        toDo,
+        today,
+        type,
+      };
+
+      if (user) {
+        params['user'] = user;
+      }
+
+      const paramsSerializer = (params: Record<string, unknown>) => {
+        const searchParams = new URLSearchParams();
+        Object.keys(params).forEach((key) => {
+          const value = params[key];
+          if (Array.isArray(value)) {
+            value.forEach((item) => {
+              searchParams.append(key, item);
+            });
+          } else {
+            searchParams.append(key, String(value));
+          }
+        });
+        return searchParams.toString();
+      };
+
+      const { data } = await this.$api.get('/attachments/task-list/', {
+        params,
+        paramsSerializer,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

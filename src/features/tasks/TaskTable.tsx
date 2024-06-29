@@ -51,7 +51,7 @@ function TaskTable({
         <div className="table__container">
           <Radio.Group style={{ width: '100%' }}>
             <Table
-              rowKey="key"
+              rowKey="id"
               rowSelection={{ ...rowSelection }}
               columns={TaskTableColumns}
               dataSource={tasks as unknown as TaskTableDataType[] | undefined}
