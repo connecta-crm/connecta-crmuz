@@ -4,8 +4,12 @@ import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { LeadData, OrderData, QuoteData } from '../../models';
+import { useAppDispatch } from '../../store/hooks';
 import { SourceType } from '../../ui/Drawer';
+import { resetToInitialData as resetToInitialLeadData } from '../leads/leadSlice';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
+import { resetToInitialData as resetToInitialOrderData } from '../orders/orderSlice';
+import { resetToInitialData as resetToInitialQuoteData } from '../quotes/quoteSlice';
 
 type ValueType =
   | 'detail'
@@ -50,6 +54,8 @@ function DrawerFeatureHeader({
   const [fieldType, setFieldType] = useState<
     keyof LeadData | keyof QuoteData | keyof OrderData
   >('customer');
+  const [isUpdatedBulkEdit, setUpdatedBulkEdit] = useState(false);
+  const dispatch = useAppDispatch();
 
   // * DETAILS (MAIN COLLAPSE)
 
@@ -78,13 +84,26 @@ function DrawerFeatureHeader({
 
   const handleSaveDetails = () => {
     // ? BULK EDIT SAVE operations. Some logic to save the data in DB and update UI
-    onEditDetails(false);
-    onChangeInnerCollapse([]);
+    onSaveFeature();
+    setUpdatedBulkEdit(true);
   };
 
   const handleCancelDetails = () => {
     onEditDetails(false);
     onChangeInnerCollapse([]);
+    switch (feature) {
+      case 'lead':
+        dispatch(resetToInitialLeadData());
+        break;
+      case 'quote':
+        dispatch(resetToInitialQuoteData());
+        break;
+      case 'order':
+        dispatch(resetToInitialOrderData());
+        break;
+      default:
+        return null;
+    }
   };
 
   // * PERSON (MAIN COLLAPSE)
@@ -173,6 +192,12 @@ function DrawerFeatureHeader({
       onEditDate(false);
       onEditNotes(false);
       onEditCarrierInfo(false);
+      if (isUpdatedBulkEdit) {
+        onEditDetails(false);
+        onChangeInnerCollapse([]);
+        setUpdatedBulkEdit(false);
+        console.log('BULKED');
+      }
     }
   }, [
     isDataUpdated,
@@ -182,6 +207,7 @@ function DrawerFeatureHeader({
     updatedLeadData,
     updatedQuoteData,
     updatedOrderData,
+    isUpdatedBulkEdit,
   ]);
 
   const Content = () => {
@@ -197,6 +223,7 @@ function DrawerFeatureHeader({
               }}
               block
               size="small"
+              disabled={isLoading}
             >
               Cancel
             </Button>
@@ -204,6 +231,8 @@ function DrawerFeatureHeader({
               className="ml-10"
               type="primary"
               size="small"
+              loading={isLoading}
+              disabled={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 handleSaveDetails();

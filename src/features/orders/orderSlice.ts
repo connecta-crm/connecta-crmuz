@@ -70,6 +70,10 @@ export const orderSlice = createSlice({
         throw new Error('Invalid Field in orderSlice');
       state.orderData[field] = state.initialOrderData[field];
     },
+    resetToInitialData: (state) => {
+      const initialData = state.initialOrderData;
+      state.orderData = { ...initialData };
+    },
   },
 });
 
@@ -79,7 +83,12 @@ export const getOrderData = (state: { order: OrderState }) =>
 export const getInitialOrderData = (state: { order: OrderState }) =>
   state.order.initialOrderData;
 
-export const { setOrderData, updateField, updateVehicleField, resetField } =
-  orderSlice.actions;
+export const {
+  setOrderData,
+  updateField,
+  updateVehicleField,
+  resetField,
+  resetToInitialData,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

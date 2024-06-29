@@ -178,8 +178,6 @@ function History({
     setNoteUpdated(true);
   };
 
-  console.log('attachments:', attachments);
-
   const items: TabsProps['items'] = [
     {
       key: '1',

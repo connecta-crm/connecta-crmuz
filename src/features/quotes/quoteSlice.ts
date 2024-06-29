@@ -70,13 +70,22 @@ export const quoteSlice = createSlice({
         throw new Error('Invalid Field in quoteSlice');
       state.quoteData[field] = state.initialQuoteData[field];
     },
+    resetToInitialData: (state) => {
+      const initialData = state.initialQuoteData;
+      state.quoteData = { ...initialData };
+    },
   },
 });
 
 export const getQuoteData = (state: { quote: QuoteState }) =>
   state.quote.quoteData;
 
-export const { setQuoteData, updateField, updateVehicleField, resetField } =
-  quoteSlice.actions;
+export const {
+  setQuoteData,
+  updateField,
+  updateVehicleField,
+  resetField,
+  resetToInitialData,
+} = quoteSlice.actions;
 
 export default quoteSlice.reducer;

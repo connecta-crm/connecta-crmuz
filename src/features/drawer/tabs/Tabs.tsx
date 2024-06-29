@@ -50,19 +50,19 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       customerPhone = customerLeadPhone;
       sourceId = Number(leadId);
       customer = customerLead;
-      customerEmail = customerLead.email;
+      customerEmail = customerLead?.email;
       break;
     case 'quote':
       customerPhone = customerQuotePhone;
       sourceId = Number(quoteId);
       customer = customerQuote;
-      customerEmail = customerQuote.email;
+      customerEmail = customerQuote?.email;
       break;
     case 'order':
       customerPhone = customerOrderPhone;
       sourceId = Number(orderId);
       customer = customerOrder;
-      customerEmail = customerOrder.email;
+      customerEmail = customerOrder?.email;
       break;
     default:
       throw new Error('There is something error in Tabs.tsx');

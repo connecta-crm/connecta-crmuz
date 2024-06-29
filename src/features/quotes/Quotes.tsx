@@ -38,7 +38,6 @@ function Quotes() {
     isOpenCDPriceModal,
   );
 
-  console.log(cdPrice);
   const { openDrawer } = useDrawerFeature();
 
   const dispatch = useAppDispatch();

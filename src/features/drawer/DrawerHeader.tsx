@@ -165,13 +165,14 @@ function DrawerHeader({
   const { orderPostCD, updatedOrderPostCDData, isLoadingPostCD } =
     useOrderPostCD();
 
-  const { onSaveFeature, isLoading, updatedOrderData } = useUpdateFeatureData({
-    keyValue: '',
-    feature,
-    field: 'status',
-    isDataUpdated,
-    setDataUpdated,
-  });
+  const { onSaveFeature, isLoading, updatedOrderData, updatedQuoteData } =
+    useUpdateFeatureData({
+      keyValue: '',
+      feature,
+      field: 'status',
+      isDataUpdated,
+      setDataUpdated,
+    });
 
   const handleArchive = () => {
     switch (feature) {
@@ -227,17 +228,33 @@ function DrawerHeader({
       // featureData?.status !== status
     ) {
       setOpenArchiveModal(false);
+      console.log('closeDrawer 2');
       closeDrawer();
     }
   }, [isLoadingArchive, isSuccessArchive]);
 
+  // QUOTE STATUS FEATURES
   useEffect(() => {
     if (isStatusUpdated) {
       onSaveFeature();
       setStatusUpdated(false);
+      console.log('onSaveFeature QQ');
     }
   }, [isStatusUpdated, onSaveFeature]);
 
+  useEffect(() => {
+    if (!isLoading && updatedQuoteData) {
+      const value = updatedQuoteData?.status;
+      console.log('up Status', value);
+      if (value) {
+        searchParams.set('status', value);
+        setSearchParams(searchParams);
+        dispatch(updateQuoteField({ field: 'status', value }));
+      }
+    }
+  }, [isLoading, updatedQuoteData]);
+
+  // ORDER POST to CD
   useEffect(() => {
     if (!isLoadingPostCD && updatedOrderPostCDData) {
       if (updatedOrderPostCDData.status === 'posted') {
@@ -281,6 +298,7 @@ function DrawerHeader({
 
   useEffect(() => {
     if (isChangeStatus && status && updatedOrderPostCDData?.status !== status) {
+      console.log('closeDrawer 1');
       closeDrawer();
       setChangeStatus(false);
     }
@@ -303,9 +321,7 @@ function DrawerHeader({
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(nextLeadId);
   };
-  const orderStatusName = () => {
-    if (pathname !== '/orders') return;
-
+  const featureStatusName = () => {
     return getMenuData
       .find((menu) => menu.path === pathname)
       ?.status?.find((statusObj) => statusObj.value === status)?.title;
@@ -541,6 +557,31 @@ function DrawerHeader({
       : []),
   ];
 
+  // UPCOMING ITEMS
+  type UpcomingStatusType = {
+    id: number;
+    value: string;
+    title: string;
+  };
+  const itemsUpcoming =
+    getMenuData[1].status?.map(
+      ({ id: key, title, value }: UpcomingStatusType) => {
+        return {
+          key,
+          label: (
+            <p
+              onClick={() => {
+                dispatch(updateQuoteField({ field: 'status', value }));
+                setStatusUpdated(true);
+              }}
+            >
+              {title}
+            </p>
+          ),
+        };
+      },
+    ) || [];
+
   // DROPDOWN FUNCTION
   const handleOpenSettings: DropdownProps['onOpenChange'] = (
     nextOpen,
@@ -687,12 +728,19 @@ function DrawerHeader({
                 </a>
               </Dropdown>
             </div>
-            {/* {feature === 'quote' && (
+            {feature === 'quote' && (
               <div className="drawer-header__btnitem">
-                <Dropdown menu={menuProps} trigger={['click']}>
+                <Dropdown
+                  menu={{
+                    items: itemsUpcoming,
+                    selectable: false,
+                    defaultSelectedKeys: [''],
+                  }}
+                  trigger={['click']}
+                >
                   <Button>
                     <Space>
-                      Upcoming
+                      {isLoading ? 'Updating..' : featureStatusName()}
                       <CaretDownOutlined
                         className="mt-5"
                         style={{ fontSize: 16 }}
@@ -701,7 +749,7 @@ function DrawerHeader({
                   </Button>
                 </Dropdown>
               </div>
-            )} */}
+            )}
             <div className="drawer-header__btnitem ">
               {feature === 'quote' && (
                 <Button className="" type="primary" onClick={onOpenConvert}>
@@ -716,7 +764,7 @@ function DrawerHeader({
                   }}
                   type="text"
                 >
-                  {orderStatusName()}
+                  {featureStatusName()}
                 </Button>
               )}
               {feature === 'order' &&

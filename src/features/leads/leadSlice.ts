@@ -114,12 +114,21 @@ export const leadSlice = createSlice({
         throw new Error('Invalid Field in LeadSlice');
       state.leadData[field] = state.initialLeadData[field];
     },
+    resetToInitialData: (state: LeadState) => {
+      const initialData = state.initialLeadData;
+      state.leadData = { ...initialData };
+    },
   },
 });
 
 export const getLeadData = (state: { lead: LeadState }) => state.lead.leadData;
 
-export const { setLeadData, updateField, updateVehicleField, resetField } =
-  leadSlice.actions;
+export const {
+  setLeadData,
+  updateField,
+  updateVehicleField,
+  resetField,
+  resetToInitialData,
+} = leadSlice.actions;
 
 export default leadSlice.reducer;
