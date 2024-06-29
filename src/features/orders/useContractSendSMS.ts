@@ -10,7 +10,7 @@ export function useContractSendSMS() {
     isPending: isLoadingContractSendSMS,
     isSuccess,
   } = useMutation({
-    mutationFn: () => Orders.contractSendSMS(),
+    mutationFn: (contract: number) => Orders.contractSendSMS(contract),
     onSuccess: () => {
       message.success('Contract SMS is sended');
       queryClient.invalidateQueries({ queryKey: ['orderContractList'] });

@@ -338,11 +338,12 @@ class Orders {
     }
   }
 
-  // todo
-  // POST: /orders/contracts//
-  async contractSendSMS() {
+  // POST: /orders/contracts/sms/:contract
+  async contractSendSMS(contract: number) {
     try {
-      const { data } = await this.$api.post('/orders/contracts//');
+      const { data } = await this.$api.post(
+        `/orders/contracts/sms/${contract}/`,
+      );
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
