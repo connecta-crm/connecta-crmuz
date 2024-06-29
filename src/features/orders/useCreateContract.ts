@@ -18,8 +18,8 @@ export function useCreateContract() {
     mutationFn: ({ signed, contractType, order }: CreateContractParams) =>
       Orders.createContract({ signed, contractType, order }),
     onSuccess: () => {
-      message.success('Contract sent');
-      queryClient.invalidateQueries({ queryKey: ['orderContract'] });
+      message.success('Contract is sended');
+      queryClient.invalidateQueries({ queryKey: ['orderContractList'] });
     },
     onError: (err) => {
       message.error(err.message);

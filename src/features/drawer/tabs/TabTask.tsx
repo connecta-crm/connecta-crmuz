@@ -355,7 +355,11 @@ function TabTask({ user, customer: currentCustomer, sourceId, sourceType }) {
               )}
             >
               <Flex className="p-0" gap="small" wrap="wrap">
-                <Button size="small" onClick={handleCancel}>
+                <Button
+                  size="small"
+                  disabled={isLoading}
+                  onClick={handleCancel}
+                >
                   Cancel
                 </Button>
                 <Button

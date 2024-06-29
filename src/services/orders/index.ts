@@ -338,10 +338,24 @@ class Orders {
     }
   }
 
+  // todo
+  // POST: /orders/contracts//
+  async contractSendSMS() {
+    try {
+      const { data } = await this.$api.post('/orders/contracts//');
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // GET: /orders/contracts/list/:order
   async getContractList(order: string) {
     try {
-      const { data } = await this.$api.post(`/orders/contracts/list/${order}/`);
+      const { data } = await this.$api.get(`/orders/contracts/list/${order}/`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

@@ -59,7 +59,7 @@ function Modal({
                     onClick={form.submit}
                     danger={saveBtnDanger}
                   >
-                    saveBtnText
+                    {saveBtnText}
                   </Button>
                 ) : (
                   <Button
@@ -71,7 +71,7 @@ function Modal({
                     onClick={onSave}
                     danger={saveBtnDanger}
                   >
-                    saveBtnText
+                    {saveBtnText}
                   </Button>
                 )}
               </>

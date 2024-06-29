@@ -38,7 +38,7 @@ function TabPayment() {
                   <th>Amount charged</th>
                   <th>Payment type</th>
                   <th>Direction</th>
-                  <th style={{ width: 190 }}>Status</th>
+                  <th style={{ width: 205 }}>Status</th>
                 </tr>
               </thead>
               <tbody>
