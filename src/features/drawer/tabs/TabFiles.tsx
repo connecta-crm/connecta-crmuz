@@ -1,5 +1,5 @@
 import type { UploadProps } from 'antd';
-import { Button, Flex, Upload, UploadFile } from 'antd';
+import { Button, Flex, Input, Upload, UploadFile } from 'antd';
 import { useState } from 'react';
 
 // type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -14,6 +14,7 @@ import { useState } from 'react';
 
 function TabFiles() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [title, setTitle] = useState('');
 
   const handleChange: UploadProps['onChange'] = (info) => {
     const newFileList = [...info.fileList];
@@ -53,7 +54,17 @@ function TabFiles() {
     <>
       <div className="tabs-file">
         <div className="tabs-file__head">
-          <h2>Title</h2>
+          <Input
+            value={title}
+            placeholder="Title"
+            style={{
+              border: 'none',
+              outline: 'none',
+              height: '100%',
+              boxShadow: 'none',
+            }}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
         {fileList.length === 0 ? (
           <div className="tabs-file__content">
