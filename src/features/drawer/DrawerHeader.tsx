@@ -246,6 +246,12 @@ function DrawerHeader({
         dispatch(updateOrderField({ field: 'status', value: 'posted' }));
         setChangeStatus(true);
       }
+      if (updatedOrderPostCDData.status === 'booked') {
+        searchParams.set('status', 'booked');
+        setSearchParams(searchParams);
+        dispatch(updateOrderField({ field: 'status', value: 'booked' }));
+        setChangeStatus(true);
+      }
     }
   }, [isLoadingPostCD, updatedOrderPostCDData]);
 
@@ -726,7 +732,10 @@ function DrawerHeader({
                     <Button
                       onClick={() => {
                         if (feature === 'order') {
-                          orderPostCD(orderData.guid);
+                          orderPostCD({
+                            guid: orderData.guid,
+                            action: 'repost',
+                          });
                         }
                       }}
                       disabled={isLoadingPostCD}
@@ -743,7 +752,10 @@ function DrawerHeader({
                     type="primary"
                     onClick={() => {
                       if (feature === 'order') {
-                        orderPostCD(orderData.guid);
+                        orderPostCD({
+                          guid: orderData.guid,
+                          action: 'post',
+                        });
                       }
                     }}
                     disabled={isLoadingPostCD}
@@ -837,10 +849,14 @@ function DrawerHeader({
                   type="primary"
                   danger
                   onClick={() => {
-                    dispatch(
-                      updateOrderField({ field: 'status', value: 'booked' }),
-                    );
-                    setStatusUpdated(true);
+                    // dispatch(
+                    //   updateOrderField({ field: 'status', value: 'booked' }),
+                    // );
+                    // setStatusUpdated(true);
+                    orderPostCD({
+                      guid: orderData.guid,
+                      action: 'delete',
+                    });
                   }}
                   disabled={isLoading}
                 >

@@ -6,6 +6,7 @@ import { CreateContractParams } from '../../features/orders/useCreateContract';
 import { OrderDirectDispatchEditParamsType } from '../../features/orders/useOrderDirectDispatchEdit';
 import { OrderDispatchEditParamsType } from '../../features/orders/useOrderDispatchEdit';
 import { OrderEditParamsType } from '../../features/orders/useOrderEdit';
+import { PostCDParamsType } from '../../features/orders/useOrderPostCD';
 import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { OrderCreateVehicleParams } from '../../features/orders/useOrderVehicleCreate';
 import { OrderEditVehicleParamsType } from '../../features/orders/useOrderVehicleEdit';
@@ -260,9 +261,11 @@ class Orders {
   }
 
   // POST: /orders/post-cd/:guid/
-  async orderPostCD(guid: string) {
+  async orderPostCD({ guid, action }: PostCDParamsType) {
     try {
-      const { data } = await this.$api.post(`/orders/post-cd/${guid}/`);
+      const { data } = await this.$api.post(`/orders/post-cd/${guid}/`, {
+        action,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

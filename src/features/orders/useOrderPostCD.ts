@@ -1,6 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import Orders from '../../services/orders';
+
+export type PostToCDActionType = 'post' | 'repost' | 'delete';
+
+export type PostCDParamsType = {
+  guid: string;
+  action: PostToCDActionType;
+};
 export function useOrderPostCD() {
   const queryClient = useQueryClient();
 
@@ -10,7 +17,8 @@ export function useOrderPostCD() {
     isSuccess,
     data: updatedOrderPostCDData,
   } = useMutation({
-    mutationFn: (guid: string) => Orders.orderPostCD(guid),
+    mutationFn: ({ guid, action }: PostCDParamsType) =>
+      Orders.orderPostCD({ guid, action }),
     onSuccess: () => {
       message.success('Posted to CD');
       queryClient.invalidateQueries({ queryKey: ['orders'] });
