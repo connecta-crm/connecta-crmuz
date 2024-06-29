@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
@@ -286,13 +285,14 @@ function DrawerFeatureHeader({
               type="primary"
               size="small"
               disabled={isLoading}
+              loading={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 onSaveFeature();
                 setDataUpdated(true);
               }}
             >
-              {isLoading ? <LoadingOutlined /> : 'Save'}
+              Save
             </Button>
           </div>
         ) : (
@@ -334,12 +334,13 @@ function DrawerFeatureHeader({
               type="primary"
               size="small"
               disabled={isLoading}
+              loading={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 handleSaveNotes();
               }}
             >
-              {isLoading ? <LoadingOutlined /> : 'Save'}
+              Save
             </Button>
           </div>
         ) : (
@@ -379,13 +380,14 @@ function DrawerFeatureHeader({
               type="primary"
               size="small"
               disabled={isLoading}
+              loading={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 onSaveFeature();
                 setDataUpdated(true);
               }}
             >
-              {isLoading ? <LoadingOutlined /> : 'Save'}
+              Save
             </Button>
           </div>
         ) : (
@@ -439,13 +441,14 @@ function DrawerFeatureHeader({
               type="primary"
               size="small"
               disabled={isLoading}
+              loading={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 onSaveFeature();
                 setDataUpdated(true);
               }}
             >
-              {isLoading ? <LoadingOutlined /> : 'Save'}
+              Save
             </Button>
           </div>
         ) : (
@@ -482,13 +485,14 @@ function DrawerFeatureHeader({
               type="primary"
               size="small"
               disabled={isLoading}
+              loading={isLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 onSaveFeature();
                 setDataUpdated(true);
               }}
             >
-              {isLoading ? <LoadingOutlined /> : 'Save'}
+              Save
             </Button>
           </div>
         ) : (

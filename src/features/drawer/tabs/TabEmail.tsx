@@ -164,6 +164,7 @@ function TabEmail({ user, sourceId, userEmail, customerEmail, sourceType }) {
                 size="small"
                 onClick={() => setNote('')}
                 disabled={isLoading}
+                loading={isLoading}
               >
                 Cancel
               </Button>

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../store/hooks';
@@ -101,16 +100,11 @@ function OrderDirectDispatchModal({ isOpenModal, onOpenModal }: ModalProps) {
           type="primary"
           className="ml-10"
           style={{ backgroundColor: '#427d9d' }}
-          disabled={false}
+          disabled={isLoadingDirectDispatch}
+          loading={isLoadingDirectDispatch}
           onClick={handleSaveDispatch}
         >
-          {!isLoadingDirectDispatch ? (
-            'Dispatch'
-          ) : (
-            <>
-              Dispatch <LoadingOutlined />
-            </>
-          )}
+          Dispatch
         </Button>
       }
     >

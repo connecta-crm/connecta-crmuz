@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Flex } from 'antd';
 import { useEffect, useState } from 'react';
 import { SourceType } from '../../../ui/Drawer';
@@ -49,17 +48,10 @@ function TabNotes({ user, sourceType, sourceId }: TabNotesProps) {
           type="primary"
           size="small"
           disabled={isLoading}
+          loading={isLoading}
           onClick={handleSave}
         >
-          {isLoading ? (
-            <>
-              <span>
-                Save <LoadingOutlined />
-              </span>
-            </>
-          ) : (
-            'Save'
-          )}
+          Save
         </Button>
       </Flex>
     </div>

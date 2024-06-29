@@ -787,6 +787,7 @@ function DrawerHeader({
                         }
                       }}
                       disabled={isLoadingPostCD}
+                      loading={isLoadingPostCD}
                       className="ml-10"
                       type="primary"
                       ghost
@@ -807,16 +808,9 @@ function DrawerHeader({
                       }
                     }}
                     disabled={isLoadingPostCD}
+                    loading={isLoadingPostCD}
                   >
-                    {isLoadingPostCD ? (
-                      <>
-                        <span>
-                          Post to CD <LoadingOutlined />
-                        </span>
-                      </>
-                    ) : (
-                      'Post to CD'
-                    )}
+                    Post to CD
                   </Button>
                 ) : null)}
 
@@ -827,6 +821,7 @@ function DrawerHeader({
                     type="primary"
                     danger
                     disabled={isLoading}
+                    loading={isLoading}
                     onClick={() => setOpenArchiveModal(true)}
                   >
                     Archive
@@ -837,6 +832,7 @@ function DrawerHeader({
                   className="ml-10 mr-10"
                   type="primary"
                   disabled={isLoading}
+                  loading={isLoading}
                   onClick={() => {
                     dispatch(
                       updateLeadField({ field: 'status', value: 'leads' }),
@@ -852,6 +848,7 @@ function DrawerHeader({
                   className="ml-10 mr-10"
                   type="primary"
                   disabled={isLoading}
+                  loading={isLoading}
                   onClick={() => {
                     dispatch(
                       updateQuoteField({ field: 'status', value: 'quote' }),
@@ -874,6 +871,7 @@ function DrawerHeader({
                       setStatusUpdated(true);
                     }}
                     disabled={isLoading}
+                    loading={isLoading}
                   >
                     Back to Order
                   </Button>
@@ -886,6 +884,7 @@ function DrawerHeader({
                     danger
                     onClick={() => setOpenArchiveModal(true)}
                     disabled={isLoading}
+                    loading={isLoading}
                   >
                     Archive
                   </Button>
@@ -907,6 +906,7 @@ function DrawerHeader({
                     });
                   }}
                   disabled={isLoading}
+                  loading={isLoading}
                 >
                   Remove from CD
                 </Button>
@@ -922,6 +922,7 @@ function DrawerHeader({
                     setStatusUpdated(true);
                   }}
                   disabled={isLoading}
+                  loading={isLoading}
                 >
                   Mark as Picked up
                 </Button>
@@ -937,6 +938,7 @@ function DrawerHeader({
                     setStatusUpdated(true);
                   }}
                   disabled={isLoading}
+                  loading={isLoading}
                 >
                   Mark as Delivered
                 </Button>

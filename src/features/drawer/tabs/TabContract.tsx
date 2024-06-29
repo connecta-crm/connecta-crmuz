@@ -42,6 +42,7 @@ function TabContract({ order }) {
                 size="middle"
                 className="d-flex align-center"
                 loading={isLoadingContract}
+                disabled={isLoadingContract}
                 onClick={handleContractSend}
               >
                 <span>Send a contract</span>{' '}

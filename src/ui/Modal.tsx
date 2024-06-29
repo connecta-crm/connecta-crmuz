@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, FormInstance, Modal as ModalUI } from 'antd';
 import { ReactNode } from 'react';
 
@@ -56,16 +55,11 @@ function Modal({
                     type="primary"
                     className="ml-10"
                     disabled={loading}
+                    loading={loading}
                     onClick={form.submit}
                     danger={saveBtnDanger}
                   >
-                    {!loading ? (
-                      saveBtnText
-                    ) : (
-                      <>
-                        {saveBtnText} <LoadingOutlined />
-                      </>
-                    )}
+                    saveBtnText
                   </Button>
                 ) : (
                   <Button
@@ -73,16 +67,11 @@ function Modal({
                     type="primary"
                     className="ml-10"
                     disabled={loading}
+                    loading={loading}
                     onClick={onSave}
                     danger={saveBtnDanger}
                   >
-                    {!loading ? (
-                      saveBtnText
-                    ) : (
-                      <>
-                        {saveBtnText} <LoadingOutlined />
-                      </>
-                    )}
+                    saveBtnText
                   </Button>
                 )}
               </>

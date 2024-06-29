@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
@@ -326,9 +325,10 @@ export default function Person({
               size="small"
               type="primary"
               disabled={disabled}
+              loading={isLoading}
               onClick={createContact}
             >
-              {!isLoading ? 'save' : <LoadingOutlined />}
+              save
             </Button>
           </div>
         </div>
@@ -360,8 +360,9 @@ export default function Person({
                 disabled={newNumberValue ? false : true}
                 size="small"
                 type="primary"
+                loading={isPending}
               >
-                {!isPending ? 'save' : <LoadingOutlined />}
+                save
               </Button>
             </FormControl>
           )}

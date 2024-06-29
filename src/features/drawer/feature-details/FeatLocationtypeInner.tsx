@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select } from 'antd';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
@@ -82,9 +81,10 @@ function FeatLocationtypeInner({ feature, keyValue }: FeatItemInnerProps) {
             type="primary"
             size="small"
             disabled={isLoading}
+            loading={isLoading}
             onClick={onSaveFeature}
           >
-            {isLoading ? <LoadingOutlined /> : 'Save'}
+            Save
           </Button>
         </>
       )}

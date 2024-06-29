@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { useProviders } from '../../providers/useProviders';
 
-import { LoadingOutlined } from '@ant-design/icons';
 import { DefaultOptionType } from 'antd/es/select';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { SourceType } from '../../../ui/Drawer';
@@ -126,9 +125,10 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
             type="primary"
             size="small"
             disabled={isLoading}
+            loading={isLoading}
             onClick={onSaveFeature}
           >
-            {isLoading ? <LoadingOutlined /> : 'Save'}
+            Save
           </Button>
         </>
       )}

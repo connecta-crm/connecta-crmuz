@@ -191,9 +191,10 @@ function FeatItemOpen({
               type="primary"
               size="small"
               disabled={isLoading || isLoadingVehicleEdit}
+              loading={isLoading || isLoadingVehicleEdit}
               onClick={onSaveFeature}
             >
-              {isLoading || isLoadingVehicleEdit ? <LoadingOutlined /> : 'Save'}
+              Save
             </Button>
           </>
         )}

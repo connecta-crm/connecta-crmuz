@@ -2,7 +2,6 @@ import { Button, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
-import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import {
@@ -115,9 +114,10 @@ function FeatEstShipDateInner({ feature, keyValue }: FeatItemInnerProps) {
             type="primary"
             size="small"
             disabled={isLoading}
+            loading={isLoading}
             onClick={onSaveFeature}
           >
-            {isLoading ? <LoadingOutlined /> : 'Save'}
+            Save
           </Button>
         </>
       )}

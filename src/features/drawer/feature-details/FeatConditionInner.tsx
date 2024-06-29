@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Select } from 'antd';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
@@ -108,8 +107,9 @@ function FeatConditionInner({ feature, keyValue }: FeatItemInnerProps) {
             size="small"
             disabled={isLoading}
             onClick={onSaveFeature}
+            loading={isLoading}
           >
-            {isLoading ? <LoadingOutlined /> : 'Save'}
+            Save
           </Button>
         </>
       )}

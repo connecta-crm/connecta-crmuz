@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
@@ -141,9 +140,10 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
           }}
           size="small"
           disabled={isLoading}
+          loading={isLoading && loadingType === 'save'}
           onClick={handleSave}
         >
-          {isLoading && loadingType === 'save' ? <LoadingOutlined /> : 'Save'}
+          Save
         </Button>
         {feature !== 'quote' && (
           <Button
@@ -151,16 +151,10 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
             type="primary"
             size="small"
             disabled={isLoading}
+            loading={isLoading && loadingType === 'saveQuote'}
             onClick={handleSaveQuote}
           >
-            {isLoading && loadingType === 'saveQuote' ? (
-              <>
-                <span>Save and send quote </span>
-                <LoadingOutlined />
-              </>
-            ) : (
-              'Save and send quote'
-            )}
+            Save and send quote
           </Button>
         )}
       </div>

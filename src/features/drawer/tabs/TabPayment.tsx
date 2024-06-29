@@ -80,7 +80,7 @@ function TabPayment() {
                         }))
                       }
                     >
-                      View
+                      Receipt
                     </Button>
                     <Button
                       className="ml-10"
@@ -136,7 +136,7 @@ function TabPayment() {
                   <td>Customer to Broker</td>
                   <td>
                     <Button className="ml-10" ghost type="primary" size="small">
-                      View CCA
+                      Receipt CCA
                     </Button>
                     <Button className="ml-10" type="primary" size="small">
                       Charge

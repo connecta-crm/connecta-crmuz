@@ -184,6 +184,7 @@ function TabPhone({ user, sourceId, sourceType, customerPhone }) {
                 type="primary"
                 size="small"
                 loading={isLoading}
+                disabled={isLoading}
                 onClick={handleSave}
               >
                 Send
