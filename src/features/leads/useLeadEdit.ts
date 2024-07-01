@@ -20,6 +20,7 @@ export function useLeadEdit() {
       Leads.editLead({ guid, updateLeadModel }),
     onSuccess: (data) => {
       queryClient.setQueryData(['leadEdit'], data);
+      queryClient.invalidateQueries({ queryKey: ['leads'] });
       message.success('Lead successfully edited');
     },
     onError: (err) => message.error(err.message),

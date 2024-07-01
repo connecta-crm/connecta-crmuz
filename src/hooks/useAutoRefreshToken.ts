@@ -5,7 +5,7 @@ import { useRefreshToken } from './useRefreshToken';
 
 export function useAutoRefreshToken() {
   const { refreshToken, error } = useRefreshToken();
-  const refreshTokenValue = useAppSelector((state) => getRefreshToken(state));
+  const refreshTokenValue = useAppSelector(getRefreshToken);
   useEffect(() => {
     if (!refreshTokenValue) return;
 

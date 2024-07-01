@@ -17,7 +17,7 @@ export default function Modal({
 
   return (
     <>
-      {show && (
+      {!show && (
         <div className={'modal'}>
           <div className="modal__content">
             <form onSubmit={onSubmit}>

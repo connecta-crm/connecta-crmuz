@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, FormInstance, Modal as ModalUI } from 'antd';
 import { ReactNode } from 'react';
 
@@ -9,6 +8,10 @@ type ModalProps = {
   open: boolean;
   width: 'small' | 'middle' | 'large';
   padding: '0' | '15';
+  saveBtnDanger?: boolean;
+  saveBtnText?: 'Save' | 'Archived' | string;
+  hasSaveBtn?: boolean;
+  extraBtnToHeader?: ReactNode;
   children: ReactNode;
   onSave?: () => void;
   onCancel: () => void;
@@ -24,6 +27,10 @@ function Modal({
   width = 'small',
   onSave,
   onCancel,
+  extraBtnToHeader,
+  saveBtnDanger = false,
+  saveBtnText = 'Save',
+  hasSaveBtn = true,
   children,
   hasEdit = false,
 }: ModalProps) {
@@ -42,21 +49,17 @@ function Modal({
             </Button>
             {!hasEdit && (
               <>
-                {form ? (
+                {hasSaveBtn && form ? (
                   <Button
                     size="small"
                     type="primary"
                     className="ml-10"
                     disabled={loading}
+                    loading={loading}
                     onClick={form.submit}
+                    danger={saveBtnDanger}
                   >
-                    {!loading ? (
-                      'Save'
-                    ) : (
-                      <>
-                        Save <LoadingOutlined />
-                      </>
-                    )}
+                    {saveBtnText}
                   </Button>
                 ) : (
                   <Button
@@ -64,19 +67,16 @@ function Modal({
                     type="primary"
                     className="ml-10"
                     disabled={loading}
+                    loading={loading}
                     onClick={onSave}
+                    danger={saveBtnDanger}
                   >
-                    {!loading ? (
-                      'Save'
-                    ) : (
-                      <>
-                        Save <LoadingOutlined />
-                      </>
-                    )}
+                    {saveBtnText}
                   </Button>
                 )}
               </>
             )}
+            {extraBtnToHeader ? extraBtnToHeader : null}
           </div>
         </div>
       }

@@ -10,7 +10,7 @@ export default function DownCollapse({
   vehicleRemove,
   img,
   notImg = false,
-  border
+  border,
 }: {
   children: ReactNode;
   title: string;
@@ -18,13 +18,19 @@ export default function DownCollapse({
   vehicleRemove?: () => void;
   img?: string;
   notImg?: boolean;
-  border?:boolean
+  border?: boolean;
 }) {
   const [show, setShow] = useState(false);
 
   return (
     <div className="down__collapse ">
-      <div className="down__collapse__header " style={{borderBottom:border?"1px solid #ccc":"",paddingBottom:border?"5px":""}}>
+      <div
+        className="down__collapse__header "
+        style={{
+          borderBottom: border ? '1px solid #ccc' : '',
+          paddingBottom: border ? '5px' : '',
+        }}
+      >
         <div
           className="down__collapse__header-item"
           onClick={() => setShow(!show)}
@@ -48,7 +54,7 @@ export default function DownCollapse({
         </div>
         <div className="down__collapse__header-item">
           {title.includes('Vehicle') ? (
-            <>
+            <span className="remove-item">
               {title == 'Vehicle' ? (
                 <a
                   onClick={() =>
@@ -63,7 +69,7 @@ export default function DownCollapse({
                   <img alt="" src={remove} />
                 </a>
               )}
-            </>
+            </span>
           ) : (
             ''
           )}

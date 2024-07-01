@@ -1,4 +1,5 @@
 import { LeadData, LeadState, LeadVehicle } from './LeadDataType';
+import { OrderData, OrderState, OrderVehicle } from './OrderDataType';
 import { QuoteData, QuoteState, QuoteVehicle } from './QuoteDataType';
 
 export type Mark = {
@@ -16,6 +17,8 @@ export type Vehicle = {
 export type User = {
   id: number;
   picture: string;
+  firstName: string;
+  lastName: string;
 };
 
 export type Customer = {
@@ -89,7 +92,9 @@ export const initialSource: Source = {
 
 /* ==================================================================================================================*/
 
-export type RevertFieldAction<T extends keyof (LeadData & QuoteData)> = {
+export type RevertFieldAction<
+  T extends keyof (LeadData & QuoteData & OrderData),
+> = {
   field: T;
 };
 
@@ -110,6 +115,10 @@ export type NestedObjectValue =
   | QuoteData
   | QuoteData[]
   | QuoteState
+  | OrderVehicle[]
+  | OrderData
+  | OrderData[]
+  | OrderState
   | Customer
   | Source;
 
@@ -122,6 +131,9 @@ export type NestedObject = {
     | LeadVehicle[]
     | QuoteData
     | QuoteVehicle
-    | QuoteVehicle[];
+    | QuoteVehicle[]
+    | OrderData
+    | OrderVehicle
+    | OrderVehicle[];
 };
 /* ==================================================================================================================*/

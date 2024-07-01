@@ -9,7 +9,7 @@ import Source from '../../features/sourcecom/Source';
 import VehicleContainer, {
   CarType,
 } from '../../features/vehicle/VehicleContainer.tsx';
-import { OrdersDataType } from '../../models/OrdersDataType.ts';
+import { OrdersDataType } from '../../models/OrderDataType.ts';
 import { useAppSelector } from '../../store/hooks';
 import { CONDITION_TYPES } from '../../utils/constants.ts';
 import Modal from '../Modal.tsx';

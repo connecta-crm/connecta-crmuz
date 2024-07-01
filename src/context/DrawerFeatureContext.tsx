@@ -17,17 +17,25 @@ type DrawerFeatureContextType = {
   makeDrawerFull: (e: boolean) => void;
   openDrawer: () => void;
   closeDrawer: () => void;
-
+  onOpenCDPrice: () => void;
+  onCloseCDPrice: () => void;
   // setEditDetails: (e: SetStateAction<boolean>) => void;
   // onChangePerson: (e: string) => void;
   // onChangeDetails: (e: string | string[]) => void;
   // onChange: (e: string, b?: boolean | undefined) => void;
+  isOpenCDPrice: boolean;
   isEditDetails: boolean;
   isEditPerson: boolean;
   isEditNotes: boolean;
+  isEditPayment: boolean;
+  isEditDate: boolean;
+  isEditCarrierInfo: boolean;
   onEditDetails: (e: boolean) => void;
   onEditPerson: (e: boolean) => void;
   onEditNotes: (e: boolean) => void;
+  onEditPayment: (e: boolean) => void;
+  onEditDate: (e: boolean) => void;
+  onEditCarrierInfo: (e: boolean) => void;
   onNextElement: (e: boolean) => void;
   onPrevElement: (e: boolean) => void;
   onChangeMainCollapse: (e: string[] | string) => void;
@@ -40,16 +48,24 @@ const DrawerFeatureContext = createContext<DrawerFeatureContextType | null>(
 
 const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const [openMainPanels, setOpenMainPanels] = useState<string[]>([
-    '100',
-    '200',
+    '100', // Details
+    '200', // Person
+    '400', // Payment
+    '500', // Date
+    '600', // Carrier
   ]);
   const [openInnerPanels, setOpenInnerPanels] = useState<string[]>([]);
   const [isEditDetails, setEditDetails] = useState(false);
   const [isEditPerson, setEditPerson] = useState(false);
   const [isEditNotes, setEditNote] = useState(false);
+  const [isEditPayment, setEditPayment] = useState(false);
+  const [isEditDate, setEditDate] = useState(false);
+  const [isEditCarrierInfo, setEditCarrierInfo] = useState(false);
 
   const [isOpenDrawer, setOpenDrawer] = useState(false);
   const [isFullScreen, setFullScreen] = useState(false);
+
+  const [isOpenCDPrice, setOpenCDPrice] = useState(false);
   // const queryClient = useQueryClient();
 
   const openDrawer = () => {
@@ -75,11 +91,30 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const onEditNotes = (value: boolean) => {
     setEditNote(value);
   };
+  const onEditPayment = (value: boolean) => {
+    setEditPayment(value);
+  };
+  const onEditDate = (value: boolean) => {
+    setEditDate(value);
+  };
+  const onEditCarrierInfo = (value: boolean) => {
+    setEditCarrierInfo(value);
+  };
+
   const onNextElement = (value: boolean) => {
+    onChangeInnerCollapse([]);
     setEditNote(value);
   };
   const onPrevElement = (value: boolean) => {
+    onChangeInnerCollapse([]);
     setEditNote(value);
+  };
+
+  const onOpenCDPrice = () => {
+    setOpenCDPrice(true);
+  };
+  const onCloseCDPrice = () => {
+    setOpenCDPrice(false);
   };
 
   // const onChangePerson = (key: string) => {
@@ -92,6 +127,7 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   // };
 
   const onChangeInnerCollapse = (panelKey: string | string[]) => {
+    console.log('panelKey', panelKey);
     if (Array.isArray(panelKey)) {
       setOpenInnerPanels(panelKey);
     } else {
@@ -133,8 +169,15 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         isEditDetails,
         onEditPerson,
         onEditNotes,
+        onEditPayment,
+        onEditDate,
+        onEditCarrierInfo,
         isEditPerson,
         isEditNotes,
+        isEditPayment,
+        isEditDate,
+        isEditCarrierInfo,
+
         onEditDetails,
         onChangeMainCollapse,
         onChangeInnerCollapse,
@@ -146,6 +189,10 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         makeDrawerFull,
         onNextElement,
         onPrevElement,
+
+        isOpenCDPrice,
+        onOpenCDPrice,
+        onCloseCDPrice,
       }}
     >
       {children}

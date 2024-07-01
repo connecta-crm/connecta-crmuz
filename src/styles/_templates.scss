@@ -2,18 +2,16 @@
   .jodit-container {
     display: flex !important;
     flex-direction: column-reverse !important;
-    
   }
-//   .jodit-react-container{
-//     bottom: -24px  !important;
-//   }
-  .jodit-wysiwyg {
-    border: 0 !important;
-  }
+  //   .jodit-react-container{
+  //     bottom: -24px  !important;
+  //   }
+  // .jodit-wysiwyg {
+  //   border: 0 !important;
+  // }
   .jodit-toolbar__box {
     border-radius: 0 !important;
     background-color: #d1d1d1 !important;
     position: relative;
-    
   }
 }

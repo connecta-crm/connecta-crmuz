@@ -1,19 +1,21 @@
-import TableDropdown from '../../ui/TableDropdown';
-import { QuotesTableDataType } from './OrderTableColumnType';
-export const QuotesTableColumns = [
+import TableDropdown from '../../ui/table/TableDropdown';
+import { OrderTableDataType } from './OrderTableColumnType';
+export const OrderTableColumn = [
   {
     title: 'Id',
     dataIndex: 'id',
-    render: (text: string) => <a className="table__id">{text}</a>,
+    render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
-    title: 'Quotes	',
+    title: 'Quotes',
     dataIndex: 'updatedAt',
+    render: (text: string) =>
+      text ? <span>{text}</span> : <p className="text-center">-</p>,
   },
   {
     title: 'Note	',
     dataIndex: 'node',
-    render: (text: string, record: QuotesTableDataType) => (
+    render: (text: string, record: OrderTableDataType) => (
       <TableDropdown record={record} text={text} />
     ),
   },
@@ -46,16 +48,16 @@ export const QuotesTableColumns = [
   },
   {
     title: 'Vehicle',
-    dataIndex: 'quoteVehicles',
-    render: (data: { vehicleName: string }[], record: QuotesTableDataType) => (
-      <div className="table__vehicle">
-        {
+    dataIndex: 'orderVehicles',
+    render: (data: { vehicleName: string }[], record: OrderTableDataType) =>
+      data.length ? (
+        <div className="table__vehicle">
           <div className="table__vehicle__imgs">
             {record.condition == 'rols' && (
               <img src="./img/dt_table/engine.svg" alt="engine" />
             )}
             {record.trailerType === 'open' &&
-              data.map((i, index) => (
+              (data || []).map((i, index) => (
                 <img
                   key={index}
                   src="./img/dt_table/trailer-red.svg"
@@ -63,14 +65,15 @@ export const QuotesTableColumns = [
                 />
               ))}
           </div>
-        }
-        <div className="table__vehicle__text">
-          {data.map((item, index) => (
-            <div key={index}>{item.vehicleName}</div>
-          ))}
+          <div className="table__vehicle__text">
+            {(data || []).map((item, index) => (
+              <div key={index}>{item.vehicleName}</div>
+            ))}
+          </div>
         </div>
-      </div>
-    ),
+      ) : (
+        <p className="text-center">-</p>
+      ),
   },
   {
     title: 'Origin',

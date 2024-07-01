@@ -1,24 +1,45 @@
 import { Button, Select } from 'antd';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getLeadData, updateField } from '../../leads/leadSlice';
-
-import { LoadingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { TRAILER_TYPES } from '../../../utils/constants';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../../leads/leadSlice';
 import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../../quotes/quoteSlice';
 
-type FeatTrailertypeInnerProps = {
-  feature: 'lead' | 'quote' | 'order';
-  keyValue: string | string[];
-};
+import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import { FeatItemInnerProps } from './FeatConditionInner';
 
-function FeatTrailertypeInner({
-  feature,
-  keyValue,
-}: FeatTrailertypeInnerProps) {
+function FeatTrailertypeInner({ feature, keyValue }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
+
+  let featureData;
+
+  switch (feature) {
+    case 'lead':
+      featureData = leadData;
+      break;
+    case 'quote':
+      featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
+      break;
+    default:
+      break;
+  }
 
   const [isDataUpdated, setDataUpdated] = useState(false);
   const { isEditDetails } = useDrawerFeature();
@@ -32,8 +53,24 @@ function FeatTrailertypeInner({
   });
 
   const handleChange = (value: string) => {
-    dispatch(updateField({ field: 'trailerType', value }));
+    switch (feature) {
+      case 'lead':
+        dispatch(updateLeadField({ field: 'trailerType', value }));
+        break;
+      case 'quote':
+        dispatch(updateQuoteField({ field: 'trailerType', value }));
+        break;
+      case 'order':
+        dispatch(updateOrderField({ field: 'trailerType', value }));
+        break;
+      default:
+        break;
+    }
   };
+
+  if (!featureData) {
+    return;
+  }
 
   return (
     <div className="d-flex justify-end feature-content">
@@ -42,8 +79,8 @@ function FeatTrailertypeInner({
         style={{ bottom: isEditDetails ? '5px' : '28px' }}
       >
         <Select
-          value={leadData.trailerType}
-          defaultValue={leadData.trailerType}
+          value={featureData.trailerType}
+          defaultValue={featureData.trailerType}
           style={{ width: 218, float: 'inline-end', height: 24 }}
           onChange={handleChange}
           options={TRAILER_TYPES}
@@ -65,9 +102,10 @@ function FeatTrailertypeInner({
             type="primary"
             size="small"
             disabled={isLoading}
+            loading={isLoading}
             onClick={onSaveFeature}
           >
-            {isLoading ? <LoadingOutlined /> : 'Save'}
+            Save
           </Button>
         </>
       )}

@@ -1,72 +1,61 @@
-import JoditEditor from 'jodit-react';
-import { useMemo, useRef } from 'react';
-import { CancelNotesActionType } from './Tabs';
+import { Button, Flex } from 'antd';
+import { useEffect, useState } from 'react';
+import { SourceType } from '../../../ui/Drawer';
+import Notes from '../../../ui/Notes';
+import { EndPointType, useCreateNote } from '../../attachments/useCreateNote';
 
 type TabNotesProps = {
-  type: CancelNotesActionType;
-  content: string;
-  tabIndex?: number;
-  onSetContent: (type: CancelNotesActionType, note: string) => void;
+  user: number | undefined;
+  sourceType: SourceType;
+  sourceId: number;
 };
 
-function Notes({ type, content, tabIndex, onSetContent }: TabNotesProps) {
-  const editor = useRef(null);
-  const config = useMemo(
-    () => ({
-      useSearch: false,
-      spellcheck: false,
-      enter: 'P',
-      defaultMode: '1',
-      toolbarAdaptive: false,
-      toolbarSticky: false,
-      showCharsCounter: false,
-      showWordsCounter: false,
-      showXPathInStatusbar: false,
-      askBeforePasteHTML: false,
-      askBeforePasteFromWord: false,
-      minHeight: 150,
-      minWidth: null,
-      editorCssClass: 'alic',
+function TabNotes({ user, sourceType, sourceId }: TabNotesProps) {
+  const [note, setNote] = useState('');
 
-      zIndex: 0,
-      readonly: false,
-      activeButtonsInReadOnly: ['source', 'fullsize', 'print', 'about'],
-      theme: 'default',
-      enableDragAndDropFileToEditor: true,
-      saveModeInCookie: false,
-      triggerChangeEvent: false, //
-      direction: 'ltr',
-      language: 'pt_BR',
-      debugLanguage: false,
-      i18n: 'en',
-      tabIndex: tabIndex,
-      useSplitMode: false,
-      colorPickerDefaultTab: 'background',
-      imageDefaultWidth: 100,
-      removeButtons: ['about', 'print', 'file'],
-      disablePlugins: ['paste', 'stat'],
-      events: {},
-      textIcons: false,
-      uploader: {
-        insertImageAsBase64URI: true,
-      },
-      placeholder: 'Text..',
-      toolbarButtonSize: 'small',
-      buttons:
-        'bold,italic,underline,ul,ol,indent,outdent,font,fontsize,image,|,link,|,file,align,spellcheck,undo,redo',
-    }),
-    [],
+  const { createNote, isLoading, error } = useCreateNote(
+    sourceType as EndPointType,
   );
+
+  const handleSave = () => {
+    createNote({
+      rel: sourceId,
+      endpointType: sourceType as EndPointType,
+      text: note,
+      user,
+    });
+  };
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      setNote('');
+    }
+  }, [isLoading, error]);
 
   return (
     <div>
-      <JoditEditor
-        ref={editor}
-        value={content || ''}
-        config={config as unknown as undefined}
-        onChange={(newContent) => onSetContent(type, newContent)}
-      />
+      <Notes tabIndex={1} content={note} onSetContent={(val) => setNote(val)} />
+      <Flex
+        className="p-5"
+        gap="small"
+        wrap="wrap"
+        style={{ backgroundColor: 'rgba(234, 234, 234, 1)' }}
+      >
+        <Button size="small" disabled={isLoading} onClick={() => setNote('')}>
+          Cancel
+        </Button>
+        <Button
+          type="primary"
+          size="small"
+          disabled={isLoading}
+          loading={isLoading}
+          onClick={handleSave}
+        >
+          Save
+        </Button>
+      </Flex>
     </div>
   );
 }
-export default Notes;
+
+export default TabNotes;

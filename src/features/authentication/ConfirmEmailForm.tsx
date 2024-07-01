@@ -3,12 +3,12 @@ import { FormEvent, useState } from 'react';
 import { useConfirmCode } from './useConfirmCode';
 
 function ConfirmEmailForm() {
-  const [email, setEmail] = useState('admin@admin.admin');
+  const [email, setEmail] = useState('user@example.com');
   const { sendConfirmEmail, isLoading } = useConfirmCode();
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!email?.trim()) return;
 
     sendConfirmEmail(
       { email },

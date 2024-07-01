@@ -4,12 +4,18 @@ import DrawerContent from '../features/drawer/Drawer';
 import DrawerControl from '../features/drawer/DrawerControl';
 import DrawerHeader from '../features/drawer/DrawerHeader';
 import { LeadTableDataType } from '../features/leads/LeadTableColumnType';
-import { QuotesTableDataType } from '../features/quotes/QuotesTableColumnType';
+import { QuotesTableDataType } from '../features/quotes/QuoteTableColumnType';
 import { LeadData } from '../models';
 
 type DataSourceType = LeadData | LeadTableDataType | QuotesTableDataType;
 
-export type SourceType = 'lead' | 'quote' | 'order';
+export type SourceType =
+  | 'lead'
+  | 'quote'
+  | 'order'
+  | 'quote/convert'
+  | 'task'
+  | 'insight';
 
 export type DrawerSourceType = {
   sourceType: SourceType;
@@ -18,16 +24,27 @@ export type DrawerSourceType = {
 export type DrawerProps = {
   dataSource: DataSourceType;
   loadingItem: boolean;
-  sourceType: SourceType;
-  onOpenDrawer: (guid: string) => void;
+  onOpenDrawer?: (guid: string) => void;
+  onOpenDispatch?: () => void;
+  onOpenDirectDispatch?: () => void;
 };
 
 function DrawerApp({
   dataSource,
   loadingItem,
   sourceType,
+  isLoadingHistory,
   onOpenDrawer,
-}: DrawerProps) {
+  onOpenDispatch,
+  onOpenDirectDispatch,
+  onOpenHistory,
+  onOpenConvert,
+}: DrawerProps & {
+  sourceType: SourceType;
+  isLoadingHistory: boolean;
+  onOpenHistory: (id: number) => void;
+  onOpenConvert?: () => void;
+}) {
   const { isFullScreen, isOpenDrawer } = useDrawerFeature();
 
   const drawerWith = isFullScreen ? 'calc(100% - 56px)' : '76%';
@@ -40,7 +57,12 @@ function DrawerApp({
             sourceType={sourceType}
             dataSource={dataSource} // todo
             loadingItem={loadingItem}
+            isLoadingHistory={isLoadingHistory}
             onOpenDrawer={onOpenDrawer}
+            onOpenHistory={onOpenHistory}
+            onOpenConvert={onOpenConvert}
+            onOpenDispatch={onOpenDispatch}
+            onOpenDirectDispatch={onOpenDirectDispatch}
           />
         }
         placement="right"

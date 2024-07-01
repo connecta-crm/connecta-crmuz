@@ -6,15 +6,17 @@ import {
   LeadState,
   LeadVehicle,
   NestedObject,
+  OrderData,
+  OrderVehicle,
   QuoteData,
   QuoteVehicle,
   RevertFieldAction,
   Source,
   User,
   Vehicle,
-  initialLeadData,
   leadData,
 } from '../../models';
+import initialLeadData from '../../models/LeadDataType';
 
 type UpdateVehicleFieldAction<T extends keyof LeadVehicle> = {
   vehicleIndex: number;
@@ -51,10 +53,12 @@ export const setNestedObjectValue = (
     | Location
     | Source
     | LeadVehicle[]
-    | QuoteVehicle[],
+    | QuoteVehicle[]
+    | OrderVehicle[],
   value:
     | LeadData[keyof (LeadData | Source | Customer)]
-    | QuoteData[keyof (QuoteData | Source | Customer)],
+    | QuoteData[keyof (QuoteData | Source | Customer)]
+    | OrderData[keyof (OrderData | Source | Customer)],
 ) => {
   if (typeof path === 'string') {
     const keys = path.split('.');
@@ -110,12 +114,21 @@ export const leadSlice = createSlice({
         throw new Error('Invalid Field in LeadSlice');
       state.leadData[field] = state.initialLeadData[field];
     },
+    resetToInitialData: (state: LeadState) => {
+      const initialData = state.initialLeadData;
+      state.leadData = { ...initialData };
+    },
   },
 });
 
 export const getLeadData = (state: { lead: LeadState }) => state.lead.leadData;
 
-export const { setLeadData, updateField, updateVehicleField, resetField } =
-  leadSlice.actions;
+export const {
+  setLeadData,
+  updateField,
+  updateVehicleField,
+  resetField,
+  resetToInitialData,
+} = leadSlice.actions;
 
 export default leadSlice.reducer;

@@ -1,6 +1,5 @@
-import {  Radio } from 'antd';
+import { Radio } from 'antd';
 import { LeadTableDataType } from './LeadTableColumnType';
-// let TabIndex = 0;
 export const LeadTableColumns = [
   {
     title: 'Id',
@@ -29,21 +28,21 @@ export const LeadTableColumns = [
     dataIndex: 'customerPhone',
 
     render: (text: string, record: LeadTableDataType) => (
-        <Radio.Button value={record.id} >
-          <a
-            className="table__phone "
-            href={'tel:' + text}
-            style={{ display: 'inline' }}
-          >
-            <img
-              src="./img/dt_table/call.svg"
-              alt=""
-              style={{ marginTop: '7px' }}
-              className="mr-5"
-            />
-            {text}
-          </a>
-        </Radio.Button>
+      <Radio.Button value={record.id}>
+        <a
+          className="table__phone "
+          href={'tel:' + text}
+          style={{ display: 'inline' }}
+        >
+          <img
+            src="./img/dt_table/call.svg"
+            alt=""
+            style={{ marginTop: '7px' }}
+            className="mr-5"
+          />
+          {text}
+        </a>
+      </Radio.Button>
     ),
   },
   {

@@ -1,12 +1,28 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { LeadData, LeadVehicle, QuoteData, QuoteVehicle } from '../../models';
+import {
+  LeadData,
+  LeadVehicle,
+  OrderData,
+  OrderVehicle,
+  QuoteData,
+  QuoteVehicle,
+} from '../../models';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SourceType } from '../../ui/Drawer';
+import { getUser } from '../authentication/authSlice';
+import {
+  getOrderData,
+  resetField as resetOrderField,
+  setOrderData,
+} from '../orders/orderSlice';
+import { useOrderEdit } from '../orders/useOrderEdit';
+import { useOrderVehicleEdit } from '../orders/useOrderVehicleEdit';
 import {
   getQuoteData,
   resetField as resetQuoteField,
+  setQuoteData,
 } from '../quotes/quoteSlice';
 import { useQuoteEdit } from '../quotes/useQuoteEdit';
 import { useQuoteVehicleEdit } from '../quotes/useQuoteVehicleEdit';
@@ -15,14 +31,15 @@ import {
   resetField as resetLeadField,
   setLeadData,
 } from './leadSlice';
+import { isOrderData } from './useCheckTypeData';
 import { useLeadEdit } from './useLeadEdit';
 import { useLeadVehicleEdit } from './useLeadVehicleEdit';
 
 export type UpdateLeadDataProps = {
   keyValue: string | string[];
-  feature: 'lead' | 'quote' | 'order';
-  field: keyof LeadData | keyof QuoteData;
-  featureItemData?: LeadVehicle | QuoteVehicle;
+  feature: SourceType;
+  field: keyof LeadData | keyof QuoteData | keyof OrderData;
+  featureItemData?: LeadVehicle | QuoteVehicle | OrderVehicle;
   isDataUpdated: boolean;
   setDataUpdated: (val: boolean) => void;
 };
@@ -37,10 +54,11 @@ export function useUpdateFeatureData({
 }: UpdateLeadDataProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
   const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
-  const orderData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
 
   // * LEAD
   const {
@@ -50,8 +68,11 @@ export function useUpdateFeatureData({
     error: leadError,
   } = useLeadEdit();
 
-  const { editLeadVehicle, isLoading: isLoadingLeadVehicleEdit } =
-    useLeadVehicleEdit();
+  const {
+    editLeadVehicle,
+    updatedLeadVehicleData,
+    isLoading: isLoadingLeadVehicleEdit,
+  } = useLeadVehicleEdit();
 
   // * QUOTE
   const {
@@ -60,39 +81,56 @@ export function useUpdateFeatureData({
     isLoading: isLoadingQuote,
     error: quoteError,
   } = useQuoteEdit();
-  const { editQuoteVehicle, isLoading: isLoadingQuoteVehicleEdit } =
-    useQuoteVehicleEdit();
+
+  const {
+    editQuoteVehicle,
+    updatedQuoteVehicleData,
+    isLoading: isLoadingQuoteVehicleEdit,
+  } = useQuoteVehicleEdit();
 
   // * ORDER
-  // const { editOrder, updatedOrderData, isLoading: isLoadingOrder, error: orderError } = useOrderEdit();
-  // const { editOrderVehicle, isLoading: isLoadingOrderVehicleEdit } = useOrderVehicleEdit();
+  const {
+    editOrder,
+    updatedOrderData,
+    isLoading: isLoadingOrder,
+    error: orderError,
+  } = useOrderEdit();
+  const {
+    editOrderVehicle,
+    updatedOrderVehicleData,
+    isLoading: isLoadingOrderVehicleEdit,
+  } = useOrderVehicleEdit();
 
-  let data, isLoading, error, isLoadingVehicleEdit;
+  let data, isLoading, error, isLoadingVehicleEdit, updatedVehicleData: unknown;
 
   switch (feature) {
     case 'lead':
       data = leadData;
-      isLoading = isLoadingLead;
       error = leadError;
+      isLoading = isLoadingLead;
+      updatedVehicleData = updatedLeadVehicleData;
       isLoadingVehicleEdit = isLoadingLeadVehicleEdit;
       break;
     case 'quote':
       data = quoteData;
-      isLoading = isLoadingQuote;
       error = quoteError;
+      isLoading = isLoadingQuote;
+      updatedVehicleData = updatedQuoteVehicleData;
       isLoadingVehicleEdit = isLoadingQuoteVehicleEdit;
       break;
-    // case 'order':
-    //   data = orderData;
-    //   isLoading = isLoadingOrder;
-    //   error = orderError;
-    //   isLoadingVehicleEdit = isLoadingOrderVehicleEdit;
-    //   break;
+    case 'order':
+      data = orderData;
+      error = orderError;
+      isLoading = isLoadingOrder;
+      updatedVehicleData = updatedOrderVehicleData;
+      isLoadingVehicleEdit = isLoadingOrderVehicleEdit;
+      break;
     default:
       data = null;
       isLoading = false;
       error = null;
       isLoadingVehicleEdit = false;
+      updatedVehicleData = null;
       break;
   }
 
@@ -102,8 +140,32 @@ export function useUpdateFeatureData({
     source: data?.source?.id,
     origin: data?.origin?.id,
     destination: data?.destination?.id,
-    user: data?.user?.id,
-    extraUser: data?.extraUser,
+    user: data?.user?.id || user?.id,
+    extraUser: null,
+    ...(data && isOrderData(data)
+      ? {
+          dateEstPu: data.dates?.dateEstPu,
+          dateEstDel: data.dates?.dateEstDel,
+          dateDispatched: data.dates?.dateDispatched,
+          datePickedUp: data.dates?.datePickedUp,
+          dateDelivered: data.dates?.dateDelivered,
+
+          paymentTotalTariff: data.payments?.paymentTotalTariff,
+          paymentReservation: data.payments?.paymentReservation,
+          paymentPaidReservation: data.payments?.paymentPaidReservation,
+          paymentCarrierPay: data.payments?.paymentCarrierPay,
+          paymentCodToCarrier: data.payments?.paymentCodToCarrier,
+          paymentPaidToCarrier: data.payments?.paymentPaidToCarrier,
+
+          dispatchPaidBy: data.dispatchData?.dispatchPaidBy,
+          dispatchPaymentTerm: data.dispatchData?.dispatchPaymentTerm,
+          dispatchTermBegins: data.dispatchData?.dispatchTermBegins,
+          dispatchCodMethod: data.dispatchData?.dispatchCodMethod,
+          dispatchPaymentType: data.dispatchData?.dispatchPaymentType,
+
+          carrier: data.dispatchData?.carrierData?.id,
+        }
+      : {}),
   };
 
   const onSaveFeature = () => {
@@ -121,10 +183,9 @@ export function useUpdateFeatureData({
             lead: data?.id || 0,
             vehicleYear: featureItemData?.vehicleYear,
           });
-          setDataUpdated(true);
-          return;
+        } else {
+          editLead({ guid: data?.guid || '', updateLeadModel: updateModel });
         }
-        editLead({ guid: data?.guid || '', updateLeadModel: updateModel });
         setDataUpdated(true);
         break;
       case 'quote':
@@ -140,31 +201,33 @@ export function useUpdateFeatureData({
             quote: data?.id || 0,
             vehicleYear: featureItemData?.vehicleYear,
           });
-          setDataUpdated(true);
-          return;
+        } else {
+          editQuote({ guid: data?.guid || '', updateQuoteModel: updateModel });
         }
-        editQuote({ guid: data?.guid || '', updateQuoteModel: updateModel });
         setDataUpdated(true);
         break;
-      // case 'order':
-      //   if (
-      //     field === 'orderVehicles' &&
-      //     featureItemData?.id &&
-      //     featureItemData?.vehicle.id &&
-      //     featureItemData?.vehicleYear
-      //   ) {
-      //     editOrderVehicle({
-      //       id: featureItemData?.id,
-      //       vehicle: featureItemData?.vehicle.id,
-      //       order: data.id,
-      //       vehicleYear: featureItemData?.vehicleYear,
-      //     });
-      //     setDataUpdated(true);
-      //     return;
-      //   }
-      //   editOrder({ guid: data.guid, updateModel });
-      //   setDataUpdated(true);
-      //   break;
+      case 'order':
+        if (
+          field === 'orderVehicles' &&
+          featureItemData?.id &&
+          featureItemData?.vehicle.id &&
+          featureItemData?.vehicleYear
+        ) {
+          editOrderVehicle({
+            id: featureItemData?.id,
+            vehicle: featureItemData?.vehicle.id,
+            order: data?.id || 0,
+            vehicleYear: featureItemData?.vehicleYear,
+            color: featureItemData?.color,
+            vin: featureItemData?.vin,
+            plate: featureItemData?.plate,
+            lot: featureItemData?.lot,
+          });
+        } else {
+          editOrder({ guid: data?.guid || '', updateOrderModel: updateModel });
+        }
+        setDataUpdated(true);
+        break;
       default:
         throw new Error('Invalid feature type');
     }
@@ -178,9 +241,9 @@ export function useUpdateFeatureData({
       case 'quote':
         dispatch(resetQuoteField({ field }));
         break;
-      // case 'order':
-      //   dispatch(resetOrderField({ field }));
-      //   break;
+      case 'order':
+        dispatch(resetOrderField({ field }));
+        break;
       default:
         throw new Error('Invalid feature type');
     }
@@ -188,45 +251,63 @@ export function useUpdateFeatureData({
   };
 
   useEffect(() => {
-    if (isDataUpdated && !isLoading && !error) {
-      let updatedData = null;
+    if (
+      isDataUpdated &&
+      !isLoading &&
+      !isLoadingVehicleEdit &&
+      !error &&
+      (updatedVehicleData ||
+        updatedLeadData ||
+        updatedQuoteData ||
+        updatedOrderData)
+    ) {
+      let updatedData, merged;
+
       switch (feature) {
         case 'lead':
           updatedData = updatedLeadData;
+          merged = merge({}, data, updatedData);
+          dispatch(setLeadData(merged));
           break;
         case 'quote':
           updatedData = updatedQuoteData;
+          merged = merge({}, data, updatedData);
+          dispatch(setQuoteData(merged));
           break;
-        // case 'order':
-        //   updatedData = updatedOrderData;
-        //   break;
+        case 'order':
+          updatedData = updatedOrderData;
+          merged = merge({}, data, updatedData);
+          dispatch(setOrderData(merged));
+          break;
         default:
           throw new Error('Invalid feature type');
       }
 
-      const merged = merge({}, data, updatedData);
-
-      switch (feature) {
-        case 'lead':
-          dispatch(setLeadData(merged));
-          break;
-        // case 'quote':
-        //   dispatch(setQuoteData(merged));
-        //   break;
-        // case 'order':
-        //   dispatch(setOrderData(merged));
-        //   break;
-      }
       onChangeInnerCollapse(keyValue);
       setDataUpdated(false);
-      console.log('MERGED');
+      console.log('MERGED', keyValue);
     }
-  }, [isDataUpdated, isLoading, error, dispatch]);
+  }, [
+    setDataUpdated,
+    isDataUpdated,
+    isLoading,
+    isLoadingVehicleEdit,
+    error,
+    dispatch,
+    updatedVehicleData,
+    updatedLeadData,
+    updatedQuoteData,
+    updatedOrderData,
+  ]);
 
   return {
     onCancelFeature,
     onSaveFeature,
     isLoading,
     isLoadingVehicleEdit,
+    error,
+    updatedLeadData,
+    updatedQuoteData,
+    updatedOrderData,
   };
 }

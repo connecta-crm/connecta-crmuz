@@ -29,6 +29,7 @@ export type QuoteDataType = {
   user: string | undefined;
   // extraUser: 0,
 };
+/* ==================================================================================================================*/
 
 export type QuoteData = {
   id: number;
@@ -53,6 +54,8 @@ export type QuoteData = {
   notes: string;
   reservationPrice: number;
   dateEstShip: string | null;
+  originAddress: string;
+  destinationAddress: string;
 };
 
 export type QuoteState = {
@@ -96,7 +99,7 @@ export const quoteData = {
   dateEstShip: null,
 };
 
-export const initialQuoteData = {
+const initialQuoteData = {
   id: 0,
   customerName: '',
   customerPhone: '',
@@ -120,3 +123,5 @@ export const initialQuoteData = {
   reservationPrice: 0,
   dateEstShip: null,
 };
+
+export default initialQuoteData;

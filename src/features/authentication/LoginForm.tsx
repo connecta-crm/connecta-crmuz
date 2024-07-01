@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLogin } from './useLogin';
 
 function LoginForm() {
-  const [email, setEmail] = useState('admin@admin.admin');
+  const [email, setEmail] = useState('user@example.com');
   const [password, setPassword] = useState('1');
   const [inputType, setInputType] = useState(false);
   const { login, isLoading } = useLogin();

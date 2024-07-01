@@ -1,7 +1,7 @@
 import { Radio, Table } from 'antd';
-import { DrawerProps } from '../../ui/Drawer';
-import TableHeaderActions from '../../ui/TableHeaderActions';
-import TableHeaderFilters from '../../ui/TableHeaderFilters';
+import { DrawerProps, SourceType } from '../../ui/Drawer';
+import TableHeaderActions from '../../ui/table/TableHeaderActions';
+import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
 
@@ -26,7 +26,7 @@ export type TableProps = {
   guid: string | null;
   count: number;
   onOpenModal: (a: boolean) => void; // todo
-} & DrawerProps;
+} & DrawerProps & { sourceType: SourceType };
 
 function LeadTable({
   dataSource: leads,
@@ -41,7 +41,11 @@ function LeadTable({
     <>
       <div className="dt-header">
         <TableHeaderActions onOpenModal={onOpenModal} pageName="lead" />
-        <TableHeaderFilters count={count} sumPrice={undefined} />
+        <TableHeaderFilters
+          count={count}
+          sumPrice={undefined}
+          sourceType="lead"
+        />
       </div>
       <div className="leads-table">
         <div className="table__container">
@@ -66,4 +70,5 @@ function LeadTable({
     </>
   );
 }
+
 export default LeadTable;

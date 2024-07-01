@@ -3,52 +3,6 @@ import RadioButton from '../ui/form/RadioButton';
 // =======quotes==========
 
 // =======contact==========
-export const ContactTableColumns = [
-  {
-    title: 'Customer',
-    dataIndex: 'customer',
-    render: (item: string) => <a>{item}</a>,
-  },
-  {
-    title: 'Phone',
-    dataIndex: 'phone',
-    render: (text: string) => (
-      <div className="table__phone">
-        <img src="./img/dt_table/call.svg" alt="" />
-        <span>{text}</span>
-      </div>
-    ),
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-  },
-  {
-    title: 'Billing',
-    dataIndex: 'billing',
-  },
-  {
-    title: 'Completed	',
-    dataIndex: 'completed',
-  },
-  {
-    title: 'Ongoing',
-    dataIndex: 'ongoing',
-  },
-
-  {
-    title: 'Stage',
-    dataIndex: 'stage',
-  },
-  {
-    title: 'Source',
-    dataIndex: 'source',
-  },
-  {
-    title: 'Added',
-    dataIndex: 'added',
-  },
-];
 
 export const ContactTableData = [
   {
@@ -110,7 +64,7 @@ export const TaskTableColumns = [
   },
   {
     title: 'Task ID',
-    dataIndex: 'task_id',
+    dataIndex: 'id',
   },
   {
     title: 'ID',
@@ -118,7 +72,7 @@ export const TaskTableColumns = [
   },
   {
     title: 'Created',
-    dataIndex: 'created',
+    dataIndex: 'createdAt',
   },
   {
     title: 'Task',
@@ -136,12 +90,13 @@ export const TaskTableColumns = [
   },
   {
     title: 'Title',
-    dataIndex: 'title',
+    dataIndex: 'text',
   },
 
   {
     title: 'Customer',
     dataIndex: 'customer',
+    render: (customer: string) => <p>{customer}</p>,
   },
   {
     title: 'Phone',
@@ -173,6 +128,56 @@ export const TaskTableColumns = [
         <span>{name}</span>{' '}
       </div>
     ),
+  },
+];
+
+// * insight table fake column
+export const InsightLeadsTableColumns = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    render: (text: string) => (
+      <p className="font-bold" style={{ color: 'rgb(8, 110, 214)' }}>
+        {text}
+      </p>
+    ),
+  },
+  {
+    title: 'Customer',
+    dataIndex: 'customer',
+  },
+  {
+    title: 'Comission',
+    dataIndex: 'comission',
+  },
+  {
+    title: 'User',
+    dataIndex: 'user',
+  },
+  {
+    title: 'Lead status',
+    dataIndex: 'lead_status',
+  },
+  {
+    title: 'Lead source',
+    dataIndex: 'lead_source',
+  },
+  {
+    title: 'Lead created on',
+    dataIndex: 'lead_created',
+  },
+];
+
+// * insight table fake data
+export const InsightLeadsTableData = [
+  {
+    id: '110000',
+    customer: 'John Smith',
+    comission: 'John Smith',
+    lead_status: 'Upcoming',
+    user: 'Ali Brian',
+    lead_source: 'A01',
+    lead_created: '01/15/2024 09:02 AM',
   },
 ];
 

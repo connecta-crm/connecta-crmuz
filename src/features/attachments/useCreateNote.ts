@@ -2,22 +2,29 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import Attachments from '../../services/attachments';
 
+export type EndPointType = 'lead' | 'quote' | 'order';
+
 export type CreateNoteParams = {
   rel: number | undefined;
-  endpointType: string;
+  endpointType: EndPointType;
   text: string;
   user: number | undefined;
 };
 
-export function useCreateNote() {
+export function useCreateNote(sourceType: EndPointType) {
   const queryClient = useQueryClient();
 
-  const { mutate: createNote, isPending: isLoading } = useMutation({
+  const {
+    mutate: createNote,
+    isPending: isLoading,
+    error,
+  } = useMutation({
     mutationFn: ({ rel, endpointType, text, user }: CreateNoteParams) =>
       Attachments.createNote({ rel, endpointType, text, user }),
-    onSuccess: (data: unknown) => {
-      queryClient.invalidateQueries({ queryKey: ['leadAttachments'] });
-      console.log('NOTE', data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [`${sourceType}Attachments`],
+      });
       message.success('Note created!');
     },
     onError: (err) => {
@@ -28,5 +35,6 @@ export function useCreateNote() {
   return {
     createNote,
     isLoading,
+    error,
   };
 }

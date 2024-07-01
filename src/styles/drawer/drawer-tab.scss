@@ -98,6 +98,9 @@
 /* ==================================================================================================================*/
 .tabs-file {
   padding: 2px 10px 10px;
+  &.tabs-contract {
+    padding-top: 10px;
+  }
   &__head {
     padding: 3px 0;
     border-bottom: 1px solid #d1d1d1;
@@ -142,12 +145,16 @@
       &__content {
         @include flexbox();
         align-items: center;
+        max-width: 55%;
       }
       &__text {
         margin-left: 10px;
         color: #666;
         font-size: 15px;
         font-weight: 400;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       &__delete {
         cursor: pointer;
@@ -253,4 +260,68 @@
     font-size: 15px;
     font-weight: 400;
   }
+}
+/* ==================================================================================================================*/
+.payment-table {
+  border-collapse: collapse;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.payment-table thead tr {
+  background-color: #eaeaea;
+  color: #666666;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.payment-table th,
+.payment-table td {
+  padding: 0 10px;
+  height: 32px;
+  border: 1px solid #d1d1d1;
+}
+
+.payment-table tbody tr {
+  border: 1px solid #d1d1d1;
+}
+.payment-table td {
+  font-size: 15px;
+  font-weight: 400;
+  color: #666666;
+  text-align: center;
+}
+
+.payment-table .highlight {
+  color: rgba(8, 110, 214, 1);
+  font-weight: 600;
+}
+
+// .payment-table tbody tr:nth-of-type(even) {
+//   background-color: #f3f3f3;
+// }
+
+.payment-table tbody tr td:last-of-type {
+  text-align: end;
+}
+.custom-tree-select .ant-select-selector {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.custom-tree-select .ant-select-selection-overflow {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.custom-tree-select .ant-select-selection-overflow-item {
+  white-space: nowrap;
+}
+.custom-tree-select .ant-select-selector {
+  max-width: 220px;
+}
+.ant-tree-select-dropdown .ant-select-tree .ant-select-tree-switcher {
+  width: 12px !important;
 }

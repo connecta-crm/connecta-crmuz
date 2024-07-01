@@ -1,5 +1,5 @@
-import Order from '../features/orders/Order'
+import OrdersApp from '../features/orders/Orders';
 
 export default function Orders() {
-  return (<Order/>)
+  return <OrdersApp />;
 }

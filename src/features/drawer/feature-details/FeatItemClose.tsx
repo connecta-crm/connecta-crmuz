@@ -1,13 +1,16 @@
-import { Tooltip } from 'antd';
+import { CopyOutlined } from '@ant-design/icons';
+import { Tooltip, message } from 'antd';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { classNames } from '../../../utils/helpers';
 
 type FeatItemCloseProps = {
   keyValue: string;
+  feature: string;
   label: string | undefined;
   textWithBg?: boolean;
   editable?: boolean;
   series?: boolean;
+  tooltip?: boolean;
 };
 
 function FeatItemClose({
@@ -16,8 +19,18 @@ function FeatItemClose({
   label,
   editable = true,
   series = true,
+  tooltip = false,
 }: FeatItemCloseProps) {
   const { onChangeInnerCollapse } = useDrawerFeature();
+
+  const handleCopyLabel = () => {
+    if (!label) return;
+    message.info({
+      content: `Copied: ${label}`,
+      icon: <CopyOutlined style={{ color: '#108ee9' }} />,
+    });
+  };
+
   return (
     <div
       className={classNames(
@@ -31,14 +44,20 @@ function FeatItemClose({
           'detail__text',
         )}
       >
-        <Tooltip
-          placement="left"
-          color="#ddf2fd"
-          overlayInnerStyle={{ color: '#000' }}
-          title={label}
-        >
-          {label}
-        </Tooltip>
+        {tooltip ? (
+          <Tooltip
+            placement="left"
+            color="#ddf2fd"
+            overlayInnerStyle={{
+              color: '#000',
+            }}
+            title={label}
+          >
+            {label}
+          </Tooltip>
+        ) : (
+          <span>{label}</span>
+        )}
       </div>
       <div
         className="detail__right_actions d-flex align-center"
@@ -56,9 +75,7 @@ function FeatItemClose({
         )}
         <div
           className="box-header__copy cursor-pointer ml-5 __inner"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
+          onClick={handleCopyLabel}
         >
           <img src="./img/drawer/copy.svg" alt="" />
         </div>

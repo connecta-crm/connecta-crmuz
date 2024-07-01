@@ -5,18 +5,23 @@ export type GroundParamsType = {
   url?: string;
 };
 
+export type TemplatesParamsType = {
+  template_status: string;
+};
+
 export function useTemplates(enabled: boolean) {
   const [searchParams] = useSearchParams();
-  const url = searchParams.size > 0 ? searchParams.toString() : '';
+
+  const template_status = searchParams.get('template_status') || 'active';
 
   const {
-    data:templates,
+    data: templates,
     isPending: isLoading,
     isFetching: isFetchingTeam,
     error,
   } = useQuery({
-    queryKey: ['templates', url],
-    queryFn: () => Templates.getTemplates({ url }),
+    queryKey: ['templates', template_status],
+    queryFn: () => Templates.getTemplates({ template_status }),
     enabled,
   });
 

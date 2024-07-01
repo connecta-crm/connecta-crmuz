@@ -105,6 +105,12 @@ $transition-duration: 200ms;
     margin-left: 20px;
   }
 
+  &__settings {
+    .ant-dropdown-menu-title-content {
+      overflow: hidden;
+    }
+  }
+
   &__more {
     border-radius: 4px;
     border: 1px solid #d1d1d1;
@@ -132,6 +138,12 @@ $transition-duration: 200ms;
         font-size: 15px;
         font-weight: 500;
       }
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
     }
   }
 
@@ -190,3 +202,19 @@ $transition-duration: 200ms;
   }
 }
 /* ==================================================================================================================*/
+
+.ant-dropdown-menu-item-group-title {
+  padding: 0 7px !important;
+  color: rgba(0, 0, 0, 0.68) !important;
+  line-height: 1;
+}
+.ant-dropdown-menu-item-group-list
+  .ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 13px !important;
+  margin-left: 5px;
+  &:first-child {
+    padding-top: 5px !important;
+  }
+}

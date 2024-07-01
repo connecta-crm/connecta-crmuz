@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import arrow from '../../public/img/drawer/down-arrow-bold.svg';
-import { FieldsTableDataType } from '../fields/fieldsTableDataType';
-import { useFields } from '../fields/useFields';
+import { FieldsTableDataType } from '../features/fields/fieldsTableDataType';
+import { useFields } from '../features/fields/useFields';
 import DownCollapse from './form/DownCollapse';
 import UpCollapse from './form/UpCollapse';
 export default function Fields({

@@ -4,11 +4,43 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import HighlightedWord from '../../../ui/HighlightedWord';
 import { useCities } from '../../address/useCities';
-import { getLeadData, updateField } from '../../leads/leadSlice';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../../leads/leadSlice';
+import { isOrderData } from '../../leads/useCheckTypeData';
+import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../../quotes/quoteSlice';
+import { FeatItemInnerProps } from './FeatConditionInner';
+import { FeatureData } from './FeatDestinationInner';
 
-function FeatOriginInner() {
+function FeatOriginInner({ feature }: FeatItemInnerProps) {
   const dispatch = useAppDispatch();
   const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
+
+  let featureData: FeatureData | undefined;
+
+  switch (feature) {
+    case 'lead':
+      featureData = leadData;
+      break;
+    case 'quote':
+      featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
+      break;
+    default:
+      break;
+  }
 
   const [isSelectCity, setSelectCity] = useState(true);
   const [searchCity, setSearchCity] = useState<string | null>(null);
@@ -22,8 +54,41 @@ function FeatOriginInner() {
 
   const handleChangeCity = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
-      dispatch(updateField({ field: 'origin', value: option?.data }));
+      switch (feature) {
+        case 'lead':
+          dispatch(updateLeadField({ field: 'origin', value: option?.data }));
+          break;
+        case 'quote':
+          dispatch(updateQuoteField({ field: 'origin', value: option?.data }));
+          break;
+        case 'order':
+          dispatch(updateOrderField({ field: 'origin', value: option?.data }));
+          break;
+        default:
+          break;
+      }
     }
+  };
+
+  const handleChangeAddress = (field: string, value: string) => {
+    switch (feature) {
+      case 'lead':
+        dispatch(updateLeadField({ field, value }));
+        break;
+      case 'quote':
+        dispatch(updateQuoteField({ field, value }));
+        break;
+      case 'order':
+        dispatch(updateOrderField({ field, value }));
+        break;
+      default:
+        break;
+    }
+  };
+
+  // ORDER'S INPUTS
+  const handleChangeInput = (field: string, value: string) => {
+    dispatch(updateOrderField({ field, value }));
   };
 
   const handleSearchCity = (value: string) => {
@@ -31,8 +96,21 @@ function FeatOriginInner() {
     setSearchCity(value);
   };
 
+  if (!featureData) {
+    return;
+  }
+
   return (
     <>
+      <div className="d-flex justify-between mb-5">
+        <div className="form-label required-label">Pickup address</div>
+        <Input
+          value={featureData?.originAddress}
+          defaultValue={featureData?.originAddress}
+          style={{ width: 218, float: 'inline-end', height: 24 }}
+          onChange={(e) => handleChangeAddress('originAddress', e.target.value)}
+        />
+      </div>
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup city</div>
         <Select
@@ -41,8 +119,8 @@ function FeatOriginInner() {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search city"
-          defaultValue={leadData.origin.name}
-          value={leadData.origin.name}
+          defaultValue={featureData.origin.name}
+          value={featureData.origin.name}
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
@@ -74,12 +152,12 @@ function FeatOriginInner() {
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup state</div>
         <Input
-          value={leadData.origin?.state.name}
+          value={featureData.origin?.state?.name}
           disabled
           style={{ width: 218, float: 'inline-end', height: 24 }}
         />
       </div>
-      <div className="d-flex justify-between">
+      <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup zip</div>
         <Select
           size="small"
@@ -87,8 +165,8 @@ function FeatOriginInner() {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search zip"
-          defaultValue={leadData.origin?.zip}
-          value={leadData.origin.zip}
+          defaultValue={featureData.origin?.zip}
+          value={featureData.origin.zip}
           onChange={handleChangeCity}
           onFocus={handleFocusCity}
           onSearch={handleSearchCity}
@@ -117,6 +195,78 @@ function FeatOriginInner() {
           )}
         </Select>
       </div>
+      {/* ORDER CONTENTS */}
+      {isOrderData(featureData) && (
+        <>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label">Business name</div>
+            <Input
+              value={featureData.originBusinessName}
+              defaultValue={featureData.originBusinessName}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originBusinessName', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label">Business phone</div>
+            <Input
+              value={featureData.originBusinessPhone}
+              defaultValue={featureData.originBusinessPhone}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originBusinessPhone', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="form-label required-label">Contact person</div>
+            <Input
+              value={featureData.originContactPerson}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originContactPerson', e.target.value)
+              }
+            />
+          </div>
+          <div className="d-flex justify-between mb-5">
+            <div className="d-flex justify-between">
+              <div className="form-label mr-5 required-label">Phone</div>
+              <Input
+                value={featureData.originPhone}
+                defaultValue={featureData.originPhone}
+                style={{ width: 115, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChangeInput('originPhone', e.target.value)
+                }
+              />
+            </div>
+            <div className="d-flex justify-between ">
+              <div className="form-label mr-5 pl-0">Second</div>
+              <Input
+                value={featureData.originSecondPhone}
+                defaultValue={featureData.originSecondPhone}
+                style={{ width: 115, float: 'inline-end', height: 24 }}
+                onChange={(e) =>
+                  handleChangeInput('originSecondPhone', e.target.value)
+                }
+              />
+            </div>
+          </div>
+          <div className="d-flex justify-between ">
+            <div className="form-label required-label">Buyer number</div>
+            <Input
+              value={featureData.originBuyerNumber}
+              defaultValue={featureData.originBuyerNumber}
+              style={{ width: 218, float: 'inline-end', height: 24 }}
+              onChange={(e) =>
+                handleChangeInput('originBuyerNumber', e.target.value)
+              }
+            />
+          </div>
+        </>
+      )}
     </>
   );
 }

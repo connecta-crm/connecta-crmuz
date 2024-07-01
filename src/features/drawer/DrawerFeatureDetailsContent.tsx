@@ -1,42 +1,59 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
-import { LeadData, LeadVehicle, QuoteData, QuoteVehicle } from '../../models';
+import {
+  LeadData,
+  LeadVehicle,
+  OrderData,
+  OrderVehicle,
+  QuoteData,
+  QuoteVehicle,
+} from '../../models';
 import { useAppSelector } from '../../store/hooks';
 import { DrawerSourceType } from '../../ui/Drawer';
-import { CONDITION_TYPES, TRAILER_TYPES } from '../../utils/constants';
+import {
+  CONDITION_TYPES,
+  LOCATION_TYPES,
+  TRAILER_TYPES,
+} from '../../utils/constants';
 import { formatDate } from '../../utils/helpers';
 import { getLeadData } from '../leads/leadSlice';
-import { isLeadData, isQuoteData } from '../leads/useCheckTypeData';
+import {
+  isLeadData,
+  isOrderData,
+  isQuoteData,
+} from '../leads/useCheckTypeData';
+import { getOrderData } from '../orders/orderSlice';
 import { getQuoteData } from '../quotes/quoteSlice';
 import DrawerFeatureRow from './DrawerFeatureRow';
 import ArrowIcon from './feature-details/ArrowIcon';
+import FeatCDCMNotes from './feature-details/FeatCDCMNotes';
 import FeatConditionInner from './feature-details/FeatConditionInner';
 import FeatDestinationInner from './feature-details/FeatDestinationInner';
 import FeatEstShipDateInner from './feature-details/FeatEstShipDateInner';
 import FeatItemClose from './feature-details/FeatItemClose';
 import FeatItemLabel from './feature-details/FeatItemLabel';
 import FeatItemOpen from './feature-details/FeatItemOpen';
+import FeatLocationtypeInner from './feature-details/FeatLocationtypeInner';
 import FeatOriginInner from './feature-details/FeatOriginInner';
 import FeatSourceInner from './feature-details/FeatSourceInner';
 import FeatTotalTariffInner from './feature-details/FeatTotalTariffInner';
 import FeatTrailertypeInner from './feature-details/FeatTrailertypeInner';
 import FeatVehicleInner from './feature-details/FeatVehicleInner';
 
-const extractCommonData = (data: QuoteData | LeadData) => {
+const extractCommonData = (data: QuoteData | LeadData | OrderData) => {
   const {
     condition,
     originName,
     destinationName,
     trailerType,
     dateEstShip,
-    source: { name: sourceName },
+    source,
     price: totalTariff,
     reservationPrice,
   } = data;
 
-  let leadVehicles;
-  let quoteVehicles;
+  let leadVehicles, quoteVehicles, orderVehicles, locationType;
 
   if (isLeadData(data)) {
     leadVehicles = data.leadVehicles;
@@ -46,17 +63,24 @@ const extractCommonData = (data: QuoteData | LeadData) => {
     quoteVehicles = data.quoteVehicles;
   }
 
+  if (isOrderData(data)) {
+    orderVehicles = data.orderVehicles;
+    locationType = data.locationType;
+  }
+
   return {
     condition,
     originName,
     destinationName,
     trailerType,
+    locationType,
     dateEstShip,
-    sourceName,
+    sourceName: source?.name,
     totalTariff,
     reservationPrice,
     leadVehicles,
     quoteVehicles,
+    orderVehicles,
   };
 };
 
@@ -65,6 +89,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
   let selectedData = null;
 
   switch (sourceType) {
@@ -73,6 +98,9 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       break;
     case 'quote':
       selectedData = quoteData;
+      break;
+    case 'order':
+      selectedData = orderData;
       break;
   }
 
@@ -85,29 +113,41 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
     originName,
     destinationName,
     trailerType,
+    locationType,
     dateEstShip,
     sourceName,
     totalTariff,
     reservationPrice,
     leadVehicles,
     quoteVehicles,
+    orderVehicles,
   } = extractCommonData(selectedData);
 
-  let vehiclesList: LeadVehicle[] | QuoteVehicle[] | undefined;
+  let vehiclesList: LeadVehicle[] | QuoteVehicle[] | OrderVehicle[] | undefined,
+    vehicleFieldType: 'leadVehicles' | 'quoteVehicles' | 'orderVehicles';
 
   switch (sourceType) {
     case 'lead':
       vehiclesList = leadVehicles;
+      vehicleFieldType = 'leadVehicles';
       break;
     case 'quote':
       vehiclesList = quoteVehicles;
+      vehicleFieldType = 'quoteVehicles';
+      break;
+    case 'order':
+      vehiclesList = orderVehicles;
+      vehicleFieldType = 'orderVehicles';
       break;
   }
 
   const renderVehicles = (): CollapseProps['items'] => {
     if (vehiclesList?.length) {
       return vehiclesList?.map(
-        (vehicle: LeadVehicle | QuoteVehicle, index: number) => ({
+        (
+          vehicle: LeadVehicle | QuoteVehicle | OrderVehicle,
+          index: number,
+        ) => ({
           key: String(index + 20),
           label: (
             <div className="detail detail-origin">
@@ -120,13 +160,15 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                   <FeatItemOpen
                     keyValue={String(index + 20)}
                     feature={sourceType}
-                    featureItemField="leadVehicles"
+                    featureItemField={vehicleFieldType}
                     addRemoveBtn={index === 0 ? 'add' : 'remove'}
                     featureItemData={vehicle}
                   />
                 ) : (
                   <FeatItemClose
+                    feature={sourceType}
                     keyValue={String(index + 20)}
+                    tooltip={true}
                     label={`${vehicle.vehicleYear} ${vehicle.vehicle?.mark.name || ''} ${vehicle.vehicle?.name || ''}`}
                   />
                 )}
@@ -136,7 +178,11 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
           ),
           children: (
             <DrawerFeatureRow>
-              <FeatVehicleInner vehicleIndex={index} vehicleItem={vehicle} />
+              <FeatVehicleInner
+                feature={sourceType}
+                vehicleIndex={index}
+                vehicleItem={vehicle}
+              />
             </DrawerFeatureRow>
           ),
           showArrow: false,
@@ -163,6 +209,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 keyValue="2"
                 textWithBg={true}
+                feature={sourceType}
                 label={
                   CONDITION_TYPES.find((type) => type.value === condition)
                     ?.label || undefined
@@ -194,15 +241,20 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 featureItemField="origin"
               />
             ) : (
-              <FeatItemClose keyValue={'3'} label={originName} />
+              <FeatItemClose
+                feature={sourceType}
+                keyValue={'3'}
+                tooltip={true}
+                label={originName}
+              />
             )}
-            <ArrowIcon keyValue={'3'} />
+            <ArrowIcon keyValue="3" />
           </div>
         </div>
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatOriginInner />
+          <FeatOriginInner feature={sourceType} keyValue="3" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -220,7 +272,12 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 featureItemField="destination"
               />
             ) : (
-              <FeatItemClose keyValue="4" label={destinationName} />
+              <FeatItemClose
+                feature={sourceType}
+                keyValue="4"
+                tooltip={true}
+                label={destinationName}
+              />
             )}
             <ArrowIcon keyValue={'4'} />
           </div>
@@ -228,7 +285,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatDestinationInner />
+          <FeatDestinationInner feature={sourceType} keyValue="4" />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -249,6 +306,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="5"
                 label={
                   TRAILER_TYPES.find((type) => type.value === trailerType)
@@ -269,6 +327,42 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       showArrow: false,
     },
     {
+      key: '05',
+      label: (
+        <div className="detail detail-origin">
+          <div className="detail__header d-flex align-center justify-between">
+            <FeatItemLabel label="Location type" icon="origin" />
+            {openInnerPanels?.includes('05') ? (
+              <FeatItemOpen
+                keyValue="05"
+                feature={sourceType}
+                featureItemField="trailerType"
+                series={false}
+              />
+            ) : (
+              <FeatItemClose
+                feature={sourceType}
+                keyValue="05"
+                label={
+                  LOCATION_TYPES.find((type) => type.value === locationType)
+                    ?.label
+                }
+                textWithBg
+                tooltip
+                series={false}
+              />
+            )}
+          </div>
+        </div>
+      ),
+      children: (
+        <DrawerFeatureRow>
+          <FeatLocationtypeInner feature={sourceType} keyValue="05" />
+        </DrawerFeatureRow>
+      ),
+      showArrow: false,
+    },
+    {
       key: '6',
       label: (
         <div className="detail detail-origin">
@@ -283,6 +377,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="6"
                 label={formatDate(dateEstShip ? dateEstShip : '')}
                 series={false}
@@ -314,8 +409,9 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="7"
-                label={sourceName}
+                label={sourceName || 'unknown'}
                 textWithBg={true}
                 series={false}
               />
@@ -343,7 +439,11 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 featureItemField="price"
               />
             ) : (
-              <FeatItemClose keyValue="8" label={'$' + String(totalTariff)} />
+              <FeatItemClose
+                feature={sourceType}
+                keyValue="8"
+                label={'$' + String(totalTariff)}
+              />
             )}
             <ArrowIcon keyValue={'8'} />
           </div>
@@ -351,7 +451,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTotalTariffInner keyValue="8" />
+          <FeatTotalTariffInner keyValue="8" feature={sourceType} />
         </DrawerFeatureRow>
       ),
       showArrow: false,
@@ -370,6 +470,7 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
               />
             ) : (
               <FeatItemClose
+                feature={sourceType}
                 keyValue="9"
                 label={'$' + String(reservationPrice)}
               />
@@ -380,15 +481,33 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       children: (
         <DrawerFeatureRow>
-          <FeatTotalTariffInner keyValue="9" />
+          <FeatTotalTariffInner keyValue="9" feature={sourceType} />
         </DrawerFeatureRow>
       ),
       showArrow: false,
     },
+    // * CD/CM notes for ORDER
+    {
+      key: '13',
+      label: <FeatCDCMNotes keyValue="13" sourceType={sourceType} />,
+      showArrow: false,
+      className: 'detail__cdcm-note',
+    },
   ];
 
   const vehicleItems = renderVehicles();
-  const mergeItems = vehicleItems?.concat(items);
+  const keysToFilterForOrder: string[] = ['13', '05'];
+
+  const filteredItems: CollapseProps['items'] = items.filter(
+    (item) =>
+      !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order') &&
+      !(item.key === '6' && sourceType === 'order') &&
+      !(item.key === '9' && sourceType === 'order'),
+  );
+
+  const mergeItems = vehicleItems
+    ? vehicleItems?.concat(filteredItems)
+    : filteredItems;
 
   return (
     <div className="box-header-inner">

@@ -12,6 +12,7 @@ import VehicleContainer, {
 import { QuoteDataType } from '../../models/QuoteDataType.ts';
 import { LeadDataType } from '../../models/index.ts';
 import { useAppSelector } from '../../store/hooks';
+import { CONDITION_TYPES } from '../../utils/constants.ts';
 import Modal from '../Modal.tsx';
 import Person from '../Person.tsx';
 import FormControl from '../form/FormControl.tsx';
@@ -22,7 +23,6 @@ import date from '/img/drawer/est-ship-date.svg';
 import reservation from '/img/drawer/reservation.svg';
 import total from '/img/drawer/total-tariff.svg';
 import trailer from '/img/drawer/trailer.svg';
-import { CONDITION_TYPES } from '../../utils/constants.ts';
 export default function QuotesModal({
   openLeadModal,
   setOpenLeadModa,

@@ -9,6 +9,7 @@ export type OrdersParamsType = {
   status: string;
   q: string;
   source?: string[];
+  user?: string[];
 };
 
 export function useOrders() {
@@ -26,15 +27,16 @@ export function useOrders() {
   const q = searchParams.get('q') || '';
   const status = searchParams.get('status') || '';
   const sources = searchParams.getAll('source');
+  const user = searchParams.getAll('user');
 
   const {
     data: { results: orders, count, sumPrice } = {},
     isPending: isLoadingOrders,
     error,
   } = useQuery({
-    queryKey: ['orders', limit, offset, sources, q, status],
+    queryKey: ['orders', limit, offset, sources, q, status, user],
     queryFn: () =>
-      Orders.getOrders({ limit, offset, source: sources, q, status }),
+      Orders.getOrders({ limit, offset, source: sources, q, status, user }),
   });
   return { orders, count, sumPrice, isLoadingOrders, error };
 }

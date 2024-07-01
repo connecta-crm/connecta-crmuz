@@ -53,12 +53,14 @@ export type LeadData = {
   notes: string;
   reservationPrice: number;
   dateEstShip: string | null;
+  originAddress: string;
+  destinationAddress: string;
 };
 
 export type LeadState = {
   leadData: LeadData;
   initialLeadData: LeadData;
-  status?: 'idle' | 'loading' | 'succeeded' | 'failed';
+  // status?: 'idle' | 'loading' | 'succeeded' | 'failed';
   error?: unknown;
 };
 
@@ -96,7 +98,7 @@ export const leadData = {
   dateEstShip: null,
 };
 
-export const initialLeadData = {
+const initialLeadData = {
   id: 0,
   customerName: '',
   customerPhone: '',
@@ -120,3 +122,5 @@ export const initialLeadData = {
   reservationPrice: 0,
   dateEstShip: null,
 };
+
+export default initialLeadData;

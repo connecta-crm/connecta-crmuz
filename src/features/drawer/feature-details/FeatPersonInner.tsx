@@ -1,22 +1,51 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { DrawerSourceType } from '../../../ui/Drawer';
 import { useCustomers } from '../../customers/useCostumers';
-import { getLeadData, updateField } from '../../leads/leadSlice';
+import {
+  getLeadData,
+  updateField as updateLeadField,
+} from '../../leads/leadSlice';
+import {
+  getOrderData,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import {
+  getQuoteData,
+  updateField as updateQuoteField,
+} from '../../quotes/quoteSlice';
 
-type SearchType = 'name' | 'email' | 'phone';
+export type SearchType = 'name' | 'email' | 'phone';
 
-type SearchInput = {
+export type SearchInput = {
   type: SearchType | null;
   value: string;
 };
 
 function FeatPersonInner({ sourceType }: DrawerSourceType) {
   const dispatch = useAppDispatch();
+
   const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
+
+  let data;
+
+  switch (sourceType) {
+    case 'lead':
+      data = leadData;
+      break;
+    case 'quote':
+      data = quoteData;
+      break;
+    case 'order':
+      data = orderData;
+      break;
+    default:
+      break;
+  }
 
   const [isSelectPerson, setSelectPerson] = useState(false);
 
@@ -39,15 +68,31 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
 
   const handleChange = (_: number | string, option: DefaultOptionType) => {
     if (!Array.isArray(option)) {
-      dispatch(updateField({ field: 'customer', value: option.data }));
+      switch (sourceType) {
+        case 'lead':
+          dispatch(updateLeadField({ field: 'customer', value: option.data }));
+          break;
+        case 'quote':
+          dispatch(updateQuoteField({ field: 'customer', value: option.data }));
+          break;
+        case 'order':
+          dispatch(updateOrderField({ field: 'customer', value: option.data }));
+          break;
+        default:
+          break;
+      }
     }
   };
+
+  if (!data) {
+    return;
+  }
 
   return (
     <>
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
-          <img src="./img/drawer/user.svg" alt="" />
+          <img style={{ width: 20 }} src="./img/drawer/user.svg" alt="" />
           <div className="form-label">Name</div>
         </div>
         <Select
@@ -56,8 +101,8 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search name"
-          defaultValue={leadData.customer.name}
-          value={leadData.customer.name}
+          defaultValue={data.customer.name}
+          value={data.customer.name}
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('name', value)}
@@ -73,7 +118,7 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
       </div>
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
-          <img src="./img/drawer/mail.svg" alt="" />
+          <img style={{ width: 20 }} src="./img/drawer/mail.svg" alt="" />
           <div className="form-label">Email</div>
         </div>
         <Select
@@ -82,8 +127,8 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search email"
-          defaultValue={leadData.customer.email}
-          value={leadData.customer.email}
+          defaultValue={data.customer.email}
+          value={data.customer.email}
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('email', value)}
@@ -101,7 +146,7 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
       </div>
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
-          <img src="./img/drawer/phone.svg" alt="" />
+          <img style={{ width: 20 }} src="./img/drawer/phone.svg" alt="" />
           <div className="form-label">Phone</div>
         </div>
         <Select
@@ -110,8 +155,8 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Search phone"
-          defaultValue={leadData.customer.phone}
-          value={leadData.customer.phone}
+          defaultValue={data.customer.phone}
+          value={data.customer.phone}
           onChange={handleChange}
           onFocus={handleFocus}
           onSearch={(value) => handleSearch('phone', value)}

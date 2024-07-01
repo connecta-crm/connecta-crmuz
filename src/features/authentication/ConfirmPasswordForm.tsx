@@ -14,7 +14,7 @@ function ConfirmPasswordForm() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!password.trim()) return;
+    if (!password?.trim()) return;
 
     if (password !== confirmPassword) {
       message.error('The confirm password is wrong!');

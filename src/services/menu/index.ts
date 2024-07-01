@@ -12,11 +12,18 @@ import fifthImg from '/img/sidebar/05.svg';
 import fifthImgActive from '/img/sidebar/05_active.svg';
 import sixthImg from '/img/sidebar/06.svg';
 import sixthImgActive from '/img/sidebar/06_active.svg';
+import eightImg from '/img/sidebar/08.svg';
+import eightImgActive from '/img/sidebar/08_active.svg';
 import ninthImg from '/img/sidebar/09.svg';
 import ninthImgActive from '/img/sidebar/09_active.svg';
-import more from '/img/sidebar/11.svg';
+import moreImg from '/img/sidebar/10.svg';
+import moreImgActive from '/img/sidebar/10_active.svg';
 
-import { MenuNestedData, elements ,MoreSettingsElements} from './nestedElements';
+import {
+  MenuNestedData,
+  MoreSettingsElements,
+  elements,
+} from './nestedElements';
 
 const lazyLoad = (
   importFunc: () => Promise<{ default: ComponentType<unknown> }>,
@@ -100,35 +107,46 @@ export const getMenuData: MenuData[] = [
     ],
   },
   {
-    title: 'Task',
+    title: 'Tasks',
     key: '__task',
-    path: '/task',
+    path: '/tasks',
     icon: fifthImg,
     iconActive: fifthImgActive,
-    component: lazyLoad(() => import('../../pages/Task')),
+    component: lazyLoad(() => import('../../pages/Tasks')),
     roles: ['admin', 'user'],
     status: [
-      { id: 21, value: 'task_list', title: 'Task list' },
+      { id: 21, value: 'tasks', title: 'Task list' },
       { id: 22, value: 'support', title: 'Support' },
       { id: 23, value: 'completed', title: 'Completed' },
       { id: 24, value: 'archived', title: 'Archived' },
     ],
   },
   {
-    title: 'Contact',
-    key: '__contact',
-    path: '/contact',
+    title: 'Customer',
+    key: '__customer',
+    path: '/customer',
     icon: sixthImg,
     iconActive: sixthImgActive,
-    component: lazyLoad(() => import('../../pages/Contact')),
+    component: lazyLoad(() => import('../../pages/Customers')),
     roles: ['admin', 'user'],
     status: [
       { id: 25, value: 'all_customers', title: 'All customers' },
       { id: 26, value: 'active', title: 'Active' },
       { id: 27, value: 'inactive', title: 'Inactive' },
+      { id: 28, value: 'favorite', title: 'Favorite' },
+      { id: 29, value: 'blocked', title: 'Blocked' },
     ],
   },
-
+  {
+    title: 'Insights',
+    key: '__insights',
+    path: '/insights',
+    icon: eightImg,
+    iconActive: eightImgActive,
+    component: lazyLoad(() => import('../../pages/Insights')),
+    roles: ['admin', 'user'],
+    status: [{ id: 30, value: 'insights', title: 'Insights' }],
+  },
   {
     title: 'Settings',
     key: '__settings',
@@ -143,10 +161,10 @@ export const getMenuData: MenuData[] = [
     title: 'Automation',
     key: '_more-settings',
     path: '/automation',
-    icon: more,
-    iconActive: more,
+    icon: moreImg,
+    iconActive: moreImgActive,
     component: lazyLoad(() => import('../../pages/MoreSettings')),
     roles: ['admin', 'user'],
-    elements:MoreSettingsElements,
+    elements: MoreSettingsElements,
   },
 ];

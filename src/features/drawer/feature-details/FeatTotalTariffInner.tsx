@@ -1,29 +1,82 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+
 import {
   getLeadData,
   resetField as resetLeadField,
-  updateField,
+  updateField as updateLeadField,
 } from '../../leads/leadSlice';
 import { useLeadConvert } from '../../leads/useLeadConvert';
+import {
+  getOrderData,
+  resetField as resetOrderField,
+  updateField as updateOrderField,
+} from '../../orders/orderSlice';
+import {
+  getQuoteData,
+  resetField as resetQuoteField,
+  updateField as updateQuoteField,
+} from '../../quotes/quoteSlice';
+import { FeatItemInnerProps } from './FeatConditionInner';
 
-function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
+function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
   const [loadingType, setLoadingType] = useState('save');
   const dispatch = useAppDispatch();
-  const { guid, price, reservationPrice } = useAppSelector(getLeadData);
   const { onChangeInnerCollapse, closeDrawer } = useDrawerFeature();
-
   const { leadConvert, isLoading, error, isSuccess } = useLeadConvert();
+
+  const leadData = useAppSelector(getLeadData);
+  const quoteData = useAppSelector(getQuoteData);
+  const orderData = useAppSelector(getOrderData);
+
+  let featureData;
+
+  switch (feature) {
+    case 'lead':
+      featureData = leadData;
+      break;
+    case 'quote':
+      featureData = quoteData;
+      break;
+    case 'order':
+      featureData = orderData;
+      break;
+    default:
+      break;
+  }
+
+  useEffect(() => {
+    if (!isLoading && !error && isSuccess) {
+      closeDrawer();
+    }
+  }, [isLoading, error, isSuccess]);
+
+  if (!featureData) {
+    return;
+  }
+
+  const { guid, price, reservationPrice } = featureData;
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>,
     field: 'price' | 'reservationPrice',
   ) => {
     const value = e.target.value;
-    dispatch(updateField({ field, value }));
+    switch (feature) {
+      case 'lead':
+        dispatch(updateLeadField({ field, value }));
+        break;
+      case 'quote':
+        dispatch(updateQuoteField({ field, value }));
+        break;
+      case 'order':
+        dispatch(updateOrderField({ field, value }));
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSave = () => {
@@ -37,16 +90,24 @@ function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
   };
 
   const handleCancel = () => {
-    dispatch(resetLeadField({ field: 'price' }));
-    dispatch(resetLeadField({ field: 'reservationPrice' }));
+    switch (feature) {
+      case 'lead':
+        dispatch(resetLeadField({ field: 'price' }));
+        dispatch(resetLeadField({ field: 'reservationPrice' }));
+        break;
+      case 'quote':
+        dispatch(resetQuoteField({ field: 'price' }));
+        dispatch(resetQuoteField({ field: 'reservationPrice' }));
+        break;
+      case 'order':
+        dispatch(resetOrderField({ field: 'price' }));
+        dispatch(resetOrderField({ field: 'reservationPrice' }));
+        break;
+      default:
+        break;
+    }
     onChangeInnerCollapse(keyValue);
   };
-
-  useEffect(() => {
-    if (!isLoading && !error && isSuccess) {
-      closeDrawer();
-    }
-  }, [isLoading, error, isSuccess]);
 
   return (
     <>
@@ -79,26 +140,23 @@ function FeatTotalTariffInner({ keyValue }: { keyValue: string }) {
           }}
           size="small"
           disabled={isLoading}
+          loading={isLoading && loadingType === 'save'}
           onClick={handleSave}
         >
-          {isLoading && loadingType === 'save' ? <LoadingOutlined /> : 'Save'}
+          Save
         </Button>
-        <Button
-          className="ml-10"
-          type="primary"
-          size="small"
-          disabled={isLoading}
-          onClick={handleSaveQuote}
-        >
-          {isLoading && loadingType === 'saveQuote' ? (
-            <>
-              <span>Save and send quote </span>
-              <LoadingOutlined />
-            </>
-          ) : (
-            'Save and send quote'
-          )}
-        </Button>
+        {feature !== 'quote' && (
+          <Button
+            className="ml-10"
+            type="primary"
+            size="small"
+            disabled={isLoading}
+            loading={isLoading && loadingType === 'saveQuote'}
+            onClick={handleSaveQuote}
+          >
+            Save and send quote
+          </Button>
+        )}
       </div>
     </>
   );

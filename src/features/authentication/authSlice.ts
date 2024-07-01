@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type UserType = {
+export type UserType = {
   email: string;
   firstName: string;
   id: string;
   lastName: string;
+  picture: string;
+  count: number;
 };
 
 type AuthState = {
