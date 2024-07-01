@@ -28,7 +28,12 @@ export const LeadTableColumns = [
     dataIndex: 'customerPhone',
 
     render: (text: string, record: LeadTableDataType) => (
-      <Radio.Button value={record.id}>
+      <Radio.Button value={record.id}
+      onClick={() => {
+        navigator.clipboard.writeText(text);
+        
+      }}
+      >
         <a
           className="table__phone "
           href={'tel:' + text}
@@ -40,8 +45,8 @@ export const LeadTableColumns = [
             style={{ marginTop: '7px' }}
             className="mr-5"
           />
-          {text}
         </a>
+        {text}
       </Radio.Button>
     ),
   },

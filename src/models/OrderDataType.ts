@@ -51,6 +51,9 @@ export type OrdersDataType = {
   // extraUser: string | null;
   origin: string | null;
   destination: string | null;
+  originAddress: string | null;
+  destinationAddress: string | null;
+  locationType: string | null;
 };
 /* ==================================================================================================================*/
 
