@@ -17,6 +17,8 @@ export type OrdersDataType = {
   originPhone: string | null;
   originSecondPhone: string | null;
   originBuyerNumber: string | null;
+  originAddress:string| null
+  destinationAddress:string| null
   destinationBusinessName: string | null;
   destinationBusinessPhone: string | null;
   destinationContactPerson: string | null;

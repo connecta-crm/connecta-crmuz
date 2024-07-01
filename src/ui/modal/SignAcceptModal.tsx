@@ -51,7 +51,7 @@ export default function SignAcceptModal({
             rules={[{ required: true, message: '' }]}
             preserve={false}
           >
-            <Input type="text" placeholder="EM" />
+            <Input type="text" placeholder="EM"  maxLength={2} />
           </FormItem>
         </FormControl>
         <div className="sign__accept__signature">
@@ -64,7 +64,7 @@ export default function SignAcceptModal({
           <div className="sign__accept__col">
             <h1 className="sign__accept__label">Initials</h1>
             <FormItem className="m-0 w-100 " name="initial" preserve={false}>
-              <Input readOnly type="text" placeholder="EM" />
+              <Input readOnly type="text" placeholder="EM"  />
             </FormItem>
           </div>
         </div>

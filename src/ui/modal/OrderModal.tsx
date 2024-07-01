@@ -65,15 +65,17 @@ export default function OrdersModal({
       originPhone: e.originPhone,
       originSecondPhone: e.originSecondPhone,
       originBuyerNumber: e.originBuyerNumber,
+      originAddress: e.originAddress,
       destinationBusinessName: e.destinationBusinessName,
       destinationBusinessPhone: e.destinationBusinessPhone,
       destinationContactPerson: e.destinationContactPerson,
       destinationPhone: e.destinationPhone,
       destinationSecondPhone: e.destinationSecondPhone,
+      destinationAddress: e.destinationAddress,
       paymentTotalTariff: e.paymentTotalTariff,
       paymentReservation: e.paymentReservation,
       paymentCarrierPay: e.paymentCarrierPay,
-      locationType:e.locationType,
+      locationType: e.locationType,
       cdNote: e.cdNote,
       cmNote: e.cmNote,
       user: user?.id,
@@ -140,7 +142,7 @@ export default function OrdersModal({
                 />
               </FormControl>
               <Pickup setPickup={setOrigin}>
-              <InputRow>
+                <InputRow>
                   <InputCol>
                     <Label>Pickup address</Label>
                   </InputCol>
@@ -155,8 +157,8 @@ export default function OrdersModal({
                       />
                     </FormItem>
                   </InputCol>
-                  </InputRow>
-                
+                </InputRow>
+
                 <InputRow>
                   <InputCol>
                     <Label>Business name</Label>
@@ -247,9 +249,9 @@ export default function OrdersModal({
                 </InputRow>
               </Pickup>
               <Delivery setDelivery={setDelivery}>
-              <InputRow>
+                <InputRow>
                   <InputCol>
-                    <Label>Delivery  address</Label>
+                    <Label>Delivery address</Label>
                   </InputCol>
                   <InputCol>
                     <FormItem
@@ -262,7 +264,7 @@ export default function OrdersModal({
                       />
                     </FormItem>
                   </InputCol>
-                  </InputRow>
+                </InputRow>
                 <InputRow>
                   <InputCol>
                     <Label>Business name</Label>
@@ -352,7 +354,7 @@ export default function OrdersModal({
                   </InputCol>
                 </InputRow>
               </Delivery>
-              <FormControl  title="Location type">
+              <FormControl title="Location type">
                 <FormItem
                   className="m-0 w-100"
                   name="locationType"
