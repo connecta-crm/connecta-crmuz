@@ -73,6 +73,7 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   };
   const closeDrawer = () => {
     setOpenDrawer(false);
+    setOpenInnerPanels([]);
     // queryClient.invalidateQueries({
     //   queryKey: ['lead'],
     // });
