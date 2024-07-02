@@ -21,6 +21,10 @@ export type ContractType = {
   signed: boolean;
   contractType: string;
   order: string;
+  signerInitials?: string;
+  signerName?: string;
+  signedTime: string;
+  signIpAddress: string;
 };
 
 export type Origintype = {
@@ -157,7 +161,7 @@ export type Origintype = {
   destinationContactPerson: string;
   destinationPhone: string;
   destinationSecondPhone: string;
-  destinationBuyerNumber:string
+  destinationBuyerNumber: string;
   cdNote: string;
   cmNote: string;
   updatedFrom: string | null;

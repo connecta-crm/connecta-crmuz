@@ -25,6 +25,7 @@ function FeatItemClose({
 
   const handleCopyLabel = () => {
     if (!label) return;
+    navigator.clipboard.writeText(label);
     message.info({
       content: `Copied: ${label}`,
       icon: <CopyOutlined style={{ color: '#108ee9' }} />,
@@ -53,7 +54,16 @@ function FeatItemClose({
             }}
             title={label}
           >
-            {label}
+            {keyValue !== '12' ? (
+              label
+            ) : (
+              <div className="d-flex">
+                {label}{' '}
+                <a href={'tel:' + label} className="box-header__edit ml-10">
+                  <img src="./img/drawer/phone2.svg" alt="" />
+                </a>
+              </div>
+            )}
           </Tooltip>
         ) : (
           <span>{label}</span>

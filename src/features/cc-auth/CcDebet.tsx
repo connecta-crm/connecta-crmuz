@@ -1,6 +1,6 @@
 import { Form, Input } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
-import InputMask from 'react-input-mask';
+// import InputMask from 'react-input-mask';
 import { Link, useNavigate } from 'react-router-dom';
 import visa from '../../../public/img/card/visa.svg';
 import img from '../../../public/img/payment.png';
@@ -43,14 +43,14 @@ export default function CcDebet() {
                     ]}
                     preserve={false}
                   >
-                    {/* <Input
+                    <Input
                       type="text"
                       placeholder="0000-0000-0000-0000"
                       style={{ paddingRight: '30px' }}
                       maxLength={19}
                       minLength={18}
-                    /> */}
-                    <InputMask mask="0000-0000-0000-0000">
+                    />
+                    {/* <InputMask mask="0000-0000-0000-0000">
                       {() => (
                         <Input
                           type="text"
@@ -60,7 +60,7 @@ export default function CcDebet() {
                           minLength={18}
                         />
                       )}
-                    </InputMask>
+                    </InputMask> */}
                   </FormItem>
                   <img
                     className="pay__card__type--img"

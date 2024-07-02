@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Radio, Table } from 'antd';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { TableProps } from '../leads/LeadTable';
@@ -41,21 +41,25 @@ function QuotesTable({
       </div>
       <div className="quotes-table">
         <div className="table__container">
-          <Table
-            rowKey="id"
-            rowSelection={{ ...rowSelection }}
-            columns={QuotesTableColumns}
-            dataSource={quotes as unknown as QuotesTableDataType[] | undefined}
-            loading={loadingList || (loadingItem && !!guid)}
-            pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
-            onRow={(data) => ({
-              onClick: (event) => {
-                const target = event.target as HTMLTextAreaElement;
-                const element = target.className;
-                element == 'table__id' && onOpenDrawer?.(data.guid);
-              },
-            })}
-          />
+          <Radio.Group style={{ width: '100%' }}>
+            <Table
+              rowKey="id"
+              rowSelection={{ ...rowSelection }}
+              columns={QuotesTableColumns}
+              dataSource={
+                quotes as unknown as QuotesTableDataType[] | undefined
+              }
+              loading={loadingList || (loadingItem && !!guid)}
+              pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
+              onRow={(data) => ({
+                onClick: (event) => {
+                  const target = event.target as HTMLTextAreaElement;
+                  const element = target.className;
+                  element == 'table__id' && onOpenDrawer?.(data.guid);
+                },
+              })}
+            />
+          </Radio.Group>
         </div>
       </div>
     </>

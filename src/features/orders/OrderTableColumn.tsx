@@ -1,3 +1,4 @@
+import { Radio } from 'antd';
 import TableDropdown from '../../ui/table/TableDropdown';
 import { OrderTableDataType } from './OrderTableColumnType';
 export const OrderTableColumn = [
@@ -39,12 +40,34 @@ export const OrderTableColumn = [
   {
     title: 'Phone',
     dataIndex: 'customerPhone',
-    render: (text: string) => (
-      <div className="table__phone">
-        <img src="./img/dt_table/call.svg" alt="" />
-        <span>{text}</span>
-      </div>
+    render: (text: string, record: OrderTableDataType) => (
+      <Radio.Button
+        value={record.id}
+        onClick={() => {
+          navigator.clipboard.writeText(text);
+        }}
+      >
+        <a
+          className="table__phone "
+          href={'tel:' + text}
+          style={{ display: 'inline' }}
+        >
+          <img
+            src="./img/dt_table/call.svg"
+            alt=""
+            style={{ marginTop: '9px' }}
+            className="mr-5"
+          />
+        </a>
+        {text}
+      </Radio.Button>
     ),
+    // render: (text: string) => (
+    //   <div className="table__phone">
+    //     <img src="./img/dt_table/call.svg" alt="" />
+    //     <span>{text}</span>
+    //   </div>
+    // ),
   },
   {
     title: 'Vehicle',

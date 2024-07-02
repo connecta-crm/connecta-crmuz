@@ -28,7 +28,12 @@ export const LeadTableColumns = [
     dataIndex: 'customerPhone',
 
     render: (text: string, record: LeadTableDataType) => (
-      <Radio.Button value={record.id}>
+      <Radio.Button value={record.id}
+      onClick={() => {
+        navigator.clipboard.writeText(text);
+        
+      }}
+      >
         <a
           className="table__phone "
           href={'tel:' + text}
@@ -37,11 +42,11 @@ export const LeadTableColumns = [
           <img
             src="./img/dt_table/call.svg"
             alt=""
-            style={{ marginTop: '7px' }}
+            style={{ marginTop: '9px' }}
             className="mr-5"
           />
-          {text}
         </a>
+        {text}
       </Radio.Button>
     ),
   },
