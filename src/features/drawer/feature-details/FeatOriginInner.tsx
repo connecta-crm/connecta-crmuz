@@ -102,15 +102,19 @@ function FeatOriginInner({ feature }: FeatItemInnerProps) {
 
   return (
     <>
-      <div className="d-flex justify-between mb-5">
-        <div className="form-label required-label">Pickup address</div>
-        <Input
-          value={featureData?.originAddress}
-          defaultValue={featureData?.originAddress}
-          style={{ width: 218, float: 'inline-end', height: 24 }}
-          onChange={(e) => handleChangeAddress('originAddress', e.target.value)}
-        />
-      </div>
+      {feature === 'order' && (
+        <div className="d-flex justify-between mb-5">
+          <div className="form-label required-label">Pickup address</div>
+          <Input
+            value={featureData?.originAddress}
+            defaultValue={featureData?.originAddress}
+            style={{ width: 218, float: 'inline-end', height: 24 }}
+            onChange={(e) =>
+              handleChangeAddress('originAddress', e.target.value)
+            }
+          />
+        </div>
+      )}
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Pickup city</div>
         <Select

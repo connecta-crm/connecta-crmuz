@@ -110,17 +110,19 @@ function FeatDestinationInner({ feature }: FeatItemInnerProps) {
 
   return (
     <>
-      <div className="d-flex justify-between mb-5">
-        <div className="form-label required-label">Delivery address</div>
-        <Input
-          value={featureData?.destinationAddress}
-          defaultValue={featureData?.destinationAddress}
-          style={{ width: 218, float: 'inline-end', height: 24 }}
-          onChange={(e) =>
-            handleChangeAddress('destinationAddress', e.target.value)
-          }
-        />
-      </div>
+      {feature === 'order' && (
+        <div className="d-flex justify-between mb-5">
+          <div className="form-label required-label">Delivery address</div>
+          <Input
+            value={featureData?.destinationAddress}
+            defaultValue={featureData?.destinationAddress}
+            style={{ width: 218, float: 'inline-end', height: 24 }}
+            onChange={(e) =>
+              handleChangeAddress('destinationAddress', e.target.value)
+            }
+          />
+        </div>
+      )}
       <div className="d-flex justify-between mb-5">
         <div className="form-label required-label">Delivery city</div>
         <Select
