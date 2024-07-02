@@ -1,6 +1,7 @@
 import { Radio } from 'antd';
 import TableDropdown from '../../ui/table/TableDropdown';
 import { QuotesTableDataType } from './QuoteTableColumnType';
+
 export const QuotesTableColumns = [
   {
     title: 'Id',
@@ -12,7 +13,7 @@ export const QuotesTableColumns = [
     dataIndex: 'updatedAt',
   },
   {
-    title: 'Note	',
+    title: 'Note',
     dataIndex: 'node',
     render: (text: string, record: QuotesTableDataType) => (
       <TableDropdown record={record} text={text} />
@@ -60,12 +61,6 @@ export const QuotesTableColumns = [
         {text}
       </Radio.Button>
     ),
-    // render: (text: string) => (
-    //   <div className="table__phone">
-    //     <img src="./img/dt_table/call.svg" alt="" />
-    //     <span>{text}</span>
-    //   </div>
-    // ),
   },
   {
     title: 'Vehicle',

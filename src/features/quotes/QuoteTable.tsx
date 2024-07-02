@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Radio, Table } from 'antd';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import TableDropdown from '../../ui/table/TableDropdown';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { TableProps } from '../leads/LeadTable';
-import { QuotesTableColumns } from './QuoteTableColumn';
 import { QuotesTableDataType } from './QuoteTableColumnType';
 const rowSelection = {
   onChange: (
@@ -29,6 +32,167 @@ function QuotesTable({
   onOpenModal,
   onOpenDrawer,
 }: TableProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [columns, setColumns] = useState([]);
+  useEffect(() => {
+    const filteredHeader = () => {
+      switch (status) {
+        case 'quote':
+          return {
+            title: 'Quoted on',
+            dataIndex: 'updatedAt',
+          };
+        case 'followUp':
+          return {
+            title: 'Quoted',
+            dataIndex: 'updatedAt',
+          };
+        case 'warm':
+          return {
+            title: 'Put on warm',
+            dataIndex: 'updatedAt',
+          };
+        case 'ongoing':
+          return {
+            title: 'Last edited on',
+            dataIndex: 'updatedAt',
+          };
+        case 'upcoming':
+          return {
+            title: 'Dedline',
+            dataIndex: 'updatedAt',
+          };
+        case 'onHold':
+          return {
+            title: 'Put on hold',
+            dataIndex: 'updatedAt',
+          };
+        case 'notNow':
+          return {
+            title: 'Last edited on',
+            dataIndex: 'updatedAt',
+          };
+        case 'archived':
+          return {
+            title: 'Archived',
+            dataIndex: 'updatedAt',
+          };
+        default:
+          return null;
+      }
+    };
+
+    const columnsConfig = [
+      {
+        title: 'Id',
+        dataIndex: 'id',
+        render: (text: string) => <a className="table__id">#100{text}</a>,
+      },
+      filteredHeader(),
+      {
+        title: 'Note',
+        dataIndex: 'node',
+        render: (text: string, record: QuotesTableDataType) => (
+          <TableDropdown record={record} text={text} />
+        ),
+      },
+      {
+        title: 'User',
+        dataIndex: 'user',
+        render: () => (
+          <div className="table__img__container">
+            <img
+              src="./img/dt_table/default_user_image.png"
+              alt=""
+              className="table__user__img"
+            />
+          </div>
+        ),
+      },
+      {
+        title: 'Customer',
+        dataIndex: 'customerName',
+      },
+      {
+        title: 'Phone',
+        dataIndex: 'customerPhone',
+        render: (text: string, record: QuotesTableDataType) => (
+          <Radio.Button
+            value={record.id}
+            onClick={() => {
+              navigator.clipboard.writeText(text);
+            }}
+          >
+            <a
+              className="table__phone "
+              href={'tel:' + text}
+              style={{ display: 'inline' }}
+            >
+              <img
+                src="./img/dt_table/call.svg"
+                alt=""
+                style={{ marginTop: '9px' }}
+                className="mr-5"
+              />
+            </a>
+            {text}
+          </Radio.Button>
+        ),
+      },
+      {
+        title: 'Vehicle',
+        dataIndex: 'quoteVehicles',
+        render: (
+          data: { vehicleName: string }[],
+          record: QuotesTableDataType,
+        ) => (
+          <div className="table__vehicle">
+            {
+              <div className="table__vehicle__imgs">
+                {(record.condition == 'rols' ||
+                  record.condition == 'forklift') && (
+                  <img src="./img/dt_table/engine.svg" alt="engine" />
+                )}
+                {record.trailerType === 'enclosed' && (
+                  <img src="./img/dt_table/trailer-red.svg" />
+                )}
+              </div>
+            }
+            <div className="table__vehicle__text">
+              {data.map((item, index) => (
+                <div key={index}>{item.vehicleName}</div>
+              ))}
+            </div>
+          </div>
+        ),
+      },
+      {
+        title: 'Origin',
+        dataIndex: 'originName',
+      },
+      {
+        title: 'Destination',
+        dataIndex: 'destinationName',
+      },
+      {
+        title: 'Price',
+        dataIndex: 'price',
+        render: (price: number) => (
+          <div>
+            <span className="table__price">$</span>
+            {price}
+          </div>
+        ),
+      },
+      {
+        title: 'Est. Ship',
+        dataIndex: 'dateEstShip',
+      },
+    ];
+    setColumns(columnsConfig);
+  }, [searchParams]);
+  const status = searchParams.get('status') || 'quote';
+
   return (
     <>
       <div className="dt-header">
@@ -45,7 +209,7 @@ function QuotesTable({
             <Table
               rowKey="id"
               rowSelection={{ ...rowSelection }}
-              columns={QuotesTableColumns}
+              columns={columns}
               dataSource={
                 quotes as unknown as QuotesTableDataType[] | undefined
               }
