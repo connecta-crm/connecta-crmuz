@@ -20,7 +20,7 @@ export type OrdersDataType = {
   // reservationPrice: string;
   dateEstShip: string | null;
   status: string;
-  buyerNumber: string | null;
+  // buyerNumber: string | null;
   originBusinessName: string | null;
   originBusinessPhone: string | null;
   originContactPerson: string | null;

@@ -55,7 +55,7 @@ export const OrderTableColumn = [
           <img
             src="./img/dt_table/call.svg"
             alt=""
-            style={{ marginTop: '7px' }}
+            style={{ marginTop: '9px' }}
             className="mr-5"
           />
         </a>

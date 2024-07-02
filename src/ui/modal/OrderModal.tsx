@@ -58,7 +58,7 @@ export default function OrdersModal({
       source: source,
       origin: origin,
       destination: delivery,
-      buyerNumber: e.buyerNumber,
+      // buyerNumber: e.buyerNumber,
       originBusinessName: e.originBusinessName,
       originBusinessPhone: e.originBusinessPhone,
       originContactPerson: e.originContactPerson,
@@ -96,7 +96,18 @@ export default function OrdersModal({
         if (key === 'vehicles' && data[key].length === 0) {
           errorText += key + ' , ';
         }
-        if (!data[key as keyof OrdersDataType] && key !== 'notes') {
+        if (
+          !data[key as keyof OrdersDataType] &&
+          key !== 'cmNote' &&
+          key !== 'cdNote' &&
+          key !== 'originBusinessName' &&
+          key !== 'originBusinessPhone' &&
+          key !== 'originSecondPhone' &&
+          key !== 'originBuyerNumber' &&
+          key !== 'destinationBusinessName' &&
+          key !== 'destinationBusinessPhone' &&
+          key !== 'destinationSecondPhone'
+        ) {
           errorText += key + ' , ';
         }
       }
@@ -336,7 +347,7 @@ export default function OrdersModal({
                   </div>
                 </div>
 
-                <InputRow>
+                {/* <InputRow>
                   <InputCol>
                     <Label>Buyer number</Label>
                   </InputCol>
@@ -352,7 +363,7 @@ export default function OrdersModal({
                       />
                     </FormItem>
                   </InputCol>
-                </InputRow>
+                </InputRow> */}
               </Delivery>
               <FormControl title="Location type">
                 <FormItem

@@ -147,7 +147,7 @@ function FeatPersonInner({ sourceType }: DrawerSourceType) {
       <div className="d-flex justify-between mb-5">
         <div className="d-flex">
           <img style={{ width: 20 }} src="./img/drawer/phone.svg" alt="" />
-          <div className="form-label">Phone</div>
+          <div className="form-label">Phone </div>
         </div>
         <Select
           size="small"
