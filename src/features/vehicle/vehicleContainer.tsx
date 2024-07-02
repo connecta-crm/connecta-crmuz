@@ -63,7 +63,22 @@ export default function VehicleContainer({
   };
   const getCarValue = (a: CarType) => {
     if (type) {
-      if (a.vehicle && a.vehicleYear && a.color && a.lot && a.plate && a.vin) {
+      // if (a.vehicle && a.vehicleYear && a.color && a.lot && a.plate && a.vin) {
+      //   const f = cars.map((item) => {
+      //     if (item.id == a.id) {
+      //       item.vehicle = a.vehicle;
+      //       item.vehicleYear = a.vehicleYear;
+      //       item.vin = a?.vin;
+      //       item.lot = a?.lot;
+      //       item.color = a?.color;
+      //       item.plate = a?.plate;
+      //     }
+      //     return item;
+      //   });
+      //   setCar(f);
+      //   // message.success('Vehicle selected');
+      // }
+      if (a.vehicle && a.vehicleYear) {
         const f = cars.map((item) => {
           if (item.id == a.id) {
             item.vehicle = a.vehicle;

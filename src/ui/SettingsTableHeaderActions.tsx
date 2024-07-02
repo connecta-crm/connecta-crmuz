@@ -30,7 +30,7 @@ function SettingsTableHeaderActions({
 
       {hasActions && (
         <div className="dt-header__actions-btns">
-          <CheckButton type="status" title="active" />
+          <CheckButton type="status" title="active"  />
           <CheckButton type="status" title="inactive" />
         </div>
       )}
