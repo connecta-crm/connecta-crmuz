@@ -145,7 +145,7 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
         >
           Save
         </Button>
-        {feature !== 'quote' && (
+        {feature === 'lead' && (
           <Button
             className="ml-10"
             type="primary"
