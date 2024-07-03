@@ -12,7 +12,7 @@ export function useContractSendSMS() {
   } = useMutation({
     mutationFn: (contract: number) => Orders.contractSendSMS(contract),
     onSuccess: () => {
-      message.success('Contract SMS is sended');
+      message.success('Contract SMS is sent');
       queryClient.invalidateQueries({ queryKey: ['orderContractList'] });
     },
     onError: (err) => {
