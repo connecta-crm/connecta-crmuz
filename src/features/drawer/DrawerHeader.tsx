@@ -312,6 +312,8 @@ function DrawerHeader({
 
   const { extraUser } = featureData || {};
 
+  console.log('featureData', featureData);
+
   // PREV-NEXT functions
   const handlePrevElement = () => {
     onChangeInnerCollapse([]);
@@ -540,7 +542,7 @@ function DrawerHeader({
             children: (users || [])
               .filter((f: { isActive: boolean }) => f?.isActive)
               .map((user: UsersTableDataType) =>
-                user.id !== extraUser.id
+                user.id !== extraUser?.id
                   ? {
                       key: '40-' + user.id,
                       label: (
@@ -657,7 +659,15 @@ function DrawerHeader({
           >
             <div className="d-flex">
               <div className="drawer-header__id id_1">#100{featureData.id}</div>
-              <div className="drawer-header__username">
+              <div
+                className="drawer-header__username"
+                style={{
+                  overflow:
+                    isFullScreen || feature === 'lead' || feature === 'order'
+                      ? 'initial'
+                      : 'hidden',
+                }}
+              >
                 {featureData.customerName || '-'}
               </div>
             </div>
@@ -712,7 +722,10 @@ function DrawerHeader({
                 open={isOpenUsers && !isLoadingUsers}
                 destroyPopupOnHide={true}
                 onOpenChange={handleOpenUsers}
-                className="drawer-header__settings"
+                className={classNames(
+                  feature === 'lead' ? 'lead-page' : '',
+                  'drawer-header__settings',
+                )}
               >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>

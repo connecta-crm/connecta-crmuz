@@ -103,11 +103,26 @@ $transition-duration: 200ms;
     font-size: 15px;
     color: $color1;
     margin-left: 20px;
+    white-space: nowrap;
+    max-width: 130px;
+    text-overflow: ellipsis;
   }
 
   &__settings {
     .ant-dropdown-menu-title-content {
       overflow: hidden;
+    }
+    .ant-space-item {
+      max-width: 90px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    &.lead-page {
+      .ant-space-item {
+        overflow: initial;
+        max-width: none;
+      }
     }
   }
 
