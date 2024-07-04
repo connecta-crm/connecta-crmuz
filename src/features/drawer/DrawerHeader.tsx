@@ -154,6 +154,7 @@ function DrawerHeader({
   const [archieveReason, setArchiveReason] = useState('');
   const [reassignReason, setReassignReason] = useState('');
   const [showUsers, setShowUsers] = useState(false);
+  const [isPostCDTypeAction, setPostCDTypeAction] = useState('');
 
   const {
     users,
@@ -269,6 +270,7 @@ function DrawerHeader({
         dispatch(updateOrderField({ field: 'status', value: 'booked' }));
         setChangeStatus(true);
       }
+      setPostCDTypeAction('');
     }
   }, [isLoadingPostCD, updatedOrderPostCDData]);
 
@@ -308,7 +310,7 @@ function DrawerHeader({
     return;
   }
 
-  const { user } = featureData || {};
+  const { extraUser } = featureData || {};
 
   // PREV-NEXT functions
   const handlePrevElement = () => {
@@ -521,7 +523,7 @@ function DrawerHeader({
           key: '4-100',
           label: (
             <p style={{ background: 'none', paddingBottom: 5 }}>
-              {user?.firstName + ' ' + user?.lastName}
+              {extraUser?.firstName + ' ' + extraUser?.lastName}
             </p>
           ),
         },
@@ -537,21 +539,25 @@ function DrawerHeader({
             type: 'group',
             children: (users || [])
               .filter((f: { isActive: boolean }) => f?.isActive)
-              .map((user: UsersTableDataType) => ({
-                key: '40-' + user.id,
-                label: (
-                  <button
-                    style={{ background: 'none' }}
-                    disabled={isLoadingUpdateUser}
-                    onClick={() => {
-                      setReassignUserId(user.id);
-                      setOpenReassignModal(true);
-                    }}
-                  >
-                    {user.firstName + ' ' + user.lastName}
-                  </button>
-                ),
-              })),
+              .map((user: UsersTableDataType) =>
+                user.id !== extraUser.id
+                  ? {
+                      key: '40-' + user.id,
+                      label: (
+                        <button
+                          style={{ background: 'none' }}
+                          disabled={isLoadingUpdateUser}
+                          onClick={() => {
+                            setReassignUserId(user.id);
+                            setOpenReassignModal(true);
+                          }}
+                        >
+                          {user.firstName + ' ' + user.lastName}
+                        </button>
+                      ),
+                    }
+                  : null,
+              ),
           },
         ]
       : []),
@@ -690,8 +696,8 @@ function DrawerHeader({
             {/* USERS DROPDOWN */}
             <div className="drawer-header__btnitem __avatar">
               <img
-                src={user?.picture ?? '/img/empty-user.jpeg'}
-                alt={user?.firstName || 'User'}
+                src={extraUser?.picture ?? '/img/empty-user.jpeg'}
+                alt={extraUser?.firstName || 'User'}
                 className="user-avatar mr-10"
               />
               <Dropdown
@@ -711,7 +717,7 @@ function DrawerHeader({
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
                     <span className="user-name">
-                      {user?.firstName + ' ' + user?.lastName}
+                      {extraUser?.firstName + ' ' + extraUser?.lastName}
                     </span>
                     {isFetchingUsers && !users?.length && isOpenUsers ? (
                       <LoadingOutlined
@@ -780,6 +786,7 @@ function DrawerHeader({
                     <Button
                       onClick={() => {
                         if (feature === 'order') {
+                          setPostCDTypeAction('repost');
                           orderPostCD({
                             guid: orderData.guid,
                             action: 'repost',
@@ -787,7 +794,9 @@ function DrawerHeader({
                         }
                       }}
                       disabled={isLoadingPostCD}
-                      loading={isLoadingPostCD}
+                      loading={
+                        isLoadingPostCD && isPostCDTypeAction === 'repost'
+                      }
                       className="ml-10"
                       type="primary"
                       ghost
@@ -801,6 +810,7 @@ function DrawerHeader({
                     type="primary"
                     onClick={() => {
                       if (feature === 'order') {
+                        setPostCDTypeAction('post');
                         orderPostCD({
                           guid: orderData.guid,
                           action: 'post',
@@ -808,7 +818,7 @@ function DrawerHeader({
                       }
                     }}
                     disabled={isLoadingPostCD}
-                    loading={isLoadingPostCD}
+                    loading={isLoadingPostCD && isPostCDTypeAction === 'post'}
                   >
                     Post to CD
                   </Button>
@@ -900,13 +910,14 @@ function DrawerHeader({
                     //   updateOrderField({ field: 'status', value: 'booked' }),
                     // );
                     // setStatusUpdated(true);
+                    setPostCDTypeAction('delete');
                     orderPostCD({
                       guid: orderData.guid,
                       action: 'delete',
                     });
                   }}
-                  disabled={isLoading}
-                  loading={isLoading}
+                  disabled={isLoadingPostCD}
+                  loading={isLoadingPostCD && isPostCDTypeAction === 'delete'}
                 >
                   Remove from CD
                 </Button>

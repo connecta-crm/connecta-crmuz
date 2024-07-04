@@ -128,7 +128,6 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   // };
 
   const onChangeInnerCollapse = (panelKey: string | string[]) => {
-    console.log('panelKey', panelKey);
     if (Array.isArray(panelKey)) {
       setOpenInnerPanels(panelKey);
     } else {

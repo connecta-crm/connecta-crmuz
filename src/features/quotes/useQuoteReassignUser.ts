@@ -16,6 +16,7 @@ export function useQuoteReassignUser() {
     onSuccess: () => {
       message.success('Reassigned quote user!');
       queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['quote'] });
     },
     onError: (err) => {
       message.error(err.message);

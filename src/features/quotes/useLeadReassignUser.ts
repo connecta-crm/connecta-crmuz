@@ -16,6 +16,7 @@ export function useLeadReassignUser() {
     onSuccess: () => {
       message.success('Reassigned lead user!');
       queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['lead'] });
     },
     onError: (err) => {
       message.error(err.message);

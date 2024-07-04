@@ -19,6 +19,7 @@ export function useOrderReassignUser() {
     onSuccess: () => {
       message.success('Reassigned order user!');
       queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['order'] });
     },
     onError: (err) => {
       message.error(err.message);

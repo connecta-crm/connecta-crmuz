@@ -19,8 +19,15 @@ export function useOrderPostCD() {
   } = useMutation({
     mutationFn: ({ guid, action }: PostCDParamsType) =>
       Orders.orderPostCD({ guid, action }),
-    onSuccess: () => {
-      message.success('Posted to CD');
+    onSuccess: ({ action }) => {
+      console.log('POST', action);
+      const result =
+        action === 'post'
+          ? 'Posted to CD'
+          : action === 'repost'
+            ? 'Reposted to CD'
+            : 'Removed from CD';
+      message.success(result);
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
     onError: (err) => {

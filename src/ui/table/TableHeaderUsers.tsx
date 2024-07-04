@@ -32,8 +32,6 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
   const { userTeams, isLoading, error } = useUserTeams(type, open);
   const user = useAppSelector(getUser);
 
-  console.log('userTeams', userTeams);
-
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
       setOpen(nextOpen);

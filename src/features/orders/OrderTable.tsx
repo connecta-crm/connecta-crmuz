@@ -33,8 +33,6 @@ function OrdersTable({
   const [searchParams] = useSearchParams();
   const [columns, setColumns] = useState([]);
 
-  console.log('orders', orders);
-
   useEffect(() => {
     const filteredHeader = () => {
       switch (status) {
