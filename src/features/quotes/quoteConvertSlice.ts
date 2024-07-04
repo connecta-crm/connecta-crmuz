@@ -61,7 +61,12 @@ export const fetchQuoteConvertData = createAsyncThunk(
     const state = getState() as RootState;
     const quoteData = getQuoteData(state);
     return {
-      quoteConvertData: { ...initialQuoteConvertData, ...quoteData },
+      quoteConvertData: {
+        ...initialQuoteConvertData,
+        ...quoteData,
+        paymentReservation: quoteData.reservationPrice,
+        paymentTotalTariff: quoteData.price,
+      },
     };
   },
 );

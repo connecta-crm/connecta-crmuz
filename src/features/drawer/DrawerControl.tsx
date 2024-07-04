@@ -81,14 +81,14 @@ function DrawerControl({
       </button>
       <button
         title="Previous"
-        disabled={loadingItem}
+        disabled={loadingItem || dataSource?.length === 1}
         onClick={handlePrevElement}
         className="drawer-control__item drawer-control__item_up-arrow"
       >
         <img src="./img/drawer/up-arrow.svg" alt="" />
       </button>
       <button
-        disabled={loadingItem}
+        disabled={loadingItem || dataSource?.length === 1}
         title="Next"
         onClick={handleNextElement}
         className="drawer-control__item drawer-control__item_down-arrow"

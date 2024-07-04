@@ -437,15 +437,16 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 keyValue="8"
                 feature={sourceType}
                 featureItemField="price"
+                series={false}
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="8"
                 label={'$' + String(totalTariff)}
+                series={false}
               />
             )}
-            <ArrowIcon keyValue={'8'} />
           </div>
         </div>
       ),
@@ -467,15 +468,16 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
                 keyValue="9"
                 feature={sourceType}
                 featureItemField="reservationPrice"
+                series={false}
               />
             ) : (
               <FeatItemClose
                 feature={sourceType}
                 keyValue="9"
                 label={'$' + String(reservationPrice)}
+                series={false}
               />
             )}
-            <ArrowIcon keyValue={'9'} />
           </div>
         </div>
       ),
@@ -502,7 +504,8 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
     (item) =>
       !(keysToFilterForOrder.includes(item.key) && sourceType !== 'order') &&
       !(item.key === '6' && sourceType === 'order') &&
-      !(item.key === '9' && sourceType === 'order'),
+      !(item.key === '9' && sourceType === 'order') &&
+      !(item.key === '8' && sourceType === 'order'),
   );
 
   const mergeItems = vehicleItems

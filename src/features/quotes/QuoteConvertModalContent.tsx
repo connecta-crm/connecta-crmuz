@@ -19,7 +19,6 @@ import {
 
 function QuoteConvertModalContent() {
   const quoteConvertData = useAppSelector(getQuoteConvertData);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {

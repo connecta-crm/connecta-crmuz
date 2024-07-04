@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { merge } from 'lodash';
 import { useEffect } from 'react';
 import { useDrawerFeature } from '../../context/DrawerFeatureContext';
@@ -52,7 +53,8 @@ export function useUpdateFeatureData({
   isDataUpdated,
   setDataUpdated,
 }: UpdateLeadDataProps) {
-  const { onChangeInnerCollapse } = useDrawerFeature();
+  const { onChangeInnerCollapse, onChangeMainCollapse, onEditPayment } =
+    useDrawerFeature();
   const dispatch = useAppDispatch();
   const user = useAppSelector(getUser);
 
@@ -286,6 +288,10 @@ export function useUpdateFeatureData({
       onChangeInnerCollapse(keyValue);
       setDataUpdated(false);
       console.log('MERGED', keyValue);
+      if (keyValue === '400') {
+        onChangeInnerCollapse([]);
+        onEditPayment(false);
+      }
     }
   }, [
     setDataUpdated,

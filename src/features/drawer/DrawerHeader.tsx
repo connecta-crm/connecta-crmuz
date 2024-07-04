@@ -630,7 +630,7 @@ function DrawerHeader({
               <button
                 title="prev-element"
                 className="control__item control__item_up-arrow"
-                disabled={loadingItem || isLoading}
+                disabled={loadingItem || isLoading || dataSource?.length === 1}
                 onClick={handlePrevElement}
               >
                 <img src="./img/drawer/up-arrow.svg" alt="" />
@@ -638,7 +638,7 @@ function DrawerHeader({
               <button
                 title="next-element"
                 className="control__item control__item_down-arrow"
-                disabled={loadingItem || isLoading}
+                disabled={loadingItem || isLoading || dataSource?.length === 1}
                 onClick={handleNextElement}
               >
                 <img src="./img/drawer/down-arrow.svg" alt="" />

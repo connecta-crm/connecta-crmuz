@@ -40,6 +40,7 @@ function DrawerFeatureHeader({
     isEditPayment,
     isEditDate,
     isEditCarrierInfo,
+    openInnerPanels,
     onEditPerson,
     onEditNotes,
     onEditPayment,
@@ -64,6 +65,7 @@ function DrawerFeatureHeader({
       onChangeMainCollapse(keyValue);
     }
     onChangeInnerCollapse([
+      ...openInnerPanels,
       '1',
       '2',
       '3',
@@ -123,7 +125,15 @@ function DrawerFeatureHeader({
     if (!openMainPanels.includes(keyValue)) {
       onChangeMainCollapse(keyValue);
     }
-    onChangeInnerCollapse(['30', '31', '32', '33', '34', '35']);
+    onChangeInnerCollapse([
+      ...openInnerPanels,
+      '30',
+      '31',
+      '32',
+      '33',
+      '34',
+      '35',
+    ]);
   };
 
   // * DATE (MAIN COLLAPSE)
@@ -365,15 +375,29 @@ function DrawerFeatureHeader({
                 e.stopPropagation();
                 onCancelFeature();
                 onChangeInnerCollapse([]);
+                // const currentSet = new Set(openInnerPanels);
+                // const result = ['30', '31', '32', '33', '34', '35'].map(
+                //   (item) => {
+                //     if (currentSet.has(item)) {
+                //       currentSet.delete(item);
+                //     } else {
+                //       currentSet.add(item);
+                //     }
+
+                //     return Array.from(currentSet);
+                //   },
+                // );
+
+                // onChangeInnerCollapse(result);
                 setTimeout(() => {
                   onEditPayment(false);
-                }, 300);
+                }, 100);
               }}
               block
               size="small"
               disabled={isLoading}
             >
-              Cancel
+              Cancelp
             </Button>
             <Button
               className="ml-10"
