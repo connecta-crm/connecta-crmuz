@@ -78,7 +78,10 @@ function QuotesTable({
             dataIndex: 'updatedAt',
           };
         default:
-          return null;
+          return {
+            title: 'Quoted on',
+            dataIndex: 'updatedAt',
+          };
       }
     };
 

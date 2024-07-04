@@ -1,7 +1,6 @@
 import { Radio, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import TableDropdown from '../../ui/table/TableDropdown';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { TableProps } from '../leads/LeadTable';
@@ -90,7 +89,10 @@ function OrdersTable({
             dataIndex: 'updatedAt',
           };
         default:
-          return null;
+          return {
+            title: 'Last edited on',
+            dataIndex: 'updatedAt',
+          };
       }
     };
 
@@ -100,13 +102,13 @@ function OrdersTable({
         dataIndex: 'id',
         render: (text: string) => <a className="table__id">#100{text}</a>,
       },
-      filteredHeader(),
+      filteredHeader?.(),
       {
         title: 'Note',
-        dataIndex: 'node',
-        render: (text: string, record: OrderTableDataType) => (
-          <TableDropdown record={record} text={text} />
-        ),
+        dataIndex: 'notes',
+        // render: (text: string, record: OrderTableDataType) => (
+        //   <TableDropdown record={record} text={text} />
+        // ),
       },
       {
         title: 'User',
@@ -158,7 +160,7 @@ function OrdersTable({
           data: { vehicleName: string }[],
           record: OrderTableDataType,
         ) =>
-          data.length ? (
+          data?.length ? (
             <div className="table__vehicle">
               <div className="table__vehicle__imgs">
                 {record.condition == 'rols' && (
@@ -227,7 +229,9 @@ function OrdersTable({
               rowKey="id"
               rowSelection={{ ...rowSelection }}
               columns={columns}
-              dataSource={orders as unknown as OrderTableDataType[] | undefined}
+              dataSource={
+                (orders || []) as unknown as OrderTableDataType[] | undefined
+              }
               loading={loadingList || (loadingItem && !!guid)}
               pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
               onRow={(data) => ({

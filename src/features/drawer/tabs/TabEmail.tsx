@@ -24,7 +24,7 @@ function TabEmail({ user, sourceId, userEmail, customerEmail, sourceType }) {
     useTemplates(isOpenTemplate);
   const { fields, isLoading: isLoadingFields } = useFields(isOpenField);
 
-  const fieldsData = useMemo(() => transformData(fields), [fields]);
+  const fieldsData = useMemo(() => transformData(fields || []), [fields]);
 
   const fromEmailValue = 'alibrain@gmail.com'; // todo
 

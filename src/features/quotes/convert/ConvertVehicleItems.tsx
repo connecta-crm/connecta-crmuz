@@ -21,8 +21,8 @@ function ConvertVehicleItems() {
   }, [dispatch]);
 
   const vehiclesList = useMemo(
-    () => quoteConvertData.quoteVehicles,
-    [quoteConvertData.quoteVehicles],
+    () => quoteConvertData?.quoteVehicles,
+    [quoteConvertData?.quoteVehicles],
   );
 
   const renderVehicles = useMemo(() => {

@@ -42,7 +42,7 @@ function TabPhone({ user, sourceId, sourceType, customerPhone }) {
   const { templates, isLoading: isLoadingTemplates } =
     useTemplates(isOpenTemplate);
   const { fields, isLoading: isLoadingFields } = useFields(isOpenField);
-  const fieldsData = useMemo(() => transformData(fields), [fields]);
+  const fieldsData = useMemo(() => transformData(fields || []), [fields]);
 
   const fromPhoneValue = '(929) 592-3003'; // todo
 

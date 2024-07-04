@@ -82,7 +82,7 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
             <p className="error-color">Error loading teams</p>
           ) : (
             userTeams?.length &&
-            userTeams.map((team, index) => (
+            (userTeams || []).map((team, index) => (
               <div key={index} className="mb-10">
                 <p className="dropdown-subusername d-inline">{team.name}</p>
                 <div className="dropdown-check">
