@@ -130,12 +130,13 @@ export default function QuotesModal({
               <Source setSource={setSource} />
 
               <FormControl title="Total tariff" img={total}>
-                <FormItem name="price" style={{ margin: '0px', width: '100%' }}>
+                <FormItem preserve={false} name="price" style={{ margin: '0px', width: '100%' }}>
                   <Input placeholder="$0" type="number" />
                 </FormItem>
               </FormControl>
               <FormControl title="Reservation" img={reservation}>
                 <Form.Item
+                preserve={false}
                   name="reservationPrice"
                   style={{ margin: '0px', width: '100%' }}
                 >
@@ -148,6 +149,7 @@ export default function QuotesModal({
                   label="CM note"
                   name="notes"
                   style={{ width: '100%' }}
+                  preserve={false}
                 >
                   <Input style={{ width: '100%' }} />
                 </Form.Item>

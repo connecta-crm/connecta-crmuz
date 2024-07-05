@@ -161,6 +161,7 @@ export default function OrdersModal({
                     <FormItem
                       name="originAddress"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         placeholder="Pickup address"
@@ -178,6 +179,7 @@ export default function OrdersModal({
                     <FormItem
                       name="originBusinessName"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         placeholder="Business name"
@@ -194,6 +196,7 @@ export default function OrdersModal({
                     <FormItem
                       name="originBusinessPhone"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         type="number"
@@ -211,10 +214,12 @@ export default function OrdersModal({
                     <FormItem
                       name="originContactPerson"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         placeholder="Contact person"
                         style={{ padding: '3px 5px' }}
+                        
                       />
                     </FormItem>
                   </InputCol>
@@ -225,7 +230,8 @@ export default function OrdersModal({
                     <Label>Phone</Label>
                     <FormItem
                       name="originPhone"
-                      style={{ margin: '0', minHeight: '0px' }}
+                      style={{ margin: '0', minHeight: '0px' }} 
+                      preserve={false}
                     >
                       <Input style={{ padding: '3px 5px' }} />
                     </FormItem>
@@ -235,6 +241,7 @@ export default function OrdersModal({
                     <FormItem
                       name="originSecondPhone"
                       style={{ margin: '0', minHeight: '0px' }}
+                      preserve={false}
                     >
                       <Input style={{ padding: '3px 5px' }} />
                     </FormItem>
@@ -248,7 +255,8 @@ export default function OrdersModal({
                   <InputCol>
                     <FormItem
                       name="originBuyerNumber"
-                      style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      style={{ margin: '0', width: '100%', minHeight: '0' }} 
+                      preserve={false}
                     >
                       <Input
                         type="number"
@@ -268,6 +276,7 @@ export default function OrdersModal({
                     <FormItem
                       name="destinationAddress"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         placeholder="Pickup address"
@@ -284,6 +293,7 @@ export default function OrdersModal({
                     <FormItem
                       name="destinationBusinessName"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         placeholder="Business name"
@@ -300,6 +310,7 @@ export default function OrdersModal({
                     <FormItem
                       name="destinationBusinessPhone"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         type="number"
@@ -317,6 +328,7 @@ export default function OrdersModal({
                     <FormItem
                       name="destinationContactPerson"
                       style={{ margin: '0', width: '100%', minHeight: '0' }}
+                      preserve={false}
                     >
                       <Input
                         placeholder="Contact person"
@@ -332,6 +344,7 @@ export default function OrdersModal({
                     <FormItem
                       name="destinationPhone"
                       style={{ margin: '0', minHeight: '0px' }}
+                      preserve={false}
                     >
                       <Input style={{ padding: '3px 5px' }} />
                     </FormItem>
@@ -341,6 +354,7 @@ export default function OrdersModal({
                     <FormItem
                       name="destinationSecondPhone"
                       style={{ margin: '0', minHeight: '0px' }}
+                      preserve={false}
                     >
                       <Input style={{ padding: '3px 5px' }} />
                     </FormItem>
@@ -398,6 +412,7 @@ export default function OrdersModal({
                   label="CD note"
                   name="cdNote"
                   style={{ width: '100%', margin: '0' }}
+                  preserve={false}
                 >
                   <Input style={{ width: '100%' }} />
                 </Form.Item>
@@ -407,6 +422,7 @@ export default function OrdersModal({
                   label="CM note"
                   name="cmNote"
                   style={{ width: '100%' }}
+                  preserve={false}
                 >
                   <Input style={{ width: '100%' }} />
                 </Form.Item>
@@ -445,6 +461,7 @@ export default function OrdersModal({
                 <FormItem
                   name="paymentTotalTariff"
                   style={{ margin: '0px', width: '100%', minHeight: '0' }}
+                  preserve={false}
                 >
                   <Input
                     placeholder="$0"
@@ -457,6 +474,7 @@ export default function OrdersModal({
                 <Form.Item
                   name="paymentReservation"
                   style={{ margin: '0px', width: '100%', minHeight: '0' }}
+                  preserve={false}
                 >
                   <Input
                     type="number"
@@ -469,6 +487,7 @@ export default function OrdersModal({
                 <Form.Item
                   name="paymentCarrierPay"
                   style={{ margin: '0px', width: '100%', minHeight: '0' }}
+                  preserve={false}
                 >
                   <Input
                     type="number"

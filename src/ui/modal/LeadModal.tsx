@@ -132,8 +132,9 @@ export default function LeadModal({
                   label="CM note"
                   name="notes"
                   style={{ width: '100%' }}
+                  preserve={false}
                 >
-                  <Input style={{ width: '100%' }} />
+                  <Input  style={{ width: '100%' }} />
                 </Form.Item>
               </div>
             </UpCollapse>
