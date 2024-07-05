@@ -1,3 +1,4 @@
+export * from './CustomerDataType';
 export * from './DataTypes';
 export * from './LeadDataType';
 export * from './OrderDataType';

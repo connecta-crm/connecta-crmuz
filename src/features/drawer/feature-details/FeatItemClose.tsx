@@ -58,7 +58,7 @@ function FeatItemClose({
               label
             ) : (
               <div className="d-flex">
-                {label}{' '}
+                {label}
                 <a href={'tel:' + label} className="box-header__edit ml-10">
                   <img src="./img/drawer/phone2.svg" alt="" />
                 </a>

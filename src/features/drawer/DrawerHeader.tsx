@@ -16,6 +16,7 @@ import {
   REASSIGN_USERS_REASONS,
 } from '../../utils/constants';
 import { classNames } from '../../utils/helpers';
+import { getCustomerData } from '../customers/customerSlice';
 import {
   getLeadData,
   updateField as updateLeadField,
@@ -69,9 +70,46 @@ function DrawerHeader({
     console.log('click', e);
   };
 
+  const dispatch = useAppDispatch();
+
+  const [isDataUpdated, setDataUpdated] = useState(false);
+  const [isStatusUpdated, setStatusUpdated] = useState(false);
+  const [isOpenSettings, setOpenSettings] = useState(false);
+  const [isOpenTeamSupport, setOpenTeamSupport] = useState(false);
+  const [isOpenUsers, setOpenUsers] = useState(false);
+  // const [statusType, setStatusType] = useState(featureData?.status);
+  const [isChangeStatus, setChangeStatus] = useState(false);
+  const [isOpenArchiveModal, setOpenArchiveModal] = useState(false);
+  const [isOpenReassignModal, setOpenReassignModal] = useState(false);
+  const [reassignUserId, setReassignUserId] = useState(0);
+  const [archieveReason, setArchiveReason] = useState('');
+  const [reassignReason, setReassignReason] = useState('');
+  const [showUsers, setShowUsers] = useState(false);
+  const [isPostCDTypeAction, setPostCDTypeAction] = useState('');
+
+  const {
+    users,
+    isLoading: isLoadingUsers,
+    isFetchingUsers,
+  } = useUsers(isOpenSettings || isOpenUsers || isOpenTeamSupport);
+  const { update: updateUser, isLoading: isLoadingUpdateUser } =
+    useUpdateUser();
+  const { orderPostCD, updatedOrderPostCDData, isLoadingPostCD } =
+    useOrderPostCD();
+
+  const { onSaveFeature, isLoading, updatedOrderData, updatedQuoteData } =
+    useUpdateFeatureData({
+      keyValue: '',
+      feature,
+      field: 'status',
+      isDataUpdated,
+      setDataUpdated,
+    });
+
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
   const orderData = useAppSelector(getOrderData);
+  const customerData = useAppSelector(getCustomerData);
 
   const {
     orderReassignUser,
@@ -135,45 +173,13 @@ function DrawerHeader({
       isLoadingArchive = isLoadingArchive1;
       isSuccessArchive = isSuccessArchive1;
       break;
-    default:
+    case 'customer':
+      featureData = customerData;
+      console.log(feature);
       break;
+    default:
+      throw new Error(`There is no such '${feature}' type in DrawerHeader.tsx`);
   }
-
-  const dispatch = useAppDispatch();
-
-  const [isDataUpdated, setDataUpdated] = useState(false);
-  const [isStatusUpdated, setStatusUpdated] = useState(false);
-  const [isOpenSettings, setOpenSettings] = useState(false);
-  const [isOpenTeamSupport, setOpenTeamSupport] = useState(false);
-  const [isOpenUsers, setOpenUsers] = useState(false);
-  // const [statusType, setStatusType] = useState(featureData?.status);
-  const [isChangeStatus, setChangeStatus] = useState(false);
-  const [isOpenArchiveModal, setOpenArchiveModal] = useState(false);
-  const [isOpenReassignModal, setOpenReassignModal] = useState(false);
-  const [reassignUserId, setReassignUserId] = useState(0);
-  const [archieveReason, setArchiveReason] = useState('');
-  const [reassignReason, setReassignReason] = useState('');
-  const [showUsers, setShowUsers] = useState(false);
-  const [isPostCDTypeAction, setPostCDTypeAction] = useState('');
-
-  const {
-    users,
-    isLoading: isLoadingUsers,
-    isFetchingUsers,
-  } = useUsers(isOpenSettings || isOpenUsers || isOpenTeamSupport);
-  const { update: updateUser, isLoading: isLoadingUpdateUser } =
-    useUpdateUser();
-  const { orderPostCD, updatedOrderPostCDData, isLoadingPostCD } =
-    useOrderPostCD();
-
-  const { onSaveFeature, isLoading, updatedOrderData, updatedQuoteData } =
-    useUpdateFeatureData({
-      keyValue: '',
-      feature,
-      field: 'status',
-      isDataUpdated,
-      setDataUpdated,
-    });
 
   const handleArchive = () => {
     switch (feature) {
@@ -239,14 +245,12 @@ function DrawerHeader({
     if (isStatusUpdated) {
       onSaveFeature();
       setStatusUpdated(false);
-      console.log('onSaveFeature QQ');
     }
   }, [isStatusUpdated, onSaveFeature]);
 
   useEffect(() => {
     if (!isLoading && updatedQuoteData) {
       const value = updatedQuoteData?.status;
-      console.log('up Status', value);
       if (value) {
         searchParams.set('status', value);
         setSearchParams(searchParams);
@@ -274,6 +278,7 @@ function DrawerHeader({
     }
   }, [isLoadingPostCD, updatedOrderPostCDData]);
 
+  // ORDER STATUS
   useEffect(() => {
     if (!isLoading && updatedOrderData) {
       const updatedOrderStatus = updatedOrderData?.status;
@@ -300,7 +305,6 @@ function DrawerHeader({
 
   useEffect(() => {
     if (isChangeStatus && status && updatedOrderPostCDData?.status !== status) {
-      console.log('closeDrawer 1');
       closeDrawer();
       setChangeStatus(false);
     }
@@ -316,11 +320,13 @@ function DrawerHeader({
 
   // PREV-NEXT functions
   const handlePrevElement = () => {
+    if (feature === 'customer') return;
     onChangeInnerCollapse([]);
     const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(previousLeadGuid);
   };
   const handleNextElement = () => {
+    if (feature === 'customer') return;
     onChangeInnerCollapse([]);
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(nextLeadId);
@@ -630,7 +636,12 @@ function DrawerHeader({
               <button
                 title="prev-element"
                 className="control__item control__item_up-arrow"
-                disabled={loadingItem || isLoading || dataSource?.length === 1}
+                disabled={
+                  loadingItem ||
+                  isLoading ||
+                  dataSource?.length === 1 ||
+                  feature === 'customer' // todo, remove
+                }
                 onClick={handlePrevElement}
               >
                 <img src="./img/drawer/up-arrow.svg" alt="" />
@@ -638,7 +649,12 @@ function DrawerHeader({
               <button
                 title="next-element"
                 className="control__item control__item_down-arrow"
-                disabled={loadingItem || isLoading || dataSource?.length === 1}
+                disabled={
+                  loadingItem ||
+                  isLoading ||
+                  dataSource?.length === 1 ||
+                  feature === 'customer' // todo, remove
+                }
                 onClick={handleNextElement}
               >
                 <img src="./img/drawer/down-arrow.svg" alt="" />
@@ -668,7 +684,9 @@ function DrawerHeader({
                       : 'hidden',
                 }}
               >
-                {featureData.customerName || '-'}
+                {feature === 'customer'
+                  ? featureData.name
+                  : featureData.customerName || '-'}
               </div>
             </div>
             <div className="drawer-header__id id_2 d-none">
@@ -678,7 +696,7 @@ function DrawerHeader({
         </div>
         <div className="drawer-header__right">
           <div className="drawer-header__actions">
-            {feature === 'quote' && (
+            {['quote', 'customer'].includes(feature) && (
               <div className="drawer-header__btnitem">
                 <Dropdown
                   menu={{

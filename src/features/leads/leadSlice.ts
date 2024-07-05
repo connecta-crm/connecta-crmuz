@@ -58,7 +58,8 @@ export const setNestedObjectValue = (
   value:
     | LeadData[keyof (LeadData | Source | Customer)]
     | QuoteData[keyof (QuoteData | Source | Customer)]
-    | OrderData[keyof (OrderData | Source | Customer)],
+    | OrderData[keyof (OrderData | Source | Customer)]
+    | CustomerData[keyof (CustomerData | Source | Customer)],
 ) => {
   if (typeof path === 'string') {
     const keys = path.split('.');

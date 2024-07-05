@@ -122,9 +122,9 @@ export const getMenuData: MenuData[] = [
     ],
   },
   {
-    title: 'Customer',
+    title: 'Customers',
     key: '__customer',
-    path: '/customer',
+    path: '/customers',
     icon: sixthImg,
     iconActive: sixthImgActive,
     component: lazyLoad(() => import('../../pages/Customers')),

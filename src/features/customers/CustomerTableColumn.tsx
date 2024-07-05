@@ -5,7 +5,7 @@ export const CustomerTableColumn = [
     title: 'Customer',
     dataIndex: 'name',
     render: (item: string, row: CustomerDataType) => (
-      <div className="font-bold" style={{ color: '#086ed6' }}>
+      <div className="font-bold table__id" style={{ color: '#086ed6' }}>
         {item} {row.lastName}
       </div>
     ),

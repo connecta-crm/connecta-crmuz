@@ -23,7 +23,7 @@ const rowSelection = {
 
 export type TableProps = {
   loadingList: boolean;
-  guid: string | null;
+  guid: string | number | null;
   count: number;
   onOpenModal: (a: boolean) => void; // todo
 } & DrawerProps;
@@ -35,12 +35,17 @@ function CustomerTable({
   loadingItem,
   count,
   onOpenModal,
+  onOpenDrawer,
 }: TableProps) {
   return (
     <>
       <div className="dt-header">
         <TableHeaderActions onOpenModal={onOpenModal} pageName="customer" />
-        <TableHeaderFilters count={count} sumPrice={undefined} />
+        <TableHeaderFilters
+          count={count}
+          sumPrice={undefined}
+          sourceType="customer"
+        />
       </div>
       <div className="customers-table">
         <div className="table__container">
@@ -50,11 +55,12 @@ function CustomerTable({
             columns={CustomerTableColumn}
             dataSource={customers as unknown as CustomerDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
-            onRow={() => ({
+            pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
+            onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;
                 const element = target.className;
-                element == 'table__id';
+                element.includes('table__id') && onOpenDrawer?.(data.id);
               },
             })}
           />

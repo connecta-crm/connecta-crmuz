@@ -397,7 +397,7 @@ function DrawerFeatureHeader({
               size="small"
               disabled={isLoading}
             >
-              Cancelp
+              Cancel
             </Button>
             <Button
               className="ml-10"

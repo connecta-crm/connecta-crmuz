@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from '../features/authentication/authSlice';
+import customerReducer from '../features/customers/customerSlice';
 import vehicleReducer from '../features/drawer/vehicleSlice';
 import leadReducer from '../features/leads/leadSlice';
 import orderReducer from '../features/orders/orderSlice';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   quote: quoteReducer,
   quoteConvert: quoteConvertReducer,
   order: orderReducer,
+  customer: customerReducer,
 });
 
 const persistConfig = {

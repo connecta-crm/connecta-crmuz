@@ -42,25 +42,29 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
       children: <DrawerFeatureDetailsContent sourceType={sourceType} />,
       className: 'feature-drawer__item',
     },
-    {
-      key: '200',
-      label: (
-        <DrawerFeatureHeader
-          keyValue={'200'}
-          sourceType={sourceType}
-          label="Person"
-          value="person"
-        />
-      ),
-      children: isEditPerson ? (
-        <div className="box-header-inner box-header-inner-single">
-          <FeatPersonInner sourceType={sourceType} />
-        </div>
-      ) : (
-        <DrawerFeaturePersonContent sourceType={sourceType} />
-      ),
-      className: sourceType === 'order' ? 'feature-drawer__item' : '',
-    },
+    ...(sourceType !== 'customer'
+      ? [
+          {
+            key: '200',
+            label: (
+              <DrawerFeatureHeader
+                keyValue={'200'}
+                sourceType={sourceType}
+                label="Person"
+                value="person"
+              />
+            ),
+            children: isEditPerson ? (
+              <div className="box-header-inner box-header-inner-single">
+                <FeatPersonInner sourceType={sourceType} />
+              </div>
+            ) : (
+              <DrawerFeaturePersonContent sourceType={sourceType} />
+            ),
+            className: sourceType === 'order' ? 'feature-drawer__item' : '',
+          },
+        ]
+      : []),
     {
       key: '400',
       label: (
@@ -142,7 +146,7 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
         items={featureItems}
       />
       <br />
-      {sourceType !== 'order' && (
+      {sourceType !== 'order' && sourceType !== 'customer' && (
         <div className="px-10 drawer__feature-notes">
           <DrawerFeatureHeader
             keyValue={'300'}

@@ -146,6 +146,7 @@ export function useUpdateFeatureData({
     extraUser: null,
     ...(data && isOrderData(data)
       ? {
+          dateEstShip: data.dates?.dateEstShip,
           dateEstPu: data.dates?.dateEstPu,
           dateEstDel: data.dates?.dateEstDel,
           dateDispatched: data.dates?.dateDispatched,

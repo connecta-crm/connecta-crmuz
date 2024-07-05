@@ -36,6 +36,19 @@ class Customers {
     }
   }
 
+  // GET: /customers/detail/:id/
+  async getCustomer(id: number | string | null) {
+    try {
+      const { data } = await this.$api.get(`/customers/detail/${id}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // POST: /quote/:guid/create/
   async createCustomer({ name, email, phone, lastName }: CreateCustomerParams) {
     try {

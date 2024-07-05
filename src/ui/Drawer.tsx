@@ -15,7 +15,8 @@ export type SourceType =
   | 'order'
   | 'quote/convert'
   | 'task'
-  | 'insight';
+  | 'insight'
+  | 'customer';
 
 export type DrawerSourceType = {
   sourceType: SourceType;
@@ -24,7 +25,7 @@ export type DrawerSourceType = {
 export type DrawerProps = {
   dataSource: DataSourceType;
   loadingItem: boolean;
-  onOpenDrawer?: (guid: string) => void;
+  onOpenDrawer?: (guid: string | number) => void;
   onOpenDispatch?: () => void;
   onOpenDirectDispatch?: () => void;
 };
@@ -41,7 +42,7 @@ function DrawerApp({
   onOpenConvert,
 }: DrawerProps & {
   sourceType: SourceType;
-  isLoadingHistory: boolean;
+  isLoadingHistory?: boolean;
   onOpenHistory: (id: number) => void;
   onOpenConvert?: () => void;
 }) {
