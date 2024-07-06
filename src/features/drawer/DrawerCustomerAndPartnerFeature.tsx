@@ -6,7 +6,6 @@ import { DrawerSourceType } from '../../ui/Drawer';
 import { getOrderData } from '../orders/orderSlice';
 import DrawerArrowIcon from './DrawerArrowIcon';
 import DrawerFeatureCarrierInfoContent from './DrawerFeatureCarrierInfoContent';
-import DrawerFeatureCustomerDetailsContent from './DrawerFeatureCustomerDetailsContent';
 import DrawerFeatureDateContent from './DrawerFeatureDateContent';
 import DrawerFeatureDetailsContent from './DrawerFeatureDetailsContent';
 import DrawerFeatureHeader from './DrawerFeatureHeader';
@@ -15,16 +14,14 @@ import DrawerFeaturePaymentContent from './DrawerFeaturePaymentContent';
 import DrawerFeaturePersonContent from './DrawerFeaturePersonContent';
 import FeatCarrierInfoInner from './feature-date/FeatCarrierInfoInner';
 import FeatDateInner from './feature-date/FeatDateInner';
-import FeatCustomerDetailsInner from './feature-details/FeatCustomerDetailsInner';
 import FeatPersonInner from './feature-details/FeatPersonInner';
 
-function DrawerLeft({ sourceType }: DrawerSourceType) {
+function DrawerCustomerAndPartnerLeft({ sourceType }: DrawerSourceType) {
   const {
     isEditPerson,
     isEditNotes,
     isEditDate,
     isEditCarrierInfo,
-    isEditCustomerDetails,
     openMainPanels,
     onChangeMainCollapse,
   } = useDrawerFeature();
@@ -32,44 +29,19 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
   const orderData = useAppSelector(getOrderData);
 
   const items: CollapseProps['items'] = [
-    ...(sourceType !== 'customer'
-      ? [
-          {
-            key: '100',
-            label: (
-              <DrawerFeatureHeader
-                keyValue={'100'}
-                sourceType={sourceType}
-                label="Details"
-                value="detail"
-              />
-            ),
-            children: <DrawerFeatureDetailsContent sourceType={sourceType} />,
-            className: 'feature-drawer__item',
-          },
-        ]
-      : [
-          // ** CUSTOMER FEATURES **
-          {
-            key: '100',
-            label: (
-              <DrawerFeatureHeader
-                keyValue={'100'}
-                sourceType={sourceType}
-                label="Details"
-                value="customer-detail"
-              />
-            ),
-            children: isEditCustomerDetails ? (
-              <div className="box-header-inner box-header-inner-single">
-                <FeatCustomerDetailsInner sourceType={sourceType} />
-              </div>
-            ) : (
-              <DrawerFeatureCustomerDetailsContent sourceType={sourceType} />
-            ),
-            className: 'feature-drawer__item',
-          },
-        ]),
+    {
+      key: '100',
+      label: (
+        <DrawerFeatureHeader
+          keyValue={'100'}
+          sourceType={sourceType}
+          label="Details"
+          value="detail"
+        />
+      ),
+      children: <DrawerFeatureDetailsContent sourceType={sourceType} />,
+      className: 'feature-drawer__item',
+    },
     ...(sourceType !== 'customer'
       ? [
           {
@@ -192,4 +164,4 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
   );
 }
 
-export default DrawerLeft;
+export default DrawerCustomerAndPartnerLeft;

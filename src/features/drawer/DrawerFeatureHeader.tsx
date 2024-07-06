@@ -5,6 +5,7 @@ import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { LeadData, OrderData, QuoteData } from '../../models';
 import { useAppDispatch } from '../../store/hooks';
 import { SourceType } from '../../ui/Drawer';
+import { resetToInitialData as resetToInitialCustomerData } from '../customers/customerSlice';
 import { resetToInitialData as resetToInitialLeadData } from '../leads/leadSlice';
 import { useUpdateFeatureData } from '../leads/useUpdateFeatureData';
 import { resetToInitialData as resetToInitialOrderData } from '../orders/orderSlice';
@@ -16,7 +17,8 @@ type ValueType =
   | 'payment'
   | 'date'
   | 'notes'
-  | 'carrier-company';
+  | 'carrier-company'
+  | 'customer-detail';
 
 type DrawerFeatureHeaderProps = {
   keyValue: string;
@@ -40,12 +42,14 @@ function DrawerFeatureHeader({
     isEditPayment,
     isEditDate,
     isEditCarrierInfo,
+    isEditCustomerDetails,
     openInnerPanels,
     onEditPerson,
     onEditNotes,
     onEditPayment,
     onEditDate,
     onEditCarrierInfo,
+    onEditCustomerDetails,
     onChangeMainCollapse,
     onChangeInnerCollapse,
     onOpenCDPrice,
@@ -91,6 +95,7 @@ function DrawerFeatureHeader({
 
   const handleCancelDetails = () => {
     onEditDetails(false);
+    onEditCustomerDetails(false);
     onChangeInnerCollapse([]);
     switch (feature) {
       case 'lead':
@@ -102,8 +107,21 @@ function DrawerFeatureHeader({
       case 'order':
         dispatch(resetToInitialOrderData());
         break;
+      case 'customer':
+        dispatch(resetToInitialCustomerData());
+        break;
       default:
         return null;
+    }
+  };
+
+  // * CUSTOMER DETAIL (MAIN COLLAPSE)
+
+  const handleEditCustomerDetail = (keyValue: string) => {
+    // setFieldType('customer');
+    onEditCustomerDetails(true);
+    if (!openMainPanels.includes(keyValue)) {
+      onChangeMainCollapse(keyValue);
     }
   };
 
@@ -166,6 +184,7 @@ function DrawerFeatureHeader({
     updatedLeadData,
     updatedQuoteData,
     updatedOrderData,
+    updatedCustomerData,
   } = useUpdateFeatureData({
     keyValue,
     feature,
@@ -192,7 +211,10 @@ function DrawerFeatureHeader({
 
   useEffect(() => {
     if (
-      (updatedLeadData || updatedQuoteData || updatedOrderData) &&
+      (updatedLeadData ||
+        updatedQuoteData ||
+        updatedOrderData ||
+        updatedCustomerData) &&
       isDataUpdated &&
       !isLoading &&
       !error
@@ -201,6 +223,7 @@ function DrawerFeatureHeader({
       onEditDate(false);
       onEditNotes(false);
       onEditCarrierInfo(false);
+      onEditCustomerDetails(false);
       if (isUpdatedBulkEdit) {
         onEditDetails(false);
         onChangeInnerCollapse([]);
@@ -216,6 +239,7 @@ function DrawerFeatureHeader({
     updatedLeadData,
     updatedQuoteData,
     updatedOrderData,
+    updatedCustomerData,
     isUpdatedBulkEdit,
   ]);
 
@@ -271,6 +295,54 @@ function DrawerFeatureHeader({
               className="box-header__edit ml-10"
             >
               <img src="./img/drawer/pen.svg" alt="" />
+            </div>
+          </>
+        );
+        break;
+      case 'customer-detail':
+        element = isEditCustomerDetails ? (
+          <div className="detail__btns d-flex align-center pr-0">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelDetails();
+              }}
+              block
+              size="small"
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="ml-10"
+              type="primary"
+              size="small"
+              loading={isLoading}
+              disabled={isLoading}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSaveDetails();
+              }}
+            >
+              Save
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditCustomerDetail(keyValue);
+              }}
+              className="box-header__edit ml-10"
+            >
+              <img src="./img/drawer/pen.svg" alt="" />
+            </div>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="box-header__more ml-10"
+            >
+              <img src="./img/drawer/more-2.svg" alt="" />
             </div>
           </>
         );

@@ -92,7 +92,7 @@ function FeatSourceInner({ feature, keyValue }: FeatSourceInnerProps) {
         <Select
           size="small"
           filterOption={false}
-          placeholder="Search city"
+          placeholder="Search provider"
           defaultValue={featureData.source?.name || 'unknown'}
           value={featureData.source?.name || 'unknown'}
           onChange={handleChange}

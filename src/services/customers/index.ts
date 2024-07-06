@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { CustomersParamsType } from '../../features/customers/useCostumers';
 import { CreateCustomerParams } from '../../features/customers/useCreateCustomer';
+import { CustomerEditParamsType } from '../../features/customers/useCustomerEdit';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -59,6 +60,21 @@ class Customers {
         lastName,
       });
       console.log(data);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // PUT: //customers/update/{id}/
+  async editCustomer({ id, updateCustomerModel }: CustomerEditParamsType) {
+    try {
+      const { data } = await this.$api.put(`/customers/update/${id}/`, {
+        ...updateCustomerModel,
+      });
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

@@ -13,6 +13,8 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { SourceType } from '../../ui/Drawer';
 import { getUser } from '../authentication/authSlice';
+import { getCustomerData, setCustomerData } from '../customers/customerSlice';
+import { useCustomerEdit } from '../customers/useCustomerEdit';
 import {
   getOrderData,
   resetField as resetOrderField,
@@ -61,6 +63,7 @@ export function useUpdateFeatureData({
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
   const orderData = useAppSelector(getOrderData);
+  const customerData = useAppSelector(getCustomerData);
 
   // * LEAD
   const {
@@ -103,6 +106,14 @@ export function useUpdateFeatureData({
     isLoading: isLoadingOrderVehicleEdit,
   } = useOrderVehicleEdit();
 
+  // * CUSTOMER
+  const {
+    editCustomer,
+    updatedCustomerData,
+    isLoading: isLoadingCustomer,
+    error: customerError,
+  } = useCustomerEdit();
+
   let data, isLoading, error, isLoadingVehicleEdit, updatedVehicleData: unknown;
 
   switch (feature) {
@@ -127,6 +138,12 @@ export function useUpdateFeatureData({
       updatedVehicleData = updatedOrderVehicleData;
       isLoadingVehicleEdit = isLoadingOrderVehicleEdit;
       break;
+    case 'customer':
+      data = customerData;
+      error = customerError;
+      isLoading = isLoadingCustomer;
+      isLoadingVehicleEdit = false;
+      break;
     default:
       data = null;
       isLoading = false;
@@ -138,12 +155,21 @@ export function useUpdateFeatureData({
 
   const updateModel = {
     ...data,
-    customer: data?.customer?.id,
-    source: data?.source?.id,
-    origin: data?.origin?.id,
-    destination: data?.destination?.id,
-    user: data?.user?.id || user?.id,
-    extraUser: null,
+
+    // ...(data && ['customer'].includes(feature) ?
+    // todo in case if the customer has additional features or smth like
+    // {} :{}),
+
+    ...(data && ['lead', 'quote', 'order'].includes(feature)
+      ? {
+          customer: data?.customer?.id,
+          source: data?.source?.id,
+          origin: data?.origin?.id,
+          destination: data?.destination?.id,
+          user: data?.user?.id || user?.id,
+          extraUser: null,
+        }
+      : {}),
     ...(data && isOrderData(data)
       ? {
           dateEstShip: data.dates?.dateEstShip,
@@ -231,6 +257,10 @@ export function useUpdateFeatureData({
         }
         setDataUpdated(true);
         break;
+      case 'customer':
+        editCustomer({ id: data.id, updateCustomerModel: updateModel });
+        setDataUpdated(true);
+        break;
       default:
         throw new Error('Invalid feature type');
     }
@@ -262,6 +292,7 @@ export function useUpdateFeatureData({
       (updatedVehicleData ||
         updatedLeadData ||
         updatedQuoteData ||
+        updatedCustomerData ||
         updatedOrderData)
     ) {
       let updatedData, merged;
@@ -281,6 +312,11 @@ export function useUpdateFeatureData({
           updatedData = updatedOrderData;
           merged = merge({}, data, updatedData);
           dispatch(setOrderData(merged));
+          break;
+        case 'customer':
+          updatedData = updatedCustomerData;
+          merged = merge({}, data, updatedData);
+          dispatch(setCustomerData(merged));
           break;
         default:
           throw new Error('Invalid feature type');
@@ -305,6 +341,7 @@ export function useUpdateFeatureData({
     updatedLeadData,
     updatedQuoteData,
     updatedOrderData,
+    updatedCustomerData,
   ]);
 
   return {
@@ -316,5 +353,6 @@ export function useUpdateFeatureData({
     updatedLeadData,
     updatedQuoteData,
     updatedOrderData,
+    updatedCustomerData,
   };
 }

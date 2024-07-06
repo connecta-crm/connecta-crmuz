@@ -3,6 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import { useState } from 'react';
 import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import {
+  CustomerData,
   LeadData,
   LeadVehicle,
   OrderData,
@@ -12,6 +13,7 @@ import {
 } from '../../../models';
 import { useAppSelector } from '../../../store/hooks';
 import { SourceType } from '../../../ui/Drawer';
+import { getCustomerData } from '../../customers/customerSlice';
 import { getLeadData } from '../../leads/leadSlice';
 import {
   isLeadData,
@@ -34,7 +36,11 @@ import { useQuoteVehicleDelete } from '../../quotes/useQuoteVehicleDelete';
 export type FeatItemOpenProps = {
   keyValue: string;
   feature: SourceType;
-  featureItemField: keyof LeadData | keyof QuoteData | keyof OrderData;
+  featureItemField:
+    | keyof LeadData
+    | keyof QuoteData
+    | keyof OrderData
+    | keyof CustomerData;
   addRemoveBtn?: 'add' | 'remove' | 'none';
   featureItemData?: LeadVehicle | QuoteVehicle | OrderVehicle;
   classNames?: string;
@@ -51,10 +57,12 @@ export function useFeatItemOpenData(
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
   const orderData = useAppSelector(getOrderData);
+  const customerData = useAppSelector(getCustomerData);
 
   const updateLeadData = useUpdateFeatureData(params);
   const updateQuoteData = useUpdateFeatureData(params);
   const updateOrderData = useUpdateFeatureData(params);
+  const updateCustomerData = useUpdateFeatureData(params);
 
   const { createLeadVehicle } = useLeadVehicleCreate();
   const { createQuoteVehicle } = useQuoteVehicleCreate();
@@ -90,6 +98,10 @@ export function useFeatItemOpenData(
       createVehicle = createOrderVehicle;
       deleteVehicle = deleteOrderVehicle;
       isLoadingVehicleDelete = isLoadingDeleteOrderVehicle;
+      break;
+    case 'customer':
+      data = customerData;
+      updateData = updateCustomerData;
       break;
     default:
       throw new Error('Invalid type');

@@ -679,7 +679,8 @@ function DrawerHeader({
                 className="drawer-header__username"
                 style={{
                   overflow:
-                    isFullScreen || feature === 'lead' || feature === 'order'
+                    isFullScreen ||
+                    ['lead', 'order', 'customer'].includes(feature)
                       ? 'initial'
                       : 'hidden',
                 }}

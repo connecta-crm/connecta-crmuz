@@ -9,7 +9,11 @@ function Drawer({ sourceType }: DrawerSourceType) {
         <DrawerFeature sourceType={sourceType} />
       </div>
       <div className="drawer__main main-drawer p-20">
-        {sourceType !== 'customer' && <DrawerMain sourceType={sourceType} />}
+        {sourceType !== 'customer' ? (
+          <DrawerMain sourceType={sourceType} />
+        ) : (
+          <h1 className="text-center mt-20">This content is in test mode ❗️</h1>
+        )}
       </div>
     </div>
   );
