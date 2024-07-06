@@ -29,5 +29,6 @@ export interface FilterTableDataType  {
     customer: number,
     source: number,
     origin: number,
-    destination: number
+    destination: number,
+    user:string
   }

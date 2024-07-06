@@ -1,9 +1,11 @@
+import { Radio } from 'antd';
 import { FilterTableDataType } from './FilterTableColumnType';
 export const FilterTableColumns = [
   {
     title: 'Id',
     dataIndex: 'id',
-    render: (text: string) => <a className="table__id">#100{text}</a>,
+    render: (text: string) => <span>#100{text}</span>,
+    // render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
     title: 'User',
@@ -25,11 +27,27 @@ export const FilterTableColumns = [
   {
     title: 'Phone',
     dataIndex: 'customerPhone',
-    render: (text: string) => (
-      <div className="table__phone">
-        <img src="./img/dt_table/call.svg" alt="" />
-        <span>{text}</span>
-      </div>
+    render: (text: string, record: FilterTableDataType) => (
+      <Radio.Button
+        value={record.id}
+        onClick={() => {
+          navigator.clipboard.writeText(text);
+        }}
+      >
+        <a
+          className="table__phone "
+          href={'tel:' + text}
+          style={{ display: 'inline' }}
+        >
+          <img
+            src="./img/dt_table/call.svg"
+            alt=""
+            style={{ marginTop: '9px' }}
+            className="mr-5"
+          />
+        </a>
+        {text}
+      </Radio.Button>
     ),
   },
   {
@@ -38,32 +56,36 @@ export const FilterTableColumns = [
   },
   {
     title: 'Vehicle',
-    dataIndex: 'quoteVehicles',
-    render: (data: { vehicleName: string }[], record: FilterTableDataType) => (
-      <div className="table__vehicle">
-        {
-          <div className="table__vehicle__imgs">
-            {record.condition == 'rols' && (
-              <img src="./img/dt_table/engine.svg" alt="engine" />
-            )}
-            {record.trailerType === 'open' &&
-              data.map((i, index) => (
-                <img
-                  key={index}
-                  src="./img/dt_table/trailer-red.svg"
-                  alt={i + 'trailer-red'}
-                />
-              ))}
-          </div>
-        }
-        <div className="table__vehicle__text">
-          {data.map((item, index) => (
-            <div key={index}>{item.vehicleName}</div>
-          ))}
-        </div>
-      </div>
-    ),
+    dataIndex: 'vehicles',
   },
+  // {
+  //   title: 'Vehicle',
+  //   dataIndex: 'quoteVehicles',
+  //   render: (data: { vehicleName: string }[], record: FilterTableDataType) => (
+  //     <div className="table__vehicle">
+  //       {
+  //         <div className="table__vehicle__imgs">
+  //           {record.condition == 'rols' && (
+  //             <img src="./img/dt_table/engine.svg" alt="engine" />
+  //           )}
+  //           {record.trailerType === 'open' &&
+  //             data.map((i, index) => (
+  //               <img
+  //                 key={index}
+  //                 src="./img/dt_table/trailer-red.svg"
+  //                 alt={i + 'trailer-red'}
+  //               />
+  //             ))}
+  //         </div>
+  //       }
+  //       <div className="table__vehicle__text">
+  //         {data.map((item, index) => (
+  //           <div key={index}>{item.vehicleName}</div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   ),
+  // },
   {
     title: 'Origin',
     dataIndex: 'originName',

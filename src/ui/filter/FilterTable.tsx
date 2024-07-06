@@ -1,5 +1,4 @@
-import { Table } from 'antd';
-import { useQuotes } from '../../features/quotes/useQuotes';
+import { Radio, Table } from 'antd';
 import { FilterTableColumns } from './FilterTableColumn';
 import { FilterTableDataType } from './FilterTableColumnType';
 const rowSelection = {
@@ -17,20 +16,26 @@ const rowSelection = {
     name: record.customerName,
   }),
 };
-
-function FilterTable() {
-  const { quotes, isLoadingQuotes } = useQuotes();
+function FilterTable({
+  dataSource,
+  isLoading,
+}: {
+  dataSource: FilterTableDataType[];
+  isLoading: boolean;
+}) {
   return (
     <>
       <div className="table__container">
+      <Radio.Group style={{ width: '100%' }}>
         <Table
           rowKey="id"
           rowSelection={{ ...rowSelection }}
           columns={FilterTableColumns}
-          dataSource={quotes}
-          pagination={{ pageSize: quotes?.length }}
-          loading={isLoadingQuotes}
+          dataSource={dataSource}
+          loading={isLoading}
+          pagination={{ pageSize: 10 }}
         />
+           </Radio.Group>
       </div>
     </>
   );
