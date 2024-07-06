@@ -134,7 +134,7 @@ export default function LeadModal({
                   style={{ width: '100%' }}
                   preserve={false}
                 >
-                  <Input  style={{ width: '100%' }} />
+                  <Input style={{ width: '100%' }} />
                 </Form.Item>
               </div>
             </UpCollapse>
