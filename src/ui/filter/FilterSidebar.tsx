@@ -49,17 +49,17 @@ export default function FilterSidebar({
           </a>
         </li>
         <li className="filter__sidebar__item">
-          <a href="#" aria-disabled>
+          <a href="#" disabled>
             Contacts
           </a>
         </li>
         <li className="filter__sidebar__item">
-          <a aria-disabled href="#">
+          <a disabled href="#">
             Tasks
           </a>
         </li>
         <li className="filter__sidebar__item">
-          <a aria-disabled href="#">
+          <a disabled href="#">
             Carriers
           </a>
         </li>
