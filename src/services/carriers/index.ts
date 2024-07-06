@@ -13,10 +13,10 @@ class Carriers {
     this.$api = apiClient;
   }
 
-  async getCarriers({ status, name }: CarriersParamsType) {
+  async getCarriers({ name, limit, offset, status, q }: CarriersParamsType) {
     try {
       const { data } = await this.$api.get('/carriers/', {
-        params: { status, name },
+        params: { name, limit, offset, status, q },
       });
       return data;
     } catch (error) {

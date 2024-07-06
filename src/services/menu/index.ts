@@ -12,6 +12,8 @@ import fifthImg from '/img/sidebar/05.svg';
 import fifthImgActive from '/img/sidebar/05_active.svg';
 import sixthImg from '/img/sidebar/06.svg';
 import sixthImgActive from '/img/sidebar/06_active.svg';
+import sevenImg from '/img/sidebar/07.svg';
+import sevenImgActive from '/img/sidebar/07_active.svg';
 import eightImg from '/img/sidebar/08.svg';
 import eightImgActive from '/img/sidebar/08_active.svg';
 import ninthImg from '/img/sidebar/09.svg';
@@ -135,6 +137,22 @@ export const getMenuData: MenuData[] = [
       { id: 27, value: 'inactive', title: 'Inactive' },
       { id: 28, value: 'favorite', title: 'Favorite' },
       { id: 29, value: 'blocked', title: 'Blocked' },
+    ],
+  },
+  {
+    title: 'Carriers',
+    key: '__carrier',
+    path: '/carriers',
+    icon: sevenImg,
+    iconActive: sevenImgActive,
+    component: lazyLoad(() => import('../../pages/Carriers')),
+    roles: ['admin', 'user'],
+    status: [
+      { id: 30, value: 'all', title: 'Partners' },
+      { id: 31, value: 'active', title: 'Active' },
+      { id: 32, value: 'inactive', title: 'Inactive' },
+      { id: 33, value: 'favorite', title: 'Favorite' },
+      { id: 34, value: 'blocked', title: 'Blocked' },
     ],
   },
   {

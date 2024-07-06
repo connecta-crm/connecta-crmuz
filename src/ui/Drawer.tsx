@@ -16,7 +16,8 @@ export type SourceType =
   | 'quote/convert'
   | 'task'
   | 'insight'
-  | 'customer';
+  | 'customer'
+  | 'carrier';
 
 export type DrawerSourceType = {
   sourceType: SourceType;

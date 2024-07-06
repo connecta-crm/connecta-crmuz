@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-type StatusParamType = 'leads' | 'quote' | 'orders' | 'tasks' | 'all_customers';
+type StatusParamType = 'leads' | 'quote' | 'orders' | 'tasks' | 'all';
 
 export function useSetStatusParam(statusValue: StatusParamType) {
   const [searchParams, setSearchParams] = useSearchParams();
