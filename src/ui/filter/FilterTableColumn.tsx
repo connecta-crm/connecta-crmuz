@@ -52,40 +52,40 @@ export const FilterTableColumns = [
   },
   {
     title: 'Status',
-    dataIndex: 'status',
-  },
-  {
-    title: 'Vehicle',
-    dataIndex: 'vehicles',
+    dataIndex: 'statusType',
   },
   // {
   //   title: 'Vehicle',
-  //   dataIndex: 'quoteVehicles',
-  //   render: (data: { vehicleName: string }[], record: FilterTableDataType) => (
-  //     <div className="table__vehicle">
-  //       {
-  //         <div className="table__vehicle__imgs">
-  //           {record.condition == 'rols' && (
-  //             <img src="./img/dt_table/engine.svg" alt="engine" />
-  //           )}
-  //           {record.trailerType === 'open' &&
-  //             data.map((i, index) => (
-  //               <img
-  //                 key={index}
-  //                 src="./img/dt_table/trailer-red.svg"
-  //                 alt={i + 'trailer-red'}
-  //               />
-  //             ))}
-  //         </div>
-  //       }
-  //       <div className="table__vehicle__text">
-  //         {data.map((item, index) => (
-  //           <div key={index}>{item.vehicleName}</div>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   ),
+  //   dataIndex: 'vehicles',
   // },
+  {
+    title: 'Vehicle',
+    dataIndex: 'vehicles',
+    render: (data: { vehicleName: string }[], record: FilterTableDataType) => (
+      <div className="table__vehicle">
+        {
+          <div className="table__vehicle__imgs">
+            {record.condition == 'rols' && (
+              <img src="./img/dt_table/engine.svg" alt="engine" />
+            )}
+            {record.trailerType === 'open' &&
+              data.map((i, index) => (
+                <img
+                  key={index}
+                  src="./img/dt_table/trailer-red.svg"
+                  alt={i + 'trailer-red'}
+                />
+              ))}
+          </div>
+        }
+        <div className="table__vehicle__text">
+          {data.map((item, index) => (
+            <div key={index}>{item.vehicleName}</div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
   {
     title: 'Origin',
     dataIndex: 'originName',

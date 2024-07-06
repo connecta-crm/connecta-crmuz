@@ -43,7 +43,7 @@ export default function Pickup({
             showSearch
             value={cityValue?.name}
             optionFilterProp="children"
-            placeholder={'Search  make'}
+            placeholder={'Search  city'}
             style={{ width: '100%' }}
             loading={isLoading}
             filterOption={false}
@@ -94,7 +94,7 @@ export default function Pickup({
             showSearch
             value={cityValue?.zip}
             optionFilterProp="children"
-            placeholder={'Search  make'}
+            placeholder={'Search  zip'}
             style={{ width: '100%' }}
             loading={isLoading}
             defaultActiveFirstOption={false}

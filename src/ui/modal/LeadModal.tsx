@@ -30,10 +30,10 @@ export default function LeadModal({
 }) {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
-  const [trailerType, setTrailerType] = useState<string | null>('');
+  const [trailerType, setTrailerType] = useState<string | null>(null);
   const [origin, setOrigin] = useState<string | null>('');
   const [delivery, setDelivery] = useState<string | null>('');
-  const [source, setSource] = useState<string | null>('');
+  const [source, setSource] = useState<string | null>(null);
   const [personId, setPersonId] = useState<string | null>('');
   const [dateEstShip, setDateEstShip] = useState<string>('');
   const user = useAppSelector((item) => getUser(item));
@@ -109,9 +109,9 @@ export default function LeadModal({
               <Delivery setDelivery={setDelivery} />
               <FormControl title="Trailer type" img={trailer}>
                 <Select
-                  defaultValue=""
                   style={{ width: '100%' }}
                   onChange={(a) => setTrailerType(a)}
+                  placeholder="Select type"
                   options={[
                     { value: 'open', label: 'Open' },
                     { value: 'enclosed', label: 'Enclosed' },

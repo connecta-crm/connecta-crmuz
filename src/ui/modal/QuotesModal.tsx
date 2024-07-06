@@ -32,7 +32,7 @@ export default function QuotesModal({
 }) {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
-  const [trailerType, setTrailerType] = useState<string | null>('');
+  const [trailerType, setTrailerType] = useState<string | null>(null);
   const [origin, setOrigin] = useState<string | null>('');
   const [delivery, setDelivery] = useState<string | null>('');
   const [source, setSource] = useState<string | null>('');
@@ -111,7 +111,8 @@ export default function QuotesModal({
               <Delivery setDelivery={setDelivery} />
               <FormControl title="Trailer type" img={trailer}>
                 <Select
-                  defaultValue=""
+                  // defaultValue=""
+                    placeholder="Select type"
                   style={{ width: '100%' }}
                   onChange={(a) => setTrailerType(a)}
                   options={[

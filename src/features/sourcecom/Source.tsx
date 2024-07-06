@@ -7,18 +7,19 @@ import sourceImg from '/img/drawer/source.svg';
 export default function Source({
   setSource,
 }: {
-  setSource: (a: string) => void;
+  setSource: (a: string | null) => void;
 }) {
   const [enabled, setEnabled] = useState(false);
   const { sources, isFetching } = useSource(enabled);
   return (
     <FormControl title="Source" img={sourceImg}>
       <Select
-        defaultValue=""
+        // defaultValue=""
         style={{ width: '100%' }}
         loading={isFetching}
         onFocus={() => setEnabled(true)}
         onChange={(a) => setSource(a)}
+        placeholder="Select source"
         notFoundContent={isFetching ? <Spin size="small" /> : 'No data'}
         options={(sources || []).map((d: { id: number; name: string }) => ({
           value: d.id,
