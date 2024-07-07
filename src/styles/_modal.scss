@@ -144,12 +144,12 @@ $modal-border-color: #d1d1d1;
   &__col:first-child {
     border-right: 1px solid #d1d1d1;
     max-height: calc(100vh - 100px);
-      overflow-y: auto;
+    overflow-y: auto;
   }
   &__col:nth-child(2) {
     background: #eaeaea;
     max-height: calc(100vh - 100px);
-      overflow-y: auto;
+    overflow-y: auto;
   }
   .create__contact__actions {
     @include flexbox();
@@ -186,7 +186,8 @@ $modal-border-color: #d1d1d1;
 /* ==================================================================================================================*/
 
 .dispatch-modal,
-.customer-modal {
+.customer-modal,
+.carrier-modal {
   .form-label {
     font-weight: 600;
     font-size: 15px;
@@ -227,5 +228,22 @@ $modal-border-color: #d1d1d1;
   .ant-collapse-header {
     padding-top: 6px !important;
     padding-bottom: 6px !important;
+  }
+}
+.carrier-modal-collapse {
+  .ant-collapse-item {
+    .box-header__arrow-bold {
+      right: 0;
+    }
+  }
+}
+.carrier-modal {
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .detail-inner {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }

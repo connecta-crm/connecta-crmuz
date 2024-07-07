@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { useSetStatusParam } from '../../hooks/useSetStatusParam';
+import CarrierModal from './CarrierModal';
 import CarrierTable from './CarrierTable';
 import { useCarriers } from './useCarriers';
 
 function Carriers() {
   useSetStatusParam('all');
-  const [openCustomerModal, setOpenCustomerModal] = useState(false);
-
-  // const { openDrawer } = useDrawerFeature();
-  // const dispatch = useAppDispatch();
-  // const queryClient = useQueryClient();
+  const [openCarrierModal, setOpenCarrierModal] = useState(false);
 
   const { carriers, isLoading: isLoadingCarriers } = useCarriers(true, {});
 
@@ -24,22 +21,12 @@ function Carriers() {
         dataSource={carriers}
         loadingList={isLoadingCarriers}
         loadingItem={false}
-        onOpenModal={setOpenCustomerModal}
-        // onOpenDrawer={handleOpenDrawer}
+        onOpenModal={setOpenCarrierModal}
       />
-
-      {/* <CustomerModal
-        openModal={openCustomerModal}
-        onOpenModal={setOpenCustomerModal}
-      /> */}
-      {/* <DrawerApp
-        sourceType="customer"
-        dataSource={customers}
-        loadingItem={isLoadingCustomer}
-        // isLoadingHistory={isFetchingQuoteLogs} // todo
-        onOpenDrawer={handleOpenDrawer}
-        onOpenHistory={handleOpenHistoryModal}
-      /> */}
+      <CarrierModal
+        openModal={openCarrierModal}
+        onOpenModal={setOpenCarrierModal}
+      />
     </div>
   );
 }
