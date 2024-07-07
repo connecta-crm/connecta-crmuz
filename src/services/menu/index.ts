@@ -148,7 +148,7 @@ export const getMenuData: MenuData[] = [
     component: lazyLoad(() => import('../../pages/Carriers')),
     roles: ['admin', 'user'],
     status: [
-      { id: 30, value: 'all', title: 'Partners' },
+      { id: 30, value: '', title: 'Partners' },
       { id: 31, value: 'active', title: 'Active' },
       { id: 32, value: 'inactive', title: 'Inactive' },
       { id: 33, value: 'favorite', title: 'Favorite' },
