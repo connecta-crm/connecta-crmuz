@@ -66,6 +66,7 @@ $color-white: #ffffff;
 @import '_contract';
 @import '_pay';
 @import 'insights';
+@import 'dashboard';
 
 // base layout
 @import 'layout/header';
@@ -87,6 +88,9 @@ $color-white: #ffffff;
   background-color: $color3;
   padding: 12px 17px 4rem;
   overflow: scroll;
+  &.dashboard-page {
+    background-color: #f0f0f0;
+  }
 }
 .container {
   max-width: 120rem;

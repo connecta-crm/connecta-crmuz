@@ -92,7 +92,12 @@ function HeaderMenu({ search }: { search: string | undefined }) {
             ))
           ) : (
             <>
-              {breadcrumbs.length &&
+              {pathname === '/dashboard' ? (
+                <li className={`menu__item_breadcrumb`}>
+                  <p className="menu__link">Dashboard</p>
+                </li>
+              ) : (
+                breadcrumbs.length &&
                 breadcrumbs
                   .map((crumb: Breadcrumb, index) => (
                     <li
@@ -102,7 +107,8 @@ function HeaderMenu({ search }: { search: string | undefined }) {
                       <a className="menu__link">{crumb.title}</a>
                     </li>
                   ))
-                  .reverse()}
+                  .reverse()
+              )}
             </>
           )}
         </ul>

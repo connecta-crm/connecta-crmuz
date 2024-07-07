@@ -26,7 +26,7 @@ function Sidebar() {
       <nav className="nav">
         <ul className="nav__list">
           <li>
-            <NavLink to="/leads" className="nav__link">
+            <NavLink to="/dashboard" className="nav__link">
               <img src={logo} alt="Logo" />
             </NavLink>
           </li>
@@ -38,7 +38,7 @@ function Sidebar() {
                   to={$path}
                   className={({ isActive }) =>
                     isActive || isSettingsRouteActive(path)
-                      ? 'nav__link _active'
+                      ? 'nav__link active'
                       : 'nav__link '
                   }
                 >

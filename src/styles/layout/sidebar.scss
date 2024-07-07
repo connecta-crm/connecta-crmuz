@@ -14,7 +14,7 @@
     @include flexbox();
     justify-content: center;
     align-items: center;
-    &._active {
+    &.active {
       border-radius: 6px;
       background-color: $color-secondary;
     }

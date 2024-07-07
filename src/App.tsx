@@ -9,13 +9,18 @@ import DrawerFeatureProvider from './context/DrawerFeatureContext.tsx';
 import FilterProvider from './context/FilterContext.tsx';
 import ModalProvider from './context/ModalContext.tsx';
 import { PdfProvider } from './context/PdfContext.tsx';
+import CcDebePhone from './features/cc-auth/CcDebetPhone.tsx';
+import CcDebePicture from './features/cc-auth/CcDebetPicture.tsx';
 import Contract from './pages/Contract.tsx';
+import Dashboard from './pages/Dashboard.tsx';
 import PageNotFound from './pages/PageNotFound.tsx';
 import Terms from './pages/Terms.tsx';
 import ConfirmCode from './pages/authentication/ConfirmCode.tsx';
 import ConfirmEmail from './pages/authentication/ConfirmEmail.tsx';
 import ConfirmPassword from './pages/authentication/ConfirmPassword.tsx';
 import Login from './pages/authentication/Login.tsx';
+import CcAuthorization from './pages/cc-auth/CcAuthorization.tsx';
+import CcDebet from './pages/cc-auth/CcDebet.tsx';
 import Cashapp from './pages/payment/Cashapp.tsx';
 import Pay from './pages/payment/Pay.tsx';
 import Paypal from './pages/payment/Paypal.tsx';
@@ -25,10 +30,6 @@ import { getMenuData } from './services/menu/index.ts';
 import AppLayout from './ui/AppLayout.tsx';
 import AuthLayout from './ui/AuthLayout.tsx';
 import ProtectedRoute from './ui/ProtectedRoute.tsx';
-import CcAuthorization from './pages/cc-auth/CcAuthorization.tsx';
-import CcDebet from './pages/cc-auth/CcDebet.tsx';
-import CcDebePicture from './features/cc-auth/CcDebetPicture.tsx';
-import CcDebePhone from './features/cc-auth/CcDebetPhone.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +52,16 @@ function App() {
                   <Routes>
                     <Route path="/" element={<AppLayout />}>
                       <Route index element={<Navigate replace to="leads" />} />
+                      <Route
+                        path="/dashboard"
+                        element={
+                          <Suspense fallback={<Skeleton active />}>
+                            <ProtectedRoute roles={['admin', 'user']}>
+                              <Dashboard />
+                            </ProtectedRoute>
+                          </Suspense>
+                        }
+                      ></Route>
                       {getMenuData.map((menu) => {
                         return (
                           <Route
@@ -105,15 +116,27 @@ function App() {
                         path="/contract/:text/:id/terms"
                         element={<Terms />}
                       />
-                      <Route path="/contract/cc-auth" element={<CcAuthorization />} />
+                      <Route
+                        path="/contract/cc-auth"
+                        element={<CcAuthorization />}
+                      />
                       <Route path="/contract/cc-debit" element={<CcDebet />} />
-                      <Route path="/contract/cc-card-picture" element={<CcDebePicture />} />
-                      <Route path="/contract/cc-phone" element={<CcDebePhone />} />
+                      <Route
+                        path="/contract/cc-card-picture"
+                        element={<CcDebePicture />}
+                      />
+                      <Route
+                        path="/contract/cc-phone"
+                        element={<CcDebePhone />}
+                      />
                       <Route path="/contract/pay" element={<Pay />} />
                       <Route path="/contract/pay/zelle" element={<Zelle />} />
                       <Route path="/contract/pay/venmo" element={<Venmo />} />
                       <Route path="/contract/pay/paypal" element={<Paypal />} />
-                      <Route path="/contract/pay/cashapp" element={<Cashapp />} />
+                      <Route
+                        path="/contract/pay/cashapp"
+                        element={<Cashapp />}
+                      />
                     </Route>
                     <Route path="*" element={<PageNotFound />} />
                   </Routes>

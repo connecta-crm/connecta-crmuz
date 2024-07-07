@@ -8,9 +8,6 @@
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    thead {
-      background: #9bbec8 !important;
-    }
     tbody {
       tr:hover {
         background-color: rgb(243, 244, 246);
@@ -31,7 +28,10 @@
       font-style: normal;
       font-weight: 700;
       line-height: normal;
-      background: #9bbec8 !important;
+      background-color: #9bbec8 !important;
+      &.dashboard-table-th {
+        background-color: #e0b0ff !important;
+      }
     }
     td {
       color: #21232c;
