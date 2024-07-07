@@ -56,6 +56,7 @@ function CustomerTable({
             dataSource={customers as unknown as CustomerDataType[] | undefined}
             loading={loadingList || (loadingItem && !!guid)}
             pagination={{ position: ['bottomRight'], hideOnSinglePage: true }}
+            tableLayout="fixed"
             onRow={(data) => ({
               onClick: (event) => {
                 const target = event.target as HTMLTextAreaElement;

@@ -23,6 +23,7 @@ export const CustomerTableColumn = [
   {
     title: 'Email',
     dataIndex: 'email',
+    width: 150,
   },
   {
     title: 'Billing',
