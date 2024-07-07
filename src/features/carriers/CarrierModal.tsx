@@ -6,7 +6,6 @@ import Modal from '../../ui/Modal';
 import { useCities } from '../address/useCities';
 import DrawerArrowIcon from '../drawer/DrawerArrowIcon';
 import DrawerFeatureRow from '../drawer/DrawerFeatureRow';
-import FeatItemLabel from '../drawer/feature-details/FeatItemLabel';
 import { CreateCarrierParams, useCreateCarrier } from './useCreateCarrier';
 
 type CarrierModalProps = {
@@ -14,28 +13,33 @@ type CarrierModalProps = {
   onOpenModal: (val: boolean) => void;
 };
 
-function CarrierModal({ openModal, onOpenModal }: CarrierModalProps) {
-  const [carrierData, setCarrierData] = useState<CreateCarrierParams>({
-    name: '',
-    address: '',
-    mcNumber: '',
-    contactName: '',
-    phone: '',
-    phone2: '',
-    email: '',
-    fax: '',
-    status: 'favorite', // todo, it might be change
-    location: 0,
-  });
+const initialCarrierData: CreateCarrierParams = {
+  name: '',
+  address: '',
+  mcNumber: '',
+  contactName: '',
+  phone: '',
+  phone2: '',
+  email: '',
+  fax: '',
+  status: 'favorite', // todo, it might be change
+  location: 0,
+};
 
-  const [locationData, setLocationData] = useState({
-    id: 0,
+const initialLocationData = {
+  id: 0,
+  name: '',
+  zip: '',
+  state: {
     name: '',
-    zip: '',
-    state: {
-      name: '',
-    },
-  });
+  },
+};
+
+function CarrierModal({ openModal, onOpenModal }: CarrierModalProps) {
+  const [carrierData, setCarrierData] =
+    useState<CreateCarrierParams>(initialCarrierData);
+
+  const [locationData, setLocationData] = useState(initialLocationData);
 
   const { createCarrier, isLoading, isSuccess } = useCreateCarrier();
 
@@ -65,13 +69,17 @@ function CarrierModal({ openModal, onOpenModal }: CarrierModalProps) {
 
   const handleChangeCity = (_: number | string, option: DefaultOptionType) => {
     setLocationData(option?.data);
-    // dispatch(updateConvertField({ field: 'origin', value: option?.data }));
-    console.log(locationData);
+  };
+
+  const closedModal = () => {
+    onOpenModal(false);
+    setCarrierData(initialCarrierData);
+    setLocationData(initialLocationData);
   };
 
   useEffect(() => {
     if (!isLoading && isSuccess) {
-      onOpenModal(false);
+      closedModal();
     }
   }, [isLoading, isSuccess]);
 
@@ -81,7 +89,16 @@ function CarrierModal({ openModal, onOpenModal }: CarrierModalProps) {
       label: (
         <div className="detail detail-origin detail-convert">
           <div className="detail__header d-flex align-center justify-between">
-            <FeatItemLabel label="Location" icon="destination" />
+            <div className="detail__left d-flex align-center">
+              <div className="detail__icon d-flex">
+                <img
+                  style={{ width: 20 }}
+                  src={`./img/drawer/destination.svg`}
+                  alt=""
+                />
+              </div>
+              <div className="detail__label form-label ml-5">Location</div>
+            </div>
             <div
               onClick={(e) => e.stopPropagation()}
               className="box-header__arrow-bold cursor-inherit"
@@ -208,9 +225,7 @@ function CarrierModal({ openModal, onOpenModal }: CarrierModalProps) {
   return (
     <Modal
       title="New Carrier"
-      onCancel={() => {
-        onOpenModal(false);
-      }}
+      onCancel={closedModal}
       onSave={handleSave}
       width="small"
       padding="15"
