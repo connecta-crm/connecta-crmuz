@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import Filter from "./filter/Filter";
 
 function AppLayout() {
   return (
@@ -10,6 +11,7 @@ function AppLayout() {
       <div className="main">
         <div className="container">
           <Outlet />
+          <Filter/>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ type HeaderActionsProps = {
 
 function HeaderActions({ searchHandler }: HeaderActionsProps) {
   const [value, setValue] = useState('');
-  const { showFilter, hideFilter } = useFilter();
+  const { showFilter, hideFilter,setSearchFilterText } = useFilter();
   const { showModal } = useModal();
   const dispatch = useAppDispatch();
 
@@ -19,6 +19,7 @@ function HeaderActions({ searchHandler }: HeaderActionsProps) {
 
   const handleSetValue = (value: string) => {
     setValue(value);
+    setSearchFilterText(value)
   };
 
   const handleLogout = () => {

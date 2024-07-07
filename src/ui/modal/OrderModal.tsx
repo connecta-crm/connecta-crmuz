@@ -34,7 +34,7 @@ export default function OrdersModal({
 }) {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
-  const [trailerType, setTrailerType] = useState<string | null>('');
+  const [trailerType, setTrailerType] = useState<string | null>(null);
   const [origin, setOrigin] = useState<string | null>('');
   const [delivery, setDelivery] = useState<string | null>('');
   const [source, setSource] = useState<string | null>('');
@@ -219,7 +219,6 @@ export default function OrdersModal({
                       <Input
                         placeholder="Contact person"
                         style={{ padding: '3px 5px' }}
-                        
                       />
                     </FormItem>
                   </InputCol>
@@ -230,7 +229,7 @@ export default function OrdersModal({
                     <Label>Phone</Label>
                     <FormItem
                       name="originPhone"
-                      style={{ margin: '0', minHeight: '0px' }} 
+                      style={{ margin: '0', minHeight: '0px' }}
                       preserve={false}
                     >
                       <Input style={{ padding: '3px 5px' }} />
@@ -255,7 +254,7 @@ export default function OrdersModal({
                   <InputCol>
                     <FormItem
                       name="originBuyerNumber"
-                      style={{ margin: '0', width: '100%', minHeight: '0' }} 
+                      style={{ margin: '0', width: '100%', minHeight: '0' }}
                       preserve={false}
                     >
                       <Input
@@ -383,9 +382,11 @@ export default function OrdersModal({
                 <FormItem
                   className="m-0 w-100"
                   name="locationType"
+
                   // rules={[{ required: true, message: '' }]}
                 >
                   <Select
+                    placeholder="Select location type"
                     options={[
                       { value: 'r2r', label: 'Residential to residential' },
                       { value: 'r2b', label: 'Residential to business' },
@@ -397,9 +398,10 @@ export default function OrdersModal({
               </FormControl>
               <FormControl title="Trailer type" img={trailer}>
                 <Select
-                  defaultValue=""
+                  // defaultValue=""
                   style={{ width: '100%' }}
                   onChange={(a) => setTrailerType(a)}
+                  placeholder="Select trailer type"
                   options={[
                     { value: 'open', label: 'Open' },
                     { value: 'enclosed', label: 'Enclosed' },

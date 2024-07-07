@@ -97,7 +97,6 @@ $modal-border-color: #d1d1d1;
     gap: 10px;
   }
   &__body {
-    // padding: 20px 15px;
     max-height: calc(100vh - 85px);
     overflow-y: auto;
   }
@@ -144,9 +143,13 @@ $modal-border-color: #d1d1d1;
   }
   &__col:first-child {
     border-right: 1px solid #d1d1d1;
+    max-height: calc(100vh - 100px);
+      overflow-y: auto;
   }
   &__col:nth-child(2) {
     background: #eaeaea;
+    max-height: calc(100vh - 100px);
+      overflow-y: auto;
   }
   .create__contact__actions {
     @include flexbox();
