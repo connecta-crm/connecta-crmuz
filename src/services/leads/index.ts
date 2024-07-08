@@ -10,6 +10,7 @@ import { LeadsParamsType } from '../../features/leads/useLeads';
 import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { LeadDataType } from '../../models';
 import apiClient from '../axios';
+import { ZipCodeType } from '../../features/origin/Pickup';
 
 type ApiErrorResponse = {
   message: string;
@@ -234,6 +235,33 @@ class Leads {
   async getSource() {
     try {
       const { data } = await this.$api.get(`/providers/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getStateCode(text: string) {
+    try {
+      const { data } = await this.$api.get(
+        `/address/states-list/?q=${text ? text : ''}`,
+      );
+
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+  async createStateZipCode(d: ZipCodeType) {
+    try {
+      const { data } = await this.$api.post('/address/create-city/', d);
+
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

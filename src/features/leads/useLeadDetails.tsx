@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { LeadDataType } from '../../models';
 import Leads from '../../services/leads';
+import { ZipCodeType } from '../origin/Pickup';
 
 export function useMake(text: string | undefined) {
   const { data: { results: makes } = {}, isFetching } = useQuery({
@@ -46,6 +47,32 @@ export function useSource(enabled: boolean) {
     enabled,
   });
   return { sources, isFetching };
+}
+export function useStateCod(text: string) {
+  const { data: { results: stateCodes } = {}, isLoading: isLoadingState } =
+    useQuery({
+      queryKey: ['stateCod', text],
+      queryFn: () => Leads.getStateCode(text),
+      enabled: !!text,
+    });
+  return { stateCodes, isLoadingState };
+}
+export function useCreateZipCode() {
+  const {
+    mutate: createZip,
+    isPending: isLoadingZip,
+    isSuccess,
+  } = useMutation({
+    mutationFn: (item: ZipCodeType) =>
+      Leads.createStateZipCode(item),
+    onSuccess: () => {
+      message.success('City created');
+    },
+    onError: () => {
+      message.error("This city zip already exists.");
+    },
+  });
+  return { createZip, isLoadingZip, isSuccess };
 }
 
 export function usePerson(text: string) {
