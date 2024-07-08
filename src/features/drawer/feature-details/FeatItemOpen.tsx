@@ -143,8 +143,6 @@ function FeatItemOpen({
     setDataUpdated,
   });
 
-  console.log('field', field);
-
   const { onCancelFeature, onSaveFeature, isLoading, isLoadingVehicleEdit } =
     updateData;
 

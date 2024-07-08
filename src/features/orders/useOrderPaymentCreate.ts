@@ -35,8 +35,7 @@ export function useOrderPaymentCreate() {
       }),
     onSuccess: (data) => {
       queryClient.setQueryData(['orderCreatePayment'], data);
-      // queryClient.invalidateQueries({ queryKey: ['orders'] });
-      // queryClient.invalidateQueries({ queryKey: ['order'] });
+      queryClient.invalidateQueries({ queryKey: ['orderPayments'] });
       message.success('Order Payment successfully created');
     },
     onError: (err) => message.error(err.message),

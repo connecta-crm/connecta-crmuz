@@ -1,53 +1,35 @@
-import type { UploadProps } from 'antd';
-import { Button, Flex, Input, Upload, UploadFile } from 'antd';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Button, Flex, Input, Upload, message } from 'antd';
 import { useState } from 'react';
+import { useCreateFile } from '../../attachments/useCreateFile';
 
-// type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+function TabFiles({ user, sourceId, sourceType }) {
+  const [title, setTitle] = useState('Test file');
+  const [selectedFile, setSelectedFile] = useState(null);
 
-// const getBase64 = (file: FileType): Promise<string> =>
-//   new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = () => resolve(reader.result as string);
-//     reader.onerror = (error) => reject(error);
-//   });
+  const { createFile, isLoading, error } = useCreateFile(sourceType);
 
-function TabFiles() {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [title, setTitle] = useState('');
-
-  const handleChange: UploadProps['onChange'] = (info) => {
-    const newFileList = [...info.fileList];
-
-    // You can also implement file status checks here (e.g., uploading, done, error, removed)
-
-    setFileList(newFileList);
-    console.log('fileList', fileList);
+  const handleUpload = (event) => {
+    console.log('event', event.file);
+    setSelectedFile(event?.file);
   };
 
-  // const handleSave = () => {
-  //   message.success('File saved successfully');
-  //   // Implement file saving logic here
-  // };
+  const handleSave = () => {
+    if (!selectedFile) {
+      message.warning('No file selected');
+      return;
+    }
 
-  // const handleCancel = () => {
-  //   setFileList([]);
-  //   message.info('Upload cancelled');
-  //   // Implement cancellation logic if needed
-  // };
-
-  const uploadProps = {
-    name: 'files',
-    multiple: true,
-    fileList: fileList,
-    onChange: handleChange,
-    beforeUpload: () => false, // Return false to prevent auto uploading
-    onRemove: (file: UploadFile) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    console.log('FILE: ', formData.get('file'));
+    createFile({
+      text: title,
+      rel: sourceId,
+      endpointType: sourceType,
+      file: formData.get('file'), // Retrieve the file from FormData
+      user,
+    });
   };
 
   return (
@@ -66,72 +48,65 @@ function TabFiles() {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        {fileList.length === 0 ? (
+        {!selectedFile && (
           <div className="tabs-file__content">
             <div className="tabs-file__btns d-flex align-center has-file">
               <Upload
-                {...uploadProps}
-                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                fileList={fileList}
-                onChange={handleChange}
+                multiple={false}
+                maxCount={1}
+                beforeUpload={() => false}
+                onChange={handleUpload}
               >
                 <Button type="primary" size="small">
                   Upload files
                 </Button>
               </Upload>
-
               <p className="ml-10">or drag files here</p>
             </div>
           </div>
-        ) : (
+        )}
+        {selectedFile && (
           <div className="tabs-file__files">
-            {fileList.map((file) => (
-              <div key={file.uid} className="file-item">
-                <div className="file-item__content">
-                  <p>
-                    <img src="./img/drawer/tab/files.svg" alt="" />
-                  </p>
-                  <div className="file-item__text">
-                    Insurance for {<span>{file.name}</span>}
-                  </div>
-                </div>
-                <div
-                  onClick={() => uploadProps.onRemove(file)}
-                  className="file-item__delete"
-                >
-                  <img src="./img/drawer/delete-icon.svg" alt="" />
+            <div className="file-item">
+              <div className="file-item__content">
+                <p>
+                  <img src="./img/drawer/tab/files.svg" alt="" />
+                </p>
+                <div className="file-item__text">
+                  Insurance for #<span>{selectedFile?.name}</span>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         )}
       </div>
-      {fileList.length !== 0 && (
+      {selectedFile && (
         <Flex
           style={{
-            justifyContent: 'space-between',
+            justifyContent: 'flex-end',
             padding: '0px 10px 8px',
           }}
           gap="small"
           wrap="wrap"
         >
-          <Upload
-            {...uploadProps}
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-            fileList={fileList}
-            onChange={handleChange}
-          >
+          <div>
             <Button
               size="small"
-              style={{ color: '#4096ff', borderColor: ' #4096ff' }}
+              onClick={() => {
+                setSelectedFile(null);
+              }}
+              disabled={isLoading}
             >
-              + Files
+              Cancel
             </Button>
-          </Upload>
-
-          <div>
-            <Button size="small">Cancel</Button>
-            <Button style={{ marginLeft: '8px' }} type="primary" size="small">
+            <Button
+              style={{ marginLeft: '8px' }}
+              type="primary"
+              size="small"
+              disabled={isLoading}
+              loading={isLoading}
+              onClick={handleSave}
+            >
               Save
             </Button>
           </div>
@@ -142,3 +117,34 @@ function TabFiles() {
 }
 
 export default TabFiles;
+
+// * delete icon for the future
+{
+  /* <div className="file-item__delete">
+              <img src="./img/drawer/delete-icon.svg" alt="" />
+            </div> */
+}
+
+{
+  /* <Form onFinish={onFinish}>
+            <Form.Item
+              name="file"
+              label="Upload profile picture"
+              getValueFromEvent={({ file }) => file.originFileObj}
+            >
+              <Upload
+                {...uploadProps}
+                // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                // fileList={fileList}
+              >
+                <Button
+                  size="small"
+                  style={{ color: '#4096ff', borderColor: ' #4096ff' }}
+                >
+                  + Files
+                </Button>
+                <button type="submit">submit</button>
+              </Upload>
+            </Form.Item>
+          </Form> */
+}

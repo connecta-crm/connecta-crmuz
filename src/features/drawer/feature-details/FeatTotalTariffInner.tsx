@@ -9,6 +9,7 @@ import {
   updateField as updateLeadField,
 } from '../../leads/leadSlice';
 import { useLeadConvert } from '../../leads/useLeadConvert';
+import { useUpdateFeatureData } from '../../leads/useUpdateFeatureData';
 import {
   getOrderData,
   resetField as resetOrderField,
@@ -20,16 +21,31 @@ import {
   updateField as updateQuoteField,
 } from '../../quotes/quoteSlice';
 import { FeatItemInnerProps } from './FeatConditionInner';
+import FeatItemLabel from './FeatItemLabel';
 
 function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
   const [loadingType, setLoadingType] = useState('save');
+  const [isDataUpdated, setDataUpdated] = useState(false);
   const dispatch = useAppDispatch();
   const { onChangeInnerCollapse, closeDrawer } = useDrawerFeature();
-  const { leadConvert, isLoading, error, isSuccess } = useLeadConvert();
+  const {
+    leadConvert,
+    isLoading: isLoadingLeadConvert,
+    error,
+    isSuccess,
+  } = useLeadConvert();
 
   const leadData = useAppSelector(getLeadData);
   const quoteData = useAppSelector(getQuoteData);
   const orderData = useAppSelector(getOrderData);
+
+  const { onSaveFeature, isLoading } = useUpdateFeatureData({
+    keyValue,
+    feature,
+    field: 'price', // * does not matter as it needs for when onCancelFeature calls!
+    isDataUpdated,
+    setDataUpdated,
+  });
 
   let featureData;
 
@@ -48,10 +64,10 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
   }
 
   useEffect(() => {
-    if (!isLoading && !error && isSuccess) {
+    if (!isLoadingLeadConvert && !error && isSuccess) {
       closeDrawer();
     }
-  }, [isLoading, error, isSuccess]);
+  }, [isLoadingLeadConvert, error, isSuccess]);
 
   if (!featureData) {
     return;
@@ -112,7 +128,7 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
   return (
     <>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Total tariff</div>
+        <FeatItemLabel label="Total tariff" icon="total-tariff" />
         <Input
           value={price}
           onChange={(e) => handleChange(e, 'price')}
@@ -120,7 +136,7 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
         />
       </div>
       <div className="d-flex justify-between mb-5">
-        <div className="form-label">Reservation</div>
+        <FeatItemLabel label="Reservation" icon="reservation" />
         <Input
           value={reservationPrice}
           onChange={(e) => handleChange(e, 'reservationPrice')}
@@ -128,20 +144,38 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
         />
       </div>
       <div className="d-flex justify-end mt-5">
-        <Button size="small" disabled={isLoading} onClick={handleCancel}>
+        <Button
+          size="small"
+          disabled={isLoadingLeadConvert || isLoading}
+          onClick={handleCancel}
+        >
           Cancel
         </Button>
         <Button
           className="ml-10"
-          style={{
-            borderColor: '#1677ff',
-            color: '#1677ff',
-            backgroundColor: 'rgba(221, 242, 253, 1)',
-          }}
+          style={
+            feature === 'lead'
+              ? {
+                  borderColor: '#1677ff',
+                  color: '#1677ff',
+                  backgroundColor: 'rgba(221, 242, 253, 1)',
+                }
+              : {}
+          }
+          type={feature === 'quote' ? 'primary' : 'default'}
           size="small"
-          disabled={isLoading}
-          loading={isLoading && loadingType === 'save'}
-          onClick={handleSave}
+          disabled={isLoading || isLoadingLeadConvert}
+          loading={
+            (isLoading && loadingType === 'save') || isLoadingLeadConvert
+          }
+          onClick={() => {
+            if (feature === 'quote') {
+              setDataUpdated(true);
+              onSaveFeature();
+              return;
+            }
+            handleSave();
+          }}
         >
           Save
         </Button>
@@ -150,7 +184,7 @@ function FeatTotalTariffInner({ keyValue, feature }: FeatItemInnerProps) {
             className="ml-10"
             type="primary"
             size="small"
-            disabled={isLoading}
+            disabled={isLoading || isLoadingLeadConvert}
             loading={isLoading && loadingType === 'saveQuote'}
             onClick={handleSaveQuote}
           >

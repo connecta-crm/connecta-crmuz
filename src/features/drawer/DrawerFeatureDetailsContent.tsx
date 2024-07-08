@@ -426,68 +426,76 @@ function DrawerFeatureDetailsContent({ sourceType }: DrawerSourceType) {
       ),
       showArrow: false,
     },
-    {
-      key: '8',
-      label: (
-        <div className="detail detail-origin">
-          <div className="detail__header d-flex align-center justify-between">
-            <FeatItemLabel label="Total tariff" icon="total-tariff" />
-            {openInnerPanels?.includes('8') ? (
-              <FeatItemOpen
-                keyValue="8"
-                feature={sourceType}
-                featureItemField="price"
-                series={false}
-              />
-            ) : (
-              <FeatItemClose
-                feature={sourceType}
-                keyValue="8"
-                label={'$' + String(totalTariff)}
-                series={false}
-              />
-            )}
-          </div>
-        </div>
-      ),
-      children: (
-        <DrawerFeatureRow>
-          <FeatTotalTariffInner keyValue="8" feature={sourceType} />
-        </DrawerFeatureRow>
-      ),
-      showArrow: false,
-    },
-    {
-      key: '9',
-      label: (
-        <div className="detail detail-origin">
-          <div className="detail__header d-flex align-center justify-between">
-            <FeatItemLabel label="Reservation" icon="reservation" />
-            {openInnerPanels?.includes('9') ? (
-              <FeatItemOpen
-                keyValue="9"
-                feature={sourceType}
-                featureItemField="reservationPrice"
-                series={false}
-              />
-            ) : (
-              <FeatItemClose
-                feature={sourceType}
-                keyValue="9"
-                label={'$' + String(reservationPrice)}
-                series={false}
-              />
-            )}
-          </div>
-        </div>
-      ),
-      children: (
-        <DrawerFeatureRow>
-          <FeatTotalTariffInner keyValue="9" feature={sourceType} />
-        </DrawerFeatureRow>
-      ),
-      showArrow: false,
-    },
+    ...(!openInnerPanels.includes('9')
+      ? [
+          {
+            key: '8',
+            label: !openInnerPanels.includes('8') ? (
+              <div className="detail detail-origin">
+                <div className="detail__header d-flex align-center justify-between">
+                  <FeatItemLabel label="Total tariff" icon="total-tariff" />
+                  {openInnerPanels?.includes('8') ? (
+                    <FeatItemOpen
+                      keyValue="8"
+                      feature={sourceType}
+                      featureItemField="price"
+                      series={false}
+                    />
+                  ) : (
+                    <FeatItemClose
+                      feature={sourceType}
+                      keyValue="8"
+                      label={'$' + String(totalTariff)}
+                      series={false}
+                    />
+                  )}
+                </div>
+              </div>
+            ) : null,
+            children: (
+              <DrawerFeatureRow>
+                <FeatTotalTariffInner keyValue="8" feature={sourceType} />
+              </DrawerFeatureRow>
+            ),
+            showArrow: false,
+          },
+        ]
+      : []),
+    ...(!openInnerPanels.includes('8')
+      ? [
+          {
+            key: '9',
+            label: !openInnerPanels.includes('9') ? (
+              <div className="detail detail-origin">
+                <div className="detail__header d-flex align-center justify-between">
+                  <FeatItemLabel label="Reservation" icon="reservation" />
+                  {openInnerPanels?.includes('9') ? (
+                    <FeatItemOpen
+                      keyValue="9"
+                      feature={sourceType}
+                      featureItemField="reservationPrice"
+                      series={false}
+                    />
+                  ) : (
+                    <FeatItemClose
+                      feature={sourceType}
+                      keyValue="9"
+                      label={'$' + String(reservationPrice)}
+                      series={false}
+                    />
+                  )}
+                </div>
+              </div>
+            ) : null,
+            children: (
+              <DrawerFeatureRow>
+                <FeatTotalTariffInner keyValue="9" feature={sourceType} />
+              </DrawerFeatureRow>
+            ),
+            showArrow: false,
+          },
+        ]
+      : []),
     // * CD/CM notes for ORDER
     {
       key: '13',

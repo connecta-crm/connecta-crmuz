@@ -150,7 +150,13 @@ function TabsApp({ sourceType }: DrawerSourceType) {
             label: 'Files',
             value: 'files',
             icon: tabIcon('5', 'file'),
-            children: <TabFiles />,
+            children: (
+              <TabFiles
+                user={user}
+                sourceId={sourceId}
+                sourceType={sourceType}
+              />
+            ),
           },
         ]
       : []),

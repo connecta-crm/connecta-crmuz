@@ -262,6 +262,19 @@ class Orders {
     }
   }
 
+  // GET: /order-payments/list/:order/
+  async getOrderPayments(order: string) {
+    try {
+      const { data } = await this.$api.get(`/order-payments/list/${order}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // GET: /order/attachments/:orderId/
   async getOrderAttachments(id: number) {
     try {

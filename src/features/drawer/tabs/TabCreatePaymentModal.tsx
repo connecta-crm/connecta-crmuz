@@ -2,7 +2,10 @@
 import { Input, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import Modal from '../../../ui/Modal';
-import { PAYMENT_TYPES } from '../../../utils/constants';
+import {
+  PAYMENT_BROKER_DIRECTIONS,
+  PAYMENT_TYPES,
+} from '../../../utils/constants';
 import { useOrderPaymentCreate } from '../../orders/useOrderPaymentCreate';
 
 export type CreatePaymentDataType = {
@@ -206,13 +209,7 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
               setPaymentData((prev) => ({ ...prev, direction }))
             }
             value={paymentData.direction}
-            options={[
-              { value: 'cus2brok', label: 'Customer to Broker' },
-              { value: 'brok2cus', label: 'Broker to Customer' },
-              { value: 'brok2car', label: 'Broker to Carrier' },
-              { value: 'car2brok', label: 'Carrier to Broker' },
-              { value: 'brok2emp', label: 'Broker to Employee' },
-            ]}
+            options={PAYMENT_BROKER_DIRECTIONS}
           />
         </div>
       </>

@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { CreateEmailParams } from '../../features/attachments/useCreateEmail';
+import { CreateFileParams } from '../../features/attachments/useCreateFile';
 import { CreateNoteParams } from '../../features/attachments/useCreateNote';
 import { CreatePhoneParams } from '../../features/attachments/useCreatePhone';
 import { CreateTaskParams } from '../../features/attachments/useCreateTask';
@@ -39,6 +40,26 @@ class Attachments {
         text,
         endpointType,
         user,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /attachments/create-file/
+  async createFile({ rel, text, endpointType, file, user }: CreateFileParams) {
+    console.log('ss', rel, text, endpointType, file, user);
+    try {
+      const { data } = await this.$api.post(`/attachments/create-file/`, {
+        rel,
+        text,
+        endpointType,
+        user,
+        file,
       });
       return data;
     } catch (error) {

@@ -170,3 +170,11 @@ export const PAYMENT_TYPES = [
   { value: 'cashier_check', label: "Cashier's check" },
   { value: 'ach', label: 'ACH' },
 ];
+
+export const PAYMENT_BROKER_DIRECTIONS = [
+  { value: 'cus2brok', label: 'Customer to Broker' },
+  { value: 'brok2cus', label: 'Broker to Customer' },
+  { value: 'brok2car', label: 'Broker to Carrier' },
+  { value: 'car2brok', label: 'Carrier to Broker' },
+  { value: 'brok2emp', label: 'Broker to Employee' },
+];
