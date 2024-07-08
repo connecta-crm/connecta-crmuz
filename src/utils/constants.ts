@@ -157,3 +157,16 @@ export const REASSIGN_USERS_REASONS = [
     value: 'other',
   },
 ];
+
+export const PAYMENT_TYPES = [
+  { value: 'credit', label: 'Credit' },
+  { value: 'card', label: 'Card' },
+  { value: 'zelle', label: 'Zelle' },
+  { value: 'cashapp', label: 'CashApp' },
+  { value: 'venmo', label: 'Venmo' },
+  { value: 'paypal', label: 'Paypal' },
+  { value: 'cash', label: 'Cash' },
+  { value: 'cashier', label: 'Cashier' },
+  { value: 'cashier_check', label: "Cashier's check" },
+  { value: 'ach', label: 'ACH' },
+];

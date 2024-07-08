@@ -44,7 +44,7 @@ function Modal({
         <div className="modal__header">
           <h2>{title}</h2>
           <div>
-            <Button size="small" onClick={onCancel}>
+            <Button size="small" disabled={loading} onClick={onCancel}>
               Cancel
             </Button>
             {!hasEdit && (

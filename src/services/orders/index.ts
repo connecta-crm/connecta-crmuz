@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
+import { CreatePaymentDataType } from '../../features/drawer/tabs/TabCreatePaymentModal';
 import { LogsParamsType } from '../../features/leads/useLeadLogs';
 import { CreateContractParams } from '../../features/orders/useCreateContract';
 import { OrderDirectDispatchEditParamsType } from '../../features/orders/useOrderDirectDispatchEdit';
@@ -218,6 +219,39 @@ class Orders {
         vin,
         color,
         plate,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // POST: /order-payments/create/
+  async createOrderPayment({
+    name,
+    quantity,
+    amount,
+    discount,
+    paymentType,
+    surchargeFeeRate,
+    chargeType,
+    direction,
+    order,
+  }: CreatePaymentDataType) {
+    try {
+      const { data } = await this.$api.post(`/order-payments/create/`, {
+        name,
+        quantity,
+        amount,
+        discount,
+        paymentType,
+        surchargeFeeRate,
+        chargeType,
+        direction,
+        order,
       });
       return data;
     } catch (error) {

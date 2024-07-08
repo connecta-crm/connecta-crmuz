@@ -316,8 +316,6 @@ function DrawerHeader({
 
   const { extraUser } = featureData || {};
 
-  console.log('featureData', featureData);
-
   // PREV-NEXT functions
   const handlePrevElement = () => {
     if (feature === 'customer') return;

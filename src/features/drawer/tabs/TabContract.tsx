@@ -8,8 +8,6 @@ function TabContract({ order }) {
   const { createContract, isLoadingContract } = useCreateContract();
   const { contractList, isLoadingContractList } = useContractList(order, true);
 
-  console.log('contractList', contractList);
-
   const handleContractSend = () => {
     createContract({
       order,

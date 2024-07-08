@@ -7,7 +7,7 @@ import TabPaymentAttachModal from './TabPaymentAttachModal';
 import TabPaymentModal from './TabPaymentModal';
 import TabTransRefundModal from './TabTransRefundModal';
 
-function TabPayment() {
+function TabPayment({ orderGuid }: { orderGuid: string }) {
   const [fileList, setFileList] = useState<UploadFile[]>(['123']);
   const [isOpenModal, setOpenModal] = useState({
     attachModal: false,
@@ -178,6 +178,7 @@ function TabPayment() {
         }
       />
       <TabCreatePaymentModal
+        orderGuid={orderGuid}
         isOpenModal={isOpenModal.createPaymentModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, createPaymentModal: false }))
