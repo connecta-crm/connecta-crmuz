@@ -10,6 +10,8 @@ import { LeadsParamsType } from '../../features/leads/useLeads';
 import { ReassignUserParams } from '../../features/orders/useOrderReassignUser';
 import { LeadDataType } from '../../models';
 import apiClient from '../axios';
+import { ZipCodeType } from '../../features/origin/Pickup';
+import { NewCarModel } from '../../features/vehicle/Vehicle';
 
 type ApiErrorResponse = {
   message: string;
@@ -243,9 +245,49 @@ class Leads {
     }
   }
 
+  async getStateCode(text: string) {
+    try {
+      const { data } = await this.$api.get(
+        `/address/states-list/?q=${text ? text : ''}`,
+      );
+
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+  async createStateZipCode(d: ZipCodeType) {
+    try {
+      const { data } = await this.$api.post('/address/create-city/', d);
+
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   async getPerson(text: string | undefined) {
     try {
       const { data } = await this.$api.get(`/customers/?` + text);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+
+  async createModel(item:NewCarModel) {
+    try {
+      const { data } = await this.$api.post(`/cars/models/create/`, item);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

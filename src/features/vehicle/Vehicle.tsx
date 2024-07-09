@@ -1,7 +1,11 @@
-import { Input, Select, Spin } from 'antd';
+import { Button, Input, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
-import { useMake, useModel } from '../../features/leads/useLeadDetails';
+import {
+  useCreateModel,
+  useMake,
+  useModel,
+} from '../../features/leads/useLeadDetails';
 import DownCollapse from '../../ui/form/DownCollapse';
 // import Input from '../../ui/form/Input';
 import FormItem from 'antd/es/form/FormItem';
@@ -10,10 +14,17 @@ import InputRow from '../../ui/form/InputRow';
 import Label from '../../ui/form/Label';
 import UseDatePicker from '../../ui/picker/DatePicker';
 import { CarType } from './VehicleContainer';
+import { VEHICLE_TYPE } from '../../utils/constants';
 
 type DataType = {
   mark: string;
   q: string;
+};
+export type NewCarModel = {
+  name: string;
+  vehicleType: string;
+  isActive: boolean;
+  mark: string;
 };
 
 export default function Vehicle({
@@ -31,7 +42,6 @@ export default function Vehicle({
   carId: number;
   type?: boolean;
 }) {
-
   const [carValue, setCarValue] = useState<CarType>({
     id: carId,
     vehicle: '',
@@ -52,6 +62,33 @@ export default function Vehicle({
   const { makes, isFetching: isLoading } = useMake(searchCarMake);
   const { models, isFetching } = useModel(searchCarModel, modelEnabled);
 
+  const { createModel, isLoadingModel } = useCreateModel();
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const [create, setCreate] = useState(false);
+  const [newCar, setNewCar] = useState<NewCarModel>({
+    name: '',
+    isActive: true,
+    vehicleType: '',
+    mark: '',
+  });
+
+  const onCreateModel = () => {
+    createModel(newCar, {
+      onSuccess: () => {
+        setNewCar({ name: '', isActive: true, vehicleType: '', mark: '' });
+        setCreate(false)
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (newCar.isActive && newCar.mark && newCar.name && newCar.vehicleType) {
+      setDisabled(true);
+      return;
+    }
+    setDisabled(false);
+  }, [newCar]);
+
   useEffect(() => {
     getCarValue(carValue);
   }, [carValue]);
@@ -64,6 +101,7 @@ export default function Vehicle({
     }
     if (from === 'model') {
       setSearchCarModel({ ...searchCarModel, q: value });
+      setNewCar({ ...newCar, name: value });
       return;
     }
   };
@@ -72,10 +110,10 @@ export default function Vehicle({
     value: DefaultOptionType | string,
     record: DefaultOptionType,
   ) => {
+    setNewCar({ ...newCar, mark: value as string });
     setVhicleType('');
     setModelValue(null);
     setMakeValue(record);
-
     setSearchCarModel({ ...searchCarModel, mark: value, q: '' });
   };
 
@@ -148,28 +186,48 @@ export default function Vehicle({
         </InputCol>
 
         <InputCol>
-          <Select
-            value={modelValue ? modelValue : null}
-            showSearch
-            optionFilterProp="children"
-            placeholder={'Search model'}
-            style={{ width: '100%' }}
-            defaultActiveFirstOption={false}
-            onKeyUp={() => setModelEnabled(true)}
-            loading={isFetching}
-            notFoundContent={isFetching ? <Spin size="small" /> : 'No data'}
-            filterOption={false}
-            onSelect={() => null}
-            onSearch={(value) => handleSearchCar(value, 'model')}
-            onChange={(data, record: DefaultOptionType | DefaultOptionType[]) =>
-              handleSelectModel(data, record)
-            }
-            options={(models || []).map((d: { id: string; name: string }) => ({
-              value: d.id,
-              data: d,
-              label: d.name,
-            }))}
-          />
+          {create ? (
+            <input
+              value={newCar.name}
+              type="text"
+              placeholder="Enter model name"
+              onChange={(e) => setNewCar({ ...newCar, name: e.target.value })}
+            />
+          ) : (
+            <Select
+              value={modelValue ? modelValue : null}
+              showSearch
+              optionFilterProp="children"
+              placeholder={'Search model'}
+              style={{ width: '100%' }}
+              defaultActiveFirstOption={false}
+              onKeyUp={() => setModelEnabled(true)}
+              loading={isFetching}
+              notFoundContent={
+                isFetching ? (
+                  <Spin size="small" />
+                ) : (
+                  <Button onClick={() => setCreate(true)} size="small">
+                    create
+                  </Button>
+                )
+              }
+              filterOption={false}
+              onSelect={() => null}
+              onSearch={(value) => handleSearchCar(value, 'model')}
+              onChange={(
+                data,
+                record: DefaultOptionType | DefaultOptionType[],
+              ) => handleSelectModel(data, record)}
+              options={(models || []).map(
+                (d: { id: string; name: string }) => ({
+                  value: d.id,
+                  data: d,
+                  label: d.name,
+                }),
+              )}
+            />
+          )}
         </InputCol>
       </InputRow>
       <InputRow>
@@ -177,13 +235,45 @@ export default function Vehicle({
           <Label>Type</Label>
         </InputCol>
         <InputCol>
-          <FormItem
-            style={{ margin: '0', width: '100%' }}
-            rules={[{ required: true, message: '' }]}
-          >
-            <Input value={vhicleType} style={{ width: '100%' }} />
-          </FormItem>
+          {create ? (
+            <Select
+              style={{ width: '100%' }}
+              onChange={(a) => setNewCar({ ...newCar, vehicleType: a })}
+              placeholder="Select a type"
+              options={VEHICLE_TYPE}
+            />
+          ) : (
+            <FormItem
+              style={{ margin: '0', width: '100%' }}
+              rules={[{ required: true, message: '' }]}
+            >
+              <Input value={vhicleType} style={{ width: '100%' }} />
+            </FormItem>
+          )}
         </InputCol>
+      </InputRow>
+      <InputRow>
+        {create && (
+          <div className=" w-100 d-flex justify-end">
+            <Button size="small" onClick={() => setCreate(false)}>
+              cancel
+            </Button>
+            <Button
+              disabled={!disabled || isLoadingModel}
+              onClick={() => onCreateModel()}
+              size="small"
+              type="primary"
+              className="ml-5"
+            >
+              
+                <>
+                 { isLoadingModel &&
+                  <Spin size="small" />} Save
+                </>
+              
+            </Button>
+          </div>
+        )}
       </InputRow>
       {type && (
         <>

@@ -14,6 +14,56 @@ export const CONDITION_TYPES = [
   //   value: 'forklift',
   // },
 ];
+export const VEHICLE_TYPE=[
+  {
+    label: 'ATV',
+    value: 'atv',
+  },
+  {
+    label: 'Boat',
+    value: 'boat',
+  },
+  {
+    label: 'Car',
+    value: 'car',
+  },
+  {
+    label: 'Heavy equipment',
+    value: 'heavy',
+  },
+  {
+    label: 'Large Yacht',
+    value: 'large',
+  },
+  {
+    label: 'Motorcycle',
+    value: 'motorcycle',
+  },
+  {
+    label: 'Pickup',
+    value: 'pickup',
+  },
+  {
+    label: 'RV',
+    value: 'rv',
+  },
+  {
+    label: 'Suv',
+    value: 'suv',
+  },
+  {
+    label: 'Travel trailer',
+    value: 'travel',
+  },
+  {
+    label: 'Van',
+    value: 'van',
+  },
+  {
+    label: 'Other',
+    value: 'other',
+  }
+]
 
 export const TRAILER_TYPES = [
   {

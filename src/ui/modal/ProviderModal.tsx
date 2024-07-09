@@ -211,7 +211,7 @@ export default function ProviderModal({
                   <FormItem
                     className="m-0 w-100"
                     name="value"
-                    rules={[{ required: true, message: '' }]}
+                    // rules={[{ required: true, message: '' }]}
                     initialValue={provider?.value}
                     preserve={false}
                   >
@@ -284,7 +284,7 @@ export default function ProviderModal({
               <FormItem
                 className="m-0 w-100"
                 name="subject"
-                rules={[{ required: true, message: '' }]}
+                // rules={[{ required: true, message: '' }]}
                 initialValue={provider?.subject}
                 preserve={false}
               >

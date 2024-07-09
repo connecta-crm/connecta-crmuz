@@ -3,7 +3,7 @@ import LoginHeading from '../../ui/LoginHeading';
 function Login() {
   return (
     <>
-      <LoginHeading title="Welcome meta!" />
+      <LoginHeading title="Welcome back!" />
       <LoginForm />
     </>
   );
