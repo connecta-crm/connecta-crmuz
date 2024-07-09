@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Modal from '../../../ui/Modal';
 import {
   PAYMENT_BROKER_DIRECTIONS,
+  PAYMENT_CARRIER_TYPES,
+  PAYMENT_CHARGE_TYPES,
   PAYMENT_TYPES,
 } from '../../../utils/constants';
 import { useOrderPaymentCreate } from '../../orders/useOrderPaymentCreate';
@@ -70,14 +72,7 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
             style={{ width: 218, float: 'inline-end', height: 24 }}
             loading={false}
             value={paymentData.name}
-            options={[
-              { value: 'auto', label: ' Auto Transportation' },
-              {
-                value: 'auto_carrier',
-                label: 'Auto Transportation (carrier fee)',
-              },
-              { value: 'carrier', label: 'Carrier fee' },
-            ]}
+            options={PAYMENT_CARRIER_TYPES}
           />
         </div>
         <div className="d-flex justify-between mb-5">
@@ -184,12 +179,7 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
             }
             style={{ width: 218, float: 'inline-end', height: 24 }}
             loading={false}
-            options={[
-              { value: 'charge', label: 'Charge' },
-              { value: 'refund', label: 'Refund' },
-              { value: 'chargeback', label: 'Chargeback' },
-              { value: 'payroll', label: 'Payroll' },
-            ]}
+            options={PAYMENT_CHARGE_TYPES}
           />
         </div>
         <div className="d-flex justify-between mb-5">

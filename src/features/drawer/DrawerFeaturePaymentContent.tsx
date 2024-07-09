@@ -183,7 +183,7 @@ function DrawerFeaturePaymentContent({ sourceType }: DrawerSourceType) {
               <FeatItemClose
                 keyValue="34"
                 feature={sourceType}
-                label={`$${(paymentTotalTariff || 0) - (paymentReservation || 0)}`}
+                label={String(paymentCodToCarrier)}
                 series={false}
               />
             )}

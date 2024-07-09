@@ -14,18 +14,19 @@ $modal-border-color: #d1d1d1;
     border-radius: 4px 4px 0px 0px;
   }
 }
+.ant-modal-wrap:not(.img-crop-modal) {
+  .ant-modal {
+    top: $modal-top;
 
-.ant-modal {
-  top: $modal-top;
+    & .ant-modal-header {
+      margin-bottom: 0;
+    }
 
-  & .ant-modal-header {
-    margin-bottom: 0;
-  }
-
-  & .ant-modal-content {
-    padding: 0;
-    border: 1px solid $modal-border-color;
-    border-radius: 4px;
+    & .ant-modal-content {
+      padding: 0;
+      border: 1px solid $modal-border-color;
+      border-radius: 4px;
+    }
   }
 }
 .edit-btn {

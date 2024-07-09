@@ -133,3 +133,15 @@ a.ant-dropdown-trigger {
   .ant-notification-notice-message {
   margin-bottom: 0 !important;
 }
+/* =================================== * ANT MODAL BODY UPLOAD *===============================================================================*/
+.modal__body {
+  .ant-upload.ant-upload-select {
+    width: 100% !important;
+    height: auto !important;
+  }
+  .ant-upload-list-item-container {
+    height: auto !important;
+    max-height: 550px;
+    width: 100% !important;
+  }
+}

@@ -61,6 +61,7 @@ function FeatPayCodToCarrierInner({ feature, keyValue }: FeatItemInnerProps) {
           value={featureData.payments?.paymentCodToCarrier}
           defaultValue={featureData.payments?.paymentCodToCarrier}
           style={{ width: 218, float: 'inline-end', height: 24 }}
+          disabled
           onChange={handleChange}
         />
       </div>
@@ -70,7 +71,6 @@ function FeatPayCodToCarrierInner({ feature, keyValue }: FeatItemInnerProps) {
             block
             size="small"
             style={{ width: 'auto' }}
-            disabled={isLoading}
             onClick={onCancelFeature}
           >
             Cancel
@@ -79,7 +79,7 @@ function FeatPayCodToCarrierInner({ feature, keyValue }: FeatItemInnerProps) {
             className="ml-10"
             type="primary"
             size="small"
-            disabled={isLoading}
+            disabled
             loading={isLoading}
             onClick={onSaveFeature}
           >

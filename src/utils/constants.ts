@@ -178,3 +178,19 @@ export const PAYMENT_BROKER_DIRECTIONS = [
   { value: 'car2brok', label: 'Carrier to Broker' },
   { value: 'brok2emp', label: 'Broker to Employee' },
 ];
+
+export const PAYMENT_CARRIER_TYPES = [
+  { value: 'auto', label: ' Auto Transportation' },
+  {
+    value: 'auto_carrier',
+    label: 'Auto Transportation (carrier fee)',
+  },
+  { value: 'carrier', label: 'Carrier fee' },
+];
+
+export const PAYMENT_CHARGE_TYPES = [
+  { value: 'charge', label: 'Charge' },
+  { value: 'refund', label: 'Refund' },
+  { value: 'chargeback', label: 'Chargeback' },
+  { value: 'payroll', label: 'Payroll' },
+];

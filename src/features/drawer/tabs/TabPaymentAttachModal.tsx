@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Input, Select } from 'antd';
 import Modal from '../../../ui/Modal';
 
-function TabPaymentAttachModal({ isOpenModal, onCloseModal }) {
+function TabPaymentAttachModal({ data, isOpenModal, onCloseModal }) {
+  console.log('data', data);
+
   return (
     <Modal
       title="Attach a payment"
@@ -18,9 +21,13 @@ function TabPaymentAttachModal({ isOpenModal, onCloseModal }) {
           </div>
           <Input
             size="small"
+            type="number"
             placeholder="Enter amount"
             style={{ width: 218, float: 'inline-end', height: 24 }}
-            onChange={() => {}}
+            value={attachment.amount}
+            onChange={({ target: { value: amount } }) =>
+              setAttachment((prev) => ({ ...prev, amount }))
+            }
           />
         </div>
         <div className="d-flex justify-between mb-5">

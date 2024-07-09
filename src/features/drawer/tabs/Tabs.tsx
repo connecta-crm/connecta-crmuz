@@ -178,7 +178,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
             label: 'Payment',
             value: 'payment',
             icon: tabIcon('7', 'payment'),
-            children: <TabPayment orderGuid={orderGuid} />,
+            children: <TabPayment orderId={sourceId} orderGuid={orderGuid} />,
           },
         ]
       : []),

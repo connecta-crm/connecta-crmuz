@@ -262,10 +262,42 @@ class Orders {
     }
   }
 
+  // POST: /order-payments/attachments/
+  async createOrderAttach(payload) {
+    console.log('payload', payload);
+    try {
+      const { data } = await this.$api.post(
+        `/order-payments/attachments/`,
+        payload,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // GET: /order-payments/list/:order/
   async getOrderPayments(order: string) {
     try {
       const { data } = await this.$api.get(`/order-payments/list/${order}/`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // GET: /order-payments/attachments/list/
+  async getOrderPaymentAttachs(orderPayment: number) {
+    try {
+      const { data } = await this.$api.get(
+        `/order-payments/attachments/list/?orderPayment=${orderPayment}`
+      );
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

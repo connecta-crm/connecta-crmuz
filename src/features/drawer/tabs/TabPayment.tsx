@@ -6,9 +6,9 @@ import {
   PAYMENT_TYPES,
 } from '../../../utils/constants';
 import { useOrderPayments } from '../../orders/useOrderPayments';
+import TabAttachModal from './TabAttachModal';
 import TabChargePaymentModal from './TabChargePaymentModal';
 import TabCreatePaymentModal from './TabCreatePaymentModal';
-import TabPaymentAttachModal from './TabPaymentAttachModal';
 import TabPaymentModal from './TabPaymentModal';
 import TabTransRefundModal from './TabTransRefundModal';
 
@@ -29,7 +29,13 @@ type OrderPayment = {
   order: string;
 };
 
-function TabPayment({ orderGuid }: { orderGuid: string }) {
+function TabPayment({
+  orderId,
+  orderGuid,
+}: {
+  orderId: number;
+  orderGuid: string;
+}) {
   const [isOpenModal, setOpenModal] = useState({
     attachModal: false,
     createPaymentModal: false,
@@ -38,6 +44,7 @@ function TabPayment({ orderGuid }: { orderGuid: string }) {
     transRefundModal: false,
   });
 
+  const [attachModalData, setAttachModalData] = useState({});
   const { orderPayments, isLoadingOrderPayments, error } =
     useOrderPayments(orderGuid);
 
@@ -57,6 +64,8 @@ function TabPayment({ orderGuid }: { orderGuid: string }) {
       </div>
     );
   }
+
+  console.log('orderPayments', orderPayments);
 
   return (
     <>
@@ -105,78 +114,87 @@ function TabPayment({ orderGuid }: { orderGuid: string }) {
                           className="ml-10"
                           type="primary"
                           size="small"
-                          onClick={() =>
+                          onClick={() => {
+                            setAttachModalData(payment);
                             setOpenModal((prev) => ({
                               ...prev,
                               attachModal: true,
-                            }))
-                          }
+                            }));
+                          }}
                         >
                           Attach
                         </Button>
-                        //   <Button
-                        //   className="ml-10"
-                        //   ghost
-                        //   type="primary"
-                        //   size="small"
-                        //   onClick={() =>
-                        //     setOpenModal((prev) => ({
-                        //       ...prev,
-                        //       transRefundModal: true,
-                        //     }))
-                        //   }
-                        // >
-                        //   Receipt
-                        // </Button>
-                        // <Button
-                        //   className="ml-10"
-                        //   type="primary"
-                        //   size="small"
-                        //   style={{ backgroundColor: 'rgb(66, 125, 157)' }}
-                        // >
-                        //   Paid
-                        // </Button>
-
-                        //   <Button
-                        //   className="ml-10"
-                        //   ghost
-                        //   type="primary"
-                        //   size="small"
-                        //   onClick={() =>
-                        //     setOpenModal((prev) => ({
-                        //       ...prev,
-                        //       paymentModal: true,
-                        //     }))
-                        //   }
-                        // >
-                        //   Send CCA
-                        // </Button>
-                        // <Button
-                        //   className="ml-10"
-                        //   type="primary"
-                        //   size="small"
-                        //   onClick={() =>
-                        //     setOpenModal((prev) => ({
-                        //       ...prev,
-                        //       chargePaymentModal: true,
-                        //     }))
-                        //   }
-                        // >
-                        //   Charge
-                        // </Button>
-
-                        //   <Button className="ml-10" ghost type="primary" size="small">
-                        //   Receipt CCA
-                        // </Button>
-                        // <Button className="ml-10" type="primary" size="small">
-                        //   Charge
-                        // </Button>
+                      )}
+                      {payment.status === 'paid' && (
+                        <Button
+                          className="ml-10"
+                          type="primary"
+                          size="small"
+                          style={{ backgroundColor: 'rgb(66, 125, 157)' }}
+                          onClick={() => {
+                            setAttachModalData(payment);
+                            setOpenModal((prev) => ({
+                              ...prev,
+                              attachModal: true,
+                            }));
+                          }}
+                        >
+                          Paid
+                        </Button>
                       )}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <button
+              className="ml-10"
+              onClick={() =>
+                setOpenModal((prev) => ({
+                  ...prev,
+                  createPaymentModal: true,
+                }))
+              }
+            >
+              {' '}
+              1
+            </button>
+            <button
+              className="ml-10"
+              onClick={() =>
+                setOpenModal((prev) => ({
+                  ...prev,
+                  chargePaymentModal: true,
+                }))
+              }
+            >
+              {' '}
+              2
+            </button>
+            <button
+              className="ml-10"
+              onClick={() =>
+                setOpenModal((prev) => ({
+                  ...prev,
+                  paymentModal: false,
+                }))
+              }
+            >
+              {' '}
+              3
+            </button>
+            <button
+              className="ml-10"
+              onClick={() =>
+                setOpenModal((prev) => ({
+                  ...prev,
+                  transRefundModal: true,
+                }))
+              }
+            >
+              {' '}
+              4
+            </button>
           </div>
         )}
       </div>
@@ -203,12 +221,21 @@ function TabPayment({ orderGuid }: { orderGuid: string }) {
           </div>
         </Flex>
       )}
-      <TabPaymentAttachModal
+      <TabAttachModal
+        data={attachModalData}
+        orderId={orderId}
         isOpenModal={isOpenModal.attachModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, attachModal: false }))
         }
       />
+      {/* <TabPaymentAttachModal
+        data={attachModalData}
+        isOpenModal={isOpenModal.attachModal}
+        onCloseModal={() =>
+          setOpenModal((prev) => ({ ...prev, attachModal: false }))
+        }
+      /> */}
       <TabCreatePaymentModal
         orderGuid={orderGuid}
         isOpenModal={isOpenModal.createPaymentModal}
@@ -239,3 +266,60 @@ function TabPayment({ orderGuid }: { orderGuid: string }) {
 }
 
 export default TabPayment;
+//   <Button
+//   className="ml-10"
+//   ghost
+//   type="primary"
+//   size="small"
+//   onClick={() =>
+//     setOpenModal((prev) => ({
+//       ...prev,
+//       transRefundModal: true,
+//     }))
+//   }
+// >
+//   Receipt
+// </Button>
+// <Button
+//   className="ml-10"
+//   type="primary"
+//   size="small"
+//   style={{ backgroundColor: 'rgb(66, 125, 157)' }}
+// >
+//   Paid
+// </Button>
+
+//   <Button
+//   className="ml-10"
+//   ghost
+//   type="primary"
+//   size="small"
+//   onClick={() =>
+//     setOpenModal((prev) => ({
+//       ...prev,
+//       paymentModal: true,
+//     }))
+//   }
+// >
+//   Send CCA
+// </Button>
+// <Button
+//   className="ml-10"
+//   type="primary"
+//   size="small"
+//   onClick={() =>
+//     setOpenModal((prev) => ({
+//       ...prev,
+//       chargePaymentModal: true,
+//     }))
+//   }
+// >
+//   Charge
+// </Button>
+
+//   <Button className="ml-10" ghost type="primary" size="small">
+//   Receipt CCA
+// </Button>
+// <Button className="ml-10" type="primary" size="small">
+//   Charge
+// </Button>
