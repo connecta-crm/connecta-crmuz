@@ -3,6 +3,7 @@ import { Dropdown, DropdownProps, Input, MenuProps, Space } from 'antd';
 import { debounce } from 'lodash';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useDrawerFeature } from '../../context/DrawerFeatureContext';
 import { DEFAULT_LIMIT } from '../../utils/constants';
 import { TableHeaderFiltersProps } from './TableHeaderFilters';
 import openView from '/img/dt_table/full_view.svg';
@@ -17,6 +18,7 @@ function TableHeaderPagination({
 }: TableHeaderPaginationProps & { sourceType?: string }) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { isDrawerFull, setDrawerFull } = useDrawerFeature();
 
   const defaultOffset = Number(searchParams.get('offset')) || 1;
   const defaultLimit = Number(searchParams.get('limit')) || DEFAULT_LIMIT;
@@ -211,8 +213,13 @@ function TableHeaderPagination({
           </a>
         </Dropdown>
       </div>
-      <div className="dt-header__showlist_open">
-        <img src={open ? notView : openView} alt="" />
+      <div
+        className="dt-header__showlist_open cursor-pointer"
+        onClick={() => {
+          setDrawerFull(isDrawerFull ? false : true);
+        }}
+      >
+        <img src={!isDrawerFull ? notView : openView} alt="" />
       </div>
     </>
   );

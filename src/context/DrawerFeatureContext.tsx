@@ -14,6 +14,7 @@ type DrawerFeatureContextType = {
 
   isOpenDrawer: boolean;
   isFullScreen: boolean;
+  isDrawerFull: boolean;
   makeDrawerFull: (e: boolean) => void;
   openDrawer: () => void;
   closeDrawer: () => void;
@@ -31,6 +32,7 @@ type DrawerFeatureContextType = {
   isEditDate: boolean;
   isEditCarrierInfo: boolean;
   isEditCustomerDetails: boolean;
+  setDrawerFull: (e: boolean) => void;
   onEditDetails: (e: boolean) => void;
   onEditPerson: (e: boolean) => void;
   onEditNotes: (e: boolean) => void;
@@ -67,11 +69,13 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
 
   const [isOpenDrawer, setOpenDrawer] = useState(false);
   const [isFullScreen, setFullScreen] = useState(false);
+  const [isDrawerFull, setDrawerFull] = useState(false);
 
   const [isOpenCDPrice, setOpenCDPrice] = useState(false);
   // const queryClient = useQueryClient();
 
   const openDrawer = () => {
+    setFullScreen(isDrawerFull);
     setOpenDrawer(true);
   };
   const closeDrawer = () => {
@@ -80,7 +84,7 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
     // queryClient.invalidateQueries({
     //   queryKey: ['lead'],
     // });
-    setFullScreen(false);
+    // setFullScreen(false);
   };
   const makeDrawerFull = (value: boolean) => {
     setFullScreen(value);
@@ -192,10 +196,12 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         onChangeInnerCollapse,
 
         isFullScreen,
+        isDrawerFull,
         isOpenDrawer,
         openDrawer,
         closeDrawer,
         makeDrawerFull,
+        setDrawerFull,
         onNextElement,
         onPrevElement,
 
