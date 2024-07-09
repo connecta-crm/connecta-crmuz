@@ -39,6 +39,8 @@ class Payment {
   }
 
   async createPayment(ground: FormData) {
+    console.log(ground);
+    
     try {
       const { data } = await this.$api.post('/payment-app/', ground);
       return data;

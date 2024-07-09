@@ -1,4 +1,4 @@
-import { Input, Select, Spin } from 'antd';
+import { Button, Input, Select, Spin } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { useEffect, useState } from 'react';
 import { useMake, useModel } from '../../features/leads/useLeadDetails';
@@ -157,7 +157,7 @@ export default function Vehicle({
             defaultActiveFirstOption={false}
             onKeyUp={() => setModelEnabled(true)}
             loading={isFetching}
-            notFoundContent={isFetching ? <Spin size="small" /> : 'No data'}
+            notFoundContent={isFetching ? <Spin size="small" /> : <Button size='small'>create</Button>}
             filterOption={false}
             onSelect={() => null}
             onSearch={(value) => handleSearchCar(value, 'model')}
