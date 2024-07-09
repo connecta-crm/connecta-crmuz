@@ -216,10 +216,14 @@ function TableHeaderPagination({
       <div
         className="dt-header__showlist_open cursor-pointer"
         onClick={() => {
-          setDrawerFull(isDrawerFull ? false : true);
+          localStorage.setItem(
+            'is_drawer_full',
+            isDrawerFull === 'full' ? 'not_full' : 'full',
+          );
+          setDrawerFull(isDrawerFull === 'full' ? 'not_full' : 'full');
         }}
       >
-        <img src={!isDrawerFull ? notView : openView} alt="" />
+        <img src={isDrawerFull !== 'full' ? notView : openView} alt="" />
       </div>
     </>
   );
