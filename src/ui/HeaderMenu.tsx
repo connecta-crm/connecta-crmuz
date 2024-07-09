@@ -16,8 +16,6 @@ function HeaderMenu({ search }: { search: string | undefined }) {
   const [searchParams] = useSearchParams();
   const isActive = searchParams.get('status') || '';
 
-  // const [isChangeStatus, setChangeStatus] = useState(false);
-
   const { closeDrawer } = useDrawerFeature();
   const orderData = useAppSelector(getOrderData);
 
