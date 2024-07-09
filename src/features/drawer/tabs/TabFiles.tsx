@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Flex, Input, Upload, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCreateFile } from '../../attachments/useCreateFile';
 
 function TabFiles({ user, sourceId, sourceType }) {
-  const [title, setTitle] = useState('Test file');
+  const [title, setTitle] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
 
   const { createFile, isLoading, error } = useCreateFile(sourceType);
 
   const handleUpload = (event) => {
-    console.log('event', event.file);
     setSelectedFile(event?.file);
   };
 
@@ -22,15 +21,19 @@ function TabFiles({ user, sourceId, sourceType }) {
 
     const formData = new FormData();
     formData.append('file', selectedFile);
-    console.log('FILE: ', formData.get('file'));
-    createFile({
-      text: title,
-      rel: sourceId,
-      endpointType: sourceType,
-      file: formData.get('file'), // Retrieve the file from FormData
-      user,
-    });
+    formData.append('text', title);
+    formData.append('rel', sourceId);
+    formData.append('endpointType', sourceType);
+    formData.append('user', user);
+    createFile(formData);
   };
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      setSelectedFile(null);
+      setTitle('');
+    }
+  }, [isLoading, error]);
 
   return (
     <>
@@ -94,6 +97,7 @@ function TabFiles({ user, sourceId, sourceType }) {
               size="small"
               onClick={() => {
                 setSelectedFile(null);
+                setTitle('');
               }}
               disabled={isLoading}
             >

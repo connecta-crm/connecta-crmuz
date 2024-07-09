@@ -1,11 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AxiosError } from 'axios';
-import { CreateEmailParams } from '../../features/attachments/useCreateEmail';
 import { CreateFileParams } from '../../features/attachments/useCreateFile';
 import { CreateNoteParams } from '../../features/attachments/useCreateNote';
-import { CreatePhoneParams } from '../../features/attachments/useCreatePhone';
-import { CreateTaskParams } from '../../features/attachments/useCreateTask';
-import { UpdateNoteParams } from '../../features/attachments/useUpdateNote';
-import { TasksParamsType } from '../../features/tasks/useTasks';
 import apiClient from '../axios';
 
 type ApiErrorResponse = {
@@ -51,16 +47,12 @@ class Attachments {
   }
 
   // POST: /attachments/create-file/
-  async createFile({ rel, text, endpointType, file, user }: CreateFileParams) {
-    console.log('ss', rel, text, endpointType, file, user);
+  async createFile(formData: CreateFileParams) {
     try {
-      const { data } = await this.$api.post(`/attachments/create-file/`, {
-        rel,
-        text,
-        endpointType,
-        user,
-        file,
-      });
+      const { data } = await this.$api.post(
+        `/attachments/create-file/`,
+        formData,
+      );
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

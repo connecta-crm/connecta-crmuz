@@ -19,13 +19,13 @@ export function useCreateFile(sourceType: EndPointType) {
     isPending: isLoading,
     error,
   } = useMutation({
-    mutationFn: ({ rel, endpointType, text, file, user }: CreateFileParams) =>
-      Attachments.createFile({ rel, endpointType, text, file, user }),
+    mutationFn: (formData: CreateFileParams) =>
+      Attachments.createFile(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [`${sourceType}Attachments`],
       });
-      message.success('File created!');
+      message.success('File successfully created!');
     },
     onError: (err) => {
       message.error(err.message);
