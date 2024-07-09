@@ -18,8 +18,9 @@ export function useOrderReassignUser() {
       Orders.orderReassignUser({ guid, model }),
     onSuccess: () => {
       message.success('Reassigned order user!');
-      queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['order'] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
     onError: (err) => {
       message.error(err.message);

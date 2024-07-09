@@ -318,7 +318,9 @@ function DrawerHeader({
     return;
   }
 
-  const { extraUser } = featureData || {};
+  const { extraUser, user: featureUser } = featureData || {};
+
+  console.log('featureUser', featureUser);
 
   // PREV-NEXT functions
   const handlePrevElement = () => {
@@ -407,7 +409,7 @@ function DrawerHeader({
           ) && showUsers
             ? [
                 {
-                  label: <small className="pb-0 pt-0">Available to add</small>,
+                  label: <small className="pb-0 pt-0">Included</small>,
                   key: '4-01',
                   type: 'group',
                   children: (users || [])
@@ -437,7 +439,7 @@ function DrawerHeader({
           showUsers
             ? [
                 {
-                  label: <small className="pb-0 pt-0">Included</small>,
+                  label: <small className="pb-0 pt-0">Available to add</small>,
                   key: '4-02',
                   type: 'group',
                   children: (users || [])
@@ -533,7 +535,7 @@ function DrawerHeader({
           key: '4-100',
           label: (
             <p style={{ background: 'none', paddingBottom: 5 }}>
-              {extraUser?.firstName + ' ' + extraUser?.lastName}
+              {featureUser?.firstName + ' ' + featureUser?.lastName}
             </p>
           ),
         },
@@ -727,8 +729,8 @@ function DrawerHeader({
             {/* USERS DROPDOWN */}
             <div className="drawer-header__btnitem __avatar">
               <img
-                src={extraUser?.picture ?? '/img/empty-user.jpeg'}
-                alt={extraUser?.firstName || 'User'}
+                src={featureUser?.picture ?? '/img/empty-user.jpeg'}
+                alt={featureUser?.firstName + ' ' + featureUser?.lastName}
                 className="user-avatar mr-10"
               />
               <Dropdown
@@ -751,7 +753,7 @@ function DrawerHeader({
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
                     <span className="user-name">
-                      {extraUser?.firstName + ' ' + extraUser?.lastName}
+                      {featureUser?.firstName + ' ' + featureUser?.lastName}
                     </span>
                     {isFetchingUsers && !users?.length && isOpenUsers ? (
                       <LoadingOutlined

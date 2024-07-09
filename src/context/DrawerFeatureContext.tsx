@@ -88,7 +88,6 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
     // queryClient.invalidateQueries({
     //   queryKey: ['lead'],
     // });
-    // setFullScreen(false);
   };
   const makeDrawerFull = (value: boolean) => {
     setFullScreen(value);
