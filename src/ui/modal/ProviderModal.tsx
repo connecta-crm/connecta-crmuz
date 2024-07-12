@@ -35,7 +35,7 @@ export default function ProviderModal({
   const { update } = useUpdateSettingProvider();
   const [form] = Form.useForm();
   const { create } = useCreateSettingProvider();
-  const { users } = useUsers();
+  const { users } = useUsers(openModal);
   const createUser = (e: SettingProvidersTableDataType) => {
     if (provider) {
       e.id = provider?.id;

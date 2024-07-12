@@ -22,7 +22,7 @@ export const ProvidersTableColumn = [
     dataIndex: 'status',
     render: (status: string) => (
       <span className={status == 'active' ? '' : 'status__active'}>
-        {status}
+        {status=="active"?"Active":"Inactive"}
       </span>
     ),
   },
@@ -31,7 +31,8 @@ export const ProvidersTableColumn = [
     dataIndex: 'type',
     render: (status: string) => (
       <span className={status == 'standard' ? '' : 'status__active'}>
-        {status}
+        {status=="standard"&&"Standard"}
+        {status=="exclusive"&&"Exclusive"}
       </span>
     ),
   },

@@ -4,14 +4,17 @@ export const LeadTableColumns = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width:80,
     render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
     title: 'Received',
+    width:170,
     dataIndex: 'updatedAt',
   },
   {
     title: 'User',
+    width:56,
     dataIndex: 'user',
     render: (data: { id: string; picture: string }) => (
       <div className="table__img__container">
@@ -21,10 +24,12 @@ export const LeadTableColumns = [
   },
   {
     title: 'Customer',
+    width:160,
     dataIndex: 'customerName',
   },
   {
     title: 'Phone',
+    width:165,
     dataIndex: 'customerPhone',
 
     render: (text: string, record: LeadTableDataType) => (
@@ -52,6 +57,7 @@ export const LeadTableColumns = [
   },
   {
     title: 'Vehicle',
+    width:190,
     dataIndex: 'leadVehicles',
     render: (data: { vehicleName: string }[], record: LeadTableDataType) => (
       <div className="table__vehicle">
@@ -83,6 +89,7 @@ export const LeadTableColumns = [
   },
   {
     title: 'Est. Ship',
+    width:100,
     dataIndex: 'dateEstShip',
   },
 ];

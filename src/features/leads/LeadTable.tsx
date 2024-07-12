@@ -51,6 +51,7 @@ function LeadTable({
         <div className="table__container">
           <Radio.Group style={{ width: '100%' }}>
             <Table
+               tableLayout='fixed'
               rowKey="id"
               rowSelection={{ ...rowSelection }}
               columns={LeadTableColumns}

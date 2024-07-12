@@ -1,17 +1,18 @@
 import { LogType } from '../dstribution/DistributionDataType';
 
 export interface StatusTableDataType {
-  id: number | null;
-  updatedFromEmail: string;
-  logs: LogType[];
+  id: number;
+  emailTemplateName: string;
+  smsTemplateName: string;
   name: string;
+  steps: string;
+  delaysMinutes: string;
   status: string;
-  paymentType: string;
-  accountName: string;
-  accountUsername: string;
-  link: string;
-  qrCode: string;
-  body: string;
-  createdOn?: string;
+  emailTemplate: string;
+  smsTemplate: string;
   updatedFrom: string;
+  includedUsers: string[];
+  availableUsers:string[]
+  logs: LogType[];
+  
 }

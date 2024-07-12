@@ -16,7 +16,7 @@ export const GroundTableColumn = [
     dataIndex: 'status',
     render: (status: string) => (
       <span className={status == 'active' ? '' : 'status__active'}>
-        {status}
+        {status=="active"?"Active":"Inactive"}
       </span>
     ),
   },

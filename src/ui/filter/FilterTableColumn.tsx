@@ -3,12 +3,14 @@ import { FilterTableDataType } from './FilterTableColumnType';
 export const FilterTableColumns = [
   {
     title: 'Id',
+    width:90,
     dataIndex: 'id',
-    render: (text: string) => <span>#100{text}</span>,
+    render: (text: string) => <span>#{text}</span>,
     // render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
     title: 'User',
+    width:56,
     dataIndex: 'user',
     render: () => (
       <div className="table__img__container">
@@ -26,6 +28,7 @@ export const FilterTableColumns = [
   },
   {
     title: 'Phone',
+    width:180,
     dataIndex: 'customerPhone',
     render: (text: string, record: FilterTableDataType) => (
       <Radio.Button
@@ -52,6 +55,7 @@ export const FilterTableColumns = [
   },
   {
     title: 'Status',
+    // width:70,
     dataIndex: 'statusType',
   },
   // {
@@ -106,6 +110,7 @@ export const FilterTableColumns = [
   },
   {
     title: 'Est. Ship',
+    width:96,
     dataIndex: 'dateEstShip',
   },
 ];

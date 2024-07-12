@@ -7,26 +7,37 @@ export const StatusTableColumn = [
   },
   {
     title: 'Email template',
-    dataIndex: 'accountName',
+    dataIndex: 'emailTemplateName',
   },
   {
     title: 'SMS template',
-    dataIndex: 'accountUsername',
+    dataIndex: 'smsTemplateName',
   },
   {
     title: 'Steps',
-    dataIndex: 'accountUsername',
+    dataIndex: 'steps',
+    render: (delay: string) => (
+      <>
+      {delay=="after_received"&&"After received"}
+      {delay=="after_quoted"&&"After quoted"}
+      {delay=="after_dispatch"&&"After dispatch"}
+      {delay=="after_pickup"&&"After pick up"}
+      {delay=="after_delivery"&&"After delivery"}
+      {delay=="before_pickup"&&"Before pick up"}
+      {delay=="before_delivery"&&"Before delivery"}
+     </>
+    ),
   },
   {
-    title: 'Delays',
-    dataIndex: 'accountUsername',
+    title: 'Gap',
+    dataIndex: 'delaysMinutes',
   },
   {
     title: 'Status',
     dataIndex: 'status',
     render: (status: string) => (
       <span className={status == 'active' ? '' : 'status__active'}>
-        {status}
+        {status=="active"?"Active":"Inactive"}
       </span>
     ),
   },

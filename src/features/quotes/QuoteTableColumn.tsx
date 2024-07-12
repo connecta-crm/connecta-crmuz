@@ -5,11 +5,13 @@ import { QuotesTableDataType } from './QuoteTableColumnType';
 export const QuotesTableColumns = [
   {
     title: 'Id',
+    // width:50,
     dataIndex: 'id',
     render: (text: string) => <a className="table__id">#100{text}</a>,
   },
   {
     title: 'Quoted on',
+    width:200,
     dataIndex: 'updatedAt',
   },
   {

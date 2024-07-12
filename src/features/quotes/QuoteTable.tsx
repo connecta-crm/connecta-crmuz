@@ -88,12 +88,14 @@ function QuotesTable({
     const columnsConfig = [
       {
         title: 'Id',
+        width:120,
         dataIndex: 'id',
         render: (text: string) => <a className="table__id">#100{text}</a>,
       },
       filteredHeader(),
       {
         title: 'Note',
+        width:55,
         dataIndex: 'node',
         render: (text: string, record: QuotesTableDataType) => (
           <TableDropdown record={record} text={text} />
@@ -102,13 +104,10 @@ function QuotesTable({
       {
         title: 'User',
         dataIndex: 'user',
-        render: () => (
+        width:55,
+        render: (data: { id: string; picture: string }) => (
           <div className="table__img__container">
-            <img
-              src="./img/dt_table/default_user_image.png"
-              alt=""
-              className="table__user__img"
-            />
+            <img src={data?.picture} alt="" className="table__user__img" />
           </div>
         ),
       },
@@ -118,6 +117,7 @@ function QuotesTable({
       },
       {
         title: 'Phone',
+        width:165,
         dataIndex: 'customerPhone',
         render: (text: string, record: QuotesTableDataType) => (
           <Radio.Button
@@ -189,6 +189,7 @@ function QuotesTable({
       },
       {
         title: 'Est. Ship',
+        width:96,
         dataIndex: 'dateEstShip',
       },
     ];
@@ -210,6 +211,7 @@ function QuotesTable({
         <div className="table__container">
           <Radio.Group style={{ width: '100%' }}>
             <Table
+              tableLayout="fixed"
               rowKey="id"
               rowSelection={{ ...rowSelection }}
               columns={columns}

@@ -6,20 +6,32 @@ import { StatusTableDataType } from './StatusTableDataType';
 import CheckButton from '../../ui/CheckButton';
 const items = [
   {
-    label: <CheckButton type="paymentType" title="zelle" drop={true} />,
+    label: <CheckButton type="ordering" title="after_received" drop={true} />,
     key: '0',
   },
   {
-    label: <CheckButton type="paymentType" title="paypal" drop={true}  />,
+    label: <CheckButton type="ordering" title="after_quoted" drop={true} />,
     key: '1',
   },
   {
-    label: <CheckButton type="paymentType" title="cashapp" drop={true}  />,
+    label: <CheckButton type="ordering" title="after_dispatch" drop={true} />,
     key: '2',
   },
   {
-    label: <CheckButton type="paymentType" title="venmo" drop={true}  />,
+    label: <CheckButton type="ordering" title="after_pickup" drop={true} />,
     key: '3',
+  },
+  {
+    label: <CheckButton type="ordering" title="after_delivery" drop={true} />,
+    key: '4',
+  },
+  {
+    label: <CheckButton type="ordering" title="before_pickup" drop={true} />,
+    key: '5',
+  },
+  {
+    label: <CheckButton type="ordering" title="before_delivery" drop={true} />,
+    key: '6',
   },
 ];
 const rowSelection = {
