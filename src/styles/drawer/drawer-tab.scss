@@ -12,6 +12,13 @@
       display: none;
     }
   }
+  .tab-click-here {
+    color: #aaa;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 5px 7px 24px 7px;
+    cursor: pointer;
+  }
   .ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active,
   .ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active {
     .default-icon {

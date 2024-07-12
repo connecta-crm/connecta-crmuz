@@ -12,7 +12,7 @@ export function useAutoRefreshToken() {
     const interval = setInterval(() => {
       refreshToken(refreshTokenValue);
     }, 290000); // refresh every 4 90 seconds
-
+    // 15 * 60 * 1000); // Refresh token every 15 minutes
     return () => clearInterval(interval);
   }, [refreshTokenValue, refreshToken]);
 

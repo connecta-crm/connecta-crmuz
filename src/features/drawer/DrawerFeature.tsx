@@ -156,7 +156,11 @@ function DrawerLeft({ sourceType }: DrawerSourceType) {
 
   const carrierData = orderData?.dispatchData?.carrierData ?? {};
 
-  if (sourceType === 'order' && !Object.keys(carrierData)?.length) {
+  if (
+    sourceType === 'order' &&
+    carrierData &&
+    !Object.keys(carrierData)?.length
+  ) {
     featureItems = filteredItems.filter((item) => item.key !== '600');
   } else {
     featureItems = filteredItems;

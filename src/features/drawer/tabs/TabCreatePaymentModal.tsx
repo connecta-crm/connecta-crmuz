@@ -55,7 +55,14 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
       open={isOpenModal}
       onCancel={onCloseModal}
       loading={isLoading}
-      onSave={() => createOrderPayment({ ...paymentData, order: orderGuid })}
+      onSave={() =>
+        createOrderPayment({
+          ...paymentData,
+          order: orderGuid,
+          surchargeFeeRate: Number(paymentData.surchargeFeeRate),
+          quantity: Number(paymentData.quantity),
+        })
+      }
     >
       <>
         <div className="d-flex justify-between mb-5">

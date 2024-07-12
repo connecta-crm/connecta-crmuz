@@ -98,9 +98,7 @@ function TableHeaderProvider({ sourceType }) {
   const items: MenuProps['items'] = [
     {
       label: (
-        <div className="d-flex align-center justify-between">
-          Lead providers
-        </div>
+        <div className="d-flex align-center justify-between">Providers</div>
       ),
       key: '1',
     },

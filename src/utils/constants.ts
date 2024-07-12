@@ -14,7 +14,7 @@ export const CONDITION_TYPES = [
   //   value: 'forklift',
   // },
 ];
-export const VEHICLE_TYPE=[
+export const VEHICLE_TYPE = [
   {
     label: 'ATV',
     value: 'atv',
@@ -62,8 +62,8 @@ export const VEHICLE_TYPE=[
   {
     label: 'Other',
     value: 'other',
-  }
-]
+  },
+];
 
 export const TRAILER_TYPES = [
   {
@@ -209,8 +209,7 @@ export const REASSIGN_USERS_REASONS = [
 ];
 
 export const PAYMENT_TYPES = [
-  { value: 'credit', label: 'Credit' },
-  { value: 'card', label: 'Card' },
+  { value: 'credit_card', label: 'Credit Card' },
   { value: 'zelle', label: 'Zelle' },
   { value: 'cashapp', label: 'CashApp' },
   { value: 'venmo', label: 'Venmo' },

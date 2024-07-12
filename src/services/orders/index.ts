@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 // import { QuoteEditParamsType } from '../../features/quotes/useQuoteEdit';
 // import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdit';
+import { CreatePaymentCreditCardDataType } from '../../features/drawer/tabs/TabChargePaymentModal';
 import { CreatePaymentDataType } from '../../features/drawer/tabs/TabCreatePaymentModal';
 import { LogsParamsType } from '../../features/leads/useLeadLogs';
 import { CreateContractParams } from '../../features/orders/useCreateContract';
@@ -262,6 +263,24 @@ class Orders {
     }
   }
 
+  // POST: /order-payments/credit-cards/create/
+  async createOrderPaymentCreditCard({
+    ...payload
+  }: CreatePaymentCreditCardDataType) {
+    try {
+      const { data } = await this.$api.post(
+        `/order-payments/credit-cards/create/`,
+        { ...payload },
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // POST: /order-payments/attachments/
   async createOrderAttach(payload) {
     console.log('payload', payload);
@@ -296,7 +315,22 @@ class Orders {
   async getOrderPaymentAttachs(orderPayment: number) {
     try {
       const { data } = await this.$api.get(
-        `/order-payments/attachments/list/?orderPayment=${orderPayment}`
+        `/order-payments/attachments/list/?orderPayment=${orderPayment}`,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  // GET: /order-payments/credit-cards/
+  async getOrderCreditCards(orderPayment: number) {
+    try {
+      const { data } = await this.$api.get(
+        `/order-payments/credit-cards/?orderPayment=${orderPayment}`,
       );
       return data;
     } catch (error) {

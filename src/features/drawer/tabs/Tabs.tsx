@@ -23,6 +23,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
   const user = userData?.id ? Number(userData?.id) : undefined;
   const userEmail = userData?.email ? userData?.email : undefined;
   const [activeKey, setActiveKey] = useState('1');
+  const [isClickedHere, setClickedHere] = useState(false);
 
   const {
     id: leadId,
@@ -96,9 +97,14 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       label: 'Notes',
       value: 'notes',
       icon: tabIcon('1', 'note'),
-      children: (
-        <TabNotes user={user} sourceId={sourceId} sourceType={sourceType} />
-      ),
+      children:
+        activeKey !== '1' || isClickedHere ? (
+          <TabNotes user={user} sourceId={sourceId} sourceType={sourceType} />
+        ) : (
+          <div onClick={() => setClickedHere(true)} className="tab-click-here">
+            Click here to type, @name...
+          </div>
+        ),
     },
     {
       key: '2',
@@ -203,6 +209,20 @@ function TabsApp({ sourceType }: DrawerSourceType) {
         renderTabBar={renderTabBar}
         items={items}
         activeKey={activeKey}
+        tabBarExtraContent={
+          activeKey !== '1' && (
+            <p
+              style={{ width: 38 }}
+              className="d-flex justify-center align-center cursor-pointer"
+              onClick={() => {
+                setClickedHere(false);
+                setActiveKey('1');
+              }}
+            >
+              <img src="/img/drawer/tab/close-x.svg" alt="" />
+            </p>
+          )
+        }
         onChange={(key) => setActiveKey(key)}
       />
     </div>

@@ -380,7 +380,7 @@ function History({
   useEffect(() => {
     if (
       noteData &&
-      Object.keys(noteData).length &&
+      Object.keys(noteData)?.length &&
       attachmentId &&
       !errorNote
     ) {

@@ -14,6 +14,7 @@ export function useOrderAttachCreate() {
     onSuccess: (data) => {
       queryClient.setQueryData(['orderCreateAttach'], data);
       queryClient.invalidateQueries({ queryKey: ['orderAttachs'] });
+      queryClient.invalidateQueries({ queryKey: ['orderPayments'] });
       message.success('Successfully attached');
     },
     onError: (err) => message.error(err.message),

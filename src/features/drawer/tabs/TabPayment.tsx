@@ -109,22 +109,23 @@ function TabPayment({
                     <td>{handlePaymentTypeLabel(payment.paymentType)}</td>
                     <td>{handlePaymentDirectionLabel(payment.direction)}</td>
                     <td>
-                      {payment.status === 'created' && (
-                        <Button
-                          className="ml-10"
-                          type="primary"
-                          size="small"
-                          onClick={() => {
-                            setAttachModalData(payment);
-                            setOpenModal((prev) => ({
-                              ...prev,
-                              attachModal: true,
-                            }));
-                          }}
-                        >
-                          Attach
-                        </Button>
-                      )}
+                      {payment.status === 'created' &&
+                        payment.paymentType !== 'credit_card' && (
+                          <Button
+                            className="ml-10"
+                            type="primary"
+                            size="small"
+                            onClick={() => {
+                              setAttachModalData(payment);
+                              setOpenModal((prev) => ({
+                                ...prev,
+                                attachModal: true,
+                              }));
+                            }}
+                          >
+                            Attach
+                          </Button>
+                        )}
                       {payment.status === 'paid' && (
                         <Button
                           className="ml-10"
@@ -142,6 +143,23 @@ function TabPayment({
                           Paid
                         </Button>
                       )}
+                      {payment.status === 'created' &&
+                        payment.paymentType === 'credit_card' && (
+                          <Button
+                            className="ml-10"
+                            type="primary"
+                            size="small"
+                            onClick={() => {
+                              setAttachModalData(payment);
+                              setOpenModal((prev) => ({
+                                ...prev,
+                                chargePaymentModal: true,
+                              }));
+                            }}
+                          >
+                            Charge
+                          </Button>
+                        )}
                     </td>
                   </tr>
                 ))}
@@ -244,6 +262,8 @@ function TabPayment({
         }
       />
       <TabChargePaymentModal
+        data={attachModalData}
+        orderGuid={orderGuid}
         isOpenModal={isOpenModal.chargePaymentModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, chargePaymentModal: false }))
