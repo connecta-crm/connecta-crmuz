@@ -286,7 +286,7 @@ function TabAttachModal({
                   {/* 03/14/2024 03:23 PM */}
                 </div>
               </div>
-              <p className="px-35">
+              <div className="px-35">
                 {attach?.image ? (
                   <Image.PreviewGroup items={[attach.image]}>
                     <Image
@@ -299,7 +299,7 @@ function TabAttachModal({
                 ) : (
                   <p className="text-center">No image</p>
                 )}
-              </p>
+              </div>
             </div>
           ))}
       </>

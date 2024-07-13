@@ -14,7 +14,7 @@ export function useRefreshToken() {
     },
     onError: (err) => {
       console.log('ERROR', err);
-      message.error('Error occured getting refresh token');
+      message.error('Error occurred getting refresh token');
     },
   });
 
