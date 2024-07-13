@@ -12,11 +12,23 @@ class Contract {
     this.$api = apiClient;
   }
 
-  async getContract(param: { text: string; id: string }) {
+  async getContract(param: { text: string | number; id: string | number }) {
     try {
       const { data } = await this.$api.get(
         `orders/contracts/${param?.text}/${param?.id}/`,
       );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
+  async getPayment(id: string | number) {
+    try {
+      const { data } = await this.$api.get(`/order-payments/customer/${id}/`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -73,7 +85,7 @@ class Contract {
   // }
 
   async createContract(contract: {
-    form:FormData
+    form: FormData;
     guidId: string;
     id: string;
   }) {

@@ -13,7 +13,6 @@ class Filter {
   }
 
   async getFilter(param: { type: string; q: string }) {
-    console.log(param);
     
     try {
       const { data } = await this.$api.get(

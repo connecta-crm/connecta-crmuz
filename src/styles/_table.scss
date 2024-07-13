@@ -324,53 +324,38 @@
   }
 }
 
-.leads {
+
+.quotes,
+.orders {
   table {
     thead {
-      th:nth-child(2) {
-        width: 71px !important;
-      }
       th:nth-child(3) {
-        width: 168px !important;
-      }
-      th:nth-child(4) {
-        width: 56px !important;
-      }
-      th:nth-child(5) {
         width: 170px !important;
-      }
-      th:nth-child(6) {
-        width: 160px !important;
-        min-width: 160px !important;
-      }
-      th:last-child {
-        width: 96px !important;
       }
     }
   }
 }
-// .quotes,
-// .orders {
+// .filter {
 //   table {
 //     thead {
 //       th:nth-child(2) {
 //         width: 71px !important;
 //       }
 //       th:nth-child(3) {
-//         width: 168px !important;
+//         width: 56px !important;
 //       }
 //       th:nth-child(4) {
-//         width: 56px !important;
+//         width: 170px !important;
 //       }
 //       th:nth-child(5) {
-//         width: 56px !important;
+//         width: 165px !important;
+//         min-width: 165px !important;
 //       }
-//       th:nth-child(6) {
+//       th:nth-child(8) {
 //         width: 180px !important;
 //       }
-//       th:nth-child(7) {
-//         width: 160px !important;
-//         min-width: 160px !important;
+//       th:nth-child(9) {
+//         width: 180px !important;
 //       }
 //       th:last-child {
 //         width: 96px !important;
@@ -378,31 +363,3 @@
 //     }
 //   }
 // }
-.filter {
-  table {
-    thead {
-      th:nth-child(2) {
-        width: 71px !important;
-      }
-      th:nth-child(3) {
-        width: 56px !important;
-      }
-      th:nth-child(4) {
-        width: 170px !important;
-      }
-      th:nth-child(5) {
-        width: 160px !important;
-        min-width: 160px !important;
-      }
-      th:nth-child(8) {
-        width: 180px !important;
-      }
-      th:nth-child(9) {
-        width: 180px !important;
-      }
-      th:last-child {
-        width: 96px !important;
-      }
-    }
-  }
-}

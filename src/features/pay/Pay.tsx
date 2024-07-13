@@ -1,10 +1,24 @@
 import { Form, Select } from 'antd';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import img from '../../../public/img/payment.png';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
+import { useContractPayment } from '../contract/useContractPayment';
+import { Origintype } from '../contract/contractDataTypes';
 export default function Pay() {
+  const params = useParams() as unknown as {
+    id: string | number;
+  };
+  const [order, setOrder] = useState<Origintype>();
+  const { contractpayments } = useContractPayment(true, params?.id);
+
+  useEffect(() => {
+    if (contractpayments) {
+      setOrder(contractpayments?.order);
+    }
+  }, [contractpayments]);
+
   const [methodValue, setMethodValue] = useState<
     'zelle' | 'cashapp' | 'venmo' | 'paypal' | null
   >(null);
@@ -58,7 +72,9 @@ export default function Pay() {
                 <span className="pay__form__label">Name</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">Adam Smith</span>
+                <span className="pay__form__text">
+                  {order ? order?.customer?.name : '...'}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -66,7 +82,9 @@ export default function Pay() {
                 <span className="pay__form__label">Email</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">youremail@gmail.com</span>
+                <span className="pay__form__text">
+                  {order ? order?.customer?.email : '...'}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -74,16 +92,20 @@ export default function Pay() {
                 <span className="pay__form__label">Phone number</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">(929) 929-9292</span>
+                <span className="pay__form__text">
+                  {order ? order?.customer?.phone : '...'}
+                </span>
               </InputCol>
             </InputRow>
-            <div className='mt-20'></div>
+            <div className="mt-20"></div>
             <InputRow>
               <InputCol>
                 <span className="pay__form__label">Order ID</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">101001</span>
+                <span className="pay__form__text">
+                  {order ? order?.id : '...'}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -91,16 +113,31 @@ export default function Pay() {
                 <span className="pay__form__label">Vehicle</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">2023 Toyota Camry</span>
+                <div>
+                  {order?.orderVehicles.map((item) => (
+                    <div className="pay__form__text">
+                      {order ? (
+                        <>
+                          {item.vehicleYear} {item?.vehicle?.mark?.name}{' '}
+                          {item.vehicle.name}
+                        </>
+                      ) : (
+                        '...'
+                      )}
+                    </div>
+                  ))}
+                </div>
               </InputCol>
             </InputRow>
-            <div className='mt-20'></div>
+            <div className="mt-20"></div>
             <InputRow>
               <InputCol>
                 <span className="pay__form__label">Amount due</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">$200.00</span>
+                <span className="pay__form__text">
+                  ${order?order?.reservationPrice:0}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>

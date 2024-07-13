@@ -40,7 +40,7 @@ export const RolsTableColumns = [
     dataIndex: 'accessStatus',
     render: (status: string) => (
       <span className={status == 'active' ? '' : 'status__active'}>
-        {status}
+        {status=="active"?"Active":"Inactive"}
       </span>
     ),
   },

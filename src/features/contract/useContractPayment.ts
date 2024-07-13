@@ -2,20 +2,20 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import Contract from '../../services/contract';
 
-export function useContract(enabled: boolean, param: { text: string|number; id: string|number }) {
+export function useContractPayment(enabled: boolean, id: string | number) {
   const [searchParams] = useSearchParams();
   const url = searchParams.size > 0 ? searchParams.toString() : '';
 
   const {
-    data: contracts,
+    data: contractpayments,
     isPending: isLoading,
     isFetching: isFetchingTeam,
     error,
   } = useQuery({
-    queryKey: ['contract', url],
-    queryFn: () => Contract.getContract(param),
+    queryKey: ['contract-payment', url],
+    queryFn: () => Contract.getPayment(id),
     enabled,
   });
 
-  return { contracts, isLoading, error, isFetchingTeam };
+  return { contractpayments, isLoading, error, isFetchingTeam };
 }

@@ -42,7 +42,7 @@ function SettingsTableHeaderFilters({
               >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
-                    <p className="dt-header__showlist_price">All types</p>
+                    <p className="dt-header__showlist_price">All steps</p>
                   </Space>
                 </a>
               </Dropdown>

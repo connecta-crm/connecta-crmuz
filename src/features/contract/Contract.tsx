@@ -17,7 +17,10 @@ export default function Contract() {
     initial: string;
   } | null>(localData ? JSON.parse(localData) : null);
   const [open, setOpen] = useState<boolean>(false);
-  const params = useParams() as unknown as { text: string; id: string };
+  const params = useParams() as unknown as {
+    text: string | number;
+    id: string | number;
+  };
   const [company, setCompany] = useState<CompanyType | null>(null);
   const [contract, setContract] = useState<ContractType | null>(null);
   const [order, setOrder] = useState<Origintype>();
@@ -27,6 +30,10 @@ export default function Contract() {
   // console.log(contracts);
 
   useEffect(() => {
+    if (!contracts?.contract?.signed) {
+      console.log(contracts?.contract?.signed);
+      localStorage.removeItem('contract');
+    }
     if (contracts) {
       setCompany(contracts?.company);
       setContract(contracts?.contract);
@@ -108,7 +115,7 @@ export default function Contract() {
                       </span>
                       <button
                         className="pdf__pay__btn"
-                        onClick={() => navigate('/contract/pay')}
+                        onClick={() => navigate('/contract/pay/' + params.text)}
                       >
                         <span>Pay</span>
                       </button>

@@ -5,6 +5,7 @@ import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { TableProps } from '../leads/LeadTable';
 import { OrderTableDataType } from './OrderTableColumnType';
+import TableDropdown from '../../ui/table/TableDropdown';
 const rowSelection = {
   onChange: (
     selectedRowKeys: React.Key[],
@@ -97,36 +98,37 @@ function OrdersTable({
     const columnsConfig = [
       {
         title: 'Id',
+        width: 100,
         dataIndex: 'id',
         render: (text: string) => <a className="table__id">#100{text}</a>,
       },
       filteredHeader?.(),
       {
         title: 'Note',
+        width: 60,
         dataIndex: 'notes',
-        // render: (text: string, record: OrderTableDataType) => (
-        //   <TableDropdown record={record} text={text} />
-        // ),
+        render: (text: string, record: OrderTableDataType) => (
+          <TableDropdown record={record} text={text} />
+        ),
       },
       {
         title: 'User',
+        width: 55,
         dataIndex: 'user',
-        render: () => (
+        render: (data: { id: string; picture: string }) => (
           <div className="table__img__container">
-            <img
-              src="./img/dt_table/default_user_image.png"
-              alt=""
-              className="table__user__img"
-            />
+            <img src={data?.picture} alt="" className="table__user__img" />
           </div>
         ),
       },
       {
         title: 'Customer',
         dataIndex: 'customerName',
+        // width:150,
       },
       {
         title: 'Phone',
+        width: 165,
         dataIndex: 'customerPhone',
         render: (text: string, record: OrderTableDataType) => (
           <Radio.Button
@@ -194,6 +196,7 @@ function OrdersTable({
       {
         title: 'Price',
         dataIndex: 'price',
+        width: 96,
         render: (price: number) => (
           <div>
             <span className="table__price">$</span>
@@ -227,6 +230,7 @@ function OrdersTable({
               rowKey="id"
               rowSelection={{ ...rowSelection }}
               columns={columns}
+              tableLayout="fixed"
               dataSource={
                 (orders || []) as unknown as OrderTableDataType[] | undefined
               }

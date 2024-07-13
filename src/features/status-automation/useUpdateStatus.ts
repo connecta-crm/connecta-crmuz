@@ -7,7 +7,7 @@ export function useUpdateStatus() {
   const queryClient = useQueryClient();
   const {
     mutate: update,
-    isPending: isLoading,
+    isPending: isLoadingUpdate,
     error,
     isSuccess,
   } = useMutation({
@@ -20,5 +20,5 @@ export function useUpdateStatus() {
       message.error(err.message);
     },
   });
-  return { update, isLoading, error, isSuccess };
+  return { update, isLoadingUpdate, error, isSuccess };
 }
