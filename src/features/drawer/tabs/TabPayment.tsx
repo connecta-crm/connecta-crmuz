@@ -109,6 +109,24 @@ function TabPayment({
                     <td>{handlePaymentTypeLabel(payment.paymentType)}</td>
                     <td>{handlePaymentDirectionLabel(payment.direction)}</td>
                     <td>
+                      {['cus2brok', 'brok2cus'].includes(payment.direction) && (
+                        <Button
+                          className="ml-10"
+                          type="primary"
+                          size="small"
+                          ghost
+                          // style={{ backgroundColor: 'rgb(66, 125, 157)' }}
+                          onClick={() => {
+                            setAttachModalData(payment);
+                            setOpenModal((prev) => ({
+                              ...prev,
+                              transRefundModal: true,
+                            }));
+                          }}
+                        >
+                          Receipt
+                        </Button>
+                      )}
                       {payment.status === 'created' &&
                         payment.paymentType !== 'credit_card' && (
                           <Button
@@ -165,54 +183,6 @@ function TabPayment({
                 ))}
               </tbody>
             </table>
-            <button
-              className="ml-10"
-              onClick={() =>
-                setOpenModal((prev) => ({
-                  ...prev,
-                  createPaymentModal: true,
-                }))
-              }
-            >
-              {' '}
-              1
-            </button>
-            <button
-              className="ml-10"
-              onClick={() =>
-                setOpenModal((prev) => ({
-                  ...prev,
-                  chargePaymentModal: true,
-                }))
-              }
-            >
-              {' '}
-              2
-            </button>
-            <button
-              className="ml-10"
-              onClick={() =>
-                setOpenModal((prev) => ({
-                  ...prev,
-                  paymentModal: false,
-                }))
-              }
-            >
-              {' '}
-              3
-            </button>
-            <button
-              className="ml-10"
-              onClick={() =>
-                setOpenModal((prev) => ({
-                  ...prev,
-                  transRefundModal: true,
-                }))
-              }
-            >
-              {' '}
-              4
-            </button>
           </div>
         )}
       </div>

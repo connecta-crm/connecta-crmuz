@@ -1,5 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Popconfirm, Radio } from 'antd';
+import parse from 'html-react-parser';
 import { useState } from 'react';
 import { SourceType } from '../../../ui/Drawer';
 import { classNames } from '../../../utils/helpers';
@@ -101,7 +102,7 @@ function HistoryCard({
                       <span>{item.title}</span>
                     </label>
                   ) : (
-                    <span>{item.title}</span>
+                    <span>{parse(item.title)}</span>
                   )}
                 </div>
               </div>
