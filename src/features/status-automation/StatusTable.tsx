@@ -6,31 +6,31 @@ import { StatusTableDataType } from './StatusTableDataType';
 import CheckButton from '../../ui/CheckButton';
 const items = [
   {
-    label: <CheckButton type="ordering" title="after_received" drop={true} />,
+    label: <CheckButton type="steps" title="after_received" drop={true} />,
     key: '0',
   },
   {
-    label: <CheckButton type="ordering" title="after_quoted" drop={true} />,
+    label: <CheckButton type="steps" title="after_quoted" drop={true} />,
     key: '1',
   },
   {
-    label: <CheckButton type="ordering" title="after_dispatch" drop={true} />,
+    label: <CheckButton type="steps" title="after_dispatch" drop={true} />,
     key: '2',
   },
   {
-    label: <CheckButton type="ordering" title="after_pickup" drop={true} />,
+    label: <CheckButton type="steps" title="after_pickup" drop={true} />,
     key: '3',
   },
   {
-    label: <CheckButton type="ordering" title="after_delivery" drop={true} />,
+    label: <CheckButton type="steps" title="after_delivery" drop={true} />,
     key: '4',
   },
   {
-    label: <CheckButton type="ordering" title="before_pickup" drop={true} />,
+    label: <CheckButton type="steps" title="before_pickup" drop={true} />,
     key: '5',
   },
   {
-    label: <CheckButton type="ordering" title="before_delivery" drop={true} />,
+    label: <CheckButton type="steps" title="before_delivery" drop={true} />,
     key: '6',
   },
 ];

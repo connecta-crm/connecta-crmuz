@@ -129,12 +129,21 @@ function App() {
                         path="/contract/cc-phone"
                         element={<CcDebePhone />}
                       />
-                      <Route path="/contract/pay" element={<Pay />} />
-                      <Route path="/contract/pay/zelle" element={<Zelle />} />
-                      <Route path="/contract/pay/venmo" element={<Venmo />} />
-                      <Route path="/contract/pay/paypal" element={<Paypal />} />
+                      <Route path="/contract/pay/:id" element={<Pay />} />
                       <Route
-                        path="/contract/pay/cashapp"
+                        path="/contract/pay/:id/zelle"
+                        element={<Zelle />}
+                      />
+                      <Route
+                        path="/contract/pay/:id/venmo"
+                        element={<Venmo />}
+                      />
+                      <Route
+                        path="/contract/pay/:id/paypal"
+                        element={<Paypal />}
+                      />
+                      <Route
+                        path="/contract/pay/:id/cashapp"
                         element={<Cashapp />}
                       />
                     </Route>

@@ -1,10 +1,26 @@
 import { message } from 'antd';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import copy from '../../../public/img/drawer/copy.svg';
 import img from '../../../public/img/payment.png';
 import cash from '../../../public/img/qr-code/cashapp.svg';
 import InputRow from '../../ui/form/InputRow';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Origintype } from '../contract/contractDataTypes';
+import { useContractPayment } from '../contract/useContractPayment';
+import { useEffect, useState } from 'react';
 export default function Cashapp() {
+  const navigate = useNavigate()
+  const params = useParams() as unknown as {
+    id: string | number;
+  };
+  const [order, setOrder] = useState<Origintype>();
+  const { contractpayments } = useContractPayment(true, params?.id);
+
+  useEffect(() => {
+    if (contractpayments) {
+      setOrder(contractpayments?.order);
+    }
+  }, [contractpayments]);
   return (
     <div className="pay">
       <div className="pay__content">
@@ -16,7 +32,7 @@ export default function Cashapp() {
           <div className="pay__form__body">
             <InputRow>
               <div className="pay__form__qr-text">
-                You can pay $200.00 by clicking the <b>scan QR code</b> inside
+                You can pay ${order?order?.reservationPrice:0}by clicking the <b>scan QR code</b> inside
                 <b> Cash app </b>
                 on your phone <br /> <br /> Or enter the <b>“Cashtag”</b> below
                 as a recipient.
@@ -49,9 +65,9 @@ export default function Cashapp() {
               </div>
             </div>
             <InputRow>
-              <Link className="pay__back__btn" to="/contract/pay">
+              <div className="pay__back__btn" onClick={()=>navigate(-1)} >
                 Back
-              </Link>
+              </div>
             </InputRow>
           </div>
         </div>

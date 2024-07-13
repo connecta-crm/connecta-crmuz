@@ -121,7 +121,7 @@ export default function Terms() {
                       </span>
                       <button
                         className="pdf__pay__btn"
-                        onClick={() => navigate('/contract/pay')}
+                        onClick={() => navigate('/contract/pay/' + params.text)}
                       >
                         <span>Pay</span>
                       </button>
