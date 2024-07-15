@@ -11,6 +11,7 @@ import TabChargePaymentModal from './TabChargePaymentModal';
 import TabCreatePaymentModal from './TabCreatePaymentModal';
 import TabPaymentModal from './TabPaymentModal';
 import TabTransRefundModal from './TabTransRefundModal';
+import { useOrderPaymentSendCCA } from '../../orders/useOrderPaymentSendCCA';
 
 type OrderPayment = {
   id: number;
@@ -45,8 +46,10 @@ function TabPayment({
   });
 
   const [attachModalData, setAttachModalData] = useState({});
-  const { orderPayments, isLoadingOrderPayments, error } =
-    useOrderPayments(orderGuid);
+  const { orderPayments, isLoadingOrderPayments } = useOrderPayments(orderGuid);
+
+  const { createOrderPaymentSendCCA, isLoadingSendCCA } =
+    useOrderPaymentSendCCA();
 
   const handlePaymentTypeLabel = (value: string) => {
     return PAYMENT_TYPES.find((type) => type.value === value)?.label;
@@ -97,7 +100,7 @@ function TabPayment({
                   <th>Amount charged</th>
                   <th>Payment type</th>
                   <th>Direction</th>
-                  <th style={{ width: 205 }}>Status</th>
+                  <th style={{ minWidth: 205, padding: 5 }}>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -108,10 +111,42 @@ function TabPayment({
                     <td className="highlight">${payment.amountCharged}</td>
                     <td>{handlePaymentTypeLabel(payment.paymentType)}</td>
                     <td>{handlePaymentDirectionLabel(payment.direction)}</td>
-                    <td>
+                    <td style={{ padding: 5 }}>
+                      {payment.paymentType === 'credit_card' && (
+                        <Button
+                          className="ml-10 mb-2"
+                          type="primary"
+                          size="small"
+                          ghost
+                          loading={isLoadingSendCCA}
+                          disabled={isLoadingSendCCA}
+                          onClick={() => {
+                            createOrderPaymentSendCCA(2); // todo
+                          }}
+                        >
+                          Send CCA
+                        </Button>
+                      )}
+                      {['car2brok', 'brok2car'].includes(payment.direction) && (
+                        <Button
+                          className="ml-10 mb-2"
+                          type="primary"
+                          size="small"
+                          ghost
+                          onClick={() => {
+                            setAttachModalData(payment);
+                            setOpenModal((prev) => ({
+                              ...prev,
+                              transRefundModal: true,
+                            }));
+                          }}
+                        >
+                          View
+                        </Button>
+                      )}
                       {['cus2brok', 'brok2cus'].includes(payment.direction) && (
                         <Button
-                          className="ml-10"
+                          className="ml-10 mb-2"
                           type="primary"
                           size="small"
                           ghost
@@ -130,7 +165,7 @@ function TabPayment({
                       {payment.status === 'created' &&
                         payment.paymentType !== 'credit_card' && (
                           <Button
-                            className="ml-10"
+                            className="ml-10 mb-2"
                             type="primary"
                             size="small"
                             onClick={() => {
@@ -146,7 +181,7 @@ function TabPayment({
                         )}
                       {payment.status === 'paid' && (
                         <Button
-                          className="ml-10"
+                          className="ml-10 mb-2"
                           type="primary"
                           size="small"
                           style={{ backgroundColor: 'rgb(66, 125, 157)' }}
@@ -164,7 +199,7 @@ function TabPayment({
                       {payment.status === 'created' &&
                         payment.paymentType === 'credit_card' && (
                           <Button
-                            className="ml-10"
+                            className="ml-10 mb-2"
                             type="primary"
                             size="small"
                             onClick={() => {

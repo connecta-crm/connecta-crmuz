@@ -281,6 +281,21 @@ class Orders {
     }
   }
 
+  // POST: /order-payments/send-cca/{payment}/
+  async createOrderPaymentSendCCA(payment: number) {
+    try {
+      const { data } = await this.$api.post(
+        `/order-payments/send-cca/${payment}/`,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // POST: /order-payments/attachments/
   async createOrderAttach(payload) {
     console.log('payload', payload);
