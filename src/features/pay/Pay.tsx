@@ -115,7 +115,7 @@ export default function Pay() {
               <InputCol>
                 <div>
                   {order?.orderVehicles.map((item) => (
-                    <div className="pay__form__text">
+                    <div className="pay__form__text" key={item.id}>
                       {order ? (
                         <>
                           {item.vehicleYear} {item?.vehicle?.mark?.name}{' '}

@@ -73,7 +73,6 @@ export default function RegionsModal({
     [],
   );
 
-
   const createUser = (e: GroundTableDataType) => {
     e.body = content;
     if (region) {
@@ -141,9 +140,7 @@ export default function RegionsModal({
                   <Input value={region?.name} type="text" placeholder="Empty" />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {region?.name}
-                </span>
+                <span className=" ml-20">{region?.name}</span>
               )}
             </FormControl>
             <FormControl img={car} title="Default">
@@ -164,7 +161,7 @@ export default function RegionsModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
+                <span className=" ml-20">
                   {region?.isDefault == true ? 'Yes' : 'No'}
                 </span>
               )}
@@ -187,9 +184,7 @@ export default function RegionsModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {region?.status}
-                </span>
+                <span className=" ml-20">{region?.status}</span>
               )}
             </FormControl>
             <br />

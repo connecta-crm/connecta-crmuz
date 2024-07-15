@@ -1,17 +1,40 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import card from '../../../public/img/card/cards.svg';
 import img from '../../../public/img/payment.png';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
+import { useEffect, useState } from 'react';
+import { Origintype } from '../contract/contractDataTypes';
+import { useContractPayment } from '../contract/useContractPayment';
 export default function CcAuthorization() {
+  const params = useParams() as unknown as {
+    id: string | number;
+  };
+  const [order, setOrder] = useState<Origintype>();
+  const { contractpayments } = useContractPayment(true, params?.id);
+
+  useEffect(() => {
+    if (contractpayments) {
+      setOrder(contractpayments?.order);
+    }
+  }, [contractpayments]);
+
   return (
     <div className="pay">
       <div className="pay__content">
         <div className=" text-center">
-          <img src={img} alt="" className="pay__content__logo" />
+          <img
+            src={contractpayments ? contractpayments?.company?.logo : img}
+            alt=""
+            className="pay__content__logo"
+          />
         </div>
         <div className="pay__form">
-          <div className="pay__form__header">Ocean Blue Logistics Inc</div>
+          <div className="pay__form__header">
+            {contractpayments
+              ? contractpayments?.company?.name
+              : '...'}
+          </div>
           <div className="pay__form__body">
             <InputRow>
               <div className="pay__cc__text">
@@ -27,7 +50,9 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Name</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">Adam Smith</span>
+                <span className="pay__form__text">
+                  {order ? order?.customer?.name : '...'}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -35,7 +60,9 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Email</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">youremail@gmail.com</span>
+                <span className="pay__form__text">
+                  {order ? order?.customer?.email : '...'}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -43,7 +70,10 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Phone number</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">(929) 929-9292</span>
+                <span className="pay__form__text">
+                  {' '}
+                  {order ? order?.customer?.phone : '...'}
+                </span>
               </InputCol>
             </InputRow>
             <div className="mt-10"></div>
@@ -52,7 +82,10 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Order ID</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">101001</span>
+                <span className="pay__form__text">
+                  {' '}
+                  {order ? order?.id : '...'}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -60,7 +93,20 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Vehicle</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text ">2023 Toyota Camry</span>
+                <div>
+                  {order?.orderVehicles.map((item) => (
+                    <div className="pay__form__text" key={item.id}>
+                      {order ? (
+                        <>
+                          {item.vehicleYear} {item?.vehicle?.mark?.name}{' '}
+                          {item.vehicle.name}
+                        </>
+                      ) : (
+                        '...'
+                      )}
+                    </div>
+                  ))}
+                </div>
               </InputCol>
             </InputRow>
             <div className="mt-10"></div>
@@ -70,7 +116,9 @@ export default function CcAuthorization() {
               </InputCol>
               <InputCol>
                 <div className="d-flex align-center">
-                  <span className="pay__form__text mr-5">Credit/Debit Card </span>
+                  <span className="pay__form__text mr-5">
+                    Credit/Debit Card{' '}
+                  </span>
                   <img width={68} height={14} src={card} alt="" />
                 </div>
               </InputCol>
@@ -80,7 +128,9 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Amount</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">$200.00</span>
+                <span className="pay__form__text">
+                  ${order ? order?.reservationPrice : 0}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -88,7 +138,9 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Surcharge fee</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">$9.00</span>
+                <span className="pay__form__text">
+                  ${order ? (order?.reservationPrice * 5) / 100 : 0}
+                </span>
               </InputCol>
             </InputRow>
             <InputRow>
@@ -96,7 +148,13 @@ export default function CcAuthorization() {
                 <span className="pay__form__label">Total amount:</span>
               </InputCol>
               <InputCol>
-                <span className="pay__form__text">$209.00</span>
+                <span className="pay__form__text">
+                  $
+                  {order
+                    ? (Number(order?.reservationPrice) * 5) / 100 +
+                      Number(order?.reservationPrice)
+                    : 0}
+                </span>
               </InputCol>
             </InputRow>
 
@@ -115,7 +173,10 @@ export default function CcAuthorization() {
             </InputRow>
 
             <InputRow>
-              <Link className="pay__form__btn mt-10 " to={'/contract/cc-debit'}>
+              <Link
+                className="pay__form__btn mt-10 "
+                to={'/contract/cc-debit/card/' + params?.id}
+              >
                 Fill out a form now
               </Link>
             </InputRow>

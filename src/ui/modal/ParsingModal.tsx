@@ -117,7 +117,7 @@ export default function ParsingModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ">{parsing?.group}</span>
+              <span className=" ">{parsing?.group}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Parsing">
@@ -142,7 +142,7 @@ export default function ParsingModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ">{parsing?.parsing}</span>
+              <span className=" ">{parsing?.parsing}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Value">

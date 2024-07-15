@@ -40,7 +40,6 @@ export default function PaymentModal({
     formData.append('link ', e.link);
     if (img) {
       const target = img?.target as HTMLInputElement;
-
       const file: File = (target.files as FileList)[0];
       formData.append('qrCode ', file);
     }
@@ -111,9 +110,7 @@ export default function PaymentModal({
                 <Input value={payment?.name} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {payment?.name}
-              </span>
+              <span className=" ml-20">{payment?.name}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Status">
@@ -134,9 +131,7 @@ export default function PaymentModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {payment?.status}
-              </span>
+              <span className=" ml-20">{payment?.status}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Type">
@@ -159,9 +154,7 @@ export default function PaymentModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {payment?.paymentType}
-              </span>
+              <span className=" ml-20">{payment?.paymentType}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Account name">
@@ -180,9 +173,7 @@ export default function PaymentModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {payment?.accountName}
-              </span>
+              <span className=" ml-20">{payment?.accountName}</span>
             )}
           </FormControl>
           <FormControl img={car} title="User name">
@@ -201,9 +192,7 @@ export default function PaymentModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {payment?.accountUsername}
-              </span>
+              <span className=" ml-20">{payment?.accountUsername}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Link">
@@ -218,9 +207,7 @@ export default function PaymentModal({
                 <Input value={payment?.link} type="link" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20 ">
-                {payment?.link}
-              </span>
+              <span className=" ml-20 ">{payment?.link}</span>
             )}
           </FormControl>
           <FormControl img={car} title="QR code">
@@ -229,13 +216,11 @@ export default function PaymentModal({
                 className="m-0 w-100 "
                 name="qrCode"
                 rules={[{ required: payment ? false : true, message: '' }]}
-                // initialValue={payment?.qrCode}
                 preserve={false}
               >
                 <div className="payment-attach d-flex">
                   <Input
                     accept="image/png, image/gif, image/jpeg"
-                    // value={payment?.qrCode}
                     type="file"
                     placeholder="Empty"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -249,9 +234,7 @@ export default function PaymentModal({
                 </div>
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {payment?.qrCode}
-              </span>
+              <span className=" ml-20">{payment?.qrCode}</span>
             )}
           </FormControl>
         </UpCollapse>

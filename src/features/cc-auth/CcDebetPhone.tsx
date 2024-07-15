@@ -1,14 +1,35 @@
+import { useParams } from 'react-router-dom';
 import img from '../../../public/img/payment.png';
 import InputRow from '../../ui/form/InputRow';
+import { Origintype } from '../contract/contractDataTypes';
+import { useEffect, useState } from 'react';
+import { useContractPayment } from '../contract/useContractPayment';
 export default function CcDebePhone() {
+  const params = useParams() as unknown as {
+    id: string | number;
+  };
+  const [order, setOrder] = useState<Origintype>();
+  const { contractpayments } = useContractPayment(true, params?.id);
+
+  useEffect(() => {
+    if (contractpayments) {
+      setOrder(contractpayments?.order);
+    }
+  }, [contractpayments]);
   return (
     <div className="pay cc-debet">
       <div className="pay__content">
         <div className=" text-center">
-          <img src={img} alt="" className="pay__content__logo" />
+          <img
+            src={contractpayments ? contractpayments?.company?.logo : img}
+            alt=""
+            className="pay__content__logo"
+          />
         </div>
         <div className="pay__form">
-          <div className="pay__form__header">Ocean Blue Logistics Inc</div>
+          <div className="pay__form__header">
+            {contractpayments ? contractpayments?.company?.name : '...'}
+          </div>
           <div className="pay__form__body">
             <InputRow>
               <div className="pay__form__text " style={{ textAlign: 'center' }}>
@@ -25,8 +46,11 @@ export default function CcDebePhone() {
             </InputRow>
 
             <InputRow>
-              <a className="pay__form__next mt-10 " href="tel:9299293003">
-                Call (929) 929-3003
+              <a
+                className="pay__form__next mt-10 "
+                href={'tel:' + order?.customer?.phone}
+              >
+                Call {order?.customer?.phone}
               </a>
             </InputRow>
           </div>

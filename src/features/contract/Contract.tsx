@@ -115,7 +115,13 @@ export default function Contract() {
                       </span>
                       <button
                         className="pdf__pay__btn"
-                        onClick={() => navigate('/contract/pay/' + params.text)}
+                        onClick={() =>
+                          navigate(
+                            contracts?.cc
+                              ? '/contract/cc-auth/' + params.text
+                              : '/contract/pay/' + params.text,
+                          )
+                        }
                       >
                         <span>Pay</span>
                       </button>

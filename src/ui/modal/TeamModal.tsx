@@ -88,7 +88,7 @@ export default function TeamModal({
                 <Input value={team?.name} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{team?.name}</span>
+              <span className=" ml-20">{team?.name}</span>
             )}
           </FormControl>
           <FormControl img={car} title="User status">
@@ -109,7 +109,7 @@ export default function TeamModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{team?.status}</span>
+              <span className=" ml-20">{team?.status}</span>
             )}
           </FormControl>
         </UpCollapse>
