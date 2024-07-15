@@ -146,9 +146,7 @@ export default function GroundModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {groundItem?.name}
-                </span>
+                <span className=" ml-20">{groundItem?.name}</span>
               )}
             </FormControl>
             <FormControl img={car} title="Default">
@@ -169,7 +167,7 @@ export default function GroundModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
+                <span className=" ml-20">
                   {groundItem?.isDefault == true ? 'Yes' : 'No'}
                 </span>
               )}
@@ -192,16 +190,14 @@ export default function GroundModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {groundItem?.status}
-                </span>
+                <span className=" ml-20">{groundItem?.status}</span>
               )}
             </FormControl>
             <br />
           </UpCollapse>
         </div>
         <JoditEditor
-         config={config as unknown as undefined}
+          config={config as unknown as undefined}
           ref={editor}
           value={content}
           onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons

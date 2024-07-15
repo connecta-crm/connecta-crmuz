@@ -79,19 +79,13 @@ export default function DistributionModal({
           title="Lead distribution information"
         >
           <FormControl img={car} title="User">
-            <span className="detail__text_with-bg ml-20">
-              {distribution?.userEmail}
-            </span>
+            <span className=" ml-20">{distribution?.userEmail}</span>
           </FormControl>
           <FormControl img={car} title="Received today">
-            <span className="detail__text_with-bg ml-20">
-              {distribution?.receivedToday}
-            </span>
+            <span className=" ml-20">{distribution?.receivedToday}</span>
           </FormControl>
           <FormControl img={car} title="Queue now">
-            <span className="detail__text_with-bg ml-20">
-              {distribution?.queueNow}
-            </span>
+            <span className=" ml-20">{distribution?.queueNow}</span>
           </FormControl>
 
           <FormControl img={car} title="Mutiple">
@@ -116,9 +110,7 @@ export default function DistributionModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {distribution?.multiple}
-              </span>
+              <span className=" ml-20">{distribution?.multiple}</span>
             )}
           </FormControl>
 
@@ -131,9 +123,7 @@ export default function DistributionModal({
                 defaultValue={distribution?.startHour}
               />
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {distribution?.startHour}
-              </span>
+              <span className=" ml-20">{distribution?.startHour}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Finish hour">
@@ -145,9 +135,7 @@ export default function DistributionModal({
                 defaultValue={distribution?.finishHour}
               />
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {distribution?.finishHour}
-              </span>
+              <span className=" ml-20">{distribution?.finishHour}</span>
             )}
           </FormControl>
 
@@ -169,9 +157,7 @@ export default function DistributionModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {distribution?.status}
-              </span>
+              <span className=" ml-20">{distribution?.status}</span>
             )}
           </FormControl>
         </UpCollapse>

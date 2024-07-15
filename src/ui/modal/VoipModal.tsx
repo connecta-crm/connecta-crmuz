@@ -87,7 +87,7 @@ export default function VoipModal({
                 <Input value={voip?.name} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{voip?.name}</span>
+              <span className=" ml-20">{voip?.name}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Status">
@@ -108,7 +108,7 @@ export default function VoipModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{voip?.status}</span>
+              <span className=" ml-20">{voip?.status}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Type">
@@ -130,9 +130,7 @@ export default function VoipModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {voip?.voipType}
-              </span>
+              <span className=" ml-20">{voip?.voipType}</span>
             )}
           </FormControl>
           <FormControl img={car} title="API">
@@ -147,7 +145,7 @@ export default function VoipModal({
                 <Input value={voip?.api} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{voip?.api}</span>
+              <span className=" ml-20">{voip?.api}</span>
             )}
           </FormControl>
         </UpCollapse>

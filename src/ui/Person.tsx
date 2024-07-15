@@ -176,11 +176,13 @@ export default function Person({
               )
             }
             options={(personData || []).map(
-              (d: { id: number; name: string }) => ({
-                value: d.id,
-                all: d,
-                label: d.name,
-              }),
+              (d: { id: number; name: string; lastName: string }) => {
+                return {
+                  value: d.id,
+                  all: d,
+                  label: `${d.name} ${typeof d.lastName == 'string' ? d.lastName : ''}`,
+                };
+              },
             )}
           />
         )}
@@ -219,11 +221,13 @@ export default function Person({
               )
             }
             options={(personData || []).map(
-              (d: { id: number; lastName: string }) => ({
-                value: d.id,
-                all: d,
-                label: d.lastName,
-              }),
+              (d: { id: number; name: string; lastName: string }) => {
+                return {
+                  value: d.id,
+                  all: d,
+                  label: `${d.name} ${typeof d.lastName == 'string' ? d.lastName : ''}`,
+                };
+              },
             )}
           />
         )}

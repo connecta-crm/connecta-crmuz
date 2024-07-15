@@ -204,7 +204,7 @@ export default function TemplatesModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
+                <span className=" ml-20">
                   {template?.name}
                 </span>
               )}
@@ -227,7 +227,7 @@ export default function TemplatesModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
+                <span className=" ml-20">
                   {template?.status}
                 </span>
               )}
@@ -250,7 +250,7 @@ export default function TemplatesModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
+                <span className=" ml-20">
                   {template?.templateType}
                 </span>
               )}
@@ -259,7 +259,7 @@ export default function TemplatesModal({
         </div> */}
         <div className="template__jod">
           <JoditEditor
-           config={config as unknown as undefined}
+            config={config as unknown as undefined}
             ref={editor}
             value={content}
             onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
@@ -269,29 +269,28 @@ export default function TemplatesModal({
           />
         </div>
 
-        
         {template && (
           <>
-          <br />
-          <div style={{padding:"0 15px"}}>
-          <UpCollapse title="History ">
-              {template?.logs?.length ? (
-                <>
-                  {template?.logs?.map((item: LogType, index: number) => (
-                    <History
-                      key={index}
-                      title={item?.title}
-                      message={item.message}
-                    />
-                  ))}
-                </>
-              ) : (
-                <div className="d-flex justify-center history__message">
-                  Not found history
-                </div>
-              )}
-            </UpCollapse>
-          </div>
+            <br />
+            <div style={{ padding: '0 15px' }}>
+              <UpCollapse title="History ">
+                {template?.logs?.length ? (
+                  <>
+                    {template?.logs?.map((item: LogType, index: number) => (
+                      <History
+                        key={index}
+                        title={item?.title}
+                        message={item.message}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <div className="d-flex justify-center history__message">
+                    Not found history
+                  </div>
+                )}
+              </UpCollapse>
+            </div>
           </>
         )}
       </Form>

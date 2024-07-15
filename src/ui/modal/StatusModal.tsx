@@ -128,7 +128,7 @@ export default function StatusModal({
                 <Input value={status?.name} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{status?.name}</span>
+              <span className=" ml-20">{status?.name}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Email template">
@@ -162,9 +162,7 @@ export default function StatusModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {status?.emailTemplateName}
-              </span>
+              <span className=" ml-20">{status?.emailTemplateName}</span>
             )}
           </FormControl>
           <FormControl img={car} title="SMS template">
@@ -197,9 +195,7 @@ export default function StatusModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {status?.smsTemplateName}
-              </span>
+              <span className=" ml-20">{status?.smsTemplateName}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Steps">
@@ -226,9 +222,7 @@ export default function StatusModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {status?.steps}
-              </span>
+              <span className=" ml-20">{status?.steps}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Delays">
@@ -243,9 +237,7 @@ export default function StatusModal({
                 <Input value={status?.name} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {status?.delaysMinutes}
-              </span>
+              <span className=" ml-20">{status?.delaysMinutes}</span>
             )}
           </FormControl>
 
@@ -268,9 +260,7 @@ export default function StatusModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {status?.status}
-              </span>
+              <span className=" ml-20">{status?.status}</span>
             )}
           </FormControl>
         </UpCollapse>

@@ -103,9 +103,7 @@ export default function RoleModal({
                 <Input type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {role?.accessName}
-              </span>
+              <span className=" ml-20">{role?.accessName}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Access status">
@@ -125,9 +123,7 @@ export default function RoleModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {role?.accessStatus}
-              </span>
+              <span className=" ml-20">{role?.accessStatus}</span>
             )}
           </FormControl>
           <InputRow>

@@ -34,7 +34,7 @@ export default function UserModal({
     if (user) {
       e.id = user?.id;
       e.newpassword = e.password ? e.password : '';
-      
+
       update(e, {
         onSuccess: () => {
           setModal(false);
@@ -99,7 +99,7 @@ export default function UserModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
+              <span className=" ml-20">
                 {user?.isActive ? 'active' : 'inactive'}
               </span>
             )}
@@ -116,9 +116,7 @@ export default function UserModal({
                 <Input type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {user?.firstName}
-              </span>
+              <span className=" ml-20">{user?.firstName}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Last name">
@@ -133,9 +131,7 @@ export default function UserModal({
                 <Input type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {user?.lastName}
-              </span>
+              <span className=" ml-20">{user?.lastName}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Phone">
@@ -150,7 +146,7 @@ export default function UserModal({
                 <Input type="number" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{user?.phone}</span>
+              <span className=" ml-20">{user?.phone}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Ext">
@@ -165,7 +161,7 @@ export default function UserModal({
                 <Input type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{user?.ext}</span>
+              <span className=" ml-20">{user?.ext}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Email">
@@ -180,7 +176,7 @@ export default function UserModal({
                 <Input type="email" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{user?.email}</span>
+              <span className=" ml-20">{user?.email}</span>
             )}
           </FormControl>
         </UpCollapse>
@@ -210,9 +206,7 @@ export default function UserModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {user?.accessName}
-              </span>
+              <span className=" ml-20">{user?.accessName}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Team">
@@ -241,9 +235,7 @@ export default function UserModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {user?.teamName}
-              </span>
+              <span className=" ml-20">{user?.teamName}</span>
             )}
           </FormControl>
 
@@ -260,7 +252,7 @@ export default function UserModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20"></span>
+              <span className=" ml-20"></span>
             )}
           </FormControl>
         </UpCollapse>

@@ -95,9 +95,7 @@ export default function MerchantModal({
                 <Input value={merchant?.name} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {merchant?.name}
-              </span>
+              <span className=" ml-20">{merchant?.name}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Status">
@@ -118,9 +116,7 @@ export default function MerchantModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {merchant?.status}
-              </span>
+              <span className=" ml-20">{merchant?.status}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Type">
@@ -143,9 +139,7 @@ export default function MerchantModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {merchant?.merchantType}
-              </span>
+              <span className=" ml-20">{merchant?.merchantType}</span>
             )}
           </FormControl>
           {type === 'authorize' && (
@@ -166,9 +160,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.authorizeLogin}
-                  </span>
+                  <span className=" ml-20">{merchant?.authorizeLogin}</span>
                 )}
               </FormControl>
               <FormControl img={car} title="Password">
@@ -187,9 +179,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.authorizePassword}
-                  </span>
+                  <span className=" ml-20">{merchant?.authorizePassword}</span>
                 )}
               </FormControl>
               <FormControl img={car} title="Pin code">
@@ -208,9 +198,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.authorizePinCode}
-                  </span>
+                  <span className=" ml-20">{merchant?.authorizePinCode}</span>
                 )}
               </FormControl>
             </>
@@ -234,9 +222,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.firstdataGatewayId}
-                  </span>
+                  <span className=" ml-20">{merchant?.firstdataGatewayId}</span>
                 )}
               </FormControl>
               <FormControl img={car} title="Password">
@@ -255,9 +241,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.firstdataPassword}
-                  </span>
+                  <span className=" ml-20">{merchant?.firstdataPassword}</span>
                 )}
               </FormControl>
               <FormControl img={car} title="Key ID">
@@ -276,9 +260,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.firstdataKeyId}
-                  </span>
+                  <span className=" ml-20">{merchant?.firstdataKeyId}</span>
                 )}
               </FormControl>
               <FormControl img={car} title="HMAC key">
@@ -297,9 +279,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.firstdataHmacKey}
-                  </span>
+                  <span className=" ml-20">{merchant?.firstdataHmacKey}</span>
                 )}
               </FormControl>
             </>
@@ -322,9 +302,7 @@ export default function MerchantModal({
                     />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {merchant?.paypalSecretKey}
-                  </span>
+                  <span className=" ml-20">{merchant?.paypalSecretKey}</span>
                 )}
               </FormControl>
             </>

@@ -103,6 +103,21 @@ class Contract {
     }
   }
 
+  async createCard(card: FormData) {
+    try {
+      const { data } = await this.$api.post(
+        `/order-payments/credit-cards/customer/create/`,
+        card,
+      );
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // async updateParsing(parssing: ParsingType) {
   //   try {
   //     const { data } = await this.$api.put(

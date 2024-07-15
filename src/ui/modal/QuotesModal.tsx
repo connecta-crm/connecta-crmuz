@@ -97,7 +97,7 @@ export default function QuotesModal({
       <Form form={form} onFinish={createQuote}>
         <div className="modal__row">
           <div className="modal__col">
-            <UpCollapse title="Details">
+            <UpCollapse hasButton={true} title="Details">
               <VehicleContainer setCarData={setCarData} />
               <FormControl title="Condition" img={dvigatel}>
                 <Select

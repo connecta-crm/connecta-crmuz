@@ -80,9 +80,7 @@ export default function CompanyModal({
                 <Input value={company?.name} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.name}
-              </span>
+              <span className=" ml-20">{company?.name}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Department">
@@ -101,9 +99,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.department}
-              </span>
+              <span className=" ml-20">{company?.department}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Mainline">
@@ -122,9 +118,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.mainline}
-              </span>
+              <span className=" ml-20">{company?.mainline}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Fax">
@@ -139,7 +133,7 @@ export default function CompanyModal({
                 <Input value={company?.fax} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">{company?.fax}</span>
+              <span className=" ml-20">{company?.fax}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Main email">
@@ -154,9 +148,7 @@ export default function CompanyModal({
                 <Input value={company?.email} type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.email}
-              </span>
+              <span className=" ml-20">{company?.email}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Support email">
@@ -175,9 +167,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.supportEmail}
-              </span>
+              <span className=" ml-20">{company?.supportEmail}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Accounting email">
@@ -196,9 +186,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.accountingEmail}
-              </span>
+              <span className=" ml-20">{company?.accountingEmail}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Address">
@@ -217,9 +205,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.address}
-              </span>
+              <span className=" ml-20">{company?.address}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Mon-Fri">
@@ -238,9 +224,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.monFri}
-              </span>
+              <span className=" ml-20">{company?.monFri}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Saturday">
@@ -259,9 +243,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.saturday}
-              </span>
+              <span className=" ml-20">{company?.saturday}</span>
             )}
           </FormControl>
           <FormControl img={car} title="Sunday">
@@ -280,9 +262,7 @@ export default function CompanyModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {company?.sunday}
-              </span>
+              <span className=" ml-20">{company?.sunday}</span>
             )}
           </FormControl>
         </UpCollapse>

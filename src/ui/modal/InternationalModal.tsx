@@ -144,9 +144,7 @@ export default function InternationalModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {international?.name}
-                </span>
+                <span className=" ml-20">{international?.name}</span>
               )}
             </FormControl>
             <FormControl img={car} title="Default">
@@ -167,7 +165,7 @@ export default function InternationalModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
+                <span className=" ml-20">
                   {international?.isDefault == true ? 'Yes' : 'No'}
                 </span>
               )}
@@ -190,9 +188,7 @@ export default function InternationalModal({
                   />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {international?.status}
-                </span>
+                <span className=" ml-20">{international?.status}</span>
               )}
             </FormControl>
             <br />

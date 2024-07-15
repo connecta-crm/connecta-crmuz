@@ -1,24 +1,48 @@
-import { Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
-// import InputMask from 'react-input-mask';
-import { Link, useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+import SignatureCanvas from 'react-signature-canvas';
+import { useNavigate, useParams } from 'react-router-dom';
 import visa from '../../../public/img/card/visa.svg';
 import img from '../../../public/img/payment.png';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
+import { useContractPayment } from '../contract/useContractPayment';
 export default function CcDebet() {
+  const params = useParams() as unknown as {
+    id: string | number;
+  };
+
+  const { contractpayments } = useContractPayment(true, params?.id);
+  const sigCanvas = useRef({});
+  const clear = () => {
+    sigCanvas?.current?.clear();
+  };
   const navigate = useNavigate();
-  const onFinish = () => {
-    navigate('/contract/cc-card-picture');
+  const onFinish = (e) => {
+    const dataUrl = sigCanvas.current.getTrimmedCanvas().toDataURL('image/png');
+    e.signFile = dataUrl;
+    if (sigCanvas?.current?.isEmpty()) {
+      message.warning('Draw your signature below !');
+      return;
+    }
+    localStorage.setItem('cardInfo', JSON.stringify(e));
+    navigate('/contract/cc-card-picture/picture/' + params?.id);
   };
   return (
     <div className="pay cc-debet">
       <div className="pay__content">
         <div className=" text-center">
-          <img src={img} alt="" className="pay__content__logo" />
+          <img
+            src={contractpayments ? contractpayments?.company?.logo : img}
+            alt=""
+            className="pay__content__logo"
+          />
         </div>
         <Form className="pay__form" onFinish={onFinish}>
-          <div className="pay__form__header">Ocean Blue Logistics Inc</div>
+          <div className="pay__form__header">
+            {contractpayments ? contractpayments?.company?.name : '...'}
+          </div>
           <div className="pay__form__body">
             <div className="pay__form__label mt-10">
               <b>Credit/Debit card information</b>
@@ -38,29 +62,17 @@ export default function CcDebet() {
                       {
                         required: true,
                         message: '',
-                        pattern: new RegExp(/^(\d{4}-){3}\d{3,4}$/),
                       },
                     ]}
                     preserve={false}
                   >
                     <Input
                       type="text"
-                      placeholder="0000-0000-0000-0000"
+                      placeholder="0000 0000 0000 0000"
                       style={{ paddingRight: '30px' }}
-                      maxLength={19}
-                      minLength={18}
+                      maxLength={16}
+                      minLength={15}
                     />
-                    {/* <InputMask mask="0000-0000-0000-0000">
-                      {() => (
-                        <Input
-                          type="text"
-                          placeholder="0000-0000-0000-0000"
-                          style={{ paddingRight: '30px' }}
-                          maxLength={19}
-                          minLength={18}
-                        />
-                      )}
-                    </InputMask> */}
                   </FormItem>
                   <img
                     className="pay__card__type--img"
@@ -78,7 +90,7 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
+                  name="firstName"
                   rules={[{ required: true, message: '' }]}
                   preserve={false}
                 >
@@ -93,7 +105,7 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
+                  name="lastName"
                   rules={[{ required: true, message: '' }]}
                   preserve={false}
                 >
@@ -109,22 +121,19 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name="d"
+                  name="expirationDate"
                   rules={[
                     {
                       required: true,
                       message: '',
-                      pattern: new RegExp(
-                        /\b(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})\b/,
-                      ),
                     },
                   ]}
                   preserve={false}
                 >
                   <Input
                     type="text"
-                    maxLength={5}
-                    minLength={5}
+                    maxLength={4}
+                    minLength={4}
                     placeholder="MM/YY"
                   />
                 </FormItem>
@@ -137,12 +146,11 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name="date"
+                  name="cvv"
                   rules={[
                     {
                       required: true,
                       message: '',
-                      pattern: new RegExp(/^[0-9]{3,4}$/),
                     },
                   ]}
                   preserve={false}
@@ -171,7 +179,7 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
+                  name="billingAddress"
                   rules={[{ required: true, message: '' }]}
                   preserve={false}
                 >
@@ -186,7 +194,7 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
+                  name="billingCity"
                   rules={[{ required: true, message: '' }]}
                   preserve={false}
                 >
@@ -201,11 +209,11 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
+                  name="billingState"
                   rules={[{ required: true, message: '' }]}
                   preserve={false}
                 >
-                  <Input type="text" placeholder="State" />
+                  <Input minLength={2} maxLength={2} type="text" placeholder="State" />
                 </FormItem>
               </InputCol>
             </InputRow>
@@ -217,34 +225,44 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  name=""
+                  
+                  name="billingZip"
                   rules={[{ required: true, message: '' }]}
                   preserve={false}
                 >
-                  <Input type="text" placeholder="Zip" />
+                  <Input minLength={5} maxLength={5} type="text" placeholder="Zip" />
                 </FormItem>
               </InputCol>
             </InputRow>
             {/* ------------- */}
             <br />
             <div className="pay__form__label mt-10">
-              <b>Billing address</b>
+              <b>Draw your signature below</b>
             </div>
             <InputRow>
-              <FormItem
-                className="m-0 w-100 "
-                name=""
-                rules={[{ required: true, message: '' }]}
-                preserve={false}
-              >
-                <Input.TextArea placeholder="" style={{ marginTop: '5px' }} />
-              </FormItem>
+              <div>
+                <SignatureCanvas
+                  ref={sigCanvas}
+                  penColor="black"
+                  canvasProps={{
+                    width: '378',
+                    height: 104,
+                    className: 'sigCanvas',
+                  }}
+                />
+                <Button onClick={clear} size="small" className="mr-5">
+                  Clear
+                </Button>
+              </div>
             </InputRow>
 
             <InputRow>
-              <Link className="pay__form__prev mt-10 " to={'/contract/cc-auth'}>
+              <div
+                className="pay__form__prev mt-10 "
+                onClick={() => navigate(-1)}
+              >
                 Back
-              </Link>
+              </div>
               <button className="pay__form__next mt-10 ">Next</button>
             </InputRow>
           </div>

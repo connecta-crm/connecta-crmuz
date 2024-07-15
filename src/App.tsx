@@ -117,16 +117,16 @@ function App() {
                         element={<Terms />}
                       />
                       <Route
-                        path="/contract/cc-auth"
+                        path="/contract/cc-auth/:id"
                         element={<CcAuthorization />}
                       />
-                      <Route path="/contract/cc-debit" element={<CcDebet />} />
+                      <Route path="/contract/cc-debit/card/:id" element={<CcDebet />} />
                       <Route
-                        path="/contract/cc-card-picture"
+                        path="/contract/cc-card-picture/picture/:id"
                         element={<CcDebePicture />}
                       />
                       <Route
-                        path="/contract/cc-phone"
+                        path="/contract/cc-phone/phone/:id"
                         element={<CcDebePhone />}
                       />
                       <Route path="/contract/pay/:id" element={<Pay />} />

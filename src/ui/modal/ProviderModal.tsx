@@ -108,9 +108,7 @@ export default function ProviderModal({
                 <Input type="text" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {provider?.name}
-              </span>
+              <span className=" ml-20">{provider?.name}</span>
             )}
           </FormControl>
 
@@ -132,9 +130,7 @@ export default function ProviderModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {provider?.status}
-              </span>
+              <span className=" ml-20">{provider?.status}</span>
             )}
           </FormControl>
 
@@ -157,9 +153,7 @@ export default function ProviderModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {provider?.type}
-              </span>
+              <span className=" ml-20">{provider?.type}</span>
             )}
           </FormControl>
           {providerType == 'exclusive' && (
@@ -199,9 +193,7 @@ export default function ProviderModal({
                 />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {provider?.effective}
-              </span>
+              <span className=" ml-20">{provider?.effective}</span>
             )}
           </FormControl>
           {effective == 'no' ? (
@@ -218,9 +210,7 @@ export default function ProviderModal({
                     <Input type="number" placeholder="Empty" />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {provider?.value}
-                  </span>
+                  <span className=" ml-20">{provider?.value}</span>
                 )}
               </FormControl>
               <FormControl img={car} title="Default deposit">
@@ -235,9 +225,7 @@ export default function ProviderModal({
                     <Input type="number" placeholder="Empty" />
                   </FormItem>
                 ) : (
-                  <span className="detail__text_with-bg ml-20">
-                    {provider?.defaultDeposit}
-                  </span>
+                  <span className=" ml-20">{provider?.defaultDeposit}</span>
                 )}
               </FormControl>
             </>
@@ -254,9 +242,7 @@ export default function ProviderModal({
                   <Input type="number" placeholder="Empty" />
                 </FormItem>
               ) : (
-                <span className="detail__text_with-bg ml-20">
-                  {provider?.leadsInQueue}
-                </span>
+                <span className=" ml-20">{provider?.leadsInQueue}</span>
               )}
             </FormControl>
           )}
@@ -273,9 +259,7 @@ export default function ProviderModal({
                 <Input type="email" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {provider?.email}
-              </span>
+              <span className=" ml-20">{provider?.email}</span>
             )}
           </FormControl>
 
@@ -291,9 +275,7 @@ export default function ProviderModal({
                 <Input type="email" placeholder="Empty" />
               </FormItem>
             ) : (
-              <span className="detail__text_with-bg ml-20">
-                {provider?.subject}
-              </span>
+              <span className=" ml-20">{provider?.subject}</span>
             )}
           </FormControl>
         </UpCollapse>
