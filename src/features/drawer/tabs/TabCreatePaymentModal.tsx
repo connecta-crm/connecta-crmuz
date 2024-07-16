@@ -11,11 +11,11 @@ import {
 import { useOrderPaymentCreate } from '../../orders/useOrderPaymentCreate';
 
 export type CreatePaymentDataType = {
-  name: string;
+  name: null;
   quantity: number;
   amount: string;
   discount: string;
-  paymentType: string;
+  paymentType: null;
   surchargeFeeRate: number;
   chargeType: string;
   direction: string;
@@ -23,11 +23,11 @@ export type CreatePaymentDataType = {
 };
 
 const initialPaymentData: CreatePaymentDataType = {
-  name: '',
-  quantity: 0,
+  name: null,
+  quantity: 1,
   amount: '',
   discount: '',
-  paymentType: '',
+  paymentType: null,
   surchargeFeeRate: 0,
   chargeType: '',
   direction: '',
@@ -46,6 +46,10 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
       setPaymentData(initialPaymentData);
     }
   }, [isLoading, error]);
+
+  // useEffect(() => {
+
+  // }, [paymentData]);
 
   return (
     <Modal
@@ -95,7 +99,11 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
             onChange={({ target: { value: quantity } }) =>
               setPaymentData((prev) => ({
                 ...prev,
-                quantity,
+                quantity: Number(quantity),
+                amount:
+                  prev.paymentType === 'credit_card'
+                    ? String(Number(quantity) + (Number(quantity) * 5) / 100)
+                    : prev.amount,
               }))
             }
           />
@@ -146,9 +154,25 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
             filterOption={false}
             placeholder="Select payment type"
             value={paymentData.paymentType}
-            onChange={(paymentType) =>
-              setPaymentData((prev) => ({ ...prev, paymentType }))
-            }
+            onChange={(paymentType) => {
+              if (paymentType === 'credit_card') {
+                setPaymentData((prev) => ({
+                  ...prev,
+                  paymentType,
+                  surchargeFeeRate: 5,
+                  amount: String(
+                    Number(prev.quantity) + (prev.quantity * 5) / 100,
+                  ),
+                }));
+              } else {
+                setPaymentData((prev) => ({
+                  ...prev,
+                  paymentType,
+                  surchargeFeeRate: 0,
+                  amount: '',
+                }));
+              }
+            }}
             style={{ width: 218, float: 'inline-end', height: 24 }}
             loading={false}
             options={PAYMENT_TYPES}
@@ -161,6 +185,7 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
           <Input
             size="small"
             placeholder="Empty"
+            type="number"
             style={{ width: 218, float: 'inline-end', height: 24 }}
             value={paymentData.surchargeFeeRate}
             onChange={({ target: { value: surchargeFeeRate } }) =>
@@ -208,6 +233,17 @@ function TabCreatePaymentModal({ orderGuid, isOpenModal, onCloseModal }) {
             value={paymentData.direction}
             options={PAYMENT_BROKER_DIRECTIONS}
           />
+        </div>
+        <div className="d-flex justify-between mb-5">
+          <div className="d-flex">
+            <div className="modal__input-label pl-0">Total amount</div>
+          </div>
+          <div style={{ width: 218, float: 'inline-end', height: 24 }}>
+            $
+            {Number(paymentData.amount) +
+              Number(paymentData.surchargeFeeRate) -
+              Number(paymentData.discount)}
+          </div>
         </div>
       </>
     </Modal>

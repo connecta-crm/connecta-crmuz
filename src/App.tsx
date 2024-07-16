@@ -120,7 +120,10 @@ function App() {
                         path="/contract/cc-auth/:id"
                         element={<CcAuthorization />}
                       />
-                      <Route path="/contract/cc-debit/card/:id" element={<CcDebet />} />
+                      <Route
+                        path="/contract/cc-debit/card/:id"
+                        element={<CcDebet />}
+                      />
                       <Route
                         path="/contract/cc-card-picture/picture/:id"
                         element={<CcDebePicture />}
