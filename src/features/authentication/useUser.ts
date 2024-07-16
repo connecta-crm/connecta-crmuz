@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Profile from '../../services/profile';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getToken, setCredentials } from './authSlice';
@@ -15,13 +15,12 @@ export function useUser() {
     enabled: !!token,
   });
 
-  const userData = data?.user;
-  if (userData) {
-    dispatch(setCredentials(userData));
+  useEffect(() => {
+    if (data?.user) {
+      dispatch(setCredentials(data.user));
+    }
     if (initialLoad) setInitialLoad(false);
-  } else {
-    if (initialLoad) setInitialLoad(false);
-  }
+  }, [data, dispatch, initialLoad]);
 
-  return { isLoading: initialLoad, userData, error: isError };
+  return { isLoading: initialLoad, userData: data?.user, error: isError };
 }

@@ -1,9 +1,9 @@
 import { Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
-import { useFilter } from '../context/FilterContext';
-import { useModal } from '../context/ModalContext';
 import { getUser, logout } from '../features/authentication/authSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useFilter } from '../context/FilterContext';
+import { useModal } from '../context/ModalContext';
 
 type HeaderActionsProps = {
   searchHandler: (text: string) => void;
@@ -11,7 +11,7 @@ type HeaderActionsProps = {
 
 function HeaderActions({ searchHandler }: HeaderActionsProps) {
   const [value, setValue] = useState('');
-  const { showFilter, hideFilter,setSearchFilterText } = useFilter();
+  const { showFilter, hideFilter, setSearchFilterText } = useFilter();
   const { showModal } = useModal();
   const dispatch = useAppDispatch();
 
@@ -19,7 +19,7 @@ function HeaderActions({ searchHandler }: HeaderActionsProps) {
 
   const handleSetValue = (value: string) => {
     setValue(value);
-    setSearchFilterText(value)
+    setSearchFilterText(value);
   };
 
   const handleLogout = () => {

@@ -21,8 +21,16 @@ function DrawerControl({
   loadingItem,
   onOpenDrawer,
 }: DrawerProps & { sourceType: SourceType }) {
-  const { closeDrawer, isFullScreen, makeDrawerFull, onChangeInnerCollapse } =
-    useDrawerFeature();
+  const {
+    closeDrawer,
+    isFullScreen,
+    makeDrawerFull,
+    onEditDate,
+    onEditPerson,
+    onEditTab,
+    onChangeInnerCollapse,
+    onChangeToolbarTabActiveKey,
+  } = useDrawerFeature();
   const { guid: currentLeadGuid } = useAppSelector(getLeadData);
   const { guid: currentQuoteGuid } = useAppSelector(getQuoteData);
   const { guid: currentOrderGuid } = useAppSelector(getOrderData);
@@ -53,6 +61,10 @@ function DrawerControl({
     const currentDataGuid = getCurrentDataGuid();
     const previousDataGuid = getPreviousObjectId(dataSource, currentDataGuid);
     onChangeInnerCollapse([]);
+    onChangeToolbarTabActiveKey('1');
+    onEditPerson(false);
+    onEditDate(false);
+    onEditTab(false);
     onOpenDrawer(previousDataGuid);
   };
 
@@ -60,6 +72,10 @@ function DrawerControl({
     const currentDataGuid = getCurrentDataGuid();
     const nextDataId = getNextObjectId(dataSource, currentDataGuid);
     onChangeInnerCollapse([]);
+    onChangeToolbarTabActiveKey('1');
+    onEditPerson(false);
+    onEditDate(false);
+    onEditTab(false);
     onOpenDrawer(nextDataId);
   };
 

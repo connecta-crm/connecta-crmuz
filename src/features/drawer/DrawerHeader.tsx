@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  CaretDownOutlined,
-  FullscreenOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons';
+import { CaretDownOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { DropdownProps, MenuProps } from 'antd';
 import { Button, Dropdown, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
@@ -59,12 +55,20 @@ function DrawerHeader({
   onOpenConvert,
 }: DrawerProps & {
   sourceType: SourceType;
-  isLoadingHistory: boolean;
+  isLoadingHistory: boolean | undefined;
   onOpenHistory: (id: number) => void;
   onOpenConvert?: () => void;
 }) {
-  const { closeDrawer, isFullScreen, makeDrawerFull, onChangeInnerCollapse } =
-    useDrawerFeature();
+  const {
+    closeDrawer,
+    isFullScreen,
+    makeDrawerFull,
+    onEditPerson,
+    onEditDate,
+    onEditTab,
+    onChangeInnerCollapse,
+    onChangeToolbarTabActiveKey,
+  } = useDrawerFeature();
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -325,13 +329,21 @@ function DrawerHeader({
   // PREV-NEXT functions
   const handlePrevElement = () => {
     if (feature === 'customer') return;
+    onEditPerson(false);
+    onEditDate(false);
+    onEditTab(false);
     onChangeInnerCollapse([]);
+    onChangeToolbarTabActiveKey('1');
     const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(previousLeadGuid);
   };
   const handleNextElement = () => {
     if (feature === 'customer') return;
     onChangeInnerCollapse([]);
+    onChangeToolbarTabActiveKey('1');
+    onEditPerson(false);
+    onEditDate(false);
+    onEditTab(false);
     const nextLeadId = getNextObjectId(dataSource, featureData.guid);
     onOpenDrawer?.(nextLeadId);
   };

@@ -10,16 +10,16 @@ type ProtectedRouteProps = {
 };
 
 function ProtectedRoute({ children }: PropsWithChildren<ProtectedRouteProps>) {
+  const navigate = useNavigate();
   const { isLoading, error: userError } = useUser();
   useAutoRefreshToken();
-  const navigate = useNavigate();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    if (userError || !isAuthenticated) {
+    if (!isLoading && (userError || !isAuthenticated)) {
       navigate('/auth/login');
     }
-  }, [isAuthenticated, navigate, userError]);
+  }, [isAuthenticated, navigate, isLoading, userError]);
 
   if (isLoading) {
     return (

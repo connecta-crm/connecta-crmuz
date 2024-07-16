@@ -8,6 +8,7 @@ import {
 
 type DrawerFeatureContextType = {
   openMainPanels: string[] | string;
+  toolbarTabActiveKey: undefined | string;
   setOpenMainPanels: (e: SetStateAction<string[]>) => void;
   openInnerPanels: string[] | string;
   setOpenInnerPanels: (e: SetStateAction<string[]>) => void;
@@ -27,6 +28,7 @@ type DrawerFeatureContextType = {
   isOpenCDPrice: boolean;
   isEditDetails: boolean;
   isEditPerson: boolean;
+  isEditTab: boolean;
   isEditNotes: boolean;
   isEditPayment: boolean;
   isEditDate: boolean;
@@ -35,6 +37,7 @@ type DrawerFeatureContextType = {
   setDrawerFull: (e: string) => void;
   onEditDetails: (e: boolean) => void;
   onEditPerson: (e: boolean) => void;
+  onEditTab: (e: boolean) => void;
   onEditNotes: (e: boolean) => void;
   onEditPayment: (e: boolean) => void;
   onEditDate: (e: boolean) => void;
@@ -44,6 +47,7 @@ type DrawerFeatureContextType = {
   onPrevElement: (e: boolean) => void;
   onChangeMainCollapse: (e: string[] | string) => void;
   onChangeInnerCollapse: (e: string | string[]) => void;
+  onChangeToolbarTabActiveKey: (e: string | string[]) => void;
 };
 
 const DrawerFeatureContext = createContext<DrawerFeatureContextType | null>(
@@ -59,8 +63,12 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
     '600', // Carrier
   ]);
   const [openInnerPanels, setOpenInnerPanels] = useState<string[]>([]);
+  const [toolbarTabActiveKey, setToolbarTabActiveKey] = useState<
+    string[] | string
+  >('1');
   const [isEditDetails, setEditDetails] = useState(false);
   const [isEditPerson, setEditPerson] = useState(false);
+  const [isEditTab, setEditTab] = useState(false);
   const [isEditNotes, setEditNote] = useState(false);
   const [isEditPayment, setEditPayment] = useState(false);
   const [isEditDate, setEditDate] = useState(false);
@@ -99,6 +107,9 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
   const onEditPerson = (value: boolean) => {
     setEditPerson(value);
   };
+  const onEditTab = (value: boolean) => {
+    setEditTab(value);
+  };
   const onEditNotes = (value: boolean) => {
     setEditNote(value);
   };
@@ -114,6 +125,10 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
 
   const onEditCustomerDetails = (value: boolean) => {
     setEditCustomerDetails(value);
+  };
+
+  const onChangeToolbarTabActiveKey = (value: string | string[]) => {
+    setToolbarTabActiveKey(value);
   };
 
   const onNextElement = (value: boolean) => {
@@ -179,15 +194,18 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         openMainPanels,
         setOpenMainPanels,
         openInnerPanels,
+        toolbarTabActiveKey,
         setOpenInnerPanels,
         isEditDetails,
         onEditPerson,
         onEditNotes,
         onEditPayment,
         onEditDate,
+        onEditTab,
         onEditCarrierInfo,
         onEditCustomerDetails,
         isEditPerson,
+        isEditTab,
         isEditNotes,
         isEditPayment,
         isEditDate,
@@ -197,6 +215,7 @@ const DrawerFeatureProvider = ({ children }: { children: ReactNode }) => {
         onEditDetails,
         onChangeMainCollapse,
         onChangeInnerCollapse,
+        onChangeToolbarTabActiveKey,
 
         isFullScreen,
         isDrawerFull,

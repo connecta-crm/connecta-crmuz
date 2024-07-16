@@ -6,12 +6,12 @@ import {
   PAYMENT_TYPES,
 } from '../../../utils/constants';
 import { useOrderPayments } from '../../orders/useOrderPayments';
+import { useOrderPaymentSendCCA } from '../../orders/useOrderPaymentSendCCA';
 import TabAttachModal from './TabAttachModal';
 import TabChargePaymentModal from './TabChargePaymentModal';
 import TabCreatePaymentModal from './TabCreatePaymentModal';
 import TabPaymentModal from './TabPaymentModal';
 import TabTransRefundModal from './TabTransRefundModal';
-import { useOrderPaymentSendCCA } from '../../orders/useOrderPaymentSendCCA';
 
 type OrderPayment = {
   id: number;
@@ -121,7 +121,7 @@ function TabPayment({
                           loading={isLoadingSendCCA}
                           disabled={isLoadingSendCCA}
                           onClick={() => {
-                            createOrderPaymentSendCCA(2); // todo
+                            createOrderPaymentSendCCA(payment.id);
                           }}
                         >
                           Send CCA

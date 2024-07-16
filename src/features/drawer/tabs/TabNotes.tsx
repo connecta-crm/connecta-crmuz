@@ -1,5 +1,6 @@
 import { Button, Flex } from 'antd';
 import { useEffect, useState } from 'react';
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { SourceType } from '../../../ui/Drawer';
 import Notes from '../../../ui/Notes';
 import { EndPointType, useCreateNote } from '../../attachments/useCreateNote';
@@ -12,6 +13,7 @@ type TabNotesProps = {
 
 function TabNotes({ user, sourceType, sourceId }: TabNotesProps) {
   const [note, setNote] = useState('');
+  const { onEditTab } = useDrawerFeature();
 
   const { createNote, isLoading, error } = useCreateNote(
     sourceType as EndPointType,
@@ -41,7 +43,14 @@ function TabNotes({ user, sourceType, sourceId }: TabNotesProps) {
         wrap="wrap"
         style={{ backgroundColor: 'rgba(234, 234, 234, 1)' }}
       >
-        <Button size="small" disabled={isLoading} onClick={() => setNote('')}>
+        <Button
+          size="small"
+          disabled={isLoading}
+          onClick={() => {
+            onEditTab(false);
+            setNote('');
+          }}
+        >
           Cancel
         </Button>
         <Button

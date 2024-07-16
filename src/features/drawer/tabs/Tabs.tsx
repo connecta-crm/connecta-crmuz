@@ -1,7 +1,7 @@
 import type { TabsProps } from 'antd';
 import { Tabs, theme } from 'antd';
-import { useState } from 'react';
 import StickyBox from 'react-sticky-box';
+import { useDrawerFeature } from '../../../context/DrawerFeatureContext';
 import { useAppSelector } from '../../../store/hooks';
 import { DrawerSourceType } from '../../../ui/Drawer';
 import { getUser } from '../../authentication/authSlice';
@@ -22,8 +22,12 @@ function TabsApp({ sourceType }: DrawerSourceType) {
   const userData = useAppSelector(getUser);
   const user = userData?.id ? Number(userData?.id) : undefined;
   const userEmail = userData?.email ? userData?.email : undefined;
-  const [activeKey, setActiveKey] = useState('1');
-  const [isClickedHere, setClickedHere] = useState(false);
+  const {
+    isEditTab,
+    toolbarTabActiveKey,
+    onEditTab,
+    onChangeToolbarTabActiveKey,
+  } = useDrawerFeature();
 
   const {
     id: leadId,
@@ -70,7 +74,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
   }
 
   const tabIcon = (key: string, icon: string) => {
-    const iconPath = activeKey === key ? `${icon}_a` : icon;
+    const iconPath = toolbarTabActiveKey === key ? `${icon}_a` : icon;
 
     return (
       <img
@@ -98,10 +102,10 @@ function TabsApp({ sourceType }: DrawerSourceType) {
       value: 'notes',
       icon: tabIcon('1', 'note'),
       children:
-        activeKey !== '1' || isClickedHere ? (
+        toolbarTabActiveKey !== '1' || isEditTab ? (
           <TabNotes user={user} sourceId={sourceId} sourceType={sourceType} />
         ) : (
-          <div onClick={() => setClickedHere(true)} className="tab-click-here">
+          <div onClick={() => onEditTab(true)} className="tab-click-here">
             Click here to type, @name...
           </div>
         ),
@@ -208,22 +212,22 @@ function TabsApp({ sourceType }: DrawerSourceType) {
         type="card"
         renderTabBar={renderTabBar}
         items={items}
-        activeKey={activeKey}
+        activeKey={toolbarTabActiveKey}
         tabBarExtraContent={
-          activeKey !== '1' && (
+          toolbarTabActiveKey !== '1' && (
             <p
               style={{ width: 38 }}
               className="d-flex justify-center align-center cursor-pointer"
               onClick={() => {
-                setClickedHere(false);
-                setActiveKey('1');
+                onEditTab(false);
+                onChangeToolbarTabActiveKey('1');
               }}
             >
               <img src="/img/drawer/tab/close-x.svg" alt="" />
             </p>
           )
         }
-        onChange={(key) => setActiveKey(key)}
+        onChange={(key) => onChangeToolbarTabActiveKey(key)}
       />
     </div>
   );

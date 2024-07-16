@@ -5,10 +5,12 @@ import FilterTable from './FilterTable';
 import { useGlobalFilter } from './useFilter';
 export default function Filter() {
   const [type, setType] = useState<string>('all');
-  const { show,searchFilterText } = useFilter();
-  
-  
-  const { data, isLoading } = useGlobalFilter({type:type, q:searchFilterText});
+  const { show, searchFilterText } = useFilter();
+
+  const { data, isLoading } = useGlobalFilter({
+    type,
+    q: searchFilterText,
+  });
   return (
     <div className={show ? 'filter filter__active' : 'filter'}>
       <div className="filter__container">
