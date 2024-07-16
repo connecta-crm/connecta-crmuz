@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import { format, parse } from 'date-fns';
 import { useContractSendSMS } from '../../orders/useContractSendSMS';
 
-function TabContractItem({ contract }) {
+function TabContractItem({ guid, contract }) {
   const { contractSendSMS, isLoadingContractSendSMS } = useContractSendSMS();
 
   return (
@@ -60,18 +60,22 @@ function TabContractItem({ contract }) {
             Signed
           </Button>
         ) : (
-          <Button
-            className="ml-10"
-            type="text"
-            size="small"
+          <a
+            href={`/contract/${guid}/${contract.id}`}
+            target="_blank"
+            className="ml-10 cursor-pointer"
             style={{
               backgroundColor: '#1677ff',
               cursor: 'initial',
               color: '#ffffff',
+              height: 24,
+              display: 'inline-block',
+              padding: '0px 7px',
+              borderRadius: 4,
             }}
           >
             Not-Signed
-          </Button>
+          </a>
         )}
       </div>
     </div>

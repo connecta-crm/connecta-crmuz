@@ -45,7 +45,11 @@ function TabContract({ order }) {
         ) : (
           <div className="tabs-file__files mt-0">
             {(contractList || []).map((contract) => (
-              <TabContractItem key={contract.id} contract={contract} />
+              <TabContractItem
+                key={contract.id}
+                guid={order}
+                contract={contract}
+              />
             ))}
           </div>
         )}
