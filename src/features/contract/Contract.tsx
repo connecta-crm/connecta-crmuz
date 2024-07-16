@@ -455,7 +455,7 @@ export default function Contract() {
                           </td>
                           <td>
                             <h3 className="pdf__text">
-                              ${order?.price / order?.orderVehicles.length}
+                              ${order?.payments?.paymentTotalTariff  / order?.orderVehicles.length}
                             </h3>
                           </td>
                         </tr>
@@ -467,7 +467,8 @@ export default function Contract() {
                           <h3 className="pdf__text pl-30">Total price</h3>
                         </td>
                         <td>
-                          <h3 className="pdf__text">${order?.price}</h3>
+                          <h3 className="pdf__text">
+                            ${order?.payments?.paymentTotalTariff}</h3>
                         </td>
                       </tr>
                       <tr>
@@ -478,7 +479,7 @@ export default function Contract() {
                         </td>
                         <td>
                           <h3 className="pdf__text">
-                            ${order?.reservationPrice}
+                            ${order?.payments?.paymentReservation}
                           </h3>
                         </td>
                       </tr>
@@ -492,10 +493,9 @@ export default function Contract() {
                         </td>
                         <td>
                           <h3 className="pdf__text">
-                            $
-                            {order?.price && order?.reservationPrice
-                              ? order?.price - order?.reservationPrice
-                              : order?.price || order?.reservationPrice}
+                            ${order?.payments?.paymentTotalTariff && order?.payments?.paymentReservation
+                              ? order?.payments?.paymentTotalTariff - order?.payments?.paymentReservation
+                              : order?.payments?.paymentTotalTariff || order?.payments?.paymentReservation}
                           </h3>
                         </td>
                       </tr>
