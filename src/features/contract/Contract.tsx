@@ -9,12 +9,14 @@ import Spinner from '../../ui/Spinner';
 import SignAcceptModal from '../../ui/modal/SignAcceptModal';
 import { CompanyType, ContractType, Origintype } from './contractDataTypes';
 import { useContract } from './useContact';
+import { Button } from 'antd';
 export default function Contract() {
   const [isLoadingContract, setIsLoadingContract] = useState<boolean>(false);
   const localData = localStorage.getItem('contract');
   const [contractForm, setContractForm] = useState<{
     name: string;
     initial: string;
+    id: string;
   } | null>(localData ? JSON.parse(localData) : null);
   const [open, setOpen] = useState<boolean>(false);
   const params = useParams() as unknown as {
@@ -27,13 +29,11 @@ export default function Contract() {
   const { contracts, isLoading, error } = useContract(true, params);
   const navigate = useNavigate();
   const { setBlob } = useBlobContext();
-  // console.log(contracts);
-
+  if (!contracts?.contract?.signed) {
+    localStorage.removeItem('contract');
+    localStorage.removeItem('contract');
+  }
   useEffect(() => {
-    if (!contracts?.contract?.signed) {
-      console.log(contracts?.contract?.signed);
-      localStorage.removeItem('contract');
-    }
     if (contracts) {
       setCompany(contracts?.company);
       setContract(contracts?.contract);
@@ -46,7 +46,12 @@ export default function Contract() {
     }
   }, [contractForm]);
 
-  const savePDF = (data: { name: string; initial: string }) => {
+  const savePDF = (data: {
+    name: string;
+    initial: string;
+    id: string | null;
+  }) => {
+    data.id = contract ? contract?.id : null;
     setIsLoadingContract(true);
     setContractForm(data);
     setTimeout(() => {
@@ -80,7 +85,11 @@ export default function Contract() {
     if (contract?.signed) {
       setContractForm(
         contract.signerName && contract.signerInitials
-          ? { name: contract.signerName, initial: contract.signerInitials }
+          ? {
+              name: contract.signerName,
+              initial: contract.signerInitials,
+              id: contract.id,
+            }
           : null,
       );
     }
@@ -455,7 +464,9 @@ export default function Contract() {
                           </td>
                           <td>
                             <h3 className="pdf__text">
-                              ${order?.payments?.paymentTotalTariff  / order?.orderVehicles.length}
+                              $
+                              {order?.payments?.paymentTotalTariff /
+                                order?.orderVehicles.length}
                             </h3>
                           </td>
                         </tr>
@@ -464,11 +475,12 @@ export default function Contract() {
                         <td></td>
                         <td></td>
                         <td>
-                          <h3 className="pdf__text pl-30">Total price</h3>
+                          <h3 className="pdf__text pl-30 mt-10">Total price</h3>
                         </td>
                         <td>
-                          <h3 className="pdf__text">
-                            ${order?.payments?.paymentTotalTariff}</h3>
+                          <h3 className="pdf__text mt-10">
+                            ${order?.payments?.paymentTotalTariff}
+                          </h3>
                         </td>
                       </tr>
                       <tr>
@@ -493,9 +505,13 @@ export default function Contract() {
                         </td>
                         <td>
                           <h3 className="pdf__text">
-                            ${order?.payments?.paymentTotalTariff && order?.payments?.paymentReservation
-                              ? order?.payments?.paymentTotalTariff - order?.payments?.paymentReservation
-                              : order?.payments?.paymentTotalTariff || order?.payments?.paymentReservation}
+                            $
+                            {order?.payments?.paymentTotalTariff &&
+                            order?.payments?.paymentReservation
+                              ? order?.payments?.paymentTotalTariff -
+                                order?.payments?.paymentReservation
+                              : order?.payments?.paymentTotalTariff ||
+                                order?.payments?.paymentReservation}
                           </h3>
                         </td>
                       </tr>
@@ -596,8 +612,9 @@ export default function Contract() {
                 </div>
               </div>
               <div className="pdf__footer">
-                <button
-                  className="pdf__next"
+                <Button
+                  // className="pdf__next"
+                  type="primary"
                   disabled={contractForm ? false : true}
                   style={{ opacity: contractForm ? '' : '0.6' }}
                   onClick={() =>
@@ -605,7 +622,7 @@ export default function Contract() {
                   }
                 >
                   Next
-                </button>
+                </Button>
               </div>
             </div>
           </div>

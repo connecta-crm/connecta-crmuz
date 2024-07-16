@@ -10,6 +10,7 @@ import SignAcceptModal from '../../ui/modal/SignAcceptModal';
 import { CompanyType, ContractType, Origintype } from './contractDataTypes';
 import { useContract } from './useContact';
 import { useCreateContract } from './useCreateContact';
+import { Button } from 'antd';
 export default function Terms() {
   const navigate = useNavigate();
   const localData = localStorage.getItem('contractTerm');
@@ -25,7 +26,9 @@ export default function Terms() {
   const { contracts, isLoading, error } = useContract(true, params);
   const { blob } = useBlobContext();
   const { create, isLoadingContract } = useCreateContract();
-
+  if (!contracts?.contract?.signed) {
+    localStorage.removeItem('contractTerm');
+  }
   useEffect(() => {
     if (contracts) {
       setCompany(contracts?.company);
@@ -59,6 +62,8 @@ export default function Terms() {
           { form: form, guidId: params.text, id: params.id },
           {
             onSuccess: () => {
+              localStorage.removeItem('contract');
+              localStorage.removeItem('contractTerm');
               setOpen(false);
               navigate(-1);
             },
@@ -234,9 +239,13 @@ export default function Terms() {
                 </div>
               </div>
               <div className="pdf__footer">
-                <button className="pdf__next" onClick={() => navigate(-1)}>
+                <Button
+                  disabled={contract?.signed ? false : true}
+                  type="primary"
+                  onClick={() => navigate(-1)}
+                >
                   Back
-                </button>
+                </Button>
               </div>
             </div>
           </div>
