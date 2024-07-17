@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import deleteFile from '../../../public/img/delete.svg';
 import file from '../../../public/img/drawer/tab/file.svg';
 import imgLogo from '../../../public/img/payment.png';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
-import { useEffect, useState } from 'react';
 import { Origintype } from '../contract/contractDataTypes';
 import { useContractPayment } from '../contract/useContractPayment';
-import { useNavigate } from 'react-router-dom';
 import { useCreateCard } from '../contract/useCreateCard';
 export default function CcDebePicture() {
   const navigate = useNavigate();
@@ -27,10 +27,9 @@ export default function CcDebePicture() {
       setOrder(contractpayments?.order);
     }
   }, [contractpayments]);
-  const { create,isLoadingCard } = useCreateCard();
+  const { create, isLoadingCard } = useCreateCard();
   const onFinish = () => {
     if (frontImg && backImg) {
-
       const targetFront = frontImg?.target as HTMLInputElement;
       const fileFront: File = (targetFront.files as FileList)[0];
       const targetBack = backImg?.target as HTMLInputElement;
@@ -172,7 +171,7 @@ export default function CcDebePicture() {
                 onClick={onFinish}
                 // to={'/contract/cc-phone'}
               >
-                <> {isLoadingCard&&<Spin/>}  Submit</>
+                <> {isLoadingCard && <Spin />} Submit</>
               </div>
             </InputRow>
           </div>

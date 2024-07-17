@@ -10,7 +10,8 @@ export default function CcDebePhone() {
   };
   const [order, setOrder] = useState<Origintype>();
   const { contractpayments } = useContractPayment(true, params?.id);
-
+ console.log(order);
+ 
   useEffect(() => {
     if (contractpayments) {
       setOrder(contractpayments?.order);
@@ -41,16 +42,16 @@ export default function CcDebePhone() {
                 reach out to your individual advisor or support team below.{' '}
                 <br /> <br />
                 We value your trust and look forward to serving you again in the
-                future. Thank you for choosing <br /> <b>Mate Logistics Inc.</b>
+                future. Thank you for choosing <br /> <b>{contractpayments ? contractpayments?.company?.name : '...'}</b>
               </div>
             </InputRow>
 
             <InputRow>
               <a
                 className="pay__form__next mt-10 "
-                href={'tel:' + order?.customer?.phone}
+                href={'tel:' + contractpayments?.company?.mainline}
               >
-                Call {order?.customer?.phone}
+                Call {contractpayments?.company?.mainline}
               </a>
             </InputRow>
           </div>

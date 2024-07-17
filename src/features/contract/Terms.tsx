@@ -10,6 +10,7 @@ import SignAcceptModal from '../../ui/modal/SignAcceptModal';
 import { CompanyType, ContractType, Origintype } from './contractDataTypes';
 import { useContract } from './useContact';
 import { useCreateContract } from './useCreateContact';
+import { Button } from 'antd';
 export default function Terms() {
   const navigate = useNavigate();
   const localData = localStorage.getItem('contractTerm');
@@ -25,8 +26,12 @@ export default function Terms() {
   const { contracts, isLoading, error } = useContract(true, params);
   const { blob } = useBlobContext();
   const { create, isLoadingContract } = useCreateContract();
-
+  if (!contracts?.contract?.signed) {
+    localStorage.removeItem('contractTerm');
+  }
+  document.querySelector('.viewport')?.setAttribute("content","width=device-width, initial-scale=1.0")
   useEffect(() => {
+    // document.querySelector('.viewport')?.setAttribute('content', ' ');
     if (contracts) {
       setCompany(contracts?.company);
       setOrder(contracts?.order);
@@ -59,6 +64,8 @@ export default function Terms() {
           { form: form, guidId: params.text, id: params.id },
           {
             onSuccess: () => {
+              localStorage.removeItem('contract');
+              localStorage.removeItem('contractTerm');
               setOpen(false);
               navigate(-1);
             },
@@ -121,7 +128,19 @@ export default function Terms() {
                       </span>
                       <button
                         className="pdf__pay__btn"
-                        onClick={() => navigate('/contract/pay/' + params.text)}
+                        onClick={() => {
+                          // document
+                          //   .querySelector('.viewport')
+                          //   ?.setAttribute(
+                          //     'content',
+                          //     'width=device-width, initial-scale=1.0',
+                          //   );
+                          navigate(
+                            contracts?.cc
+                              ? '/contract/cc-auth/' + params.text
+                              : '/contract/pay/' + params.text,
+                          );
+                        }}
                       >
                         <span>Pay</span>
                       </button>
@@ -134,8 +153,9 @@ export default function Terms() {
 
                 <div className="pdf__line" />
 
-                <div className="pdf__content__body mt-20">
+                <div className="pdf__content__body mt-20 term-body">
                   {parse(contracts && contracts?.pdf?.body)}
+                  
                 </div>
 
                 <h3 className="pdf__middle__title mt-40">
@@ -234,9 +254,13 @@ export default function Terms() {
                 </div>
               </div>
               <div className="pdf__footer">
-                <button className="pdf__next" onClick={() => navigate(-1)}>
+                <Button
+                  disabled={contract?.signed ? false : true}
+                  type="primary"
+                  onClick={() => navigate(-1)}
+                >
                   Back
-                </button>
+                </Button>
               </div>
             </div>
           </div>
