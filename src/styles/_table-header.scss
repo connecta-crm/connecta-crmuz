@@ -158,7 +158,6 @@
   &__users {
     @include flexbox();
     align-items: center;
-    margin-left: 10px;
     min-width: 150px;
   }
   // .dt-header__hamburg

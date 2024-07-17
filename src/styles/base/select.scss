@@ -5,11 +5,10 @@
   border: 1px solid #d1d1d1;
   @include flexbox();
   align-items: center;
-  padding-left: 4px;
   position: relative;
   &_icon {
     width: 16px;
-    margin-left: 4px;
+    margin-left: 5px;
   }
   &_avater {
     width: 18px;

@@ -1,4 +1,4 @@
-export const DEFAULT_LIMIT = 10; // should be 10 or 50
+export const DEFAULT_LIMIT = 100; // should be 10 or 50
 
 export const CONDITION_TYPES = [
   {

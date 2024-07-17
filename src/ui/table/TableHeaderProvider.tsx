@@ -154,9 +154,9 @@ function TableHeaderProvider({ sourceType }) {
                               {provider.name || '(unknown)'}
                             </p>
                             <span className="ml-20">
-                              {provider.leadCount ??
-                                provider?.quoteCount ??
-                                provider?.orderCount}
+                              {provider.leadCount?.toLocaleString('en-US') ??
+                                provider?.quoteCount?.toLocaleString('en-US') ??
+                                provider?.orderCount?.toLocaleString('en-US')}
                             </span>
                           </label>
                         </div>
@@ -174,26 +174,29 @@ function TableHeaderProvider({ sourceType }) {
 
   return (
     <div className="dt-header__allsources dt-header-select">
-      <img className="dt-header-select_icon" src={ellipse} alt="" />
-      <div className="dt-header__allsources_select">
-        <Dropdown
-          menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
-          placement="bottom"
-          arrow={{ pointAtCenter: true }}
-          trigger={['click']}
-          open={open}
-          destroyPopupOnHide={true}
-          overlayClassName="dt-header__dropdown"
-          onOpenChange={handleOpenChange}
-          overlayStyle={{ minWidth: 170 }}
+      <Dropdown
+        menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
+        placement="bottom"
+        arrow={{ pointAtCenter: true }}
+        trigger={['click']}
+        open={open}
+        destroyPopupOnHide={true}
+        overlayClassName="dt-header__dropdown"
+        onOpenChange={handleOpenChange}
+        overlayStyle={{ minWidth: 170 }}
+      >
+        <a
+          className="dt-header__users"
+          style={{ minWidth: '115px' }}
+          onClick={(e) => e.preventDefault()}
         >
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              <p className="dt-header__showlist_price">{handleSourceList()}</p>
-            </Space>
-          </a>
-        </Dropdown>
-      </div>
+          <img className="dt-header-select_icon" src={ellipse} alt="" />
+
+          <Space>
+            <p className="dt-header__showlist_price">{handleSourceList()}</p>
+          </Space>
+        </a>
+      </Dropdown>
     </div>
   );
 }

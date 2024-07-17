@@ -28,6 +28,7 @@ function DrawerControl({
     onEditDate,
     onEditPerson,
     onEditTab,
+    onEditNotes,
     onChangeInnerCollapse,
     onChangeToolbarTabActiveKey,
   } = useDrawerFeature();
@@ -60,23 +61,23 @@ function DrawerControl({
   const handlePrevElement = () => {
     const currentDataGuid = getCurrentDataGuid();
     const previousDataGuid = getPreviousObjectId(dataSource, currentDataGuid);
-    onChangeInnerCollapse([]);
-    onChangeToolbarTabActiveKey('1');
-    onEditPerson(false);
-    onEditDate(false);
-    onEditTab(false);
-    onOpenDrawer(previousDataGuid);
+    destroyEditActions(previousDataGuid);
   };
 
   const handleNextElement = () => {
     const currentDataGuid = getCurrentDataGuid();
     const nextDataId = getNextObjectId(dataSource, currentDataGuid);
+    destroyEditActions(nextDataId);
+  };
+
+  const destroyEditActions = (dataId: string) => {
     onChangeInnerCollapse([]);
     onChangeToolbarTabActiveKey('1');
     onEditPerson(false);
     onEditDate(false);
     onEditTab(false);
-    onOpenDrawer(nextDataId);
+    onEditNotes(false);
+    onOpenDrawer?.(dataId);
   };
 
   return (

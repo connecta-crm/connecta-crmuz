@@ -10,8 +10,6 @@ export function useSetStatusParam(statusValue: StatusParamType) {
   const status = searchParams.get('status');
   const user = useAppSelector(getUser);
 
-  console.log('USER', user);
-
   useEffect(() => {
     if (user?.id && !status) {
       const newSearchParams = new URLSearchParams(searchParams);

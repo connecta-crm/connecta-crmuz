@@ -52,8 +52,6 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
     setSearchParams(newSearchParams, { replace: true });
   };
 
-  console.log(userTeams);
-
   const findUserById = (userId) => {
     if (userTeams?.length) {
       for (const team of userTeams) {
@@ -122,7 +120,9 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
                           <p className="dropdown-text">
                             {_user.firstName + ' ' + _user.lastName}
                           </p>
-                          <span className="ml-20">{_user.count}</span>
+                          <span className="ml-20">
+                            {_user.count.toLocaleString('en-US')}
+                          </span>
                         </div>
                       </div>
                     ),
@@ -137,41 +137,38 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
   ];
 
   return (
-    <div className="dt-header__users dt-header-select">
-      <img className="dt-header-select_icon" src={ellipse} alt="" />
-      <img
-        className="dt-header-select_avater"
-        src={
-          findUserById(searchParams.get('user'))?.picture ||
-          '/img/empty-user.jpeg'
-        }
-        alt=""
-      />
-      <div className="dt-header__allsources_select">
-        <Dropdown
-          menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
-          placement="bottom"
-          arrow={{ pointAtCenter: true }}
-          trigger={['click']}
-          open={open}
-          destroyPopupOnHide={true}
-          overlayClassName="dt-header__dropdown"
-          overlayStyle={{ width: 220 }}
-          onOpenChange={handleOpenChange}
-        >
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              <p className="dt-header__showlist_price">
-                {findUserById(searchParams.get('user'))?.firstName ||
-                  'All users'}
-                {findUserById(searchParams.get('user'))?.id === currentUser?.id
-                  ? ' (me)'
-                  : ''}
-              </p>
-            </Space>
-          </a>
-        </Dropdown>
-      </div>
+    <div className="dt-header-select ml-10">
+      <Dropdown
+        menu={{ items, selectable: false, defaultSelectedKeys: [''] }}
+        placement="bottom"
+        arrow={{ pointAtCenter: true }}
+        trigger={['click']}
+        open={open}
+        destroyPopupOnHide={true}
+        overlayClassName="dt-header__dropdown"
+        overlayStyle={{ width: 220 }}
+        onOpenChange={handleOpenChange}
+      >
+        <a className="dt-header__users" onClick={(e) => e.preventDefault()}>
+          <img className="dt-header-select_icon" src={ellipse} alt="" />
+          <img
+            className="dt-header-select_avater"
+            src={
+              findUserById(searchParams.get('user'))?.picture ||
+              '/img/empty-user.jpeg'
+            }
+            alt=""
+          />
+          <Space>
+            <p className="dt-header__showlist_price">
+              {findUserById(searchParams.get('user'))?.firstName || 'All users'}
+              {findUserById(searchParams.get('user'))?.id === currentUser?.id
+                ? ' (me)'
+                : ''}
+            </p>
+          </Space>
+        </a>
+      </Dropdown>
     </div>
   );
 }

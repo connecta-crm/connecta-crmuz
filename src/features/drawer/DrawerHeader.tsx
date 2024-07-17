@@ -66,6 +66,7 @@ function DrawerHeader({
     onEditPerson,
     onEditDate,
     onEditTab,
+    onEditNotes,
     onChangeInnerCollapse,
     onChangeToolbarTabActiveKey,
   } = useDrawerFeature();
@@ -329,24 +330,25 @@ function DrawerHeader({
   // PREV-NEXT functions
   const handlePrevElement = () => {
     if (feature === 'customer') return;
-    onEditPerson(false);
-    onEditDate(false);
-    onEditTab(false);
-    onChangeInnerCollapse([]);
-    onChangeToolbarTabActiveKey('1');
     const previousLeadGuid = getPreviousObjectId(dataSource, featureData.guid);
-    onOpenDrawer?.(previousLeadGuid);
+    destroyEditActions(previousLeadGuid);
   };
   const handleNextElement = () => {
     if (feature === 'customer') return;
-    onChangeInnerCollapse([]);
-    onChangeToolbarTabActiveKey('1');
+    const nextLeadId = getNextObjectId(dataSource, featureData.guid);
+    destroyEditActions(nextLeadId);
+  };
+
+  const destroyEditActions = (dataId: string) => {
     onEditPerson(false);
     onEditDate(false);
     onEditTab(false);
-    const nextLeadId = getNextObjectId(dataSource, featureData.guid);
-    onOpenDrawer?.(nextLeadId);
+    onEditNotes(false);
+    onChangeInnerCollapse([]);
+    onChangeToolbarTabActiveKey('1');
+    onOpenDrawer?.(dataId);
   };
+
   const featureStatusName = () => {
     return getMenuData
       .find((menu) => menu.path === pathname)
