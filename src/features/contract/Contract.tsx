@@ -33,7 +33,9 @@ export default function Contract() {
     localStorage.removeItem('contract');
     localStorage.removeItem('contract');
   }
+
   useEffect(() => {
+    document.querySelector('.viewport')?.setAttribute('content', ' ');
     if (contracts) {
       setCompany(contracts?.company);
       setContract(contracts?.contract);
@@ -124,13 +126,19 @@ export default function Contract() {
                       </span>
                       <button
                         className="pdf__pay__btn"
-                        onClick={() =>
+                        onClick={() => {
+                          document
+                            .querySelector('.viewport')
+                            ?.setAttribute(
+                              'content',
+                              'width=device-width, initial-scale=1.0',
+                            );
                           navigate(
                             contracts?.cc
                               ? '/contract/cc-auth/' + params.text
                               : '/contract/pay/' + params.text,
-                          )
-                        }
+                          );
+                        }}
                       >
                         <span>Pay</span>
                       </button>
@@ -271,9 +279,7 @@ export default function Contract() {
                       </h3>
                     </div>
                     <div className="pdf__col">
-                      <h3 className="pdf__text mt-5">
-                        {order?.dates?.dateEstPu}
-                      </h3>
+                      <h3 className="pdf__text mt-5">{order?.dateEstShip}</h3>
                     </div>
                   </div>
                   <div className="pdf__row">
@@ -294,7 +300,9 @@ export default function Contract() {
                       <h3 className="pdf__small__title mt-5">Est. load </h3>
                     </div>
                     <div className="pdf__col">
-                      <h3 className="pdf__text mt-5">{order?.dateEstShip}</h3>
+                      <h3 className="pdf__text mt-5">
+                        {order?.dates?.dateEstPu}
+                      </h3>
                     </div>
                   </div>
                   <div className="pdf__row">

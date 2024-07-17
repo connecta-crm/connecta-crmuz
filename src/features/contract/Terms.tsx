@@ -29,7 +29,9 @@ export default function Terms() {
   if (!contracts?.contract?.signed) {
     localStorage.removeItem('contractTerm');
   }
+  document.querySelector('.viewport')?.setAttribute("content","width=device-width, initial-scale=1.0")
   useEffect(() => {
+    // document.querySelector('.viewport')?.setAttribute('content', ' ');
     if (contracts) {
       setCompany(contracts?.company);
       setOrder(contracts?.order);
@@ -126,7 +128,19 @@ export default function Terms() {
                       </span>
                       <button
                         className="pdf__pay__btn"
-                        onClick={() => navigate('/contract/pay/' + params.text)}
+                        onClick={() => {
+                          // document
+                          //   .querySelector('.viewport')
+                          //   ?.setAttribute(
+                          //     'content',
+                          //     'width=device-width, initial-scale=1.0',
+                          //   );
+                          navigate(
+                            contracts?.cc
+                              ? '/contract/cc-auth/' + params.text
+                              : '/contract/pay/' + params.text,
+                          );
+                        }}
                       >
                         <span>Pay</span>
                       </button>
@@ -139,8 +153,9 @@ export default function Terms() {
 
                 <div className="pdf__line" />
 
-                <div className="pdf__content__body mt-20">
+                <div className="pdf__content__body mt-20 term-body">
                   {parse(contracts && contracts?.pdf?.body)}
+                  
                 </div>
 
                 <h3 className="pdf__middle__title mt-40">
