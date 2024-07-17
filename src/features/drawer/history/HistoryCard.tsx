@@ -1,4 +1,4 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import { DownloadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Popconfirm, Radio } from 'antd';
 import parse from 'html-react-parser';
 import { useState } from 'react';
@@ -141,14 +141,25 @@ function HistoryCard({
               )}
               {['note', 'file'].includes(type) && (
                 <>
-                  <button
-                    title="edit-attachment"
-                    className="card__action"
-                    disabled={isLoading}
-                    onClick={() => onEdit(item.type, item.link)}
-                  >
-                    <img src="./img/drawer/pen.svg" alt="" />
-                  </button>
+                  {type === 'note' ? (
+                    <button
+                      title="edit-attachment"
+                      className="card__action"
+                      disabled={isLoading}
+                      onClick={() => onEdit(item.type, item.link)}
+                    >
+                      <img src="./img/drawer/pen.svg" alt="" />
+                    </button>
+                  ) : (
+                    <a
+                      href={item.file}
+                      title="download-file"
+                      target="_blank"
+                      className="card__action"
+                    >
+                      <DownloadOutlined style={{ color: '#49ac2b' }} />
+                    </a>
+                  )}
                   <Popconfirm
                     placement="top"
                     title={`Delete this ${type} from the history?`}

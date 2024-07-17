@@ -28,6 +28,19 @@ class Attachments {
     }
   }
 
+  // GET: /attachments/file/:id
+  async getFile(id: number) {
+    try {
+      const { data } = await this.$api.get(`/attachments/file/${id}`);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // POST: /attachments/create-note/
   async createNote({ rel, text, endpointType, user }: CreateNoteParams) {
     try {

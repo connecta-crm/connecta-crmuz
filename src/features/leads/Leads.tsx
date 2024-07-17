@@ -15,7 +15,6 @@ import { useCDPrice } from './useCDPrice';
 import { useLead } from './useLead';
 import { useLeadLogs } from './useLeadLogs';
 import { useLeads } from './useLeads';
-// import Filter from '../../ui/filter/Filter';
 
 function Leads() {
   useSetStatusParam('leads');

@@ -81,6 +81,7 @@ import HistoryCard from './HistoryCard';
 // const attachments = data?.concat(fakeData);
 
 export type NoteItemType = {
+  [x: string]: string | undefined;
   createdAt: string;
   id: number;
   lead: number;

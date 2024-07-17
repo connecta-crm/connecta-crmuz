@@ -63,7 +63,6 @@ export const getMenuData: MenuData[] = [
     component: Leads,
     roles: ['admin', 'user'],
     status: [
-      //!? /leads?filter_by=query -> www.meta.uz/leads?filter_by=quotes
       { id: 1, value: 'leads', title: 'Leads' },
       { id: 2, value: 'archived', title: 'Archived' },
     ],

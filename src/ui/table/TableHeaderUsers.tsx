@@ -1,5 +1,5 @@
 import { Dropdown, DropdownProps, MenuProps, Space, Spin } from 'antd';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getUser } from '../../features/authentication/authSlice';
 import {
@@ -7,6 +7,7 @@ import {
   useUserTeams,
 } from '../../features/users/useUserTeams';
 import { useAppSelector } from '../../store/hooks';
+import { classNames } from '../../utils/helpers';
 import { SourceType } from '../Drawer';
 import ellipse from '/img/dt_table/ellipse.svg';
 
@@ -16,9 +17,7 @@ type TableHeaderUsersProps = {
 
 function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
   const [open, setOpen] = useState(false);
-
   const [searchParams, setSearchParams] = useSearchParams();
-  const newSearchParams = new URLSearchParams(searchParams);
 
   const type: UserTeamsParams =
     sourceType === 'lead'
@@ -29,8 +28,8 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
           ? 'quote'
           : undefined;
 
-  const { userTeams, isLoading, error } = useUserTeams(type, open);
-  const user = useAppSelector(getUser);
+  const { userTeams, isLoading, error } = useUserTeams(type, true);
+  const currentUser = useAppSelector(getUser);
 
   const handleOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger' || nextOpen) {
@@ -38,32 +37,55 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
     }
   };
 
-  const handleChangeUserTeam = (event: ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = event.target;
-
-    if (checked) {
-      newSearchParams.append('user', value);
+  const handleChangeUserTeam = (userId: number) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    const userParam = searchParams.get('user') || null;
+    if (userParam) {
+      if (userParam === String(userId)) {
+        newSearchParams.delete('user');
+      } else {
+        newSearchParams.set('user', String(userId));
+      }
     } else {
-      const filteredSources = newSearchParams
-        .getAll('user')
-        .filter((user) => user !== value);
-      newSearchParams.delete('user'); // Remove all at once
-      filteredSources.forEach((user) => newSearchParams.append('user', user));
+      newSearchParams.set('user', String(userId));
     }
-
     setSearchParams(newSearchParams, { replace: true });
+  };
+
+  console.log(userTeams);
+
+  const findUserById = (userId) => {
+    if (userTeams?.length) {
+      for (const team of userTeams) {
+        const user = team.users.find((user) => user.id === Number(userId));
+        if (user) {
+          return user;
+        }
+      }
+      return null;
+    }
   };
 
   const items: MenuProps['items'] = [
     {
       key: '1',
       label: (
-        <div className="dt-header__user-active d-flex align-center justify-between">
+        <div
+          className={classNames(
+            'dt-header__user-active d-flex align-center justify-between',
+            searchParams.get('user') === String(currentUser?.id)
+              ? 'active'
+              : '',
+          )}
+          onClick={() => handleChangeUserTeam(currentUser?.id)}
+        >
           <p>
-            {(user?.firstName ?? 'Unknown') + ' ' + (user?.lastName ?? 'name')}{' '}
+            {(currentUser?.firstName ?? 'Unknown') +
+              ' ' +
+              (currentUser?.lastName ?? 'name')}{' '}
             (me)
           </p>
-          <span>{user?.id}</span>
+          <span>{findUserById(currentUser?.id)?.count}</span>
         </div>
       ),
     },
@@ -84,33 +106,27 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
               <div key={index} className="mb-10">
                 <p className="dropdown-subusername d-inline">{team.name}</p>
                 <div className="dropdown-check">
-                  {team.users.map((_user) => (
-                    <div
-                      key={_user.id}
-                      className="dropdown-check__item d-flex align-center justify-between"
-                    >
-                      <input
-                        type="checkbox"
-                        name="source"
-                        id={`user-${_user.id}`}
-                        className="dropdown-check__input"
-                        value={_user.id}
-                        checked={searchParams
-                          .getAll('user')
-                          .includes(String(_user.id))}
-                        onChange={handleChangeUserTeam}
-                      />
-                      <label
-                        htmlFor={`user-${_user.id}`}
-                        className="label-contents d-flex align-center justify-between"
+                  {team.users.map((_user) =>
+                    currentUser?.id === _user.id ? null : (
+                      <div
+                        key={_user.id}
+                        onClick={() => handleChangeUserTeam(_user.id)}
+                        className={classNames(
+                          'dropdown-check__item d-flex align-center justify-between',
+                          searchParams.get('user') === String(_user?.id)
+                            ? 'active'
+                            : '',
+                        )}
                       >
-                        <p className="dropdown-text">
-                          {_user.firstName + ' ' + _user.lastName}
-                        </p>
-                        <span className="ml-20">{_user.count}</span>
-                      </label>
-                    </div>
-                  ))}
+                        <div className="label-contents d-flex align-center justify-between">
+                          <p className="dropdown-text">
+                            {_user.firstName + ' ' + _user.lastName}
+                          </p>
+                          <span className="ml-20">{_user.count}</span>
+                        </div>
+                      </div>
+                    ),
+                  )}
                 </div>
               </div>
             ))
@@ -125,7 +141,10 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
       <img className="dt-header-select_icon" src={ellipse} alt="" />
       <img
         className="dt-header-select_avater"
-        src={user?.picture ?? '/img/empty-user.jpeg'}
+        src={
+          findUserById(searchParams.get('user'))?.picture ||
+          '/img/empty-user.jpeg'
+        }
         alt=""
       />
       <div className="dt-header__allsources_select">
@@ -142,7 +161,13 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              <p className="dt-header__showlist_price">All users</p>
+              <p className="dt-header__showlist_price">
+                {findUserById(searchParams.get('user'))?.firstName ||
+                  'All users'}
+                {findUserById(searchParams.get('user'))?.id === currentUser?.id
+                  ? ' (me)'
+                  : ''}
+              </p>
             </Space>
           </a>
         </Dropdown>

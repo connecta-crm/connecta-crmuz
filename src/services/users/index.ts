@@ -65,9 +65,9 @@ class Users {
     }
   }
   // GET: /type/teams/
-  async getUserTeams(type: UserTeamsParams) {
+  async getUserTeams(type: UserTeamsParams, status: string) {
     try {
-      const { data } = await this.$api.get(`/${type}/teams/`);
+      const { data } = await this.$api.get(`/${type}/teams/?type=${status}`);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

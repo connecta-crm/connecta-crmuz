@@ -214,7 +214,7 @@ function TabsApp({ sourceType }: DrawerSourceType) {
         items={items}
         activeKey={toolbarTabActiveKey}
         tabBarExtraContent={
-          toolbarTabActiveKey !== '1' && (
+          (toolbarTabActiveKey !== '1' || isEditTab) && (
             <p
               style={{ width: 38 }}
               className="d-flex justify-center align-center cursor-pointer"
