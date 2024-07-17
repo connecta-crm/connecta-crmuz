@@ -52,10 +52,12 @@ function TableHeaderUsers({ sourceType }: TableHeaderUsersProps) {
     setSearchParams(newSearchParams, { replace: true });
   };
 
-  const findUserById = (userId) => {
+  const findUserById = (userId: number) => {
     if (userTeams?.length) {
       for (const team of userTeams) {
-        const user = team.users.find((user) => user.id === Number(userId));
+        const user = team.users.find(
+          (user: { id: number }) => user.id === Number(userId),
+        );
         if (user) {
           return user;
         }

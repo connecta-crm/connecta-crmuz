@@ -184,7 +184,6 @@ function DrawerHeader({
       break;
     case 'customer':
       featureData = customerData;
-      console.log(feature);
       break;
     default:
       throw new Error(`There is no such '${feature}' type in DrawerHeader.tsx`);
@@ -324,8 +323,6 @@ function DrawerHeader({
   }
 
   const { extraUser, user: featureUser } = featureData || {};
-
-  console.log('featureUser', featureUser);
 
   // PREV-NEXT functions
   const handlePrevElement = () => {

@@ -48,9 +48,6 @@ function TabPayment({
   const [attachModalData, setAttachModalData] = useState({});
   const { orderPayments, isLoadingOrderPayments } = useOrderPayments(orderGuid);
 
-  const { createOrderPaymentSendCCA, isLoadingSendCCA } =
-    useOrderPaymentSendCCA();
-
   const handlePaymentTypeLabel = (value: string) => {
     return PAYMENT_TYPES.find((type) => type.value === value)?.label;
   };
@@ -113,19 +110,7 @@ function TabPayment({
                     <td>{handlePaymentDirectionLabel(payment.direction)}</td>
                     <td style={{ padding: 5 }}>
                       {payment.paymentType === 'credit_card' && (
-                        <Button
-                          className="ml-10 mb-2"
-                          type="primary"
-                          size="small"
-                          ghost
-                          loading={isLoadingSendCCA}
-                          disabled={isLoadingSendCCA}
-                          onClick={() => {
-                            createOrderPaymentSendCCA(payment.id);
-                          }}
-                        >
-                          Send CCA
-                        </Button>
+                        <SendCCAButton paymentId={payment.id} />
                       )}
                       {['car2brok', 'brok2car'].includes(payment.direction) && (
                         <Button
@@ -291,6 +276,30 @@ function TabPayment({
 }
 
 export default TabPayment;
+
+type SendCCAButtonProps = {
+  paymentId: number;
+};
+
+const SendCCAButton = ({ paymentId }: SendCCAButtonProps) => {
+  const { createOrderPaymentSendCCA, isLoadingSendCCA } =
+    useOrderPaymentSendCCA();
+
+  return (
+    <Button
+      ghost
+      size="small"
+      type="primary"
+      className="ml-10 mb-2"
+      loading={isLoadingSendCCA}
+      disabled={isLoadingSendCCA}
+      onClick={() => createOrderPaymentSendCCA(paymentId)}
+    >
+      Send CCA
+    </Button>
+  );
+};
+
 //   <Button
 //   className="ml-10"
 //   ghost
