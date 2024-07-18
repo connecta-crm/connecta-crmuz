@@ -31,9 +31,7 @@ export default function CcAuthorization() {
         </div>
         <div className="pay__form">
           <div className="pay__form__header">
-            {contractpayments
-              ? contractpayments?.company?.name
-              : '...'}
+            {contractpayments ? contractpayments?.company?.name : '...'}
           </div>
           <div className="pay__form__body">
             <InputRow>
@@ -129,7 +127,7 @@ export default function CcAuthorization() {
               </InputCol>
               <InputCol>
                 <span className="pay__form__text">
-                  ${order ? order?.reservationPrice : 0}
+                  ${contractpayments ? contractpayments?.payment?.amount : 0}
                 </span>
               </InputCol>
             </InputRow>
@@ -139,7 +137,10 @@ export default function CcAuthorization() {
               </InputCol>
               <InputCol>
                 <span className="pay__form__text">
-                  ${order ? (order?.reservationPrice * 5) / 100 : 0}
+                  $
+                  {contractpayments
+                    ? contractpayments?.payment?.surchargeFeeRate
+                    : 0}
                 </span>
               </InputCol>
             </InputRow>
@@ -150,9 +151,9 @@ export default function CcAuthorization() {
               <InputCol>
                 <span className="pay__form__text">
                   $
-                  {order
-                    ? (Number(order?.reservationPrice) * 5) / 100 +
-                      Number(order?.reservationPrice)
+                  {contractpayments
+                    ? contractpayments?.payment?.amount +
+                      contractpayments?.payment?.surchargeFeeRate-contractpayments?.payment?.discount
                     : 0}
                 </span>
               </InputCol>

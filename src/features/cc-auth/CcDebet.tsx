@@ -245,8 +245,6 @@ export default function CcDebet() {
                   ref={sigCanvas}
                   penColor="black"
                   canvasProps={{
-                    width: '378',
-                    height: 104,
                     className: 'sigCanvas',
                   }}
                 />
