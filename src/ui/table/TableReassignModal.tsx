@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select } from 'antd';
 import { useState } from 'react';
 import { REASSIGN_USERS_REASONS } from '../../utils/constants';

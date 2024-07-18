@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select } from 'antd';
 import { useState } from 'react';
 import {
@@ -11,7 +12,6 @@ function TableArchieveModal({ feature, isOpenModal, onCloseModal }) {
   const [archiveReason, setArchiveReason] = useState('');
   const handleArchive = () => {};
 
-  console.log(archiveReason);
   return (
     <Modal
       title="Reason To Archive"
