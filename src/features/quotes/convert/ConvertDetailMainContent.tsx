@@ -479,6 +479,9 @@ function ConvertDetailMainContent() {
             <div className="form-label pl-0 mr-5">CD note</div>
             <Input
               value={quoteConvertData.cdNote}
+              placeholder="Max 60 characters"
+              max={60}
+              maxLength={60}
               style={{ width: 258, float: 'inline-end', height: 24 }}
               onChange={(e) => handleChange('cdNote', e.target.value)}
             />
@@ -487,6 +490,9 @@ function ConvertDetailMainContent() {
             <div className="form-label pl-0 mr-5">CM note</div>
             <Input
               value={quoteConvertData.cmNote}
+              placeholder="Max 60 characters"
+              max={60}
+              maxLength={60}
               style={{ width: 258, float: 'inline-end', height: 24 }}
               onChange={(e) => handleChange('cmNote', e.target.value)}
             />

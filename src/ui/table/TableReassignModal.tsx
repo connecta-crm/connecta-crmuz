@@ -6,7 +6,6 @@ import Modal from '../Modal';
 function TableReassignModal({ isOpenModal, onCloseModal }) {
   const [reassignReason, setReassignReason] = useState('');
   const handleReassign = () => {};
-  console.log(reassignReason);
   return (
     <Modal
       title="Why are you reassigning?"

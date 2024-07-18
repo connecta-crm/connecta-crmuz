@@ -78,6 +78,9 @@ function FeatCDCMNotes({ keyValue, sourceType }: FeatCDCMNotesProps) {
             <div className="form-label pl-0 mr-5">CD note</div>
             <Input
               value={featureData.cdNote}
+              placeholder="Max 60 characters"
+              max={60}
+              maxLength={60}
               style={{ width: 258, float: 'inline-end', height: 24 }}
               onChange={(e) => handleChange('cdNote', e.target.value)}
             />
@@ -104,6 +107,9 @@ function FeatCDCMNotes({ keyValue, sourceType }: FeatCDCMNotesProps) {
             <div className="form-label pl-0 mr-5">CM note</div>
             <Input
               value={featureData.cmNote}
+              placeholder="Max 60 characters"
+              max={60}
+              maxLength={60}
               style={{ width: 258, float: 'inline-end', height: 24 }}
               onChange={(e) => handleChange('cmNote', e.target.value)}
             />
