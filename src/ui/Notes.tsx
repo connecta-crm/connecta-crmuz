@@ -4,10 +4,16 @@ import { useMemo, useRef } from 'react';
 type TabNotesProps = {
   content: string;
   tabIndex?: number;
+  placeholder?: string;
   onSetContent: (note: string) => void;
 };
 
-function Notes({ content, tabIndex, onSetContent }: TabNotesProps) {
+function Notes({
+  content,
+  tabIndex,
+  placeholder,
+  onSetContent,
+}: TabNotesProps) {
   const editor = useRef(null);
   const config = useMemo(
     () => ({
@@ -48,7 +54,7 @@ function Notes({ content, tabIndex, onSetContent }: TabNotesProps) {
       uploader: {
         insertImageAsBase64URI: true,
       },
-      placeholder: 'Text..',
+      placeholder: placeholder ? placeholder : 'Text..',
       toolbarButtonSize: 'small',
       buttons:
         'bold,italic,underline,ul,ol,indent,outdent,font,fontsize,image,|,link,|,file,align,spellcheck,undo,redo',

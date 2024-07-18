@@ -1,5 +1,5 @@
 import { Radio, Table } from 'antd';
-import { useState } from 'react';
+import { Key, useState } from 'react';
 import { DrawerProps, SourceType } from '../../ui/Drawer';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
@@ -22,29 +22,30 @@ function LeadTable({
   onOpenModal,
   onOpenDrawer,
 }: TableProps) {
-  const [checkedRows, setCheckedRows] = useState<number[]>([]);
+  const [checkedTableRows, setCheckedTableRows] = useState<Key[]>();
 
   const rowSelection = {
     onChange: (
-      selectedRowKeys: number[],
+      selectedRowKeys: Key[],
       // selectedRows: LeadTableDataType[],
     ) => {
-      setCheckedRows(selectedRowKeys);
+      setCheckedTableRows(selectedRowKeys);
     },
     getCheckboxProps: (record: LeadTableDataType) => ({
       name: record.id,
     }),
   };
 
-  console.log('checkedRows: ', checkedRows);
+  console.log('checkedTableRows: ', checkedTableRows);
 
   return (
     <>
       <div className="dt-header">
         <TableHeaderActions
-          onOpenModal={onOpenModal}
           pageName="lead"
-          checkedRows={checkedRows}
+          sourceType="lead"
+          onOpenModal={onOpenModal}
+          checkedTableRows={checkedTableRows}
         />
         <TableHeaderFilters
           count={count}
