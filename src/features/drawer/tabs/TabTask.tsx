@@ -29,8 +29,8 @@ function TabTask({ user, customer: currentCustomer, sourceId, sourceType }) {
   const [taskNote, setTaskNote] = useState('');
   const [busy, setBusy] = useState('busy');
   const [priority, setPriority] = useState('high');
-  const [customer, setCustomer] = useState(currentCustomer.id);
-  const [customerId, setCustomerId] = useState(currentCustomer.id);
+  const [customer, setCustomer] = useState(currentCustomer?.id);
+  const [customerId, setCustomerId] = useState(currentCustomer?.id);
   const [startDateAndTime, setStartDateAndTime] = useState<{
     startDate: string | string[];
     startTime: string | string[];

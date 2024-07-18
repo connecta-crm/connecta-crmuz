@@ -1,25 +1,10 @@
 import { Radio, Table } from 'antd';
+import { useState } from 'react';
 import { DrawerProps, SourceType } from '../../ui/Drawer';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { LeadTableColumns } from './LeadTableColumn';
 import { LeadTableDataType } from './LeadTableColumnType';
-
-const rowSelection = {
-  onChange: (
-    selectedRowKeys: React.Key[],
-    selectedRows: LeadTableDataType[],
-  ) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      'selectedRows: ',
-      selectedRows,
-    );
-  },
-  getCheckboxProps: (record: LeadTableDataType) => ({
-    name: record.id,
-  }),
-};
 
 export type TableProps = {
   loadingList: boolean;
@@ -37,10 +22,30 @@ function LeadTable({
   onOpenModal,
   onOpenDrawer,
 }: TableProps) {
+  const [checkedRows, setCheckedRows] = useState<number[]>([]);
+
+  const rowSelection = {
+    onChange: (
+      selectedRowKeys: number[],
+      // selectedRows: LeadTableDataType[],
+    ) => {
+      setCheckedRows(selectedRowKeys);
+    },
+    getCheckboxProps: (record: LeadTableDataType) => ({
+      name: record.id,
+    }),
+  };
+
+  console.log('checkedRows: ', checkedRows);
+
   return (
     <>
       <div className="dt-header">
-        <TableHeaderActions onOpenModal={onOpenModal} pageName="lead" />
+        <TableHeaderActions
+          onOpenModal={onOpenModal}
+          pageName="lead"
+          checkedRows={checkedRows}
+        />
         <TableHeaderFilters
           count={count}
           sumPrice={undefined}
@@ -51,7 +56,7 @@ function LeadTable({
         <div className="table__container">
           <Radio.Group style={{ width: '100%' }}>
             <Table
-               tableLayout='fixed'
+              tableLayout="fixed"
               rowKey="id"
               rowSelection={{ ...rowSelection }}
               columns={LeadTableColumns}
@@ -61,7 +66,7 @@ function LeadTable({
                 onClick: (event) => {
                   const target = event.target as HTMLTextAreaElement;
                   const element = target.className;
-                  element == 'table__id' && onOpenDrawer(data.guid);
+                  element == 'table__id' && onOpenDrawer?.(data.guid);
                 },
               })}
             />
