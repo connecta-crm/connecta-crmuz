@@ -11,6 +11,7 @@ import TabAttachModal from './TabAttachModal';
 import TabChargePaymentModal from './TabChargePaymentModal';
 import TabCreatePaymentModal from './TabCreatePaymentModal';
 import TabPaymentModal from './TabPaymentModal';
+import TabPaymentViewModal from './TabPaymentViewModal';
 import TabTransRefundModal from './TabTransRefundModal';
 
 type OrderPayment = {
@@ -43,9 +44,11 @@ function TabPayment({
     chargePaymentModal: false,
     paymentModal: false,
     transRefundModal: false,
+    paymentViewModal: false,
   });
 
   const [attachModalData, setAttachModalData] = useState({});
+  const [transactionId, setTransactionId] = useState<string | null>(null);
   const { orderPayments, isLoadingOrderPayments } = useOrderPayments(orderGuid);
 
   const handlePaymentTypeLabel = (value: string) => {
@@ -55,6 +58,11 @@ function TabPayment({
   const handlePaymentDirectionLabel = (value: string) => {
     return PAYMENT_BROKER_DIRECTIONS.find((type) => type.value === value)
       ?.label;
+  };
+
+  const handleOpenRefundModal = (transactionId: string | null) => {
+    setTransactionId(transactionId);
+    setOpenModal((prev) => ({ ...prev, transRefundModal: true }));
   };
 
   if (isLoadingOrderPayments) {
@@ -122,7 +130,7 @@ function TabPayment({
                             setAttachModalData(payment);
                             setOpenModal((prev) => ({
                               ...prev,
-                              transRefundModal: true,
+                              paymentViewModal: true,
                             }));
                           }}
                         >
@@ -140,7 +148,7 @@ function TabPayment({
                             setAttachModalData(payment);
                             setOpenModal((prev) => ({
                               ...prev,
-                              transRefundModal: true,
+                              paymentViewModal: true,
                             }));
                           }}
                         >
@@ -266,10 +274,22 @@ function TabPayment({
         }
       />
       <TabTransRefundModal
+        data={attachModalData}
+        transactionId={transactionId}
+        orderGuid={orderGuid}
         isOpenModal={isOpenModal.transRefundModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, transRefundModal: false }))
         }
+      />
+      <TabPaymentViewModal
+        data={attachModalData}
+        isOpenModal={isOpenModal.paymentViewModal}
+        orderGuid={orderGuid}
+        onCloseModal={() =>
+          setOpenModal((prev) => ({ ...prev, paymentViewModal: false }))
+        }
+        onOpenRefundModal={handleOpenRefundModal}
       />
     </>
   );

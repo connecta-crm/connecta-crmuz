@@ -313,6 +313,21 @@ class Orders {
     }
   }
 
+  // POST: /order-payments/refund/
+  async refundPayment({ ...payload }) {
+    try {
+      const { data } = await this.$api.post(`/order-payments/refund/`, {
+        ...payload,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
   // GET: /order-payments/list/:order/
   async getOrderPayments(order: string) {
     try {
