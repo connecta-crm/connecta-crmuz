@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Radio, Table } from 'antd';
-import { useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import TableDropdown from '../../ui/table/TableDropdown';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
@@ -34,6 +34,20 @@ function QuotesTable({
 }: TableProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [columns, setColumns] = useState([]);
+  const [checkedTableRows, setCheckedTableRows] = useState<Key[]>();
+
+  const rowSelection = {
+    onChange: (
+      selectedRowKeys: Key[],
+      // selectedRows: LeadTableDataType[],
+    ) => {
+      setCheckedTableRows(selectedRowKeys);
+    },
+    getCheckboxProps: (record: QuotesTableDataType) => ({
+      name: record.customerName,
+    }),
+  };
+
   useEffect(() => {
     const filteredHeader = () => {
       switch (status) {
@@ -88,14 +102,14 @@ function QuotesTable({
     const columnsConfig = [
       {
         title: 'Id',
-        width:120,
+        width: 120,
         dataIndex: 'id',
         render: (text: string) => <a className="table__id">#100{text}</a>,
       },
       filteredHeader(),
       {
         title: 'Note',
-        width:55,
+        width: 55,
         dataIndex: 'node',
         render: (text: string, record: QuotesTableDataType) => (
           <TableDropdown record={record} text={text} />
@@ -104,7 +118,7 @@ function QuotesTable({
       {
         title: 'User',
         dataIndex: 'user',
-        width:55,
+        width: 55,
         render: (data: { id: string; picture: string }) => (
           <div className="table__img__container">
             <img src={data?.picture} alt="" className="table__user__img" />
@@ -117,7 +131,7 @@ function QuotesTable({
       },
       {
         title: 'Phone',
-        width:165,
+        width: 165,
         dataIndex: 'customerPhone',
         render: (text: string, record: QuotesTableDataType) => (
           <Radio.Button
@@ -189,7 +203,7 @@ function QuotesTable({
       },
       {
         title: 'Est. Ship',
-        width:96,
+        width: 96,
         dataIndex: 'dateEstShip',
       },
     ];
@@ -200,7 +214,12 @@ function QuotesTable({
   return (
     <>
       <div className="dt-header">
-        <TableHeaderActions onOpenModal={onOpenModal} pageName="quote" />
+        <TableHeaderActions
+          onOpenModal={onOpenModal}
+          pageName="quote"
+          sourceType="quote"
+          checkedTableRows={checkedTableRows}
+        />
         <TableHeaderFilters
           count={count}
           sumPrice={undefined}

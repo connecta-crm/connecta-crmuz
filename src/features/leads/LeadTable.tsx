@@ -36,8 +36,6 @@ function LeadTable({
     }),
   };
 
-  console.log('checkedTableRows: ', checkedTableRows);
-
   return (
     <>
       <div className="dt-header">

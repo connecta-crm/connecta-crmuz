@@ -117,7 +117,9 @@ function TableHeaderActions({
         }
       />
       <TableReassignModal
+        ids={checkedTableRows}
         isOpenModal={isOpenModal.reassignModal}
+        sourceType={sourceType}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, reassignModal: false }))
         }

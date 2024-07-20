@@ -1,27 +1,11 @@
 import { Radio, Table } from 'antd';
-import { useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import TableDropdown from '../../ui/table/TableDropdown';
 import TableHeaderActions from '../../ui/table/TableHeaderActions';
 import TableHeaderFilters from '../../ui/table/TableHeaderFilters';
 import { TableProps } from '../leads/LeadTable';
 import { OrderTableDataType } from './OrderTableColumnType';
-import TableDropdown from '../../ui/table/TableDropdown';
-const rowSelection = {
-  onChange: (
-    selectedRowKeys: React.Key[],
-    selectedRows: OrderTableDataType[],
-  ) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      'selectedRows: ',
-      selectedRows,
-    );
-  },
-  getCheckboxProps: (record: OrderTableDataType) => ({
-    name: record.customerName,
-  }),
-};
-
 function OrdersTable({
   dataSource: orders,
   loadingList,
@@ -33,6 +17,16 @@ function OrdersTable({
 }: TableProps) {
   const [searchParams] = useSearchParams();
   const [columns, setColumns] = useState([]);
+  const [checkedTableRows, setCheckedTableRows] = useState<Key[]>();
+
+  const rowSelection = {
+    onChange: (selectedRowKeys: Key[]) => {
+      setCheckedTableRows(selectedRowKeys);
+    },
+    getCheckboxProps: (record: OrderTableDataType) => ({
+      name: record.customerName,
+    }),
+  };
 
   useEffect(() => {
     const filteredHeader = () => {
@@ -216,7 +210,12 @@ function OrdersTable({
   return (
     <>
       <div className="dt-header">
-        <TableHeaderActions onOpenModal={onOpenModal} pageName="order" />
+        <TableHeaderActions
+          pageName="order"
+          sourceType="order"
+          onOpenModal={onOpenModal}
+          checkedTableRows={checkedTableRows}
+        />
         <TableHeaderFilters
           count={count}
           sumPrice={undefined}

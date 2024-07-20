@@ -1,12 +1,33 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getUser } from '../../features/authentication/authSlice';
+import { useGroupReassign } from '../../features/group-actions/useGroupReassign';
+import { useAppSelector } from '../../store/hooks';
 import { REASSIGN_USERS_REASONS } from '../../utils/constants';
 import Modal from '../Modal';
 
-function TableReassignModal({ isOpenModal, onCloseModal }) {
+function TableReassignModal({ ids, sourceType, isOpenModal, onCloseModal }) {
   const [reassignReason, setReassignReason] = useState('');
-  const handleReassign = () => {};
+
+  const currentUser = useAppSelector(getUser);
+  const { groupReassign, isLoading } = useGroupReassign();
+
+  const handleReassign = () => {
+    groupReassign({
+      endpointType: sourceType === 'lead' ? 'leads' : sourceType,
+      user: currentUser?.id,
+      reason: reassignReason,
+      ids,
+    });
+  };
+
+  useEffect(() => {
+    if (!isLoading) {
+      onCloseModal();
+    }
+  }, [isLoading]);
+
   return (
     <Modal
       title="Why are you reassigning?"
@@ -15,7 +36,7 @@ function TableReassignModal({ isOpenModal, onCloseModal }) {
       width="small"
       padding="15"
       onSave={handleReassign}
-      loading={false}
+      loading={isLoading}
     >
       <div className="d-flex justify-between">
         <div className="d-flex">
@@ -29,7 +50,7 @@ function TableReassignModal({ isOpenModal, onCloseModal }) {
           placeholder="Select reason"
           onChange={(e) => setReassignReason(e)}
           style={{ width: 218 }}
-          loading={false}
+          disabled={isLoading}
           options={REASSIGN_USERS_REASONS}
         />
       </div>
