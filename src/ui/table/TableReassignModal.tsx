@@ -1,22 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select } from 'antd';
 import { useEffect, useState } from 'react';
-import { getUser } from '../../features/authentication/authSlice';
 import { useGroupReassign } from '../../features/group-actions/useGroupReassign';
-import { useAppSelector } from '../../store/hooks';
 import { REASSIGN_USERS_REASONS } from '../../utils/constants';
 import Modal from '../Modal';
 
-function TableReassignModal({ ids, sourceType, isOpenModal, onCloseModal }) {
+function TableReassignModal({
+  ids,
+  sourceType,
+  reassignUserId,
+  isOpenModal,
+  onCloseModal,
+}) {
   const [reassignReason, setReassignReason] = useState('');
-
-  const currentUser = useAppSelector(getUser);
   const { groupReassign, isLoading } = useGroupReassign();
 
   const handleReassign = () => {
     groupReassign({
       endpointType: sourceType === 'lead' ? 'leads' : sourceType,
-      user: currentUser?.id,
+      user: reassignUserId,
       reason: reassignReason,
       ids,
     });

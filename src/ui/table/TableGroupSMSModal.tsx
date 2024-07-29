@@ -1,22 +1,46 @@
 import { Select, Spin, TreeSelect } from 'antd';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { getUser } from '../../features/authentication/authSlice';
 import { transformData } from '../../features/drawer/tabs/TabPhone';
 import { useFields } from '../../features/fields/useFields';
+import { useGroupSms } from '../../features/group-actions/useGroupSms';
 import { useTemplates } from '../../features/templates/useTemplates';
+import { useAppSelector } from '../../store/hooks';
 import Modal from '../Modal';
 import Notes from '../Notes';
 import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
 
-function TableGroupSMSModal({ isOpenModal, onCloseModal }) {
+function TableGroupSMSModal({
+  ids,
+  sourceType: feature,
+  isOpenModal,
+  onCloseModal,
+}) {
   const [note, setNote] = useState('');
   const [insertFieldValue, setInsertFieldValue] = useState([]);
+
+  const currentUser = useAppSelector(getUser);
 
   const [isOpenTemplate, setOpenTemplate] = useState(false);
   const [isOpenField, setOpenField] = useState(false);
 
-  const handleSendGroupSMS = () => {};
+  const { groupSms, isLoading, isSuccess } = useGroupSms();
 
-  const fromPhoneValue = '(929) 592-3003'; // todo
+  const handleSendGroupSMS = () => {
+    groupSms({
+      ids,
+      message: note,
+      endpointType: feature === 'lead' ? 'leads' : feature,
+    });
+  };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      onCloseModal();
+    }
+  }, [isSuccess, isLoading]);
+
+  const fromPhoneValue = currentUser?.phone || ''; // todo
 
   const { templates, isLoading: isLoadingTemplates } =
     useTemplates(isOpenTemplate);
@@ -50,7 +74,7 @@ function TableGroupSMSModal({ isOpenModal, onCloseModal }) {
       width="large"
       padding="0"
       saveBtnText="Send"
-      loading={false}
+      loading={isLoading}
       open={isOpenModal}
       onCancel={onCloseModal}
       onSave={handleSendGroupSMS}

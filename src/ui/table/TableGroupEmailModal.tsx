@@ -1,13 +1,19 @@
 import { Input, Select, Spin, TreeSelect } from 'antd';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { transformData } from '../../features/drawer/tabs/TabPhone';
 import { useFields } from '../../features/fields/useFields';
+import { useGroupEmail } from '../../features/group-actions/useGroupEmail';
 import { useTemplates } from '../../features/templates/useTemplates';
 import Modal from '../Modal';
 import Notes from '../Notes';
 import ArrowDownIcon from '/img/drawer/tab/task/arrow.svg';
 
-function TableGroupEmailModal({ isOpenModal, onCloseModal }) {
+function TableGroupEmailModal({
+  ids,
+  sourceType: feature,
+  isOpenModal,
+  onCloseModal,
+}) {
   const [note, setNote] = useState('');
   const [subject, setSubject] = useState('');
   const [insertFieldValue, setInsertFieldValue] = useState([]);
@@ -39,14 +45,32 @@ function TableGroupEmailModal({ isOpenModal, onCloseModal }) {
 
   let userEmail, customerEmail;
 
-  const handleSendGroupEmail = () => {};
+  const { groupEmail, isLoading, isSuccess } = useGroupEmail();
+
+  const handleSendGroupEmail = () => {
+    groupEmail({
+      ids,
+      message: note,
+      endpointType: feature === 'lead' ? 'leads' : feature,
+      subject,
+      bccList: [],
+      ccList: [],
+    });
+  };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      onCloseModal();
+    }
+  }, [isSuccess, isLoading]);
+
   return (
     <Modal
       title="Group email"
       width="large"
       padding="0"
       saveBtnText="Send"
-      loading={false}
+      loading={isLoading}
       open={isOpenModal}
       onCancel={onCloseModal}
       onSave={handleSendGroupEmail}

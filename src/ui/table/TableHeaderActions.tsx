@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { LoadingOutlined } from '@ant-design/icons';
+import { Dropdown, DropdownProps } from 'antd';
 import { Key, useState } from 'react';
+import { getUser } from '../../features/authentication/authSlice';
+import { UsersTableDataType } from '../../features/users/usersTableDataType';
+import { useUsers } from '../../features/users/useUsers';
+import { useAppSelector } from '../../store/hooks';
 import { classNames } from '../../utils/helpers';
 import { SourceType } from '../Drawer';
 import TableArchieveModal from './TableArchieveModal';
@@ -29,6 +35,65 @@ function TableHeaderActions({
     reassignModal: false,
     archieveModal: false,
   });
+
+  const currentUser = useAppSelector(getUser);
+
+  const [isOpenUsers, setOpenUsers] = useState(false);
+  const [isOpenReassignModal, setOpenReassignModal] = useState(false);
+  const [reassignUserId, setReassignUserId] = useState(0);
+
+  const {
+    users,
+    isLoading: isLoadingUsers,
+    isFetchingUsers,
+  } = useUsers(isOpenUsers);
+
+  // USERS ITEMS
+  const itemsUsers = [
+    ...((users || []).filter((f: { isActive: boolean }) => f?.isActive)
+      ? [
+          {
+            label: (
+              <small className="pb-0 pt-0">Available users to re-assign</small>
+            ),
+            key: '4-02',
+            type: 'group',
+            children: (users || [])
+              .filter((f: { isActive: boolean }) => f?.isActive)
+              .map((user: UsersTableDataType) =>
+                Number(user.id) !== Number(currentUser?.id)
+                  ? {
+                      key: '40-' + user.id,
+                      label: (
+                        <button
+                          style={{ background: 'none' }}
+                          // disabled={isLoadingUpdateUser}
+                          onClick={() => {
+                            setReassignUserId(user?.id);
+                            setOpenUsers(false);
+                            setOpenModal((prev) => ({
+                              ...prev,
+                              reassignModal: true,
+                            }));
+                          }}
+                        >
+                          {user.firstName + ' ' + user.lastName}
+                        </button>
+                      ),
+                    }
+                  : null,
+              ),
+          },
+        ]
+      : []),
+  ];
+
+  const handleOpenUsers: DropdownProps['onOpenChange'] = (nextOpen, info) => {
+    if (info.source === 'trigger' || nextOpen) {
+      setOpenUsers(nextOpen);
+    }
+  };
+  console.log('checkedTableRows', checkedTableRows);
 
   return (
     <>
@@ -68,16 +133,35 @@ function TableHeaderActions({
               <img src="/img/dt_table/email.svg" alt="" />
               <span className="ml-5 f-16">Send group email</span>
             </div>
-            <div
-              className="dt-header__calendaricon dt-header__group-item ml-10"
-              style={{ width: 'auto' }}
-              onClick={() =>
-                setOpenModal((prev) => ({ ...prev, reassignModal: true }))
-              }
+
+            <Dropdown
+              menu={{
+                items: itemsUsers,
+                selectable: false,
+                defaultSelectedKeys: [''],
+              }}
+              placement="bottom"
+              trigger={['click']}
+              arrow={{ pointAtCenter: true }}
+              open={isOpenUsers && !isLoadingUsers}
+              destroyPopupOnHide={true}
+              onOpenChange={handleOpenUsers}
+              className={classNames(
+                // feature === 'lead' ? 'lead-page' : '',
+                'drawer-header__settings',
+              )}
             >
-              <img src="/img/dt_table/customer.svg" alt="" />
-              <span className="ml-5 f-16">Reassign</span>
-            </div>
+              <div
+                className="dt-header__calendaricon dt-header__group-item ml-10 d-flex align-center"
+                style={{ width: 'auto' }}
+              >
+                <img src="/img/dt_table/customer.svg" alt="" />
+                <span className="ml-5 f-16">Reassign</span>
+                {isFetchingUsers && !users?.length && isOpenUsers && (
+                  <LoadingOutlined className="ml-5" style={{ fontSize: 16 }} />
+                )}
+              </div>
+            </Dropdown>
             <div
               className="dt-header__calendaricon dt-header__group-item ml-10 mr-10"
               style={{ width: 'auto' }}
@@ -105,12 +189,16 @@ function TableHeaderActions({
       </div>
 
       <TableGroupSMSModal
+        ids={checkedTableRows}
+        sourceType={sourceType}
         isOpenModal={isOpenModal.smsModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, smsModal: false }))
         }
       />
       <TableGroupEmailModal
+        ids={checkedTableRows}
+        sourceType={sourceType}
         isOpenModal={isOpenModal.emailModal}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, emailModal: false }))
@@ -120,6 +208,7 @@ function TableHeaderActions({
         ids={checkedTableRows}
         isOpenModal={isOpenModal.reassignModal}
         sourceType={sourceType}
+        reassignUserId={reassignUserId}
         onCloseModal={() =>
           setOpenModal((prev) => ({ ...prev, reassignModal: false }))
         }

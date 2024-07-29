@@ -7,10 +7,44 @@ import {
   QUOTE_ARCHIVE_REASONS,
 } from '../../utils/constants';
 import Modal from '../Modal';
+import { useLeadArchive } from '../../features/leads/useLeadArchive';
+import { useOrderArchive } from '../../features/orders/useOrderArchive';
+import { useQuoteArchive } from '../../features/quotes/useQuoteArchive';
 
 function TableArchieveModal({ feature, isOpenModal, onCloseModal }) {
-  const [archiveReason, setArchiveReason] = useState('');
-  const handleArchive = () => {};
+  const [archieveReason, setArchieveReason] = useState('');
+
+  const {
+    leadArchive,
+    isLoadingArchive: isLoadingArchive3,
+    isSuccessArchive: isSuccessArchive3,
+  } = useLeadArchive();
+  const {
+    quoteArchive,
+    isLoadingArchive: isLoadingArchive2,
+    isSuccessArchive: isSuccessArchive2,
+  } = useQuoteArchive();
+  const {
+    orderArchive,
+    isLoadingArchive: isLoadingArchive1,
+    isSuccessArchive: isSuccessArchive1,
+  } = useOrderArchive();
+
+  const handleArchive = () => {
+    switch (feature) {
+      case 'lead':
+        leadArchive({ guid: featureData?.guid || '', reason: archieveReason });
+        break;
+      case 'quote':
+        quoteArchive({ guid: featureData?.guid || '', reason: archieveReason });
+        break;
+      case 'order':
+        orderArchive({ guid: featureData?.guid || '', reason: archieveReason });
+        break;
+      default:
+        throw new Error('Something went wrong in archiving');
+    }
+  };
 
   return (
     <Modal
@@ -34,7 +68,7 @@ function TableArchieveModal({ feature, isOpenModal, onCloseModal }) {
           optionFilterProp="children"
           filterOption={false}
           placeholder="Select reason"
-          onChange={(e) => setArchiveReason(e)}
+          onChange={(e) => setArchieveReason(e)}
           style={{ width: 218 }}
           loading={false}
           options={
