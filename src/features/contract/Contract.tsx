@@ -134,7 +134,7 @@ export default function Contract() {
                               'width=device-width, initial-scale=1.0',
                             );
                           navigate(
-                            contracts?.cc
+                            !contracts?.cc
                               ? '/contract/cc-auth/' + params.text
                               : '/contract/pay/' + params.text,
                           );
