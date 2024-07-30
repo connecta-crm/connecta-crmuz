@@ -23,7 +23,7 @@ export function useGroupEmail() {
     mutationFn: ({ ...payload }: GroupEmailParams) =>
       GroupActions.groupEmail({ ...payload }),
     onSuccess: () => {
-      message.success('SMS is sent successfully');
+      message.success('Email is sent successfully');
       // queryClient.invalidateQueries({ queryKey: ['ground'] });
     },
     onError: (err) => {

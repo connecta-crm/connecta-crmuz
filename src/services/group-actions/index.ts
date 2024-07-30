@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { GroupArchieveParams } from '../../features/group-actions/useGroupArchieve';
 import { GroupEmailParams } from '../../features/group-actions/useGroupEmail';
 import { GroupReassignParams } from '../../features/group-actions/useGroupReassign';
 import { GroupSmsParams } from '../../features/group-actions/useGroupSms';
@@ -13,6 +14,21 @@ class GroupActions {
 
   constructor() {
     this.$api = apiClient;
+  }
+
+  // POST: /group-actions/archive/
+  async groupArchieve({ ...payload }: GroupArchieveParams) {
+    try {
+      const { data } = await this.$api.post('/group-actions/archive/', {
+        ...payload,
+      });
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
   }
 
   // POST: /group-actions/reassign/

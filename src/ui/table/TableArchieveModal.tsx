@@ -1,50 +1,36 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Select } from 'antd';
-import { useState } from 'react';
+import { message, Select } from 'antd';
+import { useEffect, useState } from 'react';
+import { useGroupArchieve } from '../../features/group-actions/useGroupArchieve';
 import {
   LEAD_ARCHIVE_REASONS,
   ORDER_ARCHIVE_REASONS,
   QUOTE_ARCHIVE_REASONS,
 } from '../../utils/constants';
 import Modal from '../Modal';
-import { useLeadArchive } from '../../features/leads/useLeadArchive';
-import { useOrderArchive } from '../../features/orders/useOrderArchive';
-import { useQuoteArchive } from '../../features/quotes/useQuoteArchive';
 
-function TableArchieveModal({ feature, isOpenModal, onCloseModal }) {
+function TableArchieveModal({ ids, feature, isOpenModal, onCloseModal }) {
   const [archieveReason, setArchieveReason] = useState('');
 
-  const {
-    leadArchive,
-    isLoadingArchive: isLoadingArchive3,
-    isSuccessArchive: isSuccessArchive3,
-  } = useLeadArchive();
-  const {
-    quoteArchive,
-    isLoadingArchive: isLoadingArchive2,
-    isSuccessArchive: isSuccessArchive2,
-  } = useQuoteArchive();
-  const {
-    orderArchive,
-    isLoadingArchive: isLoadingArchive1,
-    isSuccessArchive: isSuccessArchive1,
-  } = useOrderArchive();
+  const { groupArchieve, isLoading, isSuccess } = useGroupArchieve(feature);
 
   const handleArchive = () => {
-    switch (feature) {
-      case 'lead':
-        leadArchive({ guid: featureData?.guid || '', reason: archieveReason });
-        break;
-      case 'quote':
-        quoteArchive({ guid: featureData?.guid || '', reason: archieveReason });
-        break;
-      case 'order':
-        orderArchive({ guid: featureData?.guid || '', reason: archieveReason });
-        break;
-      default:
-        throw new Error('Something went wrong in archiving');
+    if (!archieveReason) {
+      message.warning('Provide a reason to archieve!');
+      return;
     }
+    groupArchieve({
+      ids,
+      reason: archieveReason,
+      endpointType: feature === 'lead' ? 'leads' : feature,
+    });
   };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      onCloseModal();
+    }
+  }, [isLoading, isSuccess]);
 
   return (
     <Modal
@@ -56,7 +42,7 @@ function TableArchieveModal({ feature, isOpenModal, onCloseModal }) {
       saveBtnText="Archive"
       onSave={handleArchive}
       saveBtnDanger
-      loading={false}
+      loading={isLoading}
     >
       <div className="d-flex justify-between">
         <div className="d-flex">

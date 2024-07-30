@@ -40,7 +40,7 @@ function TableGroupSMSModal({
     }
   }, [isSuccess, isLoading]);
 
-  const fromPhoneValue = currentUser?.phone || ''; // todo
+  const fromPhoneValue = currentUser?.phone || 'currentuser_phone'; // todo
 
   const { templates, isLoading: isLoadingTemplates } =
     useTemplates(isOpenTemplate);
@@ -87,8 +87,9 @@ function TableGroupSMSModal({
               <Select
                 variant="borderless"
                 defaultValue={fromPhoneValue}
+                value={fromPhoneValue}
                 placeholder=""
-                style={{ flex: 1, width: 150, height: 30 }}
+                style={{ flex: 1, minWidth: 150, height: 30 }}
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
                 options={[{ value: fromPhoneValue, label: fromPhoneValue }]}
               />

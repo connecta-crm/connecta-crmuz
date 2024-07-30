@@ -47,18 +47,21 @@ function TabContractItem({ guid, contract }) {
           SMS
         </Button>
         {contract.signed ? (
-          <Button
-            className="ml-10"
-            type="text"
-            size="small"
+          <a
+            href={`/contract/${guid}/${contract.id}`}
+            target="_blank"
+            className="ml-10 cursor-pointer"
             style={{
-              backgroundColor: 'rgb(66, 125, 157)',
-              cursor: 'initial',
               color: '#ffffff',
+              height: 24,
+              display: 'inline-block',
+              padding: '0px 7px',
+              borderRadius: 4,
+              backgroundColor: 'rgb(66, 125, 157)',
             }}
           >
             Signed
-          </Button>
+          </a>
         ) : (
           <a
             href={`/contract/${guid}/${contract.id}`}
@@ -66,7 +69,6 @@ function TabContractItem({ guid, contract }) {
             className="ml-10 cursor-pointer"
             style={{
               backgroundColor: '#1677ff',
-              cursor: 'initial',
               color: '#ffffff',
               height: 24,
               display: 'inline-block',

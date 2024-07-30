@@ -1,4 +1,4 @@
-import { Input, Select, Spin, TreeSelect } from 'antd';
+import { Input, message, Select, Spin, TreeSelect } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { transformData } from '../../features/drawer/tabs/TabPhone';
 import { useFields } from '../../features/fields/useFields';
@@ -43,11 +43,16 @@ function TableGroupEmailModal({
     });
   };
 
-  let userEmail, customerEmail;
+  const userEmail = 'currentuser';
+  // const customerEmail = '';
 
   const { groupEmail, isLoading, isSuccess } = useGroupEmail();
 
   const handleSendGroupEmail = () => {
+    if (!note) {
+      message.warning('Provide a message to send!');
+      return;
+    }
     groupEmail({
       ids,
       message: note,
@@ -83,6 +88,7 @@ function TableGroupEmailModal({
               <Select
                 variant="borderless"
                 defaultValue={userEmail}
+                value={userEmail}
                 placeholder=""
                 style={{ flex: 1, width: 150, height: 30 }}
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
@@ -92,14 +98,24 @@ function TableGroupEmailModal({
           </div>
           <div className="phone__item item-phone">
             <div className="item-phone__text">To:</div>
-            <div className="item-phone__select">
+            <div className="item-phone__select d-flex align-center">
               <Select
                 variant="borderless"
-                value={customerEmail}
-                defaultValue={customerEmail}
-                style={{ flex: 1, width: 150, height: 30 }}
+                mode="multiple"
+                value={ids}
+                defaultValue={ids}
+                style={{
+                  flex: 1,
+                  minWidth: 150,
+                  height: 30,
+                  overflow: 'hidden',
+                }}
+                disabled
                 suffixIcon={<img alt="" src={ArrowDownIcon} />}
-                options={[{ value: customerEmail, label: customerEmail }]}
+                options={(ids || []).map((id: number) => ({
+                  value: id,
+                  label: id,
+                }))}
               />
             </div>
           </div>

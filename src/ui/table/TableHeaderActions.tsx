@@ -214,6 +214,7 @@ function TableHeaderActions({
         }
       />
       <TableArchieveModal
+        ids={checkedTableRows}
         feature={sourceType}
         isOpenModal={isOpenModal.archieveModal}
         onCloseModal={() =>

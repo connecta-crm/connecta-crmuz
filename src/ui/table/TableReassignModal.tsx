@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Select } from 'antd';
+import { message, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { useGroupReassign } from '../../features/group-actions/useGroupReassign';
 import { REASSIGN_USERS_REASONS } from '../../utils/constants';
@@ -13,9 +13,13 @@ function TableReassignModal({
   onCloseModal,
 }) {
   const [reassignReason, setReassignReason] = useState('');
-  const { groupReassign, isLoading } = useGroupReassign();
+  const { groupReassign, isLoading, isSuccess } = useGroupReassign(sourceType);
 
   const handleReassign = () => {
+    if (!reassignReason) {
+      message.warning('Provide a reason to re-assign!');
+      return;
+    }
     groupReassign({
       endpointType: sourceType === 'lead' ? 'leads' : sourceType,
       user: reassignUserId,
@@ -25,10 +29,10 @@ function TableReassignModal({
   };
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && isSuccess) {
       onCloseModal();
     }
-  }, [isLoading]);
+  }, [isLoading, isSuccess]);
 
   return (
     <Modal

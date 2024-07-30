@@ -4,30 +4,30 @@ import { message } from 'antd';
 import GroupActions from '../../services/group-actions';
 import { SourceType } from '../../ui/Drawer';
 
-export type GroupReassignParams = {
+export type GroupArchieveParams = {
   endpointType: string;
   ids: number[];
-  user: number;
   reason: string;
 };
 
-export function useGroupReassign(endpointType: SourceType) {
+export function useGroupArchieve(endpointType: SourceType) {
   const queryClient = useQueryClient();
   const {
-    mutate: groupReassign,
+    mutate: groupArchieve,
     isPending: isLoading,
     error,
     isSuccess,
   } = useMutation({
-    mutationFn: ({ ...payload }: GroupReassignParams) =>
-      GroupActions.groupReassign({ ...payload }),
+    mutationFn: ({ ...payload }: GroupArchieveParams) =>
+      GroupActions.groupArchieve({ ...payload }),
     onSuccess: () => {
-      message.success('Reassigned successfully');
+      message.success('Archieved successfully');
+      // queryClient.invalidateQueries({ queryKey: [`${endpointType}`] });
       queryClient.invalidateQueries({ queryKey: [`${endpointType}s`] });
     },
     onError: (err) => {
       message.error(err.message);
     },
   });
-  return { groupReassign, isLoading, error, isSuccess };
+  return { groupArchieve, isLoading, error, isSuccess };
 }
