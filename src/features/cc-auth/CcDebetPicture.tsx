@@ -1,4 +1,4 @@
-import { Input, message, Spin } from 'antd';
+import { Input, Spin } from 'antd';
 import { useParams } from 'react-router-dom';
 import deleteFile from '../../../public/img/delete.svg';
 import file from '../../../public/img/drawer/tab/file.svg';
@@ -29,41 +29,44 @@ export default function CcDebePicture() {
   }, [contractpayments]);
   const { create, isLoadingCard } = useCreateCard();
   const onFinish = () => {
-    if (frontImg && backImg) {
-      const targetFront = frontImg?.target as HTMLInputElement;
-      const fileFront: File = (targetFront.files as FileList)[0];
-      const targetBack = backImg?.target as HTMLInputElement;
-      const fileBack: File = (targetBack.files as FileList)[0];
+    // if (frontImg && backImg) {
+    const targetFront = frontImg?.target as HTMLInputElement;
+    const fileFront: File = (targetFront?.files as FileList)?.[0];
+    const targetBack = backImg?.target as HTMLInputElement;
+    const fileBack: File = (targetBack?.files as FileList)?.[0];
 
-      const data = JSON.parse(card);
-      data.ccFrontImgFile = fileFront;
-      data.ccBackImgFile = fileBack;
-      data.order = order?.guid;
-      const formData = new FormData();
-      formData.append('signFile', data?.signFile);
-      formData.append('ccFrontImgFile', data?.ccFrontImgFile);
-      formData.append('ccBackImgFile', data?.ccBackImgFile);
-      formData.append('cardNumber', data?.cardNumber);
-      formData.append('firstName', data?.firstName);
-      formData.append('lastName', data?.lastName);
-      formData.append('expirationDate', data?.expirationDate);
-      formData.append('cvv', data?.cvv);
-      formData.append('billingAddress', data?.billingAddress);
-      formData.append('billingCity', data?.billingCity);
-      formData.append('billingState', data?.billingState);
-      formData.append('billingZip', data?.billingZip);
-      formData.append('order', data?.order);
-
-      create(formData, {
-        onSuccess: () => {
-          localStorage.removeItem('cardInfo');
-          navigate('/contract/cc-phone/phone/' + params?.id);
-        },
-      });
-
-      return;
+    const data = JSON.parse(card);
+    data.ccFrontImgFile = fileFront;
+    data.ccBackImgFile = fileBack;
+    data.order = order?.guid;
+    const formData = new FormData();
+    if (frontImg) {
+      formData.append('ccFrontImgFile', data?.ccFrontImgFile,'front-img');
     }
-    message.warning('Choose picture ');
+    if (backImg) {
+      formData.append('ccBackImgFile', data?.ccBackImgFile,'back-img');
+    }
+    formData.append('signFile', data?.signFile);
+    formData.append('cardNumber', data?.cardNumber);
+    formData.append('firstName', data?.firstName);
+    formData.append('lastName', data?.lastName);
+    formData.append('expirationDate', data?.expirationDate);
+    formData.append('cvv', data?.cvv);
+    formData.append('billingAddress', data?.billingAddress);
+    formData.append('billingCity', data?.billingCity);
+    formData.append('billingState', data?.billingState);
+    formData.append('billingZip', data?.billingZip);
+    formData.append('order', data?.order);
+    create(formData, {
+      onSuccess: () => {
+        localStorage.removeItem('cardInfo');
+        navigate('/contract/cc-phone/phone/' + params?.id);
+      },
+    });
+
+    //   return;
+    // }
+    // message.warning('Choose picture ');
   };
 
   return (

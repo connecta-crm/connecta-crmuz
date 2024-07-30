@@ -35,11 +35,11 @@ export default function Contract() {
   }
 
   useEffect(() => {
-    document.querySelector('.viewport')?.setAttribute('content', ' ');
+    document.querySelector('.viewport')?.setAttribute('content', '.');
     if (contracts) {
       setCompany(contracts?.company);
       setContract(contracts?.contract);
-      setOrder(contracts?.order);
+      setOrder(contracts?.orderData);
     }
   }, [contracts]);
   useEffect(() => {
@@ -163,7 +163,7 @@ export default function Contract() {
                 <div className="pdf__line"></div>
 
                 <div className="pdf__subtitle mt-10">
-                  Order number: {contract?.id}
+                  Order number: {contracts?.order?.id}
                 </div>
 
                 <div className="pdf__text">
