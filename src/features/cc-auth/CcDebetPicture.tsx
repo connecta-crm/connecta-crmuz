@@ -85,7 +85,7 @@ export default function CcDebePicture() {
           </div>
           <div className="pay__form__body">
             <div className="pay__form__label mt-10">
-              <b>Valid picture of the card</b>
+              <b>Valid picture of the card (optional)</b>
             </div>
 
             <br />

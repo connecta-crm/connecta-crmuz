@@ -45,30 +45,59 @@ export default function StatusModal({
     useEmailTemplate(emailEnabled);
   const { smsTemplates, isLoadingSmsTemplate } = useSmsTemplate(smsEnabled);
 
-  const createUser = (e: StatusTableDataType) => {
-    console.log(e);
+  const [delay, setDelay] = useState<{
+    day: number;
+    hour: number;
+    minut: number;
+  }>({ day: 0, hour: 0, minut: 0 });
 
+  useEffect(() => {
+    if (!openModal) {
+      setDelay({ day: 0, hour: 0, minut: 0 });
+    }
+  }, [openModal]);
+
+  useEffect(() => {
+    if (delay.minut >= 60) {
+      setDelay({ ...delay, minut: 59 });
+    }
+    if (delay.hour >= 24) {
+      setDelay({ ...delay, hour: 23 });
+    }
+  }, [delay]);
+
+  const createUser = (e: StatusTableDataType) => {
     if (status) {
       e.id = status?.id;
       e.includedUsers = includedUsers;
+      e.delaysMinutes = delay.day * 1440 + delay.hour * 60 + delay.minut;
       update(e, {
         onSuccess: () => {
           setModal(false);
           setEditId(null);
+          setDelay({ day: 0, hour: 0, minut: 0 });
         },
       });
       return;
     }
     e.includedUsers = includedUsers;
+    e.delaysMinutes = delay.day * 1440 + delay.hour * 60 + delay.minut;
     create(e, {
       onSuccess: () => {
         setModal(false);
+        setDelay({ day: 0, hour: 0, minut: 0 });
       },
     });
   };
 
   useEffect(() => {
     if (status) {
+      setDelay({
+        day: Math.trunc(status?.delaysMinutes / 1440),
+        hour: Math.trunc((status?.delaysMinutes % 1440) / 60),
+        minut: (status?.delaysMinutes % 1440) % 60,
+      });
+
       setShowInput(true);
       setAvailable([
         ...(status?.includedUsers as unknown as DndType[]),
@@ -225,7 +254,60 @@ export default function StatusModal({
               <span className=" ml-20">{status?.steps}</span>
             )}
           </FormControl>
+
           <FormControl img={car} title="Delays">
+            {!showInput ? (
+              <div className="status_delay_form d-flex">
+                <div className="status_delay_item">
+                  <Input
+                    max={360}
+                    value={delay.day}
+                    type="number"
+                    placeholder="0"
+                    onChange={(e) =>
+                      setDelay({ ...delay, day: Number(e.target.value) })
+                    }
+                  />
+                  <span>days,</span>
+                </div>
+                <div className="status_delay_item">
+                  <Input
+                    max={24}
+                    value={delay.hour}
+                    type="number"
+                    placeholder="0"
+                    onChange={(e) =>
+                      setDelay({ ...delay, hour: Number(e.target.value) })
+                    }
+                  />
+                  <span>hrs,</span>
+                </div>
+                <div className="status_delay_item">
+                  <Input
+                    value={delay.minut}
+                    max={60}
+                    type="number"
+                    placeholder="0"
+                    onChange={(e) =>
+                      setDelay({ ...delay, minut: Number(e.target.value) })
+                    }
+                  />
+                  <span>mins</span>
+                </div>
+              </div>
+            ) : (
+              <span className=" ml-20">
+                {Math.trunc(status?.delaysMinutes / 1440) +
+                  ' days, ' +
+                  Math.trunc((status?.delaysMinutes % 1440) / 60) +
+                  ' hrs, ' +
+                  ((status?.delaysMinutes % 1440) % 60) +
+                  ' mins'}
+              </span>
+            )}
+          </FormControl>
+
+          {/* <FormControl img={car} title="Delays">
             {!showInput ? (
               <FormItem
                 className="m-0 w-100 "
@@ -239,7 +321,7 @@ export default function StatusModal({
             ) : (
               <span className=" ml-20">{status?.delaysMinutes}</span>
             )}
-          </FormControl>
+          </FormControl> */}
 
           <FormControl img={car} title="Status">
             {!showInput ? (
