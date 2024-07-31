@@ -37,9 +37,12 @@ export default function CcDebet() {
       message.warning('Draw your signature below !');
       return;
     }
+
     localStorage.setItem('cardInfo', JSON.stringify(e));
     navigate('/contract/cc-card-picture/picture/' + params?.id);
   };
+
+  const [form] = Form.useForm();
 
   function maskVisaCardNumber(value: string) {
     // Faqat raqamlarni saqlang
@@ -47,6 +50,7 @@ export default function CcDebet() {
     // Maskalangan format: #### #### #### ####
     const d = onlyNumbers.replace(/(\d{4})(?=\d)/g, '$1 ');
     setCardNumber(d);
+    form.setFieldValue('cardNumber', d);
   }
   function validateCardNumber(cardNumber: string) {
     maskVisaCardNumber(cardNumber);
@@ -97,6 +101,7 @@ export default function CcDebet() {
   const handleExpirationDateChange = (e) => {
     const maskedValue = maskExpirationDate(e.target.value);
     setExpirationDate(maskedValue);
+    form.setFieldValue('expirationDate', maskedValue);
   };
 
   return (
@@ -109,7 +114,7 @@ export default function CcDebet() {
             className="pay__content__logo"
           />
         </div>
-        <Form className="pay__form" onFinish={onFinish}>
+        <Form className="pay__form" onFinish={onFinish} form={form}>
           <div className="pay__form__header">
             {contractpayments ? contractpayments?.company?.name : '...'}
           </div>
@@ -127,8 +132,8 @@ export default function CcDebet() {
                 <div style={{ position: 'relative' }}>
                   <FormItem
                     className="m-0 w-100 "
-                    // name="cardNumber"
-                    // initialValue={cardNumber}
+                    name="cardNumber"
+                    initialValue={cardNumber}
                     rules={[
                       {
                         required: true,
@@ -139,7 +144,7 @@ export default function CcDebet() {
                   >
                     <Input
                       type="text"
-                      value={cardNumber}
+                      // value={cardNumber}
                       placeholder="0000 0000 0000 0000"
                       style={{ paddingRight: '30px' }}
                       maxLength={19}
@@ -220,7 +225,7 @@ export default function CcDebet() {
               <InputCol>
                 <FormItem
                   className="m-0 w-100 "
-                  // name="expirationDate"
+                  name="expirationDate"
                   rules={[
                     {
                       required: true,
@@ -231,7 +236,7 @@ export default function CcDebet() {
                 >
                   <Input
                     type="text"
-                    value={expirationDate}
+                    // value={expirationDate}
                     maxLength={5}
                     minLength={5}
                     placeholder="MM/YY"
