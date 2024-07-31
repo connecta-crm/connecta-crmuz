@@ -6,7 +6,7 @@ export interface StatusTableDataType {
   smsTemplateName: string;
   name: string;
   steps: string;
-  delaysMinutes: string;
+  delaysMinutes: number ;
   status: string;
   emailTemplate: string;
   smsTemplate: string;
