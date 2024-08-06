@@ -7,6 +7,7 @@ import { QuoteEditVehicleParams } from '../../features/quotes/useQuoteVehicleEdi
 import { QuotesParamsType } from '../../features/quotes/useQuotes';
 import { QuoteDataType } from '../../models/QuoteDataType';
 import apiClient from '../axios';
+import { createCdPriceType } from '../../features/quotes/Quotes';
 
 type ApiErrorResponse = {
   message: string;
@@ -95,6 +96,20 @@ class Quotes {
       );
     }
   }
+
+   // POST: /quote/:guid/create/
+   async createQuoteCdPrice(quote: createCdPriceType) {
+    try {
+      const { data } = await this.$api.post('/fields/cd-price/', quote);
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      throw new Error(
+        axiosError.response?.data?.message || 'An unknown error occurred',
+      );
+    }
+  }
+
 
   // PUT: /quote/:guid/update/
   async editQuote({ guid, updateQuoteModel }: QuoteEditParamsType) {

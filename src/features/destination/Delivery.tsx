@@ -26,9 +26,11 @@ export type ZipCodeType = {
 
 export default function Delivery({
   setDelivery,
+  setDeliveryZipCode,
   children,
 }: {
   setDelivery: (a: string | null) => void;
+  setDeliveryZipCode: (a: string) => void;
   children?: ReactNode;
 }) {
   const [cityValue, setCityValue] = useState<CityType | null>(null);
@@ -74,12 +76,16 @@ export default function Delivery({
   };
 
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
+    console.log(data);
+    
     setDelivery(value);
     setCityValue(data.data);
+    setDeliveryZipCode(data?.data?.zip)
+    
   };
 
   return (
-    <DownCollapse title="Origin" img={origin}>
+    <DownCollapse title="Delivery" img={origin}>
       <InputRow>
         <InputCol>
           <Label>Pickup city</Label>

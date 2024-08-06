@@ -9,6 +9,7 @@ export type CarType = {
   vin?: string;
   color?: string;
   plate?: string;
+  type?:string
 };
 export default function VehicleContainer({
   setCarData,
@@ -26,6 +27,7 @@ export default function VehicleContainer({
       vin: '',
       color: '',
       plate: '',
+      type:""
     },
   ]);
 
@@ -87,6 +89,7 @@ export default function VehicleContainer({
             item.lot = a?.lot;
             item.color = a?.color;
             item.plate = a?.plate;
+            item.type = a?.type
           }
           return item;
         });
@@ -100,11 +103,12 @@ export default function VehicleContainer({
         if (item.id == a.id) {
           item.vehicle = a.vehicle;
           item.vehicleYear = a.vehicleYear;
+          item.type = a.type
         }
         return item;
       });
       setCar(f);
-      message.success('Vehicle selected');
+      // message.success('Vehicle selected');
     }
   };
 
