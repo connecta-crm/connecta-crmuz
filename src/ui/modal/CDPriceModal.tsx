@@ -15,7 +15,7 @@ function CDPriceModal({
 
   const handleCopyPrice = (label: string) => {
     if (!label) return;
-
+    navigator.clipboard.writeText(label)
     message.info({
       content: `Copied: ${label}`,
       icon: <CopyOutlined style={{ color: '#108ee9' }} />,

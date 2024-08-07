@@ -17,7 +17,16 @@ import { setQuoteData } from './quoteSlice';
 import { useQuote } from './useQuote';
 import { useQuoteLogs } from './useQuoteLogs';
 import { useQuotes } from './useQuotes';
-
+import { useQuoteCreateCDPrice } from './useQuoteCreateCDPrice';
+import { message } from 'antd';
+export type createCdPriceType = {
+  originZip: string;
+  destinationZip: string;
+  trailerType: string;
+  vehicleType: string;
+  vehiclesLength: string;
+  vehicleYear: string;
+};
 function Quotes() {
   useSetStatusParam('quote');
   const [guid, setGuid] = useState<string | null>(null);
@@ -25,6 +34,16 @@ function Quotes() {
   const [isOpenHistoryModal, setOpenHistoryModal] = useState(false);
   const [isOpenConvertModal, setOpenConvertModal] = useState(false);
   const [openLeadModal, setOpenLeadModal] = useState(false);
+  const [quoteCdPrice, setQuoteCdPrice] = useState(null);
+
+  const [quoteCdData, setQuoteCdData] = useState<createCdPriceType>({
+    originZip: '',
+    destinationZip: '',
+    trailerType: '',
+    vehicleType: '',
+    vehiclesLength: '',
+    vehicleYear: '',
+  });
 
   const { quotes, count, isLoadingQuotes } = useQuotes();
   const { quote, isLoading: isLoadingQuote, error } = useQuote(guid);
@@ -35,8 +54,32 @@ function Quotes() {
   const { cdPrice, isFetchingCDPrice } = useCDPrice(
     'quote',
     guid,
-    isOpenCDPriceModal,
+    quoteCdPrice ? false : isOpenCDPriceModal,
   );
+
+  const { createCdPrice, isLoadingQuoteCdPrice } = useQuoteCreateCDPrice();
+
+  const postQuoteCDPrice = () => {
+    let errorText = '';
+    for (const key in quoteCdData) {
+      if (Object.prototype.hasOwnProperty.call(quoteCdData, key)) {
+        if (!quoteCdData[key as keyof createCdPriceType]) {
+          errorText += key + ' , ';
+        }
+      }
+    }
+    if (errorText) {
+      message.error(errorText + 'required ! ');
+      return;
+    }
+
+    createCdPrice(quoteCdData, {
+      onSuccess(data) {
+        setQuoteCdPrice(data);
+        setOpenCDPriceModal(true);
+      },
+    });
+  };
 
   const { openDrawer } = useDrawerFeature();
 
@@ -57,6 +100,11 @@ function Quotes() {
   const handleOpenConvertModal = () => {
     setOpenConvertModal(true);
   };
+  useEffect(() => {
+    if (!openLeadModal) {
+      setQuoteCdPrice(null);
+    }
+  }, [openLeadModal]);
 
   useEffect(() => {
     if (!isLoadingQuoteLogs && quoteId) {
@@ -95,6 +143,10 @@ function Quotes() {
         onOpenModal={setOpenHistoryModal}
       />
       <QuotesModal
+        setQuoteCdData={setQuoteCdData}
+        quoteCdData={quoteCdData}
+        isFetchingCDPrice={isLoadingQuoteCdPrice}
+        postQuoteCDPrice={postQuoteCDPrice}
         openLeadModal={openLeadModal}
         setOpenLeadModa={setOpenLeadModal}
       />
@@ -103,8 +155,8 @@ function Quotes() {
         onOpenModal={setOpenConvertModal}
       />
       <QuotesCDPriceModal
-        cdPrice={cdPrice}
-        isFetchingCDPrice={isFetchingCDPrice}
+        cdPrice={quoteCdPrice || cdPrice}
+        isFetchingCDPrice={isFetchingCDPrice || isLoadingQuoteCdPrice}
         isOpenModal={isOpenCDPriceModal}
         onOpenModal={setOpenCDPriceModal}
       />

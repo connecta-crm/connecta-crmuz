@@ -15,4 +15,5 @@ export interface CompanyTableDataType {
   saturday: string;
   sunday: string;
   updatedFrom: string | null;
+  logo?:string
 }

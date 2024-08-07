@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import img from '../../../public/img/payment.png';
+// import img from '../../../public/img/payment.png';
 import InputRow from '../../ui/form/InputRow';
 import { Origintype } from '../contract/contractDataTypes';
 import { useEffect, useState } from 'react';
@@ -22,7 +22,7 @@ export default function CcDebePhone() {
       <div className="pay__content">
         <div className=" text-center">
           <img
-            src={contractpayments ? contractpayments?.company?.logo : img}
+            src={contractpayments?.company?.logo}
             alt=""
             className="pay__content__logo"
           />

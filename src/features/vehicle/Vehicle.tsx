@@ -50,6 +50,7 @@ export default function Vehicle({
     lot: '',
     color: '',
     plate: '',
+    type:""
   });
   const [modelValue, setModelValue] = useState<DefaultOptionType | null>(null);
   const [makeValue, setMakeValue] = useState<DefaultOptionType | null>(null);
@@ -80,6 +81,10 @@ export default function Vehicle({
       },
     });
   };
+
+  useEffect(()=>{
+  setCarValue({...carValue,type:vhicleType})
+  },[vhicleType])
 
   useEffect(() => {
     if (newCar.isActive && newCar.mark && newCar.name && newCar.vehicleType) {

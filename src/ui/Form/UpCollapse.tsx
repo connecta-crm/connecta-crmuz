@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import React, { useState } from 'react';
 import remove from '../../../public/img/delete.svg';
 import arrow from '../../../public/img/down-arrow.svg';
@@ -11,6 +11,8 @@ export default function UpCollapse({
   showEdit,
   isDelete = false,
   removeItem,
+  postQuoteCDPrice,
+  isFetchingCDPrice
 }: {
   children: React.ReactNode;
   title: string;
@@ -18,7 +20,9 @@ export default function UpCollapse({
   hasEdit?: boolean;
   showEdit?: () => void;
   removeItem?: () => void;
+  postQuoteCDPrice?:()=>void
   isDelete?: boolean;
+  isFetchingCDPrice?:boolean
 }) {
   const [show, setShow] = useState(false);
 
@@ -31,13 +35,15 @@ export default function UpCollapse({
         </div>
         {hasButton && (
           <Button
-            disabled={false}
+            disabled={isFetchingCDPrice}
             type="primary"
             danger
             size="small"
             className="remove-item"
+            onClick={postQuoteCDPrice}
           >
-            CD Price
+            {isFetchingCDPrice&&(<Spin size='small' className='mr-5'/>) }
+             CD Price
           </Button>
         )}
         {hasEdit && (

@@ -23,16 +23,38 @@ export default function CompanyModal({
 }) {
   const [showInput, setShowInput] = useState<boolean>(false);
   const { update } = useUpdateCompany();
+  const [img, setImg] = useState<Event | null>(null);
 
   const createUser = (e: CompanyTableDataType) => {
+    const formData = new FormData();
+    formData.append('name', e.name);
+    formData.append('department', e.department);
+    formData.append('mainline', e.mainline);
+    formData.append('fax', e.fax);
+    formData.append('email', e.email);
+    formData.append('supportEmail', e.supportEmail);
+    formData.append('accountingEmail', e.accountingEmail);
+    formData.append('address', e.address);
+    formData.append('monFri', e.monFri);
+    formData.append('saturday', e.saturday);
+    formData.append('sunday', e.sunday);
+    if (img) {
+      const target = img?.target as HTMLInputElement;
+      const file: File = (target.files as FileList)[0];
+      formData.append('logo', file);
+    }
     if (company) {
       e.id = company.id;
-      update(e, {
-        onSuccess: () => {
-          setModal(false);
-          setEditId(null);
+      update(
+        { id: company?.id, data: formData },
+        {
+          onSuccess: () => {
+            setModal(false);
+            setEditId(null);
+            setImg(null);
+          },
         },
-      });
+      );
       return;
     }
   };
@@ -207,6 +229,34 @@ export default function CompanyModal({
             ) : (
               <span className=" ml-20">{company?.address}</span>
             )}
+          </FormControl>
+          <FormControl img={car} title="Logo">
+            <FormItem className="m-0 w-100 " preserve={false}>
+              {showInput ? (
+                <img
+                  src={company?.logo}
+                  alt=""
+                  width={'150px'}
+                  height={'50px'}
+                  style={{objectFit:"cover"}}
+                />
+              ) : (
+                <div className="payment-attach d-flex">
+                  <Input
+                    accept="image/png, image/gif, image/jpeg"
+                    type="file"
+                    placeholder="Empty"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setImg(e as unknown as Event)
+                    }
+                  />
+                  <div className="payment-attach-btn">Attach</div>
+                  <span className="payment-attach-name">
+                    {img ? 'Selected attach' : 'Max 200x200px'}
+                  </span>
+                </div>
+              )}
+            </FormItem>
           </FormControl>
           <FormControl img={car} title="Mon-Fri">
             {!showInput ? (

@@ -29,7 +29,9 @@ export default function Terms() {
   if (!contracts?.contract?.signed) {
     localStorage.removeItem('contractTerm');
   }
-  document.querySelector('.viewport')?.setAttribute("content","width=device-width, initial-scale=1.0")
+  document
+    .querySelector('.viewport')
+    ?.setAttribute('content', 'width=device-width, initial-scale=1.0');
   useEffect(() => {
     // document.querySelector('.viewport')?.setAttribute('content', ' ');
     if (contracts) {
@@ -155,7 +157,6 @@ export default function Terms() {
 
                 <div className="pdf__content__body mt-20 term-body">
                   {parse(contracts && contracts?.pdf?.body)}
-                  
                 </div>
 
                 <h3 className="pdf__middle__title mt-40">
@@ -166,9 +167,7 @@ export default function Terms() {
                 <div className="pdf__table">
                   <div className="pdf__row mt-20">
                     <div className="pdf__col">
-                      <h2 className="pdf__middle__title">
-                        Ocean Blue Logistics
-                      </h2>
+                      <h2 className="pdf__middle__title">{company?.name}</h2>
                     </div>
                     <div className="pdf__col">
                       <h2 className="pdf__middle__title">
@@ -178,7 +177,7 @@ export default function Terms() {
                   </div>
                   <div className="pdf__row ">
                     <div className="pdf__col">
-                      <h2 className="pdf__text">info@oceanbluego.com</h2>
+                      <h2 className="pdf__text">{company?.email}</h2>
                     </div>
                     <div className="pdf__col">
                       <h2 className="pdf__text">{order?.customer?.email}</h2>
@@ -214,11 +213,15 @@ export default function Terms() {
                         <div className="pdf__col">
                           <div className="pdf__form">
                             <div className="pdf__form__item">
-                              <span>Mate Logistics Inc</span>
+                              <span>{company?.name}</span>
                             </div>
                             <div className="pdf__form__item">
                               <p>Initials</p>
-                              <span>ML</span>
+                              <span>
+                                {company?.name.toLowerCase().includes('ocean')
+                                  ? 'OB'
+                                  : 'ML'}
+                              </span>
                             </div>
                           </div>
                           {contract?.signed && (

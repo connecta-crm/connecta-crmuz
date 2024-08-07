@@ -3,7 +3,8 @@ import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import download from '../../../public/img/download.png';
-import logo from '../../../public/img/logo-meta.png';
+import logoocean from '../../../public/img/logo-ocean.png';
+import logomate from '../../../public/img/logo-mate.png';
 import { useBlobContext } from '../../context/PdfContext';
 import Spinner from '../../ui/Spinner';
 import SignAcceptModal from '../../ui/modal/SignAcceptModal';
@@ -149,7 +150,12 @@ export default function Contract() {
               <div className="pdp__content">
                 <div className="pdf__content__header">
                   <div className="pdf__content__header-left">
-                    <img src={logo} alt="" width="82px" height="82px" />
+                    {company?.name.toLowerCase().includes('ocean') ? (
+                      <img src={logoocean} alt="" width="82px" height="82px" />
+                    ) : (
+                      <img src={logomate} alt="" width="82px" height="58px" />
+                    )}
+
                     <h1 className="pdf__title mt-5">{company?.name}</h1>
                   </div>
                   <div className="pdf__content__header-right">
@@ -184,7 +190,7 @@ export default function Contract() {
                   <div className="pdf__row">
                     <div className="pdf__col">
                       <h3 className="pdf__small__title mt-5">
-                        Ocean Blue Logistics
+                        {company?.name}
                       </h3>
                     </div>
                     <div className="pdf__col">
@@ -195,8 +201,8 @@ export default function Contract() {
                   </div>
                   <div className="pdf__row">
                     <div className="pdf__col mt-10">
-                      <div className="pdf__text">info@oceanbluego.com</div>
-                      <div className="pdf__text">(302) 200-8007</div>
+                      <div className="pdf__text">{company?.email}</div>
+                      <div className="pdf__text">{company?.mainline}</div>
                     </div>
                     <div className="pdf__col mt-10">
                       <div className="pdf__text">{order?.customer?.email}</div>
@@ -535,9 +541,7 @@ export default function Contract() {
                 <div className="pdf__table">
                   <div className="pdf__row mt-20">
                     <div className="pdf__col">
-                      <h2 className="pdf__middle__title">
-                        Ocean Blue Logistics
-                      </h2>
+                      <h2 className="pdf__middle__title">{company?.name}</h2>
                     </div>
                     <div className="pdf__col">
                       <h2 className="pdf__middle__title">
@@ -547,7 +551,7 @@ export default function Contract() {
                   </div>
                   <div className="pdf__row ">
                     <div className="pdf__col">
-                      <h2 className="pdf__text">info@oceanbluego.com</h2>
+                      <h2 className="pdf__text">{company?.email}</h2>
                     </div>
                     <div className="pdf__col">
                       <h2 className="pdf__text">{order?.customer?.email} </h2>
@@ -580,11 +584,15 @@ export default function Contract() {
                         <div className="pdf__col">
                           <div className="pdf__form">
                             <div className="pdf__form__item">
-                              <span>Mate Logistics Inc</span>
+                              <span>{company?.name}</span>
                             </div>
                             <div className="pdf__form__item">
                               <p>Initials</p>
-                              <span>ML</span>
+                              <span>
+                                {company?.name.toLowerCase().includes('ocean')
+                                  ? 'OB'
+                                  : 'ML'}
+                              </span>
                             </div>
                           </div>
                           {contract?.signed && (

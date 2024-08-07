@@ -27,8 +27,10 @@ export type ZipCodeType = {
 export default function Pickup({
   setPickup,
   children,
+  setOriginZepCode,
 }: {
   setPickup: (a: string | null) => void;
+  setOriginZepCode: (a: string) => void;
   children?: ReactNode;
 }) {
   const [cityValue, setCityValue] = useState<CityType | null>(null);
@@ -76,6 +78,7 @@ export default function Pickup({
   const onChangeHandler = (value: string, data: DefaultOptionType) => {
     setPickup(value);
     setCityValue(data.data);
+    setOriginZepCode(data?.data?.zip);
   };
 
   return (
@@ -244,8 +247,8 @@ export default function Pickup({
               onClick={onCreateZipCode}
             >
               <>
-                {isLoadingZip && <Spin size="small" className='mr-5' />}
-                 Save
+                {isLoadingZip && <Spin size="small" className="mr-5" />}
+                Save
               </>
             </Button>
           </div>

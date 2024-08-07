@@ -1,7 +1,6 @@
 import { message } from 'antd';
 // import { Link } from 'react-router-dom';
 import copy from '../../../public/img/drawer/copy.svg';
-import img from '../../../public/img/payment.png';
 import cash from '../../../public/img/qr-code/cashapp.svg';
 import InputRow from '../../ui/form/InputRow';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -25,14 +24,14 @@ export default function Cashapp() {
     <div className="pay">
       <div className="pay__content">
         <div className=" text-center">
-          <img src={img} alt="" className="pay__content__logo" />
+        <img src={contractpayments?.company?.logo} alt="" className="pay__content__logo" />
         </div>
         <div className="pay__form">
-          <div className="pay__form__header">Ocean Blue Logistics Inc</div>
+        <div className="pay__form__header">{contractpayments?.company?.name}</div>
           <div className="pay__form__body">
             <InputRow>
               <div className="pay__form__qr-text">
-                You can pay ${order?order?.reservationPrice:0}by clicking the <b>scan QR code</b> inside
+                You can pay ${order?order?.payments?.paymentReservation:0}by clicking the <b>scan QR code</b> inside
                 <b> Cash app </b>
                 on your phone <br /> <br /> Or enter the <b>“Cashtag”</b> below
                 as a recipient.

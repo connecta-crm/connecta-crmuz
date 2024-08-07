@@ -23,25 +23,57 @@ import date from '/img/drawer/est-ship-date.svg';
 import reservation from '/img/drawer/reservation.svg';
 import total from '/img/drawer/total-tariff.svg';
 import trailer from '/img/drawer/trailer.svg';
+import { createCdPriceType } from '../../features/quotes/Quotes.tsx';
 export default function QuotesModal({
   openLeadModal,
   setOpenLeadModa,
+  postQuoteCDPrice,
+  isFetchingCDPrice,
+  setQuoteCdData,
+  quoteCdData,
 }: {
   openLeadModal: boolean;
   setOpenLeadModa: (a: boolean) => void;
+  postQuoteCDPrice: () => void;
+  isFetchingCDPrice: boolean;
+  quoteCdData: createCdPriceType;
+  setQuoteCdData: (a: createCdPriceType) => void;
 }) {
   const [carData, setCarData] = useState<CarType[]>([]);
   const [conditionValue, setConditionValue] = useState<string | null>(null);
   const [trailerType, setTrailerType] = useState<string | null>(null);
   const [origin, setOrigin] = useState<string | null>('');
+  const [originZipCode, setOriginZepCode] = useState<string>('');
   const [delivery, setDelivery] = useState<string | null>('');
+  const [deliveryZipCode, setDeliveryZipCode] = useState<string >('');
   const [source, setSource] = useState<string | null>('');
   const [personId, setPersonId] = useState<string | null>('');
   const [dateEstShip, setDateEstShip] = useState<string>('');
   const user = useAppSelector((item) => getUser(item));
   const { create, isLoading, isSuccess } = useCreateQuote();
+  
+   useEffect(()=>{
+
+    if(!openLeadModal){
+      setOriginZepCode("")
+      setDeliveryZipCode("")
+    }
+
+   },[openLeadModal])
+
+  useEffect(() => {
+    setQuoteCdData({
+      ...quoteCdData,
+      originZip: originZipCode,
+      destinationZip: deliveryZipCode,
+      vehicleType: carData?.[0]?.type as unknown as string,
+      vehiclesLength: carData.length as unknown as string,
+      trailerType: trailerType as unknown as string,
+      vehicleYear:carData?.[0]?.vehicleYear
+    });
+  }, [carData, trailerType,delivery,origin]);
+
   const createQuote = (e: QuoteDataType) => {
-    console.log(e);
     const data: QuoteDataType = {
       vehicles: carData,
       status: 'quote',
@@ -97,7 +129,12 @@ export default function QuotesModal({
       <Form form={form} onFinish={createQuote}>
         <div className="modal__row">
           <div className="modal__col">
-            <UpCollapse hasButton={true} title="Details">
+            <UpCollapse
+              hasButton={true}
+              title="Details"
+              postQuoteCDPrice={postQuoteCDPrice}
+              isFetchingCDPrice={isFetchingCDPrice}
+            >
               <VehicleContainer setCarData={setCarData} />
               <FormControl title="Condition" img={dvigatel}>
                 <Select
@@ -107,12 +144,12 @@ export default function QuotesModal({
                   options={CONDITION_TYPES}
                 />
               </FormControl>
-              <Pickup setPickup={setOrigin} />
-              <Delivery setDelivery={setDelivery} />
+              <Pickup setPickup={setOrigin}  setOriginZepCode={setOriginZepCode}/>
+              <Delivery setDelivery={setDelivery} setDeliveryZipCode={setDeliveryZipCode} />
               <FormControl title="Trailer type" img={trailer}>
                 <Select
                   // defaultValue=""
-                    placeholder="Select type"
+                  placeholder="Select type"
                   style={{ width: '100%' }}
                   onChange={(a) => setTrailerType(a)}
                   options={[
@@ -131,13 +168,17 @@ export default function QuotesModal({
               <Source setSource={setSource} />
 
               <FormControl title="Total tariff" img={total}>
-                <FormItem preserve={false} name="price" style={{ margin: '0px', width: '100%' }}>
+                <FormItem
+                  preserve={false}
+                  name="price"
+                  style={{ margin: '0px', width: '100%' }}
+                >
                   <Input placeholder="$0" type="number" />
                 </FormItem>
               </FormControl>
               <FormControl title="Reservation" img={reservation}>
                 <Form.Item
-                preserve={false}
+                  preserve={false}
                   name="reservationPrice"
                   style={{ margin: '0px', width: '100%' }}
                 >
