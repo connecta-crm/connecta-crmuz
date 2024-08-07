@@ -1,7 +1,7 @@
 import { Form, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import img from '../../../public/img/payment.png';
+// import img from '../../../public/img/payment.png';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
 import { useContractPayment } from '../contract/useContractPayment';
@@ -12,10 +12,13 @@ export default function Pay() {
   };
   const [order, setOrder] = useState<Origintype>();
   const { contractpayments } = useContractPayment(true, params?.id);
-
+  const [companyName, setCompany] = useState<'MATE' | 'OCEAN' | ''>('');
   useEffect(() => {
     if (contractpayments) {
       setOrder(contractpayments?.order);
+      if (contractpayments?.company?.name.toLowerCase().includes('ocean')) {
+        setCompany('OCEAN');
+      }
     }
   }, [contractpayments]);
 
@@ -30,11 +33,19 @@ export default function Pay() {
       return;
     }
     if (methodValue == 'paypal') {
-      window.open('https://paypal.me/oceanbluego');
+      window.open(
+        companyName == 'OCEAN'
+          ? 'https://paypal.me/oceanbluego'
+          : 'https://paypal.me/MateLogistics',
+      );
       return;
     }
     if (methodValue == 'venmo') {
-      window.open('https://venmo.com/u/oceanbluego');
+      window.open(
+        companyName == 'OCEAN'
+          ? 'https://venmo.com/u/oceanbluego'
+          : 'https://venmo.com/u/matelogisticss',
+      );
       return;
     }
   };
@@ -62,10 +73,16 @@ export default function Pay() {
     <div className="pay">
       <div className="pay__content">
         <div className=" text-center">
-          <img src={img} alt="" className="pay__content__logo" />
+          <img
+            src={contractpayments?.company?.logo}
+            alt=""
+            className="pay__content__logo"
+          />
         </div>
         <Form className="pay__form">
-          <div className="pay__form__header">Ocean Blue Logistics Inc</div>
+          <div className="pay__form__header">
+            {contractpayments?.company?.name}
+          </div>
           <div className="pay__form__body">
             <InputRow>
               <InputCol>
@@ -136,7 +153,7 @@ export default function Pay() {
               </InputCol>
               <InputCol>
                 <span className="pay__form__text">
-                  ${order?order?.reservationPrice:0}
+                  ${order ? order?.payments?.paymentReservation : 0}
                 </span>
               </InputCol>
             </InputRow>
@@ -149,12 +166,20 @@ export default function Pay() {
                   style={{ width: '100%' }}
                   onSelect={(value) => setMethodValue(value)}
                   placeholder="Select payment  method"
-                  options={[
-                    { value: 'cashapp', label: 'Cash App' },
-                    { value: 'venmo', label: 'Venmo' },
-                    { value: 'paypal', label: 'PayPal' },
-                    { value: 'zelle', label: 'Zelle' },
-                  ]}
+                  options={
+                    companyName == 'OCEAN'
+                      ? [
+                          { value: 'cashapp', label: 'Cash App' },
+                          { value: 'venmo', label: 'Venmo' },
+                          { value: 'paypal', label: 'PayPal' },
+                          { value: 'zelle', label: 'Zelle' },
+                        ]
+                      : [
+                          { value: 'venmo', label: 'Venmo' },
+                          { value: 'paypal', label: 'PayPal' },
+                          { value: 'zelle', label: 'Zelle' },
+                        ]
+                  }
                 />
               </InputCol>
             </InputRow>

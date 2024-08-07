@@ -1,8 +1,8 @@
 import { message } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import copy from '../../../public/img/drawer/copy.svg';
-import img from '../../../public/img/payment.png';
-import zelle from '../../../public/img/qr-code/zelle.svg';
+import zelle from '../../../public/img/qr-code/zelle-ocean.svg';
+import zellemate from '../../../public/img/qr-code/zelle-mate.svg';
 import InputRow from '../../ui/form/InputRow';
 import { useContractPayment } from '../contract/useContractPayment';
 import { useEffect, useState } from 'react';
@@ -15,10 +15,13 @@ export default function Zelle() {
   };
   const [order, setOrder] = useState<Origintype>();
   const { contractpayments } = useContractPayment(true, params?.id);
-
+  const [companyName, setCompany] = useState<'MATE' | 'OCEAN' | ''>('');
   useEffect(() => {
     if (contractpayments) {
       setOrder(contractpayments?.order);
+      if (contractpayments?.company?.name.toLowerCase().includes('ocean')) {
+        setCompany('OCEAN');
+      }
     }
   }, [contractpayments]);
 
@@ -26,14 +29,20 @@ export default function Zelle() {
     <div className="pay">
       <div className="pay__content">
         <div className=" text-center">
-          <img src={img} alt="" className="pay__content__logo" />
+          <img
+            src={contractpayments?.company?.logo}
+            alt=""
+            className="pay__content__logo"
+          />
         </div>
         <div className="pay__form">
-          <div className="pay__form__header">Ocean Blue Logistics Inc</div>
+          <div className="pay__form__header">
+            {contractpayments?.company?.name}
+          </div>
           <div className="pay__form__body">
             <InputRow>
               <div className="pay__form__qr-text">
-                You can pay ${order ? order?.reservationPrice : 0}by clicking
+                You can pay ${order ? order?.payments?.paymentReservation : 0}by clicking
                 the <b>scan QR code</b> inside
                 <b> Bank app </b>
                 on your phone <br /> <br /> Or enter the <b>“Email”</b> below as
@@ -41,12 +50,16 @@ export default function Zelle() {
               </div>
             </InputRow>
             <div className="text-center mt-20 mb-20">
-              <img width="200px" height="200px" src={zelle} alt="" />
+              <img width="200px" height="200px" src={companyName=="OCEAN"?zelle:zellemate} alt="" />
             </div>
 
             <div className=" d-flex justify-center" style={{ gap: '10px' }}>
               <span className="pay__form__label">Account name</span>
-              <span className="pay__form__text">Ocean Blue Logistics Inc</span>
+              <span className="pay__form__text">
+                {companyName == 'OCEAN'
+                  ? 'Ocean Blue Logistics'
+                  : 'Mate Logistics Inc'}
+              </span>
             </div>
             <div
               className=" d-flex justify-center mt-10"
@@ -56,11 +69,13 @@ export default function Zelle() {
               <div
                 className="pay__form__text d-flex"
                 onClick={() => {
-                  navigator.clipboard.writeText('payment@oceanbluego.com');
+                  navigator.clipboard.writeText(`${companyName == 'OCEAN' ? 'payment@oceanbluego.com' : 'payment@matelogisticss.com'}`);
                   message.success('Copied');
                 }}
               >
-                <span className="copy__text">payment@oceanbluego.com </span>
+                <span className="copy__text">
+                {companyName == 'OCEAN' ? 'payment@oceanbluego.com' : 'payment@matelogisticss.com'}{' '}
+                   </span>
                 <div className="box-header__copy cursor-pointer ml-5 __inner">
                   <img src={copy} alt="" />
                 </div>

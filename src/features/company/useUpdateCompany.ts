@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import Company from '../../services/company';
-import { CompanyTableDataType } from './companyTableDataType';
 export function useUpdateCompany() {
   const queryClient = useQueryClient();
   const {
@@ -10,7 +9,7 @@ export function useUpdateCompany() {
     error,
     isSuccess,
   } = useMutation({
-    mutationFn: (item: CompanyTableDataType) => Company.updateCompany(item),
+    mutationFn: (item: { id: number, data: FormData }) => Company.updateCompany(item),
     onSuccess: () => {
       message.success('Company updated');
       queryClient.invalidateQueries({ queryKey: ['companys'] });

@@ -2,7 +2,7 @@ import { Input, Spin } from 'antd';
 import { useParams } from 'react-router-dom';
 import deleteFile from '../../../public/img/delete.svg';
 import file from '../../../public/img/drawer/tab/file.svg';
-import imgLogo from '../../../public/img/payment.png';
+// import imgLogo from '../../../public/img/payment.png';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputCol from '../../ui/form/InputCol';
@@ -74,7 +74,7 @@ export default function CcDebePicture() {
       <div className="pay__content">
         <div className=" text-center">
           <img
-            src={contractpayments ? contractpayments?.company?.logo : imgLogo}
+            src={contractpayments?.company?.logo}
             alt=""
             className="pay__content__logo"
           />

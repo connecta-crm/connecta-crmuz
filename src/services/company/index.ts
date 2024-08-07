@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import apiClient from '../axios';
 import { GroundParamsType } from '../../features/ground/useGround';
-import { CompanyTableDataType } from '../../features/company/companyTableDataType';
 
 type ApiErrorResponse = {
   message: string;
@@ -41,9 +40,9 @@ class Company {
   }
 
 
-  async updateCompany(ground:CompanyTableDataType) {
+  async updateCompany(ground:{ id: number, data: FormData }) {
     try {
-      const { data } = await this.$api.put(`/company-management/info/${ground.id}`, ground);
+      const { data } = await this.$api.patch(`/company-management/info/${ground.id}`, ground.data);
       return data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;

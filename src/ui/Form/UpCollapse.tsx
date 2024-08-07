@@ -20,9 +20,9 @@ export default function UpCollapse({
   hasEdit?: boolean;
   showEdit?: () => void;
   removeItem?: () => void;
-  postQuoteCDPrice:()=>void
+  postQuoteCDPrice?:()=>void
   isDelete?: boolean;
-  isFetchingCDPrice:boolean
+  isFetchingCDPrice?:boolean
 }) {
   const [show, setShow] = useState(false);
 

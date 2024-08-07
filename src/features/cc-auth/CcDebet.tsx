@@ -7,7 +7,7 @@ import visa from '../../../public/img/card/visa.svg';
 import amex from '../../../public/img/card/amex.svg';
 import discover from '../../../public/img/card/discover.svg';
 import master from '../../../public/img/card/master-card.svg';
-import img from '../../../public/img/payment.png';
+// import img from '../../../public/img/payment.png';
 import InputCol from '../../ui/form/InputCol';
 import InputRow from '../../ui/form/InputRow';
 import { useContractPayment } from '../contract/useContractPayment';
@@ -109,7 +109,7 @@ export default function CcDebet() {
       <div className="pay__content">
         <div className=" text-center">
           <img
-            src={contractpayments ? contractpayments?.company?.logo : img}
+            src={contractpayments?.company?.logo}
             alt=""
             className="pay__content__logo"
           />
